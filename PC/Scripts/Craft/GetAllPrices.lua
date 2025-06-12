@@ -1,13 +1,22 @@
 dofile("C:\\Users\\Administrator\\Downloads\\Script_Bot_Dofus\\PC\\Scripts\\Utilitaires\\IMPORT_LIBRARIES.lua")
 
 
-local switchServer =  {
+local switchServerMulti =  {
     ["Hell Mina"] = "Imagiro",
     ["Imagiro"] = "Tylezia",
     ["Tylezia"] = "Tal Kasha",
     ["Tal Kasha"] = "Orukam",
-    ["Orukam"] = "Draconiros",
-    ["Draconiros"] = "Hell Mina",
+    ["Orukam"] = "Brial",
+    ["Brial"] = "Rafal",
+    ["Rafal"] = "Salar",
+    ["Salar"] = "Hell Mina",
+}
+
+local switchServerMono =  {
+    ["Draconiros"] = "Dakal",
+    ["Dakal"] = "Kourial",
+    ["Kourial"] = "Mikhal",
+    ["Mikhal"] = "Draconiros"
 }
 
 local tableItem = {}
@@ -262,11 +271,22 @@ function move()
         hdvEquipChecked = true
     end
 
-    global:thisAccountController():forceServer(switchServer[character:server()])
-    if character:server() == "Draconiros" then
-        global:reconnectBis(400, 600)
+    if global:thisAccountController():getAlias():find("Requests1") then
+        global:thisAccountController():forceServer(switchServerMulti[character:server()])
+        if character:server() == "Salar" then
+            global:reconnectBis(100, 200)
+        end
+        global:reconnect(0)
+    elseif global:thisAccountController():getAlias():find("Requests2") then
+        global:thisAccountController():forceServer(switchServerMono[character:server()])
+        if character:server() == "Mikhal" then
+            global:reconnectBis(400, 600)
+        end
+        global:reconnect(0)
+    else
+        global:printError("Alias de l'account controller non reconnu, impossible de changer de serveur.")
     end
-    global:reconnect(0)
+
 end
 
 

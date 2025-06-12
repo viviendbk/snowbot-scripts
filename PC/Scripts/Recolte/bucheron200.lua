@@ -36,12 +36,12 @@ local CanSellSubstratDeSylve = true
 local phrase = nil
 if global:thisAccountController():getAlias():find("Bucheron2") then
     phrase = "Bucheron2 " .. character:server()
-	PLANNING = {17, 18 , 19, 20, 21, 22}
+	-- PLANNING = {17, 18 , 19, 20, 21, 22}
 elseif global:thisAccountController():getAlias():find("Bucheron3") then
     phrase = "Bucheron3 " .. character:server()
 else
 	PLANNING = {9, 10, 11, 12, 13, 14}
-    phrase = "Bucheron " .. character:server()
+    -- phrase = "Bucheron " .. character:server()
 end
 
 
@@ -1329,6 +1329,7 @@ end
 
 
 function move()
+    handleDisconnection()
     mapDelay()
     if global:thisAccountController():getAlias():find("Draconiros") and character:server() ~= "Draconiros" then
         global:thisAccountController():forceServer("Draconiros")

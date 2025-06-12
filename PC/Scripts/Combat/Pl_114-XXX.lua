@@ -11,11 +11,11 @@ AUTO_DELETE = {9379, 9380, 9472, 367, 375, 16828, 13435, 11134, 2549 ,16826, 692
 AMOUNT_MONSTERS = {{1070, 0, 2}}
 --PLANNING = {3, 4, 8, 9, 13, 14, 18, 19, 23}
 
-if global:thisAccountController():getAlias():find("LvlUp ") then
-    PLANNING = {17, 18 , 19, 20, 21, 22, 23}
-else
-    PLANNING = {9, 10, 11, 12, 13, 14, 15}
-end
+-- if global:thisAccountController():getAlias():find("LvlUp ") then
+--     PLANNING = {17, 18 , 19, 20, 21, 22, 23}
+-- else
+--     PLANNING = {9, 10, 11, 12, 13, 14, 15}
+-- end
 
 local lancable = 0
 local incrementation = 0
@@ -1797,6 +1797,7 @@ local function whichArea()
 end
 
 function move()
+	handleDisconnection()
 	
 	if character:level() > 113 and not varianteDone then
 		local tableIdSorts = {{Id = 12728, Lvl = 100}, {Id = 12731, Lvl = 100}, {Id = 12727, Lvl = 100}}

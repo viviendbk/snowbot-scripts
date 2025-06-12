@@ -24,11 +24,11 @@ local incrementation = 0
 local hdv_door_id = 218
 local cptActualiser = 0
 
-if global:thisAccountController():getAlias():find("LvlUp ") then
-    PLANNING = {17, 18 , 19, 20, 21, 22, 23}
-else
-    PLANNING = {9, 10, 11, 12, 13, 14, 15}
-end
+-- if global:thisAccountController():getAlias():find("LvlUp ") then
+--     PLANNING = {17, 18 , 19, 20, 21, 22, 23}
+-- else
+--     PLANNING = {9, 10, 11, 12, 13, 14, 15}
+-- end
 
 
 
@@ -753,6 +753,7 @@ end
 
 
 function move()
+	handleDisconnection()
 	mapDelay()
 
 	if character:level() >= 105 and not done then

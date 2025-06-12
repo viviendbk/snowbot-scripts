@@ -17,6 +17,85 @@ string.split = function(self, sep, rawSep)
     return result
 end
 
+function handleDisconnection()
+    local currentTime = os.time()
+
+    local nextDisconnection = global:remember("nextDisconnection")
+
+    -- Si la variable n'existe pas, on l'initialise
+    if not nextDisconnection then
+        local random = math.random()
+        local minutesDisconnection = 0
+
+        if random < 0.02 then
+            minutesDisconnection = math.random(400, 600)
+        elseif random < 0.03 then
+            minutesDisconnection = math.random(35, 55)
+        elseif random < 0.15 then
+            minutesDisconnection = math.random(90, 120)    
+        elseif random < 0.35 then
+            minutesDisconnection = math.random(120, 150)          
+        elseif random < 0.65 then
+            minutesDisconnection = math.random(150, 180)    
+        else
+            minutesDisconnection = math.random(180, 240)   
+        end
+        global:addInMemory("nextDisconnection", currentTime + minutesDisconnection * 60)
+        return
+    end
+
+    -- Si l'horaire est dépassé de plus de 5 minutes (300 secondes)
+    if currentTime > (nextDisconnection + 300) then
+                local random = math.random()
+        local minutesDisconnection = 0
+
+        if random < 0.02 then
+            minutesDisconnection = math.random(400, 600)
+        elseif random < 0.03 then
+            minutesDisconnection = math.random(35, 55)
+        elseif random < 0.15 then
+            minutesDisconnection = math.random(90, 120)    
+        elseif random < 0.35 then
+            minutesDisconnection = math.random(120, 150)          
+        elseif random < 0.65 then
+            minutesDisconnection = math.random(150, 180)    
+        else
+            minutesDisconnection = math.random(180, 240)   
+        end
+        global:addInMemory("nextDisconnection", currentTime + minutesDisconnection * 60)
+        return
+    end
+
+    -- si l'horaire est dépassé de moins de 5 minutes, on se déconnecte
+    if currentTime >= nextDisconnection then
+        global:printError("Le script est en pause jusqu'à " .. os.date("%H:%M:%S", nextDisconnection) .. ". Déconnexion du compte.")
+        local random = math.random()
+        local minutesDisconnection = 0
+        if random < 0.05 then
+            -- Rare : pause longue
+            minutesDisconnection = math.random(200, 400)
+        elseif random < 0.15 then
+            -- Moins fréquent : pause plus courte
+            minutesDisconnection = math.random(5, 15)
+        elseif random < 0.30 then
+            -- Courte pause
+            minutesDisconnection = math.random(10, 20)
+        elseif random < 0.60 then
+            -- Moyenne pause
+            minutesDisconnection = math.random(20, 40)
+        elseif random < 0.90 then
+            -- Normale : autour de 30 minutes
+            minutesDisconnection = math.random(25, 40)
+        else
+            -- Occasionnelle longue pause
+            minutesDisconnection = math.random(40, 60)
+        end
+
+        global:printMessage("Le script sera en pause pendant " .. minutesDisconnection .. " minutes.")
+        global:reconnectBis(minutesDisconnection)
+    end
+end
+
 
 function IsInTable(table, element)
     for _, x in ipairs(table) do

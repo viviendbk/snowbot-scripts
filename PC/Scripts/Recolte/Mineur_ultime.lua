@@ -1007,16 +1007,16 @@ local AreaAchatSacStaca = {
 local phrase = nil
 if global:thisAccountController():getAlias():find("Mineur2") then
     phrase = "Mineur2 " .. character:server()
-    PLANNING = {17, 18 , 19, 20, 21, 22}
+    -- PLANNING = {17, 18 , 19, 20, 21, 22}
 elseif global:thisAccountController():getAlias():find("Mineur3") then
     phrase = "Mineur3 " .. character:server()
-    PLANNING = {17, 18, 19, 20, 21, 22}
+    -- PLANNING = {17, 18, 19, 20, 21, 22}
 elseif global:thisAccountController():getAlias():find("Mineur4") then
     phrase = "Mineur4 " .. character:server()
-    PLANNING = {9, 10, 11, 12, 13, 14}
+    -- PLANNING = {9, 10, 11, 12, 13, 14}
 else
     phrase = "Mineur " .. character:server()
-    PLANNING = {17, 18, 19, 20, 21, 22}
+    -- PLANNING = {17, 18, 19, 20, 21, 22}
 end
 
 
@@ -1530,6 +1530,7 @@ local function WhichArea()
 end
 
 function move()
+    handleDisconnection()
     mapDelay()
     if global:thisAccountController():getAlias():find("Draconiros") and character:server() ~= "Draconiros" then
         global:thisAccountController():forceServer("Draconiros")
@@ -1562,7 +1563,6 @@ function move()
         Abonnement()
     end
 
-    
 
     if job:level(24) < 120 and getRemainingSubscription(true) >= 0 then
         global:loadAndStart("C:\\Users\\Administrator\\Downloads\\Script_Bot_Dofus\\PC\\Scripts\\Recolte\\Mineur_1-150_ULTIME.lua")

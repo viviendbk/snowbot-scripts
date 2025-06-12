@@ -472,16 +472,16 @@ scriptPath = "C:\\Users\\Administrator\\Downloads\\Script_Bot_Dofus\\PC\\Scripts
 local phrase = nil
 if global:thisAccountController():getAlias():find("Mineur2") then
     phrase = "Mineur2 " .. character:server()
-    PLANNING = {17, 18 , 19, 20, 21, 22, 23}
+    -- PLANNING = {17, 18 , 19, 20, 21, 22, 23}
 elseif global:thisAccountController():getAlias():find("Mineur3") then
     phrase = "Mineur3 " .. character:server()
-    PLANNING = {17, 18 , 19, 20, 21, 22, 23}
+    -- PLANNING = {17, 18 , 19, 20, 21, 22, 23}
 elseif global:thisAccountController():getAlias():find("Mineur4") then
     phrase = "Mineur4 " .. character:server()
-    PLANNING = {9, 10, 11, 12, 13, 14, 15}
+    -- PLANNING = {9, 10, 11, 12, 13, 14, 15}
 else
     phrase = "Mineur " .. character:server()
-    PLANNING = {17, 18 , 19, 20, 21, 22, 23}
+    -- PLANNING = {17, 18 , 19, 20, 21, 22, 23}
 end
 
 local function IncrementTable(i, Taille)
@@ -854,6 +854,7 @@ end
 
 
 function move()
+    handleDisconnection()
     if getRemainingSubscription(true) <= 0 and (character:kamas() > ((character:server() == "Draconiros") and 600000 or 1100000)) then
         global:loadAndStart(scriptPath)
     elseif getRemainingHoursSubscription() < 4 and character:server() == "Draconiros" then

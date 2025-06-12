@@ -18,20 +18,22 @@ ALL_ARCHI = {2270,2271,2272,2273,2274,2275,2276,2277,2278,2279,2280,2281,2282,22
 
  
 FORBIDDEN_MONSTERS = {375, 450, 2428, 4015, 4622, 4618, 5074, 54, 110, 290, 291, 292, 396, 3239, 3240, 108, 459}
+
 MAX_MONSTERS = 8
 MIN_MONSTERS = 3
+
 AMOUNT_MONSTERS = {{3620, 0, 2}, {4619, 0, 2}, {4605 , 0, 1}, {836, 0, 2}, {4539, 0, 1}}
 
-if global:thisAccountController():getAlias():find("Combat3")  then
-    PLANNING = {16, 17, 18 , 19, 20, 21, 22, 23, 24, 0}
-elseif global:thisAccountController():getAlias():find("Combat4") then
-    PLANNING = {16, 17, 18 , 19, 20, 21, 22, 23, 24, 0}
+-- if global:thisAccountController():getAlias():find("Combat3")  then
+--     PLANNING = {16, 17, 18 , 19, 20, 21, 22, 23, 24, 0}
+-- elseif global:thisAccountController():getAlias():find("Combat4") then
+--     PLANNING = {16, 17, 18 , 19, 20, 21, 22, 23, 24, 0}
 
-elseif global:thisAccountController():getAlias():find("Combat2") then
-    PLANNING = {11, 12, 13, 14, 15, 16, 17}
-else
-    PLANNING = {13, 14, 15, 16, 17}
-end
+-- elseif global:thisAccountController():getAlias():find("Combat2") then
+--     PLANNING = {11, 12, 13, 14, 15, 16, 17}
+-- else
+--     PLANNING = {13, 14, 15, 16, 17}
+-- end
 
 local phrase = nil
 if global:thisAccountController():getAlias():find("Combat") then
@@ -2401,7 +2403,7 @@ end
 
 
 function move()
-
+    handleDisconnection()
     mapDelay()
 
     if global:thisAccountController():getAlias():find("Draconiros") and character:server() ~= "Draconiros" then

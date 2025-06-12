@@ -71,7 +71,6 @@ local function AddToJsonData(content)
     file:close()
 end
 
-
 local function EditJsonMemory(content)
     local jsonMemory = openFile(global:getCurrentScriptDirectory() .. "\\" .. character:server() .. "\\MemoryFM.json")
 
@@ -121,6 +120,114 @@ local function UseRune(runeId)
     developer:suspendScriptUntil("ExchangeCraftResultMagicWithObjectDescMessage", 5000, false, nil, 50)
     local random = math.random()
     randomDelay()
+end
+
+local function EditJsonRessources(content)
+    local jsonMemory = openFile(global:getCurrentScriptDirectory() .. "\\" .. character:server() .. "\\PriceRessources.json")
+
+    if not jsonMemory[1] then
+        jsonMemory[1] = {Date = getDate(), Time = getCurrentTime(), Prices = content}
+    else
+        jsonMemory[1].Date = getDate()
+        jsonMemory[1].Time = getCurrentTime()
+        jsonMemory[1].Prices = content
+    end    
+
+    local new_content = json.encode(jsonMemory)
+
+    local file = io.open(global:getCurrentScriptDirectory() .. "\\" .. character:server() .. "\\PriceRessources.json", "w")
+
+    file:write(new_content)
+
+    file:close()
+end
+
+local function EditJsonItems(content)
+    local jsonMemory = openFile(global:getCurrentScriptDirectory() .. "\\" .. character:server() .. "\\PriceItems.json")
+
+    if not jsonMemory[1] then
+        jsonMemory[1] = {Date = getDate(), Time = getCurrentTime(), Prices = content}
+    else
+        jsonMemory[1].Date = getDate()
+        jsonMemory[1].Time = getCurrentTime()
+        jsonMemory[1].Prices = content
+    end
+
+    local new_content = json.encode(jsonMemory)
+
+    local file = io.open(global:getCurrentScriptDirectory() .. "\\" .. character:server() .. "\\PriceItems.json", "w")
+
+    file:write(new_content)
+    file:close()
+end
+
+local function getPricesResourceInHDV()
+        global:printMessage("Récupération du prix des ressources...")
+        local PrixHdvAllRessources = {}
+
+        if cpt == 0 then
+            cpt = cpt +1
+            for _, item in ipairs(TableItem) do
+            
+                if _ == math.floor(#TableItem / 4) then
+                    global:printMessage("25% effectué...")
+                elseif _ == math.floor(#TableItem / 2) then
+                    global:printMessage("50% effectué...")
+                elseif _ == math.floor(#TableItem * 0.75) then
+                    global:printMessage("75% effectué...")
+                end
+                
+                if item.ListIdCraft then
+                    for _, Ressource in ipairs(item.ListIdCraft) do
+                        if not PrixHdvAllRessources[tostring(Ressource.Id)] then
+                            PrixHdvAllRessources[tostring(Ressource.Id)] = GetPricesItem(Ressource.Id)
+                        end
+                    end
+                end
+            end
+        end
+
+        global:delay(2000)
+
+        global:printSuccess("Analyse finie!")
+        global:printMessage("--------------------------------------")
+        global:printMessage("")
+
+        global:leaveDialog()
+
+        EditJsonRessources(PrixHdvAllRessources)
+end
+
+local function getPricesItemsInHDV()
+        local priceItems = {}
+        for _, item in ipairs(TableItem) do
+            if _ == math.floor(#TableItem / 4) then
+                global:printMessage("25% effectué...")
+            elseif _ == math.floor(#TableItem / 2) then
+                global:printMessage("50% effectué...")
+                global:leaveDialog()
+                map:moveToCell(397)
+                HdvSell()
+            elseif _ == math.floor(#TableItem * 0.75) then
+                global:printMessage("75% effectué...")
+            end
+
+            if not priceItems[tostring(item.Id)] then
+                priceItems[tostring(item.Id)] = GetPricesItem(item.Id)
+            end
+
+            item.PriceHdv = priceItems[tostring(item.Id)]
+        end
+
+        global:delay(2000)
+
+        global:printSuccess("Analyse finie!")
+        global:printMessage("--------------------------------------")
+        global:printMessage("")
+
+        global:leaveDialog()
+
+        EditJsonItems(priceItems)
 end
 
 local function ProcessCraft(table, cellId, jobId)
@@ -796,8 +903,8 @@ function move()
             jsonPrice = not jsonPrice and {{Date = getDate(), Time = getCurrentTime(), Prices = {}}} or jsonPrice
 
             if isXDaysLater(jsonPrice[1].Date, 2) then
-                global:printSuccess("Les prix des items ne sont pas à jour, on attends un peu")
-                global:reconnectBis(math.random(40, 60))
+                global:printSuccess("Le prix des ressources ne sont pas à jour, on les récupère")
+                getPricesResourceInHDV()
             end
 
             HdvSell()
@@ -893,8 +1000,8 @@ function move()
             jsonPrice = not jsonPrice and {{Date = getDate(), Time = getCurrentTime(), Prices = {}}} or jsonPrice
 
             if isXDaysLater(jsonPrice[1].Date, 2) then
-                global:printSuccess("Les prix des items ne sont pas à jour, on attends un peu")
-                global:reconnectBis(math.random(40, 60))
+                global:printSuccess("Le prix des ressources ne sont pas à jour, on les récupère")
+                getPricesResourceInHDV()
             end
 
             for _, item in ipairs(TableItem) do

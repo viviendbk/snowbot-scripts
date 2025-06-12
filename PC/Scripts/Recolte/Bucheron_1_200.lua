@@ -22,11 +22,11 @@ local phrase = nil
 
 if global:thisAccountController():getAlias():find("Bucheron2") then
     phrase = "Bucheron2 " .. character:server()
-	PLANNING = {17, 18 , 19, 20, 21, 22, 23}
+	-- PLANNING = {17, 18 , 19, 20, 21, 22, 23}
 elseif global:thisAccountController():getAlias():find("Bucheron3") then
     phrase = "Bucheron3 " .. character:server()
 else
-	PLANNING = {9, 10, 11, 12, 13, 14, 15}
+	-- PLANNING = {9, 10, 11, 12, 13, 14, 15}
     phrase = "Bucheron " .. character:server()
 end
 local scriptPath = "C:\\Users\\Administrator\\Downloads\\Script_Bot_Dofus\\PC\\Scripts\\Recolte\\bucheron200.lua"
@@ -2009,6 +2009,7 @@ end
 
 
 function move()
+	handleDisconnection()
 	mapDelay()
 	if global:thisAccountController():getAlias():find("Draconiros") and character:server() ~= "Draconiros" then
 		global:thisAccountController():forceDelete(character:name())
