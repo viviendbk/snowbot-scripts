@@ -1,0 +1,104 @@
+<?xml version="1.0" encoding="utf-8"?>
+<Configform xmlns:xsd="http://www.w3.org/2001/XMLSchema" xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance">
+  <Script>C:\Users\Administrator\Documents\Script touch dab\scarafeuille.lua</Script>
+  <Placement>1</Placement>
+  <SpeedFight>0</SpeedFight>
+  <SpeedFightType>1</SpeedFightType>
+  <Regen>50</Regen>
+  <RegenTeam>true</RegenTeam>
+  <Flood />
+  <FloodActivate>false</FloodActivate>
+  <Commerce>false</Commerce>
+  <Recrutement>false</Recrutement>
+  <ConnexionAuto>true</ConnexionAuto>
+  <Sucess>true</Sucess>
+  <StatuPrivate>false</StatuPrivate>
+  <AntiAgro>false</AntiAgro>
+  <BankReturn>99</BankReturn>
+  <ExchangeHost />
+  <PasswordExchange>meganecoeurdemavie</PasswordExchange>
+  <ExchangeActivate>false</ExchangeActivate>
+  <TimeWait>1500</TimeWait>
+  <SpeedHack>80</SpeedHack>
+  <RegenAutoIDActivate>false</RegenAutoIDActivate>
+  <ToggleActivate>true</ToggleActivate>
+  <LogsActivate>false</LogsActivate>
+  <Incarnam>false</Incarnam>
+  <FloodSameCharacter>false</FloodSameCharacter>
+  <FloodMapEnter>false</FloodMapEnter>
+  <SpellConfig>
+    <Spell>
+      <Id>0</Id>
+      <SpellId>5937</SpellId>
+      <Name>Châtiment du Martyr</Name>
+      <Target>Self</Target>
+      <Turns>6</Turns>
+      <Relaunch>1</Relaunch>
+      <LastTurn>67</LastTurn>
+      <IsHandToHand>false</IsHandToHand>
+      <TouchMonster>false</TouchMonster>
+      <TargetLife>100</TargetLife>
+    </Spell>
+    <Spell>
+      <Id>1</Id>
+      <SpellId>5885</SpellId>
+      <Name>Pied du Sacrieur</Name>
+      <Target>Enemy</Target>
+      <Turns>1</Turns>
+      <Relaunch>1</Relaunch>
+      <LastTurn>1</LastTurn>
+      <IsHandToHand>true</IsHandToHand>
+      <TouchMonster>false</TouchMonster>
+      <TargetLife>100</TargetLife>
+    </Spell>
+    <Spell>
+      <Id>2</Id>
+      <SpellId>5895</SpellId>
+      <Name>Dissolution</Name>
+      <Target>Self</Target>
+      <Turns>1</Turns>
+      <Relaunch>1</Relaunch>
+      <LastTurn>68</LastTurn>
+      <IsHandToHand>true</IsHandToHand>
+      <TouchMonster>false</TouchMonster>
+      <TargetLife>100</TargetLife>
+    </Spell>
+  </SpellConfig>
+  <notifyArchi>true</notifyArchi>
+  <customPlanning>false</customPlanning>
+  <planning>
+    <ArrayOfInt />
+    <ArrayOfInt />
+    <ArrayOfInt />
+    <ArrayOfInt />
+    <ArrayOfInt />
+    <ArrayOfInt />
+    <ArrayOfInt />
+  </planning>
+  <statsConfig>
+    <ArrayOfInt>
+      <int>13</int>
+      <int>0</int>
+    </ArrayOfInt>
+  </statsConfig>
+  <spellsConfig>
+    <ArrayOfInt>
+      <int>5895</int>
+      <int>5</int>
+    </ArrayOfInt>
+    <ArrayOfInt>
+      <int>5937</int>
+      <int>5</int>
+    </ArrayOfInt>
+    <ArrayOfInt>
+      <int>5943</int>
+      <int>5</int>
+    </ArrayOfInt>
+  </spellsConfig>
+  <modoDisco>10</modoDisco>
+  <modoReco>1800</modoReco>
+  <antiModo>true</antiModo>
+  <Tactic>HandToHand</Tactic>
+  <FarCells>0</FarCells>
+  <ReadyDelay>2000</ReadyDelay>
+</Configform>

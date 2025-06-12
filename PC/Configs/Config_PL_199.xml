@@ -1,0 +1,60 @@
+<?xml version="1.0" encoding="utf-8"?>
+<Configform xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xmlns:xsd="http://www.w3.org/2001/XMLSchema">
+  <Script>C:\Users\Administrator\Downloads\Script_Bot_Dofus\PC\Combat\up199.lua</Script>
+  <Placement>1</Placement>
+  <SpeedFightType>2</SpeedFightType>
+  <Regen>0</Regen>
+  <RegenTeam>false</RegenTeam>
+  <RegenAutoID>0</RegenAutoID>
+  <Flood />
+  <FloodActivate>false</FloodActivate>
+  <Commerce>false</Commerce>
+  <Recrutement>false</Recrutement>
+  <ConnexionAuto>true</ConnexionAuto>
+  <takeMerchant>false</takeMerchant>
+  <notifyArchi>false</notifyArchi>
+  <shortestPath>false</shortestPath>
+  <customPlanning>false</customPlanning>
+  <Sucess>true</Sucess>
+  <StatuPrivate>false</StatuPrivate>
+  <AntiAgro>false</AntiAgro>
+  <BankReturn>90</BankReturn>
+  <ExchangeHost />
+  <ExchangeActivate>false</ExchangeActivate>
+  <mapWaitMin>0</mapWaitMin>
+  <mapWaitMax>0</mapWaitMax>
+  <RegenAutoIDActivate>false</RegenAutoIDActivate>
+  <ToggleActivate>false</ToggleActivate>
+  <LogsActivate>false</LogsActivate>
+  <FloodSameCharacter>false</FloodSameCharacter>
+  <FloodMapEnter>false</FloodMapEnter>
+  <SpellConfig />
+  <statsConfig />
+  <planning>
+    <ArrayOfInt />
+    <ArrayOfInt />
+    <ArrayOfInt />
+    <ArrayOfInt />
+    <ArrayOfInt />
+    <ArrayOfInt />
+    <ArrayOfInt />
+  </planning>
+  <modoDisco>20</modoDisco>
+  <modoReco>1800</modoReco>
+  <antiModo>false</antiModo>
+  <turnDurationMin>1000</turnDurationMin>
+  <turnDurationMax>2000</turnDurationMax>
+  <speedDurationMin>0</speedDurationMin>
+  <speedDurationMax>0</speedDurationMax>
+  <positionDelayMin>500</positionDelayMin>
+  <positionDelayMax>2000</positionDelayMax>
+  <muleJoinDelayMin>500</muleJoinDelayMin>
+  <muleJoinDelayMax>2000</muleJoinDelayMax>
+  <readyDelayMin>500</readyDelayMin>
+  <readyDelayMax>2000</readyDelayMax>
+  <moveSpeedPercent>100</moveSpeedPercent>
+  <playTurnAfterMin>0</playTurnAfterMin>
+  <playTurnAfterMax>0</playTurnAfterMax>
+  <Tactic>AdvancedInScript</Tactic>
+  <FarCells>8</FarCells>
+</Configform>

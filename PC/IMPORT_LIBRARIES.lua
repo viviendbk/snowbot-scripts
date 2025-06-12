@@ -1,0 +1,7 @@
+dofile("C:\\Users\\Administrator\\Downloads\\Script_Bot_Dofus\\PC\\Lib\\Craft.lua")
+dofile("C:\\Users\\Administrator\\Downloads\\Script_Bot_Dofus\\PC\\Lib\\DD.lua")
+dofile("C:\\Users\\Administrator\\Downloads\\Script_Bot_Dofus\\PC\\Lib\\HDV.lua")
+dofile("C:\\Users\\Administrator\\Downloads\\Script_Bot_Dofus\\PC\\Lib\\IA.lua")
+dofile("C:\\Users\\Administrator\\Downloads\\Script_Bot_Dofus\\PC\\Lib\\Utils.lua")
+dofile("C:\\Users\\Administrator\\Downloads\\Script_Bot_Dofus\\PC\\Scripts\\Utilitaires\\[PC] Abonnement.lua")
+dofile("C:\\Users\\Administrator\\Downloads\\Script_Bot_Dofus\\PC\\Scripts\\Utilitaires\\FonctionsArchiMonstre.lua")

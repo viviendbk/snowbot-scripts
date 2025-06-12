@@ -1,0 +1,124 @@
+<?xml version="1.0" encoding="utf-8"?>
+<Configform xmlns:xsd="http://www.w3.org/2001/XMLSchema" xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance">
+  <Script>C:\Users\Administrator\Desktop\Script\trajets\dopeul.lua</Script>
+  <Placement>1</Placement>
+  <SpeedFight>0</SpeedFight>
+  <SpeedFightType>1</SpeedFightType>
+  <Regen>50</Regen>
+  <RegenTeam>false</RegenTeam>
+  <Flood />
+  <FloodActivate>false</FloodActivate>
+  <Commerce>false</Commerce>
+  <Recrutement>false</Recrutement>
+  <ConnexionAuto>true</ConnexionAuto>
+  <Sucess>true</Sucess>
+  <StatuPrivate>false</StatuPrivate>
+  <AntiAgro>false</AntiAgro>
+  <BankReturn>99</BankReturn>
+  <ExchangeHost />
+  <PasswordExchange>meganecoeurdemavie</PasswordExchange>
+  <ExchangeActivate>false</ExchangeActivate>
+  <TimeWait>1500</TimeWait>
+  <SpeedHack>80</SpeedHack>
+  <RegenAutoIDActivate>false</RegenAutoIDActivate>
+  <ToggleActivate>true</ToggleActivate>
+  <LogsActivate>false</LogsActivate>
+  <Incarnam>false</Incarnam>
+  <FloodSameCharacter>false</FloodSameCharacter>
+  <FloodMapEnter>false</FloodMapEnter>
+  <SpellConfig>
+    <Spell>
+      <Id>0</Id>
+      <SpellId>5803</SpellId>
+      <Name>Mot Stimulant</Name>
+      <Target>Self</Target>
+      <Turns>3</Turns>
+      <Relaunch>1</Relaunch>
+      <LastTurn>1</LastTurn>
+      <IsHandToHand>false</IsHandToHand>
+      <TouchMonster>false</TouchMonster>
+      <TargetLife>100</TargetLife>
+    </Spell>
+    <Spell>
+      <Id>1</Id>
+      <SpellId>5663</SpellId>
+      <Name>Mot Vampirique</Name>
+      <Target>Enemy</Target>
+      <Turns>1</Turns>
+      <Relaunch>2</Relaunch>
+      <LastTurn>1</LastTurn>
+      <IsHandToHand>false</IsHandToHand>
+      <TouchMonster>false</TouchMonster>
+      <TargetLife>100</TargetLife>
+    </Spell>
+    <Spell>
+      <Id>2</Id>
+      <SpellId>5661</SpellId>
+      <Name>Mot Marquant</Name>
+      <Target>Enemy</Target>
+      <Turns>1</Turns>
+      <Relaunch>1</Relaunch>
+      <LastTurn>3</LastTurn>
+      <IsHandToHand>false</IsHandToHand>
+      <TouchMonster>false</TouchMonster>
+      <TargetLife>100</TargetLife>
+    </Spell>
+    <Spell>
+      <Id>3</Id>
+      <SpellId>4971</SpellId>
+      <Name>Mot Accablant</Name>
+      <Target>Enemy</Target>
+      <Turns>1</Turns>
+      <Relaunch>2</Relaunch>
+      <LastTurn>1</LastTurn>
+      <IsHandToHand>false</IsHandToHand>
+      <TouchMonster>false</TouchMonster>
+      <TargetLife>100</TargetLife>
+    </Spell>
+  </SpellConfig>
+  <notifyArchi>false</notifyArchi>
+  <customPlanning>false</customPlanning>
+  <planning>
+    <ArrayOfInt />
+    <ArrayOfInt />
+    <ArrayOfInt />
+    <ArrayOfInt />
+    <ArrayOfInt />
+    <ArrayOfInt />
+    <ArrayOfInt />
+  </planning>
+  <statsConfig>
+    <ArrayOfInt>
+      <int>12</int>
+      <int>0</int>
+    </ArrayOfInt>
+  </statsConfig>
+  <spellsConfig>
+    <ArrayOfInt>
+      <int>5661</int>
+      <int>5</int>
+    </ArrayOfInt>
+    <ArrayOfInt>
+      <int>4947</int>
+      <int>5</int>
+    </ArrayOfInt>
+    <ArrayOfInt>
+      <int>4949</int>
+      <int>5</int>
+    </ArrayOfInt>
+    <ArrayOfInt>
+      <int>5663</int>
+      <int>5</int>
+    </ArrayOfInt>
+    <ArrayOfInt>
+      <int>6301</int>
+      <int>5</int>
+    </ArrayOfInt>
+  </spellsConfig>
+  <modoDisco>10</modoDisco>
+  <modoReco>1800</modoReco>
+  <antiModo>true</antiModo>
+  <Tactic>Distance</Tactic>
+  <FarCells>6</FarCells>
+  <ReadyDelay>2000</ReadyDelay>
+</Configform>

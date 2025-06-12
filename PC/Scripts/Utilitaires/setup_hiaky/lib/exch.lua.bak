@@ -1,0 +1,196 @@
+
+
+Exch = {}
+Exch.whitelist = {}
+
+
+function Exch:accept()
+    developer:sendMessage(developer:createMessage("ExchangeAcceptMessage"))
+end
+
+function Exch:refuse()
+    developer:sendMessage(developer:createMessage("LeaveDialogRequestMessage"))
+end
+
+function Exch:submitKamasOrder(amount)
+    Exch.ordersPath = Exch.ordersPath or TEMP_PATH .. Utils:normalServer() .. "\\bank-orders.json"
+
+    local orders = Utils:try(function()
+        return File:openJsonFile(self.ordersPath) 
+    end)
+
+    local thisOrder = {
+        id = character:id(),
+        alias = myAlias,
+        kAmount = amount
+    }
+
+    if not orders then
+        File:writeJsonData(self.ordersPath, { thisOrder }, true)
+    else
+        table.insert(orders, thisOrder)
+        File:writeJsonData(self.ordersPath, orders, true)
+    end
+end
+
+function Exch:deleteKamasOrder(searchFn)
+    self.ordersPath = self.ordersPath or TEMP_PATH .. Utils:normalServer() .. "\\bank-orders.json"
+
+    local orders = File:forceFile(self.ordersPath, 200, true)
+    
+    if not orders then global:delay(10000) return self:deleteBankOrder(param) end
+    for _, order in ipairs(orders) do
+        if searchFn(order) then Utils:removeAtIndex(orders, order) break end
+    end
+    File:writeJsonData(self.ordersPath, orders, true)
+end
+
+function Exch:whitelistOrderers(updateOrders)
+    self.ordersPath = self.ordersPath or TEMP_PATH .. Utils:normalServer() .. "\\bank-orders.json"
+    self.orders = File:forceFile(self.ordersPath, 200, true)
+
+    if not self.orders or (self.orders and #self.orders == 0) then
+        global:delay(10000)
+        self.retry = plus(self.retry)
+
+        if self.retry >= 90 then global:reconnect(0.5) end
+
+        return self:whitelistOrderers()
+    end
+    
+    self.orders = updateOrders and File:forceFile(self.ordersPath, true) or self.orders
+    
+    self.whitelist = {}
+    for _, order in ipairs(self.orders) do
+        table.insert(self.whitelist, order.id)
+    end
+end
+
+function Exch:giveKamas()
+    local thisOrder = nil
+    Exch:whitelistOrderers()
+
+    while not self.inTrade do
+        developer:suspendScriptUntil("ExchangeRequestedTradeMessage", 500, false)
+    end
+
+    if not self.inTrade then return self:giveKamas() end
+
+    for _, order in ipairs(self.orders) do
+        if self.inTrade == order.id then thisOrder = order break end
+    end
+
+    if character:kamas() < thisOrder.kAmount then
+        local orderer = Ctrl:getControllerBy(function(acc)
+            return acc.character():id() == thisOrder.id
+        end)
+
+        if orderer then orderer:disconnect() end
+        global:disconnect()
+    end
+
+    exchange:putKamas(thisOrder.kAmount)
+    global:delay(math.random(2000, 4000))
+
+    exchange:ready()
+end
+
+function Exch:giveKamasJahash()
+    local thisOrder = nil
+    Exch:whitelistOrderers()
+
+    while not self.inTrade do
+        developer:suspendScriptUntil("ExchangeRequestedTradeMessage", 500, false)
+    end
+
+    exchange:putKamas(240000)
+    global:delay(math.random(2000, 4000))
+
+    exchange:ready()
+end
+
+function Exch:giveKamasAndStuff()
+    local thisOrder = nil
+	
+	local listeItemAPrendre = {
+	{name = "coiffe aa", id = 8463},
+	{name = "amulette aa", id = 8465},
+	{name = "ceinture aa", id = 8468},
+	{name = "cape aa", id = 8464},
+	{name = "bottes aa", id = 8467},
+	{name = "ares", id = 250},
+	{name = "anneau aa", id = 8466},
+	{name = "gelano", id = 2469},
+	{name = "bouclier", id = 18690},
+	{name = "trophet 1", id = 13748},
+	{name = "trophet 2", id = 13749},
+	{name = "trophet 3", id = 13794},
+	{name = "trophet 4", id = 13793},
+	{name = "trophet 5", id = 12725 },
+	
+	{name = "coiffe sasa", id = 2447},
+	{name = "amulette sasa", id = 2390},
+	{name = "ceinture sasa", id = 1487},
+	{name = "cape sasa", id = 6927},
+	{name = "bottes sasa", id = 1665},
+	{name = "arme sasa", id = 469},
+	{name = "anneau sasa", id = 732},
+	{name = "anneau sasa 2", id = 732},
+	
+	{name = "leukide", id = 16881},
+	{name = "dynamo", id = 16864},
+	{name = "kyoub", id = 16964},
+	}
+	
+	npc:npcBank(-1)
+	
+	for _, element in ipairs(listeItemAPrendre) do
+		exchange:getItem(element.id, 1)
+	end
+	global:delay(500)
+	global:leaveDialog()
+    Exch:whitelistOrderers()
+
+    while not self.inTrade do
+        developer:suspendScriptUntil("ExchangeRequestedTradeMessage", 500, false)
+    end
+
+    if not self.inTrade then return self:giveKamas() end
+
+    for _, order in ipairs(self.orders) do
+        if self.inTrade == order.id then thisOrder = order break end
+    end
+
+    if character:kamas() < thisOrder.kAmount then
+        local orderer = Ctrl:getControllerBy(function(acc)
+            return acc.character():id() == thisOrder.id
+        end)
+
+        if orderer then orderer:disconnect() end
+        global:disconnect()
+    end
+
+    exchange:putKamas(thisOrder.kAmount)
+
+	for _, element in ipairs(listeItemAPrendre) do
+		exchange:putItem(element.id, 1)
+	end
+    global:delay(math.random(2000, 4000))
+
+    exchange:ready()
+end
+
+function Exch:launchExchange(id)
+    id = tonumber(id)
+
+    RECONNECT_ON_TIMEOUT = false
+
+    while not exchange:launchExchangeWithPlayer(id) do
+        print:errorInfo("La cible de l'échange n'est pas disponible, nouvelle tentative dans 5 secondes.")
+        global:delay(5000)
+    end
+
+    RECONNECT_ON_TIMEOUT = true
+
+    return true
+end

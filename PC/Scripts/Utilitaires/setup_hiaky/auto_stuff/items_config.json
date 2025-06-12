@@ -1,0 +1,783 @@
+    [
+    {
+        "id": 8463,
+        "name": "Abracaska Ancestral",
+        "price": {
+            "max": 500000,
+            "diff": 150000
+        },
+        "wanted": {
+            "name": "Vitalite",
+            "value": 201,
+            "force": false
+        },
+        "minQuality": 75,
+        "ignore": [
+            {
+                "name": "% Resistance Feu"
+            }
+        ],
+        "jets": [
+            {
+                "name": "Vitalite",
+                "min": 180
+            },
+            {
+                "name": "Force",
+                "min": 30
+            },
+            {
+                "name": "Chance",
+                "min": 40
+            },
+            {
+                "name": "Puissance",
+                "min": 5
+            },
+            {
+                "name": "Sagesse",
+                "min": 20
+            },
+            {
+                "name": "Dommages",
+                "min": 5
+            }
+        ]
+    },
+    {
+        "id": 8464,
+        "name": "Abracapa Ancestrale",
+        "price": {
+            "max": 500000,
+            "diff": 150000
+        },
+        "wanted": {
+            "name": "Vitalite",
+            "value": 101,
+            "force": false
+        },
+        "minQuality": 75,
+        "ignore": [
+            {
+                "name": "% Resistance Eau"
+            },
+            {
+                "name": "% Resistance Air"
+            },
+            {
+                "name": "Initiative"
+            }
+        ],
+        "jets": [
+            {
+                "name": "Vitalite",
+                "min": 75
+            },
+            {
+                "name": "Force",
+                "min": 25
+            },
+            {
+                "name": "Chance",
+                "min": 35
+            },
+            {
+                "name": "Puissance",
+                "min": 5
+            },
+            {
+                "name": "Sagesse",
+                "min": 15
+            },
+            {
+                "name": "Dommages",
+                "min": 4
+            }
+        ]
+    },
+    {
+        "id": 8465,
+        "name": "Torque Ancestral",
+        "price": {
+            "max": 500000,
+            "diff": 150000
+        },
+        "wanted": {
+            "name": "Vitalite",
+            "value": 101,
+            "force": false
+        },
+        "minQuality": 75,
+        "ignore": [
+            {
+                "name": "% Resistance Feu"
+            },
+            {
+                "name": "Resistance Feu"
+            }
+        ],
+        "jets": [
+            {
+                "name": "Vitalite",
+                "min": 80
+            },
+            {
+                "name": "PA",
+                "min": 1
+            },
+            {
+                "name": "Force",
+                "min": 25
+            },
+            {
+                "name": "Chance",
+                "min": 25
+            },
+            {
+                "name": "Sagesse",
+                "min": 13
+            },
+            {
+                "name": "Dommages",
+                "min": 4
+            }
+        ]
+    },
+    {
+        "id": 8466,
+        "name": "Anneau Ancestral",
+        "price": {
+            "max": 500000,
+            "diff": 150000
+        },
+        "wanted": {
+            "name": "Vitalite",
+            "value": 131,
+            "force": false
+        },
+        "minQuality": 75,
+        "ignore": [
+            {
+                "name": "% Resistance Terre"
+            },
+            {
+                "name": "% Resistance Eau"
+            }
+        ],
+        "jets": [
+            {
+                "name": "Vitalite",
+                "min": 115
+            },
+            {
+                "name": "Force",
+                "min": 25
+            },
+            {
+                "name": "Chance",
+                "min": 30
+            },
+            {
+                "name": "Sagesse",
+                "min": 26
+            }
+        ]
+    },
+    {
+        "id": 8467,
+        "name": "Protège-Tibias Ancestraux",
+        "price": {
+            "max": 500000,
+            "diff": 150000
+        },
+        "wanted": {
+            "name": "Vitalite",
+            "value": 131,
+            "force": false
+        },
+        "minQuality": 75,
+        "ignore": [
+            {
+                "name": "Resistance Feu"
+            }
+        ],
+        "jets": [
+            {
+                "name": "Vitalite",
+                "min": 115
+            },
+            {
+                "name": "PM",
+                "min": 1
+            },
+            {
+                "name": "Force",
+                "min": 25
+            },
+            {
+                "name": "Chance",
+                "min": 35
+            },
+            {
+                "name": "Sagesse",
+                "min": 26
+            },
+            {
+                "name": "Dommages",
+                "min": 4
+            }
+        ]
+    },
+    {
+        "id": 8468,
+        "name": "Abrature Ancestrale",
+        "price": {
+            "max": 500000,
+            "diff": 150000
+        },
+        "wanted": {
+            "name": "Vitalite",
+            "value": 151,
+            "force": false
+        },
+        "minQuality": 75,
+        "ignore": [
+            {
+                "name": "Resistance Neutre"
+            },
+            {
+                "name": "Resistance Feu"
+            },
+            {
+                "name": "Resistance Eau"
+            },
+            {
+                "name": "Resistance Feu"
+            },
+            {
+                "name": "Resistance Air"
+            }
+        ],
+        "jets": [
+            {
+                "name": "Vitalite",
+                "min": 135
+            },
+            {
+                "name": "Force",
+                "min": 28
+            },
+            {
+                "name": "Chance",
+                "min": 30
+            },
+            {
+                "name": "Sagesse",
+                "min": 13
+            },
+            {
+                "name": "Dommages",
+                "min": 4
+            }
+        ]
+    },
+    {
+        "id": 250,
+        "name": "Ares",
+        "price": {
+            "max": 500000,
+            "diff": 150000
+        },
+        "wanted": {
+            "name": "Vitalite",
+            "value": 51,
+            "force": false
+        },
+        "minQuality": 75,
+        "ignore": [
+            {
+                "name": "Invocation"
+            }
+        ],
+        "jets": [
+            {
+                "name": "Chance",
+                "min": 15
+            }
+        ]
+    },
+    {
+        "id": 2469,
+        "name": "Gélano",
+        "price": {
+            "max": 500000,
+            "diff": 300000
+        },
+        "wanted": {
+            "name": "Vitalite",
+            "value": 140,
+            "force": true
+        },
+        "jets": [
+            {
+                "name": "PA",
+                "min": 1
+            }
+        ] 
+    },
+    {
+        "id": 18690,
+        "name": "Bouclier de Sidimote",
+        "price": {
+            "max": 500000,
+            "diff": 150000
+        },
+        "wanted": {
+            "name": "Vitalite",
+            "value": 50,
+            "force": false
+        },
+        "minQuality" : 75,
+        "jets": [
+            {
+                "name": "% Dommages aux sorts",
+                "min": 3
+            }
+        ]
+    },
+    {
+        "id": 8263,
+        "name": "Anneau du Meulou",
+        "price": {
+            "max": 800000,
+            "diff": 100000
+        },
+        "wanted": {
+            "name": "Vitalite",
+            "value": 101,
+            "force": false
+        },
+        "minQuality": 75,
+        "ignore": [
+            {
+                "name": "% Resistance Feu"
+            },
+            {
+                "name": "Resistance Neutre"
+            },
+            {
+                "name": "Initiative"
+            },
+            {
+                "name": "Portee"
+            }
+        ],
+        "jets": [
+            {
+                "name": "Vitalite",
+                "min": "75"
+            },
+            {
+                "name": "Force",
+                "min": "25"
+            },
+            {
+                "name" : "Prospection",
+                "min" : 10
+            }
+        ]
+    },
+    {
+        "id": 8264,
+        "name": "Bottes du Meulou",
+        "price": {
+            "max": 800000,
+            "diff": 100000
+        },
+        "wanted": {
+            "name": "Vitalite",
+            "value": 121,
+            "force": false
+        },
+        "minQuality": 75,
+        "ignore": [
+            {
+                "name": "Resistance Air"
+            },
+            {
+                "name": "Resistance Eau"
+            },
+            {
+                "name": "Resistance Feu"
+            },
+            {
+                "name": "Resistance Terre"
+            },
+            {
+                "name": "Resistance Neutre"
+            },
+            {
+                "name": "% Resistance Air"
+            },
+            {
+                "name": "% Resistance Eau"
+            },
+            {
+                "name": "Pods"
+            }
+        ],
+        "jets": [
+            {
+                "name": "Vitalite",
+                "min": "100"
+            },
+            {
+                "name": "Force",
+                "min": "35"
+            },
+            {
+                "name": "PM",
+                "min": "1"
+            },
+            {
+                "name" : "Prospection",
+                "min" : 15
+            }
+        ]
+    },
+    {
+        "id": 8265,
+        "name": "Cape du Meulou",
+        "price": {
+            "max": 800000,
+            "diff": 100000
+        },
+        "wanted": {
+            "name": "Vitalite",
+            "value": 201,
+            "force": false
+        },
+        "minQuality": 75,
+        "ignore": [
+            {
+                "name": "Initiative"
+            },
+            {
+                "name": "% Resistance Neutre"
+            },
+            {
+                "name": "% Resistance Feu"
+            }
+        ],
+        "jets": [
+            {
+                "name": "Vitalite",
+                "min": "170"
+            },
+            {
+                "name": "Force",
+                "min": "35"
+            },
+            {
+                "name": "Puissance",
+                "min": "6"
+            },
+            {
+                "name" : "Prospection",
+                "min" : 15
+            }
+        ]
+    },
+    {
+        "id": 8266,
+        "name": "Ceinture du Meulou",
+        "price": {
+            "max": 800000,
+            "diff": 100000
+        },
+        "wanted": {
+            "name": "Vitalite",
+            "value": 201,
+            "force": false
+        },
+        "minQuality": 75,
+        "ignore": [
+            {
+                "name": "% Resistance Eau"
+            },
+            {
+                "name": "% Resistance Neutre"
+            }
+        ],
+        "jets": [
+            {
+                "name": "Vitalite",
+                "min": "170"
+            },
+            {
+                "name": "Force",
+                "min": "35"
+            },
+            {
+                "name" : "Prospection",
+                "min" : 15
+            }
+        ]
+    },
+    {
+        "id": 8267,
+        "name": "Coiffe du Meulou",
+        "price": {
+            "max": 800000,
+            "diff": 100000
+        },
+        "wanted": {
+            "name": "Vitalite",
+            "value": 271,
+            "force": false
+        },
+        "minQuality": 75,
+        "ignore": [
+            {
+                "name": "% Resistance Neutre"
+            } ,           
+            {
+                "name": "Intelligence"
+            }
+        ],
+        "jets": [
+            {
+                "name": "Vitalite",
+                "min": "240"
+            },
+            {
+                "name": "Force",
+                "min": "40"
+            },
+            {
+                "name" : "Prospection",
+                "min" : 15
+            }
+        ]
+    },
+    {
+        "id": 8262,
+        "name": "La Meulette",
+        "price": {
+            "max": 800000,
+            "diff": 100000
+        },
+        "wanted": {
+            "name": "Vitalite",
+            "value": 201,
+            "force": false
+        },
+        "minQuality": 75,
+        "ignore": [
+            {
+                "name": "% Resistance Air"
+            } ,           
+            {
+                "name": "% Resistance Eau"
+            }
+        ],
+        "jets": [
+            {
+                "name": "Vitalite",
+                "min": "170"
+            },
+            {
+                "name": "Force",
+                "min": "38"
+            },
+            {
+                "name" : "Prospection",
+                "min" : 15
+            }
+        ]
+    },
+    {
+        "id": 462,
+        "name": "Arc en Racine d'Abraknyde",
+        "price": {
+            "max": 500000,
+            "diff": 200000
+        },
+        "wanted": {
+            "name": "Vitalite",
+            "value": 100,
+            "force": false
+        },
+        "jets": [
+            {
+                "name": "PA",
+                "min": "1"
+            }
+        ]
+    },
+    {
+        "id": 17078,
+        "name": "Dokoko",
+        "price": {
+            "max": 100000
+        },
+        "jets": [
+        ]
+    },
+    {
+        "id": 19629,
+        "name": "Dofus Argenté",
+        "price": {
+            "max": 100000
+        }
+    },
+    {
+        "id": 8072,
+        "name": "Dofus Kaliptus",
+        "price": {
+            "max": 50000
+        },
+        "jets": [
+            {
+                "name": "Prospection",
+                "min": 25
+            }
+        ]
+    },
+    {
+        "id": 9122,
+        "name": "Blopanneau Griotte",
+        "price": {
+            "max": 100000
+        },
+        "jets": [
+            {
+                "name": "Intelligence",
+                "min": 1
+            }
+        ]
+    },
+    {
+        "id": 9149,
+        "name": "Amublop Griotte",
+        "price": {
+            "max": 100000
+        },
+        "jets": [
+            {
+                "name": "Intelligence",
+                "min": 1
+            }
+        ]
+    },    
+    {
+        "id": 9158,
+        "name": "Bloptes Griottes",
+        "price": {
+            "max": 100000
+        },
+        "jets": [
+            {
+                "name": "Intelligence",
+                "min": 1
+            }
+        ]
+    },    
+    {
+        "id": 9167,
+        "name": "Blopture Griotte",
+        "price": {
+            "max": 100000
+        },
+        "jets": [
+            {
+                "name": "Intelligence",
+                "min": 1
+            }
+        ]
+    },    
+    {
+        "id": 2447,
+        "name": "Gelocoiffe",
+        "price": {
+            "max": 100000
+        },
+        "jets": [
+            {
+                "name": "Intelligence",
+                "min": 1
+            }
+        ]
+    },
+    {
+        "id": 6942,
+        "name": "Scaracape Rouge",
+        "price": {
+            "max": 100000
+        },
+        "jets": [
+            {
+                "name": "Intelligence",
+                "min": 1
+            }
+        ]
+    },
+    {
+        "id": 1162,
+        "name": "Bâton des Rois",
+        "price": {
+            "max": 100000
+        },
+        "jets": [
+            {
+                "name": "Intelligence",
+                "min": 1
+            }
+        ]
+    },
+    {
+        "id": 1704,
+        "name": "Sac du Staca Noviste",
+        "price": {
+            "max": 250000
+        },
+        "jets": [
+            {
+                "name": "Pods",
+                "min": 1200
+            }
+        ]
+    },
+    {
+        "id": 18688,
+        "name": "Bouclier Taverne",
+        "price": {
+            "max": 1500000
+        },
+        "jet": [
+            {
+                "name": "% Dommages aux sorts",
+                "min": 9
+            }
+        ]
+    },
+    {
+        "id": 8827,
+        "name": "Hache du Guerrier Zoth",
+        "price": {
+            "max": 1000000
+        },
+        "wanted": {
+            "name": "Arme de chasse",
+            "value": 1,
+            "force": false
+        },
+        "jet": [
+            {
+                "name": "% Dommages aux sorts",
+                "min": 9
+            }
+        ]    
+    }
+
+]

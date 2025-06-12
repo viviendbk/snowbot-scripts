@@ -1,0 +1,105 @@
+<?xml version="1.0" encoding="utf-8"?>
+<Configform xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xmlns:xsd="http://www.w3.org/2001/XMLSchema">
+  <Script>C:\Users\Administrator\Downloads\ovh snowbot\Mineur\Mineur_1-150_ULTIME.lua</Script>
+  <Placement>1</Placement>
+  <SpeedFight>2</SpeedFight>
+  <Regen>50</Regen>
+  <RegenTeam>false</RegenTeam>
+  <RegenAutoID>0</RegenAutoID>
+  <Flood />
+  <FloodActivate>false</FloodActivate>
+  <Commerce>false</Commerce>
+  <Recrutement>false</Recrutement>
+  <ConnexionAuto>true</ConnexionAuto>
+  <takeMerchant>false</takeMerchant>
+  <notifyArchi>false</notifyArchi>
+  <shortestPath>true</shortestPath>
+  <customPlanning>false</customPlanning>
+  <Sucess>true</Sucess>
+  <StatuPrivate>true</StatuPrivate>
+  <AntiAgro>false</AntiAgro>
+  <BankReturn>85</BankReturn>
+  <ExchangeHost />
+  <ExchangeActivate>false</ExchangeActivate>
+  <TimeWait>1500</TimeWait>
+  <RegenAutoIDActivate>false</RegenAutoIDActivate>
+  <ToggleActivate>false</ToggleActivate>
+  <LogsActivate>false</LogsActivate>
+  <FloodSameCharacter>false</FloodSameCharacter>
+  <FloodMapEnter>false</FloodMapEnter>
+  <SpellConfig>
+    <Spell>
+      <Id>0</Id>
+      <SpellId>12737</SpellId>
+      <Name>Mutilation</Name>
+      <Target>Self</Target>
+      <Turns>3</Turns>
+      <Relaunch>1</Relaunch>
+      <LastTurn>1</LastTurn>
+      <IsHandToHand>false</IsHandToHand>
+      <TouchMonster>false</TouchMonster>
+      <TargetLife>100</TargetLife>
+    </Spell>
+    <Spell>
+      <Id>1</Id>
+      <SpellId>12734</SpellId>
+      <Name>Absorption</Name>
+      <Target>Enemy</Target>
+      <Turns>1</Turns>
+      <Relaunch>2</Relaunch>
+      <LastTurn>2</LastTurn>
+      <IsHandToHand>false</IsHandToHand>
+      <TouchMonster>false</TouchMonster>
+      <TargetLife>100</TargetLife>
+    </Spell>
+    <Spell>
+      <Id>2</Id>
+      <SpellId>12732</SpellId>
+      <Name>Bain de Sang</Name>
+      <Target>Self</Target>
+      <Turns>1</Turns>
+      <Relaunch>1</Relaunch>
+      <LastTurn>11</LastTurn>
+      <IsHandToHand>true</IsHandToHand>
+      <TouchMonster>false</TouchMonster>
+      <TargetLife>100</TargetLife>
+    </Spell>
+    <Spell>
+      <Id>3</Id>
+      <SpellId>12730</SpellId>
+      <Name>Douleur Cuisante</Name>
+      <Target>Enemy</Target>
+      <Turns>1</Turns>
+      <Relaunch>2</Relaunch>
+      <LastTurn>3</LastTurn>
+      <IsHandToHand>false</IsHandToHand>
+      <TouchMonster>false</TouchMonster>
+      <TargetLife>100</TargetLife>
+    </Spell>
+    <Spell>
+      <Id>4</Id>
+      <SpellId>12733</SpellId>
+      <Name>Assaut</Name>
+      <Target>Enemy</Target>
+      <Turns>1</Turns>
+      <Relaunch>1</Relaunch>
+      <LastTurn>1</LastTurn>
+      <IsHandToHand>false</IsHandToHand>
+      <TouchMonster>false</TouchMonster>
+      <TargetLife>100</TargetLife>
+    </Spell>
+  </SpellConfig>
+  <statsConfig />
+  <planning>
+    <ArrayOfInt />
+    <ArrayOfInt />
+    <ArrayOfInt />
+    <ArrayOfInt />
+    <ArrayOfInt />
+    <ArrayOfInt />
+    <ArrayOfInt />
+  </planning>
+  <Tactic>HandToHand</Tactic>
+  <FarCells>8</FarCells>
+  <ReadyDelay>2000</ReadyDelay>
+</Configform>

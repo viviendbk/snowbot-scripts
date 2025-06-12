@@ -1,0 +1,43 @@
+<?xml version="1.0" encoding="utf-8"?>
+<Configform xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xmlns:xsd="http://www.w3.org/2001/XMLSchema">
+  <Script>C:\Users\Administrator\Downloads\ovh snowbot\ConfigMineur\bot_banque.lua</Script>
+  <Placement>0</Placement>
+  <SpeedFight>1500</SpeedFight>
+  <Regen>80</Regen>
+  <RegenTeam>false</RegenTeam>
+  <Flood />
+  <FloodActivate>false</FloodActivate>
+  <Commerce>false</Commerce>
+  <Recrutement>false</Recrutement>
+  <ConnexionAuto>true</ConnexionAuto>
+  <takeMerchant>false</takeMerchant>
+  <notifyArchi>true</notifyArchi>
+  <shortestPath>false</shortestPath>
+  <customPlanning>false</customPlanning>
+  <Sucess>true</Sucess>
+  <StatuPrivate>false</StatuPrivate>
+  <AntiAgro>false</AntiAgro>
+  <BankReturn>80</BankReturn>
+  <ExchangeHost />
+  <ExchangeActivate>true</ExchangeActivate>
+  <TimeWait>200</TimeWait>
+  <RegenAutoIDActivate>false</RegenAutoIDActivate>
+  <ToggleActivate>false</ToggleActivate>
+  <LogsActivate>false</LogsActivate>
+  <FloodSameCharacter>false</FloodSameCharacter>
+  <FloodMapEnter>false</FloodMapEnter>
+  <SpellConfig />
+  <statsConfig />
+  <planning>
+    <ArrayOfInt />
+    <ArrayOfInt />
+    <ArrayOfInt />
+    <ArrayOfInt />
+    <ArrayOfInt />
+    <ArrayOfInt />
+    <ArrayOfInt />
+  </planning>
+  <Tactic>NoAction</Tactic>
+  <FarCells>8</FarCells>
+  <ReadyDelay>2000</ReadyDelay>
+</Configform>

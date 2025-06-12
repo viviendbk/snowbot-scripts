@@ -1,0 +1,73 @@
+<?xml version="1.0" encoding="utf-8"?>
+<Configform xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xmlns:xsd="http://www.w3.org/2001/XMLSchema">
+  <Script>C:\Users\Administrator\Downloads\Script_Bot_Dofus\PC\PL&amp;Zaaps\PL_1-6X.lua</Script>
+  <Placement>1</Placement>
+  <SpeedFightType>0</SpeedFightType>
+  <Regen>0</Regen>
+  <RegenTeam>false</RegenTeam>
+  <RegenAutoID>0</RegenAutoID>
+  <Flood />
+  <FloodActivate>false</FloodActivate>
+  <Commerce>false</Commerce>
+  <Recrutement>false</Recrutement>
+  <ConnexionAuto>true</ConnexionAuto>
+  <takeMerchant>false</takeMerchant>
+  <notifyArchi>false</notifyArchi>
+  <shortestPath>false</shortestPath>
+  <customPlanning>false</customPlanning>
+  <Sucess>true</Sucess>
+  <StatuPrivate>true</StatuPrivate>
+  <AntiAgro>false</AntiAgro>
+  <BankReturn>90</BankReturn>
+  <ExchangeHost />
+  <ExchangeActivate>false</ExchangeActivate>
+  <mapWaitMin>0</mapWaitMin>
+  <mapWaitMax>0</mapWaitMax>
+  <RegenAutoIDActivate>false</RegenAutoIDActivate>
+  <ToggleActivate>false</ToggleActivate>
+  <LogsActivate>false</LogsActivate>
+  <FloodSameCharacter>false</FloodSameCharacter>
+  <FloodMapEnter>false</FloodMapEnter>
+  <SpellConfig />
+  <statsConfig>
+    <ArrayOfInt>
+      <int>15</int>
+      <int>200</int>
+    </ArrayOfInt>
+    <ArrayOfInt>
+      <int>11</int>
+      <int>150</int>
+    </ArrayOfInt>
+    <ArrayOfInt>
+      <int>15</int>
+      <int>0</int>
+    </ArrayOfInt>
+  </statsConfig>
+  <planning>
+    <ArrayOfInt />
+    <ArrayOfInt />
+    <ArrayOfInt />
+    <ArrayOfInt />
+    <ArrayOfInt />
+    <ArrayOfInt />
+    <ArrayOfInt />
+  </planning>
+  <modoDisco>20</modoDisco>
+  <modoReco>1800</modoReco>
+  <antiModo>false</antiModo>
+  <turnDurationMin>1000</turnDurationMin>
+  <turnDurationMax>2000</turnDurationMax>
+  <speedDurationMin>0</speedDurationMin>
+  <speedDurationMax>0</speedDurationMax>
+  <positionDelayMin>1000</positionDelayMin>
+  <positionDelayMax>4000</positionDelayMax>
+  <muleJoinDelayMin>1000</muleJoinDelayMin>
+  <muleJoinDelayMax>4000</muleJoinDelayMax>
+  <readyDelayMin>1000</readyDelayMin>
+  <readyDelayMax>3000</readyDelayMax>
+  <moveSpeedPercent>100</moveSpeedPercent>
+  <playTurnAfterMin>500</playTurnAfterMin>
+  <playTurnAfterMax>2500</playTurnAfterMax>
+  <Tactic>AdvancedInScript</Tactic>
+  <FarCells>8</FarCells>
+</Configform>

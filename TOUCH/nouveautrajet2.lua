@@ -1,0 +1,20 @@
+function move()	
+	
+ {map = "10,9", path = "right", fight = false},
+		{map = "8,10", path = "right", fight = false},
+		{map = "9,10", path = "right", fight = false},
+		{map = "10,10", path = "top", fight = false},
+		{map = "11,9", path = "bottom", fight = false},
+		{map = "11,10", path = "right", fight = false},
+		{map = "12,10", path = "bottom", fight = false},
+		{map = "12,11", path = "left", fight = false},
+		{map = "11,11", path = "left", fight = false},
+		{map = "10,11", path = "left", fight = false},
+		{map = "5,7", path = "right"},
+		{map = "6,7", path = "right"},
+		{map = "7,7", path = "right"},
+		{map = "8,7", path = "bottom"},
+		{map = "8,8", path = "bottom"},
+		{map = "8,9", path = "bottom"},
+		{map = "9,11", path = "left", fight = false},
+end

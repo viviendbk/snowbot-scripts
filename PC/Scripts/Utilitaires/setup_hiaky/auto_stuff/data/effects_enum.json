@@ -1,0 +1,418 @@
+[
+    {
+        "id": 111,
+        "name": "PA"
+    },
+    {
+        "id": 168,
+        "name": "-PA"
+    },
+    {
+        "id": 128,
+        "name": "PM"
+    },
+    {
+        "id": 169,
+        "name": "-PM"
+    },
+    {
+        "id": 117,
+        "name": "Portee"
+    },
+    {
+        "id": 116,
+        "name": "-Portee"
+    },
+    {
+        "id": 182,
+        "name": "Invocations"
+    },
+    {
+        "id": 112,
+        "name": "Dommages"
+    },
+    {
+        "id": 145,
+        "name": "-Dommages"
+    },
+    {
+        "id": 2804,
+        "name": "% Dommages distance"
+    },
+    {
+        "id": 2805,
+        "name": "-% Dommages distance"
+    },
+    {
+        "id": 2807,
+        "name": "% Resistance distance"
+    },
+    {
+        "id": 2806,
+        "name": "-% Resistance distance"
+    },
+    {
+        "id": 2812,
+        "name": "% Dommages aux sorts"
+    },
+    {
+        "id": 2813,
+        "name": "-% Dommages aux sorts"
+    },
+    {
+        "id": 2808,
+        "name": "% Dommages armes"
+    },
+    {
+        "id": 2809,
+        "name": "-% Dommages armes"
+    },
+    {
+        "id": 2800,
+        "name": "% Dommages melee"
+    },
+    {
+        "id": 2801,
+        "name": "-% Dommages melee"
+    },
+    {
+        "id": 2803,
+        "name": "% Resistance melee"
+    },
+    {
+        "id": 2802,
+        "name": "-% Resistance melee"
+    },
+    {
+        "id": 115,
+        "name": "% Critique"
+    },
+    {
+        "id": 171,
+        "name": "-% Critique"
+    },
+    {
+        "id": 178,
+        "name": "Soins"
+    },
+    {
+        "id": 179,
+        "name": "-Soins"
+    },
+    {
+        "id": 220,
+        "name": "Renvoie dommages"
+    },
+    {
+        "id": 410,
+        "name": "Retrait PA"
+    },
+    {
+        "id": 411,
+        "name": "-Retrait PA"
+    },
+    {
+        "id": 412,
+        "name": "Retrait PM"
+    },
+    {
+        "id": 413,
+        "name": "-Retrait PM"
+    },
+    {
+        "id": 160,
+        "name": "Esquive PA"
+    },
+    {
+        "id": 162,
+        "name": "-Esquive PA"
+    },
+    {
+        "id": 161,
+        "name": "Esquive PM"
+    },
+    {
+        "id": 163,
+        "name": "-Esquive PM"
+    },
+    {
+        "id": 214,
+        "name": "% Resistance Neutre"
+    },
+    {
+        "id": 219,
+        "name": "-% Resistance Neutre"
+    },
+    {
+        "id": 210,
+        "name": "% Resistance Terre"
+    },
+    {
+        "id": 215,
+        "name": "-% Resistance Terre"
+    },
+    {
+        "id": 211,
+        "name": "% Resistance Eau"
+    },
+    {
+        "id": 216,
+        "name": "-% Resistance Eau"
+    },
+    {
+        "id": 212,
+        "name": "% Resistance Air"
+    },
+    {
+        "id": 217,
+        "name": "-% Resistance Air"
+    },
+    {
+        "id": 213,
+        "name": "% Resistance Feu"
+    },
+    {
+        "id": 218,
+        "name": "-% Resistance Feu"
+    },
+    {
+        "id": 795,
+        "name": "Arme de chasse"
+    },
+    {
+        "id": 424,
+        "name": "Dommages Feu"
+    },
+    {
+        "id": 425,
+        "name": "-Dommages Feu"
+    },
+    {
+        "id": 428,
+        "name": "Dommages Air"
+    },
+    {
+        "id": 429,
+        "name": "-Dommages Air"
+    },
+    {
+        "id": 426,
+        "name": "Dommages Eau"
+    },
+    {
+        "id": 427,
+        "name": "-Dommages Eau"
+    },
+    {
+        "id": 430,
+        "name": "Dommages Neutre"
+    },
+    {
+        "id": 431,
+        "name": "-Dommages Neutre"
+    },
+    {
+        "id": 422,
+        "name": "Dommages Terre"
+    },
+    {
+        "id": 423,
+        "name": "-Dommages Terre"
+    },
+    {
+        "id": 418,
+        "name": "Dommages Critiques"
+    },
+    {
+        "id": 419,
+        "name": "-Dommages Critiques"
+    },
+    {
+        "id": 225,
+        "name": "Dommages Pieges"
+    },
+    {
+        "id": 414,
+        "name": "Dommages Poussee"
+    },
+    {
+        "id": 415,
+        "name": "-Dommages Poussee"
+    },
+    {
+        "id": 752,
+        "name": "Fuite"
+    },
+    {
+        "id": 754,
+        "name": "-Fuite"
+    },
+    {
+        "id": 753,
+        "name": "Tacle"
+    },
+    {
+        "id": 755,
+        "name": "-Tacle"
+    },
+    {
+        "id": 124,
+        "name": "Sagesse"
+    },
+    {
+        "id": 156,
+        "name": "-Sagesse"
+    },
+    {
+        "id": 176,
+        "name": "Prospection"
+    },
+    {
+        "id": 177,
+        "name": "-Prospection"
+    },
+    {
+        "id": 158,
+        "name": "Pods"
+    },
+    {
+        "id": 159,
+        "name": "-Pods"
+    },
+    {
+        "id": 242,
+        "name": "Resistance Air"
+    },
+    {
+        "id": 247,
+        "name": "-Resistance Air"
+    },
+    {
+        "id": 243,
+        "name": "Resistance Feu"
+    },
+    {
+        "id": 248,
+        "name": "-Resistance Feu"
+    },
+    {
+        "id": 244,
+        "name": "Resistance Neutre"
+    },
+    {
+        "id": 249,
+        "name": "-Resistance Neutre"
+    },
+    {
+        "id": 241,
+        "name": "Resistance Eau"
+    },
+    {
+        "id": 246,
+        "name": "-Resistance Eau"
+    },
+    {
+        "id": 240,
+        "name": "Resistance Terre"
+    },
+    {
+        "id": 245,
+        "name": "-Resistance Terre"
+    },
+    {
+        "id": 226,
+        "name": "Puissance pieges"
+    },
+    {
+        "id": 420,
+        "name": "Resistance Critiques"
+    },
+    {
+        "id": 421,
+        "name": "-Resistance Critiques"
+    },
+    {
+        "id": 416,
+        "name": "Resistance Poussee"
+    },
+    {
+        "id": 417,
+        "name": "-Resistance Poussee"
+    },
+    {
+        "id": 138,
+        "name": "Puissance"
+    },
+    {
+        "id": 186,
+        "name": "-Puissance"
+    },
+    {
+        "id": 118,
+        "name": "Force"
+    },
+    {
+        "id": 157,
+        "name": "-Force"
+    },
+    {
+        "id": 119,
+        "name": "Agilité"
+    },
+    {
+        "id": 154,
+        "name": "-Agilité"
+    },
+    {
+        "id": 123,
+        "name": "Chance"
+    },
+    {
+        "id": 152,
+        "name": "-Chance"
+    },
+    {
+        "id": 125,
+        "name": "Vitalite"
+    },
+    {
+        "id": 153,
+        "name": "-Vitalite"
+    },
+    {
+        "id": 126,
+        "name": "Intelligence"
+    },
+    {
+        "id": 155,
+        "name": "-Intelligence"
+    },
+    {
+        "id": 174,
+        "name": "Initiative"
+    },
+    {
+        "id": 175,
+        "name": "-Initiative"
+    },
+    {
+        "id": 100,
+        "name": "Degats Neutre"
+    },
+    {
+        "id": 98,
+        "name": "Degats Air"
+    },
+    {
+        "id": 96,
+        "name": "Degats Eau"
+    },
+    {
+        "id": 99,
+        "name": "Degats Feu"
+    },
+    {
+        "id": 97,
+        "name": "Degats Terre"
+    }
+]

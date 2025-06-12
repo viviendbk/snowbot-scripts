@@ -1,0 +1,95 @@
+<?xml version="1.0" encoding="utf-8"?>
+<Configform xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xmlns:xsd="http://www.w3.org/2001/XMLSchema">
+  <Script>C:\Users\Administrator\Desktop\Script\leveling\[Touch] ExchangeLauncher (1).lua</Script>
+  <Placement>1</Placement>
+  <SpeedFight>1000</SpeedFight>
+  <SpeedFightType>1</SpeedFightType>
+  <Regen>80</Regen>
+  <RegenTeam>false</RegenTeam>
+  <Flood />
+  <FloodActivate>false</FloodActivate>
+  <Commerce>false</Commerce>
+  <Recrutement>false</Recrutement>
+  <ConnexionAuto>true</ConnexionAuto>
+  <Sucess>true</Sucess>
+  <StatuPrivate>true</StatuPrivate>
+  <AntiAgro>false</AntiAgro>
+  <BankReturn>101</BankReturn>
+  <ExchangeHost />
+  <ExchangeActivate>false</ExchangeActivate>
+  <TimeWait>-1</TimeWait>
+  <SpeedHack>100</SpeedHack>
+  <RegenAutoIDActivate>false</RegenAutoIDActivate>
+  <ToggleActivate>false</ToggleActivate>
+  <LogsActivate>true</LogsActivate>
+  <Incarnam>false</Incarnam>
+  <FloodSameCharacter>false</FloodSameCharacter>
+  <FloodMapEnter>false</FloodMapEnter>
+  <SpellConfig>
+    <Spell>
+      <Id>0</Id>
+      <SpellId>5803</SpellId>
+      <Name>Mot Stimulant</Name>
+      <Target>Self</Target>
+      <Turns>1</Turns>
+      <Relaunch>5</Relaunch>
+      <LastTurn>1</LastTurn>
+      <IsHandToHand>false</IsHandToHand>
+      <TouchMonster>false</TouchMonster>
+      <TargetLife>100</TargetLife>
+    </Spell>
+    <Spell>
+      <Id>1</Id>
+      <SpellId>5661</SpellId>
+      <Name>Mot Marquant</Name>
+      <Target>Enemy</Target>
+      <Turns>1</Turns>
+      <Relaunch>1</Relaunch>
+      <LastTurn>7</LastTurn>
+      <IsHandToHand>false</IsHandToHand>
+      <TouchMonster>false</TouchMonster>
+      <TargetLife>100</TargetLife>
+    </Spell>
+    <Spell>
+      <Id>2</Id>
+      <SpellId>5661</SpellId>
+      <Name>Mot Marquant</Name>
+      <Target>Enemy</Target>
+      <Turns>1</Turns>
+      <Relaunch>1</Relaunch>
+      <LastTurn>5</LastTurn>
+      <IsHandToHand>false</IsHandToHand>
+      <TouchMonster>false</TouchMonster>
+      <TargetLife>100</TargetLife>
+    </Spell>
+  </SpellConfig>
+  <notifyArchi>true</notifyArchi>
+  <customPlanning>false</customPlanning>
+  <planning>
+    <ArrayOfInt />
+    <ArrayOfInt />
+    <ArrayOfInt />
+    <ArrayOfInt />
+    <ArrayOfInt />
+    <ArrayOfInt />
+    <ArrayOfInt />
+  </planning>
+  <statsConfig>
+    <ArrayOfInt>
+      <int>13</int>
+      <int>0</int>
+    </ArrayOfInt>
+  </statsConfig>
+  <spellsConfig>
+    <ArrayOfInt>
+      <int>5661</int>
+      <int>5</int>
+    </ArrayOfInt>
+  </spellsConfig>
+  <modoDisco>20</modoDisco>
+  <modoReco>1800</modoReco>
+  <antiModo>false</antiModo>
+  <Tactic>Distance</Tactic>
+  <FarCells>4</FarCells>
+  <ReadyDelay>1000</ReadyDelay>
+</Configform>

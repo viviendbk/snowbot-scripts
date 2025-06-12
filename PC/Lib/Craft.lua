@@ -1,0 +1,1562 @@
+dofile("C:\\Users\\Administrator\\Downloads\\Script_Bot_Dofus\\PC\\Scripts\\Utilitaires\\setup_hiaky\\modules\\print.lua")
+dofile("C:\\Users\\Administrator\\Downloads\\Script_Bot_Dofus\\PC\\Scripts\\Utilitaires\\setup_hiaky\\auto_stuff\\classes\\GetStatItem.lua")
+json = dofile("C:\\Users\\Administrator\\Downloads\\Script_Bot_Dofus\\PC\\Scripts\\Utilitaires\\setup_hiaky\\auto_stuff\\lib\\json.lua")
+
+PourcentageJetPerf_ItemToSell = 0
+IdToSell = 0
+local UIDToSell = 0
+BestPrice = 0
+local Craft_Cost = 0
+PoidsOver = 0
+Pourcentage = 0
+ActualPrice = 0
+
+RunesTransVita = {{Id = 20567, Value = 50, ConditionPoids = 61}, {Id = 20568, Value = 75, ConditionPoids = 41}--[[, {Id = 20569, Value = 100, ConditionPoids = 21}]]}
+
+
+IdWithCaracName = {
+    {
+        Id = 111,
+        Name = "PA"
+    },
+    {
+        Id = 168,
+        Name = "-PA"
+    },
+    {
+        Id = 128,
+        Name = "PM"
+    },
+    {
+        Id = 169,
+        Name = "-PM"
+    },
+    {
+        Id = 117,
+        Name = "Portee"
+    },
+    {
+        Id = 116,
+        Name = "-Portee"
+    },
+    {
+        Id = 182,
+        Name = "Invocations"
+    },
+    {
+        Id = 112,
+        Name = "Dommages"
+    },
+    {
+        Id = 145,
+        Name = "-Dommages"
+    },
+    {
+        Id = 2804,
+        Name = "% Dommages distance"
+    },
+    {
+        Id = 2805,
+        Name = "-% Dommages distance"
+    },
+    {
+        Id = 2807,
+        Name = "% Resistance distance"
+    },
+    {
+        Id = 2806,
+        Name = "-% Resistance distance"
+    },
+    {
+        Id = 2812,
+        Name = "% Dommages aux sorts"
+    },
+    {
+        Id = 2813,
+        Name = "-% Dommages aux sorts"
+    },
+    {
+        Id = 2808,
+        Name = "% Dommages armes"
+    },
+    {
+        Id = 2809,
+        Name = "-% Dommages armes"
+    },
+    {
+        Id = 2800,
+        Name = "% Dommages melee"
+    },
+    {
+        Id = 2801,
+        Name = "-% Dommages melee"
+    },
+    {
+        Id = 2803,
+        Name = "% Resistance melee"
+    },
+    {
+        Id = 2802,
+        Name = "-% Resistance melee"
+    },
+    {
+        Id = 115,
+        Name = "% Critique"
+    },
+    {
+        Id = 171,
+        Name = "-% Critique"
+    },
+    {
+        Id = 178,
+        Name = "Soins"
+    },
+    {
+        Id = 179,
+        Name = "-Soins"
+    },
+    {
+        Id = 220,
+        Name = "Renvoie dommages"
+    },
+    {
+        Id = 410,
+        Name = "Retrait PA"
+    },
+    {
+        Id = 411,
+        Name = "-Retrait PA"
+    },
+    {
+        Id = 412,
+        Name = "Retrait PM"
+    },
+    {
+        Id = 413,
+        Name = "-Retrait PM"
+    },
+    {
+        Id = 160,
+        Name = "Esquive PA"
+    },
+    {
+        Id = 162,
+        Name = "-Esquive PA"
+    },
+    {
+        Id = 161,
+        Name = "Esquive PM"
+    },
+    {
+        Id = 163,
+        Name = "-Esquive PM"
+    },
+    {
+        Id = 214,
+        Name = "% Resistance Neutre"
+    },
+    {
+        Id = 219,
+        Name = "-% Resistance Neutre"
+    },
+    {
+        Id = 210,
+        Name = "% Resistance Terre"
+    },
+    {
+        Id = 215,
+        Name = "-% Resistance Terre"
+    },
+    {
+        Id = 211,
+        Name = "% Resistance Eau"
+    },
+    {
+        Id = 216,
+        Name = "-% Resistance Eau"
+    },
+    {
+        Id = 212,
+        Name = "% Resistance Air"
+    },
+    {
+        Id = 217,
+        Name = "-% Resistance Air"
+    },
+    {
+        Id = 213,
+        Name = "% Resistance Feu"
+    },
+    {
+        Id = 218,
+        Name = "-% Resistance Feu"
+    },
+    {
+        Id = 424,
+        Name = "Dommages Feu"
+    },
+    {
+        Id = 425,
+        Name = "-Dommages Feu"
+    },
+    {
+        Id = 428,
+        Name = "Dommages Air"
+    },
+    {
+        Id = 429,
+        Name = "-Dommages Air"
+    },
+    {
+        Id = 426,
+        Name = "Dommages Eau"
+    },
+    {
+        Id = 427,
+        Name = "-Dommages Eau"
+    },
+    {
+        Id = 430,
+        Name = "Dommages Neutre"
+    },
+    {
+        Id = 431,
+        Name = "-Dommages Neutre"
+    },
+    {
+        Id = 422,
+        Name = "Dommages Terre"
+    },
+    {
+        Id = 423,
+        Name = "-Dommages Terre"
+    },
+    {
+        Id = 418,
+        Name = "Dommages Critiques"
+    },
+    {
+        Id = 419,
+        Name = "-Dommages Critiques"
+    },
+    {
+        Id = 225,
+        Name = "Dommages Pieges"
+    },
+    {
+        Id = 414,
+        Name = "Dommages Poussee"
+    },
+    {
+        Id = 415,
+        Name = "-Dommages Poussee"
+    },
+    {
+        Id = 752,
+        Name = "Fuite"
+    },
+    {
+        Id = 754,
+        Name = "-Fuite"
+    },
+    {
+        Id = 753,
+        Name = "Tacle"
+    },
+    {
+        Id = 755,
+        Name = "-Tacle"
+    },
+    {
+        Id = 124,
+        Name = "Sagesse"
+    },
+    {
+        Id = 156,
+        Name = "-Sagesse"
+    },
+    {
+        Id = 176,
+        Name = "Prospection"
+    },
+    {
+        Id = 177,
+        Name = "-Prospection"
+    },
+    {
+        Id = 158,
+        Name = "Pods"
+    },
+    {
+        Id = 159,
+        Name = "-Pods"
+    },
+    {
+        Id = 242,
+        Name = "Resistance Air"
+    },
+    {
+        Id = 247,
+        Name = "-Resistance Air"
+    },
+    {
+        Id = 243,
+        Name = "Resistance Feu"
+    },
+    {
+        Id = 248,
+        Name = "-Resistance Feu"
+    },
+    {
+        Id = 244,
+        Name = "Resistance Neutre"
+    },
+    {
+        Id = 249,
+        Name = "-Resistance Neutre"
+    },
+    {
+        Id = 241,
+        Name = "Resistance Eau"
+    },
+    {
+        Id = 246,
+        Name = "-Resistance Eau"
+    },
+    {
+        Id = 240,
+        Name = "Resistance Terre"
+    },
+    {
+        Id = 245,
+        Name = "-Resistance Terre"
+    },
+    {
+        Id = 226,
+        Name = "Puissance pieges"
+    },
+    {
+        Id = 420,
+        Name = "Resistance Critiques"
+    },
+    {
+        Id = 421,
+        Name = "-Resistance Critiques"
+    },
+    {
+        Id = 416,
+        Name = "Resistance Poussee"
+    },
+    {
+        Id = 417,
+        Name = "-Resistance Poussee"
+    },
+    {
+        Id = 138,
+        Name = "Puissance"
+    },
+    {
+        Id = 186,
+        Name = "-Puissance"
+    },
+    {
+        Id = 118,
+        Name = "Force"
+    },
+    {
+        Id = 157,
+        Name = "-Force"
+    },
+    {
+        Id = 119,
+        Name = "Agilité"
+    },
+    {
+        Id = 154,
+        Name = "-Agilité"
+    },
+    {
+        Id = 123,
+        Name = "Chance"
+    },
+    {
+        Id = 152,
+        Name = "-Chance"
+    },
+    {
+        Id = 125,
+        Name = "Vitalite"
+    },
+    {
+        Id = 153,
+        Name = "-Vitalite"
+    },
+    {
+        Id = 126,
+        Name = "Intelligence"
+    },
+    {
+        Id = 155,
+        Name = "-Intelligence"
+    },
+    {
+        Id = 174,
+        Name = "Initiative"
+    },
+    {
+        Id = 175,
+        Name = "-Initiative"
+    },
+    {
+        Id = 100,
+        Name = "Degats Neutre"
+    },
+    {
+        Id = 98,
+        Name = "Degats Air"
+    },
+    {
+        Id = 96,
+        Name = "Degats Eau"
+    },
+    {
+        Id = 99,
+        Name = "Degats Feu"
+    },
+    {
+        Id = 97,
+        Name = "Degats Terre"
+    }
+}
+
+PoidsByStat = {
+    ["Vitalite"] = {PoidsUnite = 0.2, Runes = {{Id = 1523, Poids = 1, Value = 5}, {Id = 1548, Poids = 3, Value = 15}, {Id = 1554, Poids = 10, Value = 50}}},
+    ["Force"] = {PoidsUnite = 1, Runes = {{Id = 1519, Poids = 1, Value = 1}, {Id = 1545, Poids = 3, Value = 3}, {Id = 1551, Poids = 10, Value = 10}}},
+    ["Chance"] = {PoidsUnite = 1, Runes = {{Id = 1525, Poids = 1, Value = 1}, {Id = 1550, Poids = 3, Value = 3}, {Id = 1556, Poids = 10, Value = 10}}},
+    ["Agilité"] = {PoidsUnite = 1, Runes = {{Id = 1524, Poids = 1, Value = 1}, {Id = 1549, Poids = 3, Value = 3}, {Id = 1555, Poids = 10, Value = 10}}},
+    ["Intelligence"] = {PoidsUnite = 1, Runes = {{Id = 1522, Poids = 1, Value = 1}, {Id = 1547, Poids = 3, Value = 3}, {Id = 1553, Poids = 10, Value = 10}}},
+    ["Initiative"] = {PoidsUnite = 0.1, Runes = {{Id = 7448, Poids = 1, Value = 10}, {Id = 7449, Poids = 3, Value = 30}, {Id = 7450, Poids = 10, Value = 100}}},
+    ["Sagesse"] = {PoidsUnite = 3, Runes = {{Id = 1521, Poids = 3, Value = 1}, {Id = 1546, Poids = 9, Value = 3}, {Id = 1552, Poids = 30, Value = 10}}},
+    ["Prospection"] = {PoidsUnite = 3, Runes = {{Id = 7451, Poids = 3, Value = 1}, {Id = 10662, Poids = 9, Value = 3}}},
+    ["Puissance"] = {PoidsUnite = 2, Runes = {{Id = 7436, Poids = 2, Value = 1}, {Id = 10618, Poids = 6, Value = 3}, {Id = 10619, Poids = 20, Value = 10}}},
+
+    ["Resistance Feu"] = {PoidsUnite = 2, Runes = {{Id = 7452, Poids = 2, Value = 1}}},
+    ["Resistance Air"] = {PoidsUnite = 2, Runes = {{Id = 7453, Poids = 2, Value = 1}}},
+    ["Resistance Eau"] = {PoidsUnite = 2, Runes = {{Id = 7454, Poids = 2, Value = 1}}},
+    ["Resistance Terre"] = {PoidsUnite = 2, Runes = {{Id = 7455, Poids = 2, Value = 1}}},
+    ["Resistance Neutre"] = {PoidsUnite = 2, Runes = {{Id = 7456, Poids = 2, Value = 1}}},
+    ["% Resistance Feu"] = {PoidsUnite = 6, Runes = {{Id = 7457, Poids = 6, Value = 1}}},
+    ["% Resistance Air"] = {PoidsUnite = 6, Runes = {{Id = 7458, Poids = 6, Value = 1}}},
+    ["% Resistance Eau"] = {PoidsUnite = 6, Runes = {{Id = 7560, Poids = 6, Value = 1}}},
+    ["% Resistance Terre"] = {PoidsUnite = 6, Runes = {{Id = 7459, Poids = 6, Value = 1}}},
+    ["% Resistance Neutre"] = {PoidsUnite = 6, Runes = {{Id = 7460, Poids = 6, Value = 1}}},
+
+    ["Resistance Poussee"] = {PoidsUnite = 2, Runes = {{Id = 11651, Poids = 2, Value = 1},{Id = 11652, Poids = 6, Value = 3}}},
+    ["Resistance Critiques"] = {PoidsUnite = 2, Runes = {{Id = 11655, Poids = 2, Value = 1}, {Id = 11656, Poids = 6, Value = 3}}},
+
+    ["Esquive PA"] = {PoidsUnite = 7, Runes = {{Id = 11641, Poids = 7, Value = 1}, {Id = 11642, Poids = 21, Value = 3}}},
+    ["Esquive PM"] = {PoidsUnite = 7, Runes = {{Id = 11643, Poids = 7, Value = 1}, {Id = 11644, Poids = 21, Value = 3}}},
+    ["Retrait PM"] = {PoidsUnite = 7, Runes = {{Id = 11647, Poids = 7, Value = 1}, {Id = 11648, Poids = 21, Value = 3}}},
+    ["Retrait PA"] = {PoidsUnite = 7, Runes = {{Id = 11645, Poids = 7, Value = 1}, {Id = 11646, Poids = 21, Value = 3}}},
+    ["Pods"] = {PoidsUnite = 0.25, Runes = {{Id = 7443, Poids = 2,5, Value = 10}, {Id = 7444, Poids = 7,5, Value = 30}, {Id = 7445, Poids = 25, Value = 100}}},
+    ["Tacle"] = {PoidsUnite = 4, Runes = {{Id = 11639, Poids = 4, Value = 1}, {Id = 11640, Poids = 12, Value = 3}}},
+    ["Fuite"] = {PoidsUnite = 4, Runes = {{Id = 11637, Poids = 4, Value = 1}, {Id = 11638, Poids = 12, Value = 3}}},
+
+    ["Dommages"] = {PoidsUnite = 20, Runes = {{Id = 7435, Poids = 20, Value = 1}}},
+    ["Dommages Neutre"] = {PoidsUnite = 5, Runes = {{Id = 11665, Poids = 5, Value = 1}, {Id = 11666, Poids = 15, Value = 3}}},
+    ["Dommages Feu"] = {PoidsUnite = 5, Runes = {{Id = 11659, Poids = 5, Value = 1}, {Id = 11660, Poids = 15, Value = 3}}},
+    ["Dommages Eau"] = {PoidsUnite = 5, Runes = {{Id = 11661, Poids = 5, Value = 1}, {Id = 11662, Poids = 15, Value = 3}}},
+    ["Dommages Air"] = {PoidsUnite = 5, Runes = {{Id = 11663, Poids = 5, Value = 1}, {Id = 11664, Poids = 15, Value = 3}}},
+    ["Dommages Terre"] = {PoidsUnite = 5, Runes = {{Id = 11657, Poids = 5, Value = 1}, {Id = 11658, Poids = 15, Value = 3}}},
+
+    ["Dommages Critiques"] = {PoidsUnite = 5, Runes = {{Id = 11653, Poids = 5, Value = 1}, {Id = 11654, Poids = 15, Value = 3}}},
+    ["Dommages Pieges"] = {PoidsUnite = 5, Runes = {{Id = 7446, Poids = 5, Value = 1}, {Id = 10613, Poids = 15, Value = 3}}},
+    ["Dommages Poussee"] = {PoidsUnite = 5, Runes = {{Id = 11649, Poids = 5, Value = 1}, {Id = 11650, Poids = 15, Value = 3}}},
+
+    ["Puissance pieges"] = {PoidsUnite = 2, Runes = {{Id = 7447, Poids = 2, Value = 1}, {Id = 10615, Poids = 6, Value = 3}, {Id = 10616, Poids = 20, Value = 10}}},
+    ["Soins"] = {PoidsUnite = 10, Runes = {{Id = 7434, Poids = 10, Value = 1}, {Id = 19337, Poids = 30, Value = 3}}},
+    ["% Critique"] = {PoidsUnite = 10, Runes = {{Id = 7433, Poids = 10, Value = 1}}},
+    ["Renvoie dommages"] = {PoidsUnite = 10, Runes = {{Id = 7437, Poids = 10, Value = 1}}},
+
+    ["Invocations"] = {PoidsUnite = 30, Runes = {{Id = 7442, Poids = 30, Value = 1}}},
+    ["Portee"] = {PoidsUnite = 51, Runes = {{Id = 7438, Poids = 51, Value = 1}}},
+    ["PA"] = {PoidsUnite = 100, Runes = {{Id = 1557, Poids = 100, Value = 1}}},
+    ["PM"] = {PoidsUnite = 90, Runes = {{Id = 1558, Poids = 90, Value = 1}}},
+
+    ["% Dommages distance"] = {PoidsUnite = 15, Runes = {{Id = 18720, Poids = 15, Value = 1}}},
+    ["% Dommages aux sorts"] = {PoidsUnite = 15, Runes = {{Id = 18722, Poids = 15, Value = 1}}},
+    ["% Dommages armes"] = {PoidsUnite = 15, Runes = {{Id = 18721, Poids = 15, Value = 1}}},
+    ["% Dommages melee"] = {PoidsUnite = 15, Runes = {{Id = 18719, Poids = 15, Value = 1}}},
+    ["% Resistance distance"] = {PoidsUnite = 15, Runes = {{Id = 18724, Poids = 15, Value = 1}}},
+    ["% Resistance melee"] = {PoidsUnite = 15, Runes = {{Id = 18723, Poids = 15, Value = 1}}},
+}
+
+local CoefMiniByCarac = {
+    ["Vitalite"] = 0.95,
+    ["Chance"] = 0.93,
+    ["Intelligence"] = 0.93,
+    ["Force"] = 0.93,
+    ["Agilité"] = 0.93,
+    ["% Resistance Neutre"] = 1,
+    ["% Resistance Terre"] = 1,
+    ["% Resistance Feu"] = 1,
+    ["% Resistance Eau"] = 1,
+    ["% Resistance Air"] = 1,
+    ["% Critique"] = 1,
+    ["Puissance"] = 0.9,
+}
+
+local exception = {
+    "Resistance Neutre",
+    "Resistance Terre",
+    "Resistance Feu",
+    "Resistance Eau",
+    "Resistance Air",
+    "Resistance Poussee",
+    "Fuite",
+    "Tacle",
+    "Soins",
+    "Prospection",
+    "Puissance pieges",
+    "Dommages Pieges",
+    "Pods"
+}
+
+function ItemSatisfyConditions(item, StatNegliger)
+    CoefMiniByCarac = {
+        ["Vitalite"] = 0.95,
+        ["Chance"] = 0.93,
+        ["Intelligence"] = 0.93,
+        ["Force"] = 0.93,
+        ["Agilité"] = 0.93,
+        ["% Resistance Neutre"] = 1,
+        ["% Resistance Terre"] = 1,
+        ["% Resistance Feu"] = 1,
+        ["% Resistance Eau"] = 1,
+        ["% Resistance Air"] = 1,
+        ["% Critique"] = 1,
+        ["Puissance"] = 0.9,
+    }
+    --[[
+        si l'item est lvl 200 et qu'il a PA ou PM, on rajoute dans CoefMiniByCarac all Dommages = 0.95 et les stats pas dans exeption = 0.85
+        si il y a plus de 1 stat de base à satisfaire, on regarde si pour chaque stat, current >= min + (max - min) / 2, si non on ajoute cette stat à la première place de statprbmatiques
+    ]]
+    local nbStatProblematique = 0
+    local tableStatPbmatique = {}
+    local counterRes = 0
+    local counterElemen = 0
+
+    local qualityWanted = (((inventory:getLevel(item.Id) >= 195) and 0.96) or ((inventory:getLevel(item.Id) > 100) and 0.97) or ((inventory:getLevel(item.Id) > 80) and 0.98) or 0.99)
+    item.RunesCost = 0
+    NbRunesUsed = 0
+    for k, v in pairs(item.InfoFm.RunesUsed) do
+        item.RunesCost = item.RunesCost + GetPriceRune(tonumber(k)) * v
+        NbRunesUsed = NbRunesUsed + v
+    end
+
+    if item.RunesCost > item.TotalCost / 1.5 and item.RunesCost > 200000 then
+        global:printSuccess("POTENTIEL BUG")
+        --global:disconnect()
+        qualityWanted = qualityWanted - 0.02
+        for k, v in pairs(CoefMiniByCarac) do
+            v = v - 0.04
+        end
+    elseif item.RunesCost > item.TotalCost / 2 and item.RunesCost > 200000 then
+        global:printSuccess("POTENTIEL BUG")
+        --global:disconnect()
+        qualityWanted = qualityWanted - 0.01
+        for k, v in pairs(CoefMiniByCarac) do
+            v = v - 0.03
+        end
+
+    elseif item.RunesCost > item.TotalCost / 3 then
+        for k, v in pairs(CoefMiniByCarac) do
+            v = v - 0.02
+        end
+    end
+
+    if StatNegliger then
+        local quality = 0
+        local poidsTotal = 0
+        for k, v in pairs(item.InfoFm.Stats) do
+            if not (PoidsByStat[k].PoidsUnite > 30 and v.Current == 1) and k ~= StatNegliger and v.Max > 0 then
+                poidsTotal = poidsTotal + PoidsByStat[k].PoidsUnite * v.Max
+                quality = quality + PoidsByStat[k].PoidsUnite * v.Current
+            end
+        end
+        quality = quality / poidsTotal
+
+        if quality < qualityWanted then
+            return {Bool = false, StatsNeeded = {}}
+        end
+    end
+
+    for k, v in pairs(item.InfoFm.Stats) do
+        counterElemen = counterElemen + (PoidsByStat[k].PoidsUnite == 1 and 1 or 0)
+    end        
+
+    if counterElemen > 2 then
+        CoefMiniByCarac["Chance"] = CoefMiniByCarac["Chance"] - 0.02
+        CoefMiniByCarac["Intelligence"] = CoefMiniByCarac["Intelligence"] - 0.02
+        CoefMiniByCarac["Force"] = CoefMiniByCarac["Force"] - 0.02
+        CoefMiniByCarac["Agilité"] = CoefMiniByCarac["Agilité"] - 0.02
+    end
+
+    local statLourde = false
+
+    for k, v in pairs(item.InfoFm.Stats) do
+        if v.Current < v.Min and k ~= "Initiative" and k ~= "Pods" then
+            return {Bool = false, StatsNeeded = {}}
+        end
+        local poidsUnite = PoidsByStat[k].PoidsUnite
+        if poidsUnite > 3 then
+            statLourde = true
+        end
+        local toAdd = ((poidsUnite == 5) and 0.01 or (poidsUnite > 5 and poidsUnite < 30) and 0.0125 or poidsUnite == 4 and 0.0075 or 0)
+        if v.Max > 10 then
+            toAdd = toAdd * (v.Max / 10)
+        end
+        toAdd = toAdd + ((poidsUnite == 3 and 0.005) or (poidsUnite == 2 and 0.0025) or 0)
+
+        nbStatProblematique = nbStatProblematique + toAdd
+        counterRes = counterRes + (k:find("% Resistance") and 1 or 0)
+        counterElemen = counterElemen + (PoidsByStat[k].PoidsUnite == 1 and 1 or 0)
+
+        if (CoefMiniByCarac[k] and (v.Current / v.Max) < CoefMiniByCarac[k] and ((k == "Vitalite") and (v.Max - v.Current) > 1 or (k ~= "Vitalite")))
+        or (v.Current < v.Min and v.Max > v.Min + 1)
+        or k:find("Dommages") and (v.Max - v.Current) > (math.floor(v.Max / 10) > 0 and math.floor(v.Max / 10) or 1)
+        --[[or (inventory:getLevel(item.Id) == 200 and ItemHasBigStat(item.Id) and toAdd < 0.065 and v.Max > 0 and (not IsInTable(exception, k) and (v.Current / v.Max) > (k:find("Dommages ") and 0.92 or 0.85)))]]
+        then
+        tableStatPbmatique[#tableStatPbmatique + 1] = k
+        end
+    end
+
+    if #tableStatPbmatique > 1 then
+        for k, v in pairs(item.InfoFm.Stats) do
+            if v.Current < v.Min + (v.Max - v.Min) / 2 then
+                tableStatPbmatique[#tableStatPbmatique + 1] = k
+            end
+        end
+    end
+
+    if not statLourde and inventory:getLevel(item.Id) > 100 then
+        nbStatProblematique = nbStatProblematique + 0.04
+    end
+
+    if counterRes > 2 then
+        for i = #tableStatPbmatique, 1, -1 do
+            if tableStatPbmatique[i]:find("% Resistance") then
+              table.remove(tableStatPbmatique, i)
+            end
+        end
+    end
+
+    local finalQualityWanted = ((inventory:getLevel(item.Id) > 80) and (qualityWanted - nbStatProblematique) or (inventory:getLevel(item.Id) > 60) and 0.98 or 0.99)
+    if item.QualityWanted and item.QualityWanted > finalQualityWanted then
+        finalQualityWanted = finalQualityWanted - 0.015
+    elseif item.QualityWanted and item.QualityWanted <= finalQualityWanted then
+        finalQualityWanted = math.min(item.QualityWanted, finalQualityWanted - 0.015)
+    elseif item.LastCoef then
+        finalQualityWanted = math.min(item.LastCoef, finalQualityWanted)
+    end
+
+    if NbRunesUsed > 350 then
+        global:printMessage("On a utilisé plus de 350 runes, on cherche mtn à avoir " .. math.min(finalQualityWanted, MaxCoef - 0.05) .. " de coef")
+        finalQualityWanted = math.min(finalQualityWanted, MaxCoef - 0.05)
+    elseif NbRunesUsed > 300 then
+        global:printMessage("On a utilisé plus de 300 runes, on cherche mtn à avoir " .. math.min(finalQualityWanted, MaxCoef - 0.03) .. " de coef")
+        finalQualityWanted = math.min(finalQualityWanted, MaxCoef - 0.03)
+    elseif NbRunesUsed > 250 then
+        global:printMessage("On a utilisé plus de 250 runes, on cherche mtn à avoir " .. math.min(finalQualityWanted, MaxCoef - 0.03) .. " de coef")
+        finalQualityWanted = math.min(finalQualityWanted, MaxCoef - 0.025)
+    elseif NbRunesUsed > 200 then
+        global:printMessage("On a utilisé plus de 200 runes, on cherche mtn à avoir " .. math.min(finalQualityWanted, MaxCoef - 0.02) .. " de coef")
+        finalQualityWanted = math.min(finalQualityWanted, MaxCoef - 0.02)
+    end
+
+    if item.InfoFm.Quality < finalQualityWanted then
+        return {Bool = false, StatsNeeded = {}}
+    end
+
+    if #tableStatPbmatique > 0 then
+        return {Bool = false, StatsNeeded = tableStatPbmatique}
+    end
+
+    return {Bool = true, StatsNeeded = {}}
+end
+
+function ItemHasBigStat(Id)
+    local statsJP = GetDices(Id)
+    for _, stat in ipairs(statsJP) do
+        if PoidsByStat[stat.name].Runes[1].Poids > 80 then
+            return true
+        end
+    end
+    return false
+end
+
+function ItemSatisfyConditionsById(Id)
+    local qualityWanted = (((inventory:getLevel(Id) >= 195) and 0.94) or ((inventory:getLevel(Id) > 100) and 0.95) or ((inventory:getLevel(Id) > 80) and 0.96) or 0.97)
+
+    local nbStatProblematique = 0
+    local tableStatPbmatique = {}
+    local counterRes = 0
+    local quality = 0
+
+    local InfoStats = {}
+    local content = inventory:inventoryContent()
+
+    for _, item2 in ipairs(content) do
+        if item2.objectGID == Id then
+            quality = GetQualityItem(item2.effects, Id)
+            local statsJP = GetDices(Id)
+            for _, statJp in ipairs(statsJP) do
+                for _, stat in ipairs(item2.effects) do
+                    if statJp.id == stat.actionId then
+                        InfoStats[GetNameCarac(stat.actionId)] = {Min = statJp.dice.min, Current = stat.value, Max = statJp.dice.max}
+                    end
+                end
+                if not InfoStats[GetNameCarac(statJp.id)] then
+                    InfoStats[GetNameCarac(statJp.id)] = {Min = statJp.dice.min, Current = 0, Max = statJp.dice.max}
+                end
+            end
+            break
+        end
+    end
+
+    for k, v in pairs(InfoStats) do
+        local poidsUnite = PoidsByStat[k].PoidsUnite
+        local toAdd = ((poidsUnite == 5) and 0.01 or (poidsUnite > 5 and poidsUnite < 30) and 0.0125 or poidsUnite == 4 and 0.0075 or 0)
+        if v.Max > 10 then
+            toAdd = toAdd * (v.Max / 10)
+        end
+        local toAdd = toAdd + ((poidsUnite == 3 and 0.005) or (poidsUnite == 2 and 0.0025) or 0)
+
+        nbStatProblematique = nbStatProblematique + toAdd
+        counterRes = counterRes + (k:find("% Resistance") and 1 or 0)
+
+        if (CoefMiniByCarac[k] and (v.Current / v.Max) < CoefMiniByCarac[k] and ((k == "Vitalite") and (v.Max - v.Current) > 1 or (k ~= "Vitalite"))) or v.Current < v.Min
+        or k:find("Dommages") and (v.Max - v.Current) > (math.floor(v.Max / 10) > 0 and math.floor(v.Max / 10) or 1) then
+            tableStatPbmatique[#tableStatPbmatique + 1] = k
+        end
+    end
+
+    if counterRes > 2 then
+        for i = #tableStatPbmatique, 1, -1 do
+            if tableStatPbmatique[i]:find("% Resistance") then
+              table.remove(tableStatPbmatique, i)
+            end
+        end
+    end
+
+    if quality < ((inventory:getLevel(Id) > 100) and (qualityWanted - nbStatProblematique) or (inventory:getLevel(Id) > 80) and 0.96 or 0.97) then
+        return {Bool = false, StatsNeeded = {}}
+    end
+
+    if #tableStatPbmatique > 0 then
+        return {Bool = false, StatsNeeded = tableStatPbmatique}
+    end
+
+    return {Bool = true, StatsNeeded = {}}
+end
+
+function GetJobIdByType(Type)
+    if Type == "Chapeau" or Type == "Cape" or Type == "Sac à dos" then
+        return 27
+    elseif Type == "Ceinture" or Type == "Bottes" then
+        return 15
+    elseif Type == "Anneau" or Type == "Amulette" then
+        return 16
+    elseif Type == "Épée" or Type == "Hache" or Type == "Marteau" or Type == "Dague" or Type == "Pelle" then
+        return 11
+    elseif Type == "Bâton" or Type == "Baguette" or Type == "Arc" then
+        return 13
+    elseif Type == "Idole" or Type == "Bouclier" or Type == "Trophet" or Type == "Prysmaradite" then
+        return 60
+    end
+    return 0
+end
+
+function GetJobMageIdByType(Type)
+    if Type == "Chapeau" or Type == "Cape" or Type == "Sac à dos" then
+        return 64
+    elseif Type == "Ceinture" or Type == "Bottes" then
+        return 62
+    elseif Type == "Anneau" or Type == "Amulette" then
+        return 63
+    elseif Type == "Épée" or Type == "Hache" or Type == "Marteau" or Type == "Dague" or Type == "Pelle" then
+        return 44
+    elseif Type == "Bâton" or Type == "Baguette" or Type == "Arc" then
+        return 48
+    end
+    return 0
+end
+
+function ItemHasTwoOrMoreCarac(Id)
+    -- on regarde aussi si l'item a plus de 3 % res 
+    local statsJP = GetDices(Id)
+    local counter = 0
+    for _, statJp in ipairs(statsJP) do
+        if statJp.name:find("% Resistance") then
+            counter = counter + 1
+        end
+        if statJp.name == "Renvoie dommages" then
+            return false
+        end
+    end
+    if counter > 3 then
+        return false
+    end
+    if #statsJP > 1 then
+        return true
+    end
+    return false
+end
+
+function ItemHasAtLeastOneLittleStat(Id)
+    local statsJP = GetDices(Id)
+    for _, statJp in ipairs(statsJP) do
+        if PoidsByStat[statJp.name].PoidsUnite < 5 then
+            return true
+        end
+    end
+    return false
+end
+
+TableOutilAtelier = {
+    ["Cape"] = {ElementId = 523886, FMElementId = 521411, FMRep = -1},
+    ["Sac à dos"] = {ElementId = 523886, FMElementId = 521411, FMRep = -1},
+    ["Chapeau"] = {ElementId = 523886, FMElementId = 521411, FMRep = -1},
+    ["Amulette"] = {ElementId = 521672, FMElementId = 523832, FMRep = -1},
+    ["Anneau"] = {ElementId = 521672, FMElementId = 523832, FMRep = -1},
+    ["Bottes"] = {ElementId = 521402, FMElementId = 521412, FMRep = -1},
+    ["Ceinture"] = {ElementId = 521402, FMElementId = 521412, FMRep = -1},
+    ["Dague"] = {ElementId = 524084, FMElementId = 521410, FMRep = -2},
+    ["Marteau"] = {ElementId = 524084, FMElementId = 521410, FMRep = -2},
+    ["Épée"] = {ElementId = 524084, FMElementId = 521410, FMRep = -2},
+    ["Pelle"] = {ElementId = 524084, FMElementId = 521410, FMRep = -2},
+    ["Hache"] = {ElementId = 524084, FMElementId = 521410, FMRep = -2},
+    ["Bâton"] = {ElementId = 521432, FMElementId = 521410, FMRep = -1},
+    ["Baguette"] = {ElementId = 521432, FMElementId = 521410, FMRep = -1},
+    ["Arc"] = {ElementId = 521432, FMElementId = 521410, FMRep = -1},
+    ["Idole"] = {ElementId = 490231},
+    ["Bouclier"] = {ElementId = 489581},
+    ["Trophet"] = {ElementId = 463613},
+    ["Prysmaradite"] = {ElementId = 517999},
+}
+
+function CanMerge(id)
+    for _, stat in pairs(PoidsByStat) do
+        local runes = stat.Runes
+        if #runes > 1 then
+            if runes[1].Id == id then
+                return true
+            elseif #runes > 2 and runes[2].Id == id then
+                return true
+            end
+        end
+    end
+    return false
+end
+
+function GetNumberOfMergeAvailable(id)
+    for _, stat in pairs(PoidsByStat) do
+        local runes = stat.Runes
+        for i, runeData in ipairs(runes) do
+            if runeData.Id == id then
+                return #runes - i
+            end
+        end
+    end
+end
+
+function GetUID(Id)
+    global:printSuccess("On veut poser la rune [" .. inventory:itemNameId(Id) .. "]")
+    local content = inventory:inventoryContent()
+    for _, item in ipairs(content) do
+        if item.objectGID == Id then
+            return item.objectUID
+        end
+    end
+    global:printError("L'uid n'est pas disponible")
+    return -1
+end
+
+function GetMergedRuneId(id)
+    for _, stat in pairs(PoidsByStat) do
+        local runes = stat.Runes
+        if #runes > 1 then
+            if runes[1].Id == id then
+                return runes[2].Id
+            elseif #runes > 2 and runes[2].Id == id then
+                return runes[3].Id
+            end
+        end
+    end
+    return 0
+end
+
+function GetUnMergedRuneId(id)
+    for _, stat in pairs(PoidsByStat) do
+        local runes = stat.Runes
+        if #runes > 1 then
+            if runes[2].Id == id then
+                return runes[1].Id
+            elseif #runes > 2 and runes[3].Id == id then
+                return runes[2].Id
+            end
+        end
+    end
+    return 0
+end
+
+function GetUnMergedRune(id)
+    for _, stat in pairs(PoidsByStat) do
+        local runes = stat.Runes
+        if #runes > 1 then
+            if runes[2].Id == id then
+                return runes[1]
+            elseif #runes > 2 and runes[3].Id == id then
+                return runes[2]
+            end
+        end
+    end
+    return nil
+end
+
+function GetPoidsRune(id)
+    for _, stat in pairs(PoidsByStat) do
+        local runes = stat.Runes
+        for i, runeData in ipairs(runes) do
+            if runeData.Id == id then
+                return runeData.Poids
+            end
+        end
+    end
+end
+
+function GetPriceRune(id)
+    for _, rune in ipairs(RunesTransVita) do
+        if rune.Id == id then
+            return rune.Prices.AveragePrice and rune.Prices.AveragePrice or 0
+        end
+    end
+    for _, stat in pairs(PoidsByStat) do
+        local runes = stat.Runes
+        for i, runeData in ipairs(runes) do
+            if runeData.Id == id then
+                return runeData.Prices.AveragePrice and runeData.Prices.AveragePrice or 0
+            end
+        end
+    end
+    return 0
+end
+
+function GetValueRune(id)
+    for _, stat in pairs(PoidsByStat) do
+        local runes = stat.Runes
+        for i, runeData in ipairs(runes) do
+            if runeData.Id == id then
+                return runeData.Value
+            end
+        end
+    end
+end
+
+function GetPriceByNumberRune(id)
+    for _, stat in pairs(PoidsByStat) do
+        local runes = stat.Runes
+        for i, runeData in ipairs(runes) do
+            if runeData.Id == id then
+                return runeData.Prices.AveragePrice / i
+            end
+        end
+    end
+end
+
+PrixHdvAllRessources = {}
+
+function GetStatByRune(runeId)
+    for key, value in pairs(PoidsByStat) do
+        for _, rune in ipairs(value.Runes) do
+            if rune.Id == runeId then
+                return key
+            end
+        end
+    end
+    global:printError("pas trouvé la clé de " .. inventory:itemNameId(runeId) .. " (" .. runeId .. ")")
+end
+
+function GetQualityItem(ItemStats, Id)
+    Id = Id or IdToSell
+    local PoidsItem = 0
+    local PoidsMaxItem = 0
+    local statsJP = GetDices(Id) -- y'a pas les %dommages et %resistance
+
+    -- vérifier une première fois dans ce sens pour que les stats à 0 soient prises en compte
+    for _, statJP in ipairs(statsJP) do
+        local found = false
+        for _, stat in ipairs(ItemStats) do
+            if (developer:typeOf(stat) == "ObjectEffectInteger" or stat.actionId) and stat.actionId == statJP.id and IsActionIdKnown(stat.actionId) and not GetNameCarac(stat.actionId):find("-") then
+                found = true
+                if stat.value > statJP.dice.max and (PoidsByStat[statJP.name].PoidsUnite < 30) and statJP.name == "Vitalite" then
+                    PoidsItem = PoidsItem + (statJP.dice.max + (stat.value - statJP.dice.max) * 3) * PoidsByStat[statJP.name].PoidsUnite
+                    PoidsMaxItem = PoidsMaxItem + statJP.dice.max * PoidsByStat[statJP.name].PoidsUnite
+                elseif statJP.name == "Vitalite" then
+                    PoidsItem = PoidsItem + stat.value * PoidsByStat[statJP.name].PoidsUnite * 2
+                    PoidsMaxItem = PoidsMaxItem + statJP.dice.max * PoidsByStat[statJP.name].PoidsUnite * 2
+                elseif (PoidsByStat[statJP.name].PoidsUnite < 30) then
+                    PoidsItem = PoidsItem + stat.value * PoidsByStat[statJP.name].PoidsUnite
+                    PoidsMaxItem = PoidsMaxItem + statJP.dice.max * PoidsByStat[statJP.name].PoidsUnite
+                end
+                break
+            end
+        end
+        if not found then
+            PoidsMaxItem = PoidsMaxItem + statJP.dice.max * PoidsByStat[statJP.name].PoidsUnite
+        end
+    end
+
+    -- vérifier ensuite la présence d'exo
+    for _, stat in ipairs(ItemStats) do
+        if developer:typeOf(stat) == "ObjectEffectInteger" and IsActionIdKnown(stat.actionId) and not GetNameCarac(stat.actionId):find("-") then
+            local found = false
+            for _, statJP in ipairs(statsJP) do
+                if statJP.id == stat.actionId then
+                    found = true
+                end
+            end
+            if not found then
+                PoidsItem = PoidsItem + PoidsByStat[GetNameCarac(stat.actionId)].PoidsUnite * stat.value * 2
+            end
+        end
+    end
+    return PoidsMaxItem > 0 and PoidsItem / PoidsMaxItem or 1
+end
+
+function GetQualityItemWithoutException(ItemStats, Id)
+    local exception = {
+        "Resistance Neutre",
+        "Resistance Terre",
+        "Resistance Feu",
+        "Resistance Eau",
+        "Resistance Air",
+        "Resistance Poussee",
+        "Soins",
+        "Prospection",
+        "Puissance pieges",
+        "Dommages Pieges",
+        "Pods"
+    }
+
+    Id = Id or IdToSell
+    local PoidsItem = 0
+    local PoidsMaxItem = 0
+    local statsJP = GetDices(Id) -- y'a pas les %dommages et %resistance
+
+    -- vérifier une première fois dans ce sens pour que les stats à 0 soient prises en compte
+    for _, statJP in ipairs(statsJP) do
+        local found = false
+        for _, stat in ipairs(ItemStats) do
+            if (developer:typeOf(stat) == "ObjectEffectInteger" or stat.actionId) and stat.actionId == statJP.id and IsActionIdKnown(stat.actionId) and not GetNameCarac(stat.actionId):find("-") 
+            and not IsInTable(exception, GetNameCarac(stat.actionId)) then
+                found = true
+                if stat.value > statJP.dice.max and (PoidsByStat[statJP.name].PoidsUnite < 30) and statJP.name == "Vitalite" then
+                    PoidsItem = PoidsItem + (statJP.dice.max + (stat.value - statJP.dice.max) * 3) * PoidsByStat[statJP.name].PoidsUnite
+                    PoidsMaxItem = PoidsMaxItem + statJP.dice.max * PoidsByStat[statJP.name].PoidsUnite
+                elseif statJP.name == "Vitalite" then
+                    PoidsItem = PoidsItem + stat.value * PoidsByStat[statJP.name].PoidsUnite * 2
+                    PoidsMaxItem = PoidsMaxItem + statJP.dice.max * PoidsByStat[statJP.name].PoidsUnite * 2
+                elseif (PoidsByStat[statJP.name].PoidsUnite < 30) then
+                    PoidsItem = PoidsItem + stat.value * PoidsByStat[statJP.name].PoidsUnite
+                    PoidsMaxItem = PoidsMaxItem + statJP.dice.max * PoidsByStat[statJP.name].PoidsUnite
+                end
+                break
+            end
+        end
+        if not found and not IsInTable(exception, statJP.name) then
+            PoidsMaxItem = PoidsMaxItem + statJP.dice.max * PoidsByStat[statJP.name].PoidsUnite
+        end
+    end
+
+    -- vérifier ensuite la présence d'exo
+    for _, stat in ipairs(ItemStats) do
+        if developer:typeOf(stat) == "ObjectEffectInteger" and IsActionIdKnown(stat.actionId) and not GetNameCarac(stat.actionId):find("-") then
+            local found = false
+            for _, statJP in ipairs(statsJP) do
+                if statJP.id == stat.actionId then
+                    found = true
+                end
+            end
+            if not found then
+                PoidsItem = PoidsItem + PoidsByStat[GetNameCarac(stat.actionId)].PoidsUnite * stat.value * 2
+            end
+        end
+    end
+
+    return PoidsMaxItem > 0 and PoidsItem / PoidsMaxItem or 1
+end
+
+function GetPoidsOver(ItemStats, Id)
+    Id = Id or IdToSell
+    local statsJp = GetDices(Id)
+    local poidsOver = 0
+
+    for i, stat in ipairs(ItemStats) do
+        local found = false
+        for j, statJP in ipairs(statsJp) do
+            if (developer:typeOf(stat) == "ObjectEffectInteger" or stat.actionId) and stat.actionId == statJP.id
+            and IsActionIdKnown(stat.actionId) and not GetNameCarac(stat.actionId):find("-") and stat.value > statJP.dice.max then
+                found = true
+                poidsOver = poidsOver + (stat.value - statJP.dice.max) * PoidsByStat[GetNameCarac(stat.actionId)].PoidsUnite
+                break
+            end
+        end
+        -- pour les exo, on verra plus tard
+        -- if not found and developer:typeOf(stat) == "ObjectEffectInteger" and IsActionIdKnown(stat.actionId) and not GetNameCarac(stat.actionId):find("-") then
+        --     poidsOver = poidsOver + stat.value * PoidsByStat[GetNameCarac(stat.actionId)].PoidsUnite
+        -- end
+    end   
+
+    return poidsOver
+end
+
+function GetPoidsItem(Stats)
+    Id = IdToSell
+    local toReturn = 0
+    local statsJP = GetDices(Id) -- y'a pas les %dommages et %resistance
+
+    for i, stat in ipairs(Stats) do
+        local trouvee = false
+        for j, statJP in ipairs(statsJP) do
+            if developer:typeOf(stat) == "ObjectEffectInteger" and stat.actionId == statJP.id and IsActionIdKnown(stat.actionId) and not GetNameCarac(stat.actionId):find("-") then
+                local over = stat.value - statJP.dice.max
+                trouvee = true
+                if over > 0 then
+                    toReturn = toReturn + ((stat.value - over) + over * 2) * PoidsByStat[statJP.name].PoidsUnite
+                else
+                    toReturn = toReturn + stat.value * PoidsByStat[statJP.name].PoidsUnite
+                end
+                break
+            end
+        end
+        if not trouvee and developer:typeOf(stat) == "ObjectEffectInteger" and IsActionIdKnown(stat.actionId) and not GetNameCarac(stat.actionId):find("-") then
+            toReturn = toReturn + stat.value * PoidsByStat[GetNameCarac(stat.actionId)].PoidsUnite
+        end
+    end
+    return toReturn 
+end
+
+function GetPercentageMinimum(Id, CraftCost)
+    local statsJP = GetDices(Id) -- y'a pas les %dommages et %resistance
+    local focus = GetBestFocusOnJp(Id)
+    if not statsJP or not focus then
+        return 99999
+    end
+    local coefLevel = inventory:getLevel(Id) / 72.5
+    local PuiTotal = 0
+    local estimation = 0
+    if focus ~= "No focus" then
+        for _, stat in ipairs(statsJP) do
+            if stat.name == focus then
+                PuiTotal = PuiTotal + stat.dice.max * PoidsByStat[stat.name].PoidsUnite
+            else
+                PuiTotal = PuiTotal + stat.dice.max * (PoidsByStat[stat.name].PoidsUnite / 2)
+            end
+        end
+        estimation = PuiTotal * PoidsByStat[focus].PrixParPoids * coefLevel
+    else
+        for _, stat in ipairs(statsJP) do
+            local Pui = stat.dice.max * PoidsByStat[stat.name].PoidsUnite
+            estimation = estimation + Pui * PoidsByStat[stat.name].PrixParPoids * coefLevel
+        end
+    end
+
+    return estimation > 0 and 100 * (CraftCost / estimation) * 1.2 or 99999 -- on rajoute 20 % pour ne pas prendre de risque (on est sur du jp)
+end
+
+function GetBestFocusOnJp(Id)
+    local statsJP = GetDices(Id) -- y'a pas les %dommages et %resistance
+    local bestEstimation = 0
+    local bestFocus = ""
+
+    for i, statRef in ipairs(statsJP) do
+        -- global:printSuccess(statRef.name)
+        local PuiTotal = 0
+        for _, stat in ipairs(statsJP) do
+            if stat.name == statRef.name then
+                PuiTotal = PuiTotal + stat.dice.max * PoidsByStat[stat.name].PoidsUnite
+            else
+                PuiTotal = PuiTotal + stat.dice.max * (PoidsByStat[stat.name].PoidsUnite / 2)
+            end
+        end
+        if PuiTotal * PoidsByStat[statRef.name].PrixParPoids > bestEstimation then
+            bestEstimation = PuiTotal * PoidsByStat[statRef.name].PrixParPoids
+            -- global:printSuccess("Estimation focus [" .. statRef.name .. "] : " .. bestEstimation .. " k")
+            bestFocus = statRef.name
+        end
+    end
+
+    local estimationNoFocus = 0
+    for _, stat in ipairs(statsJP) do
+        local Pui = stat.dice.max * PoidsByStat[stat.name].PoidsUnite
+        estimationNoFocus = estimationNoFocus + Pui * PoidsByStat[stat.name].PrixParPoids
+    end
+
+    if estimationNoFocus * 1.05 >= bestEstimation then -- des fois il y a le no focus est mal estimé
+        bestFocus = "No focus"
+    end
+
+    return bestFocus
+end
+
+function GetBestFocus(ItemStats, Id)
+    local statsJP = GetDices(Id) -- y'a pas les %dommages et %resistance
+    local PuiTotal = 0
+    local bestEstimation = 0
+    local bestFocus = ""
+
+    for i, statRef in ipairs(ItemStats) do
+        local statName = ""
+        for _, stat in ipairs(ItemStats) do
+            for _, statJp in ipairs(statsJP) do
+                if statJp.id == stat.actionId then
+                    statName = statJp.name
+                end
+            end
+            global:printSuccess(statName)
+            if stat.actionId == statRef.actionId then
+                PuiTotal = PuiTotal + stat.value * PoidsByStat[statName].PoidsUnite
+            else
+                PuiTotal = PuiTotal + stat.value * (PoidsByStat[statName].PoidsUnite / 2)
+            end
+        end
+        if PuiTotal * PoidsByStat[statName].PrixParPoids > bestEstimation then
+            bestEstimation = PuiTotal * PoidsByStat[statName].PrixParPoids
+            bestFocus = statName
+        end
+        global:printSuccess(statName .. " : " .. PuiTotal * PoidsByStat[statName].PrixParPoids .. " k")
+    end
+
+    global:printSuccess("le meilleur focus est .. "  .. bestFocus)
+    return bestFocus
+end
+
+function GetPoidsInfos(Id, StatRecherchee)
+    local statsJP = GetDices(Id)
+    local poidsTotal = 0
+    local poidsStatRecherchee = 0
+
+
+    for _, statJP in ipairs(statsJP) do
+        if statJP.name == StatRecherchee then
+            poidsStatRecherchee = statJP.dice.max * PoidsByStat[statJP.name].PoidsUnite
+        end
+        poidsTotal = poidsTotal + statJP.dice.max * PoidsByStat[statJP.name].PoidsUnite
+    end
+
+    return {
+        Pourcentage = poidsStatRecherchee / poidsTotal,
+        PoidsTotal = poidsTotal
+    }
+end
+
+function MergeRunes()
+    map:useById(521675, -2)
+    local content = inventory:inventoryContent()
+
+    for _, element in ipairs(content) do
+        if inventory:itemTypeId(element.objectGID) == 78 and GetNumberOfMergeAvailable(element.objectGID) == 2 and inventory:itemCount(element.objectGID) > 29 then
+            global:printMessage("Analyse des possibles fusions de [" .. inventory:itemNameId(element.objectGID) .. "]")
+            local tabPriceByPui = {
+                GetPriceByNumberRune(element.objectGID),
+                GetPriceByNumberRune(GetMergedRuneId(element.objectGID)),
+                GetPriceByNumberRune(GetMergedRuneId(GetMergedRuneId(element.objectGID)))
+            }
+
+            local MaxPrice = 0
+            local IndexMaxPrice = 0
+            for i, price in ipairs(tabPriceByPui) do
+                if price > MaxPrice then
+                    MaxPrice = price
+                    IndexMaxPrice = i
+                end
+            end
+            
+            global:printSuccess("Il y a " .. (RunesInBank[tostring(element.objectGID)] and RunesInBank[tostring(element.objectGID)] or 0) .. " " .. inventory:itemNameId(element.objectGID) .. " en banque, on en a " .. inventory:itemCount(element.objectGID) .. " en inventaire")
+            local NbToMerge = inventory:itemCount(element.objectGID)
+            local NbToKeep =  500 - (RunesInBank[tostring(element.objectGID)] and RunesInBank[tostring(element.objectGID)] or 0)
+            if NbToKeep > 0 and global:thisAccountController():getAlias():find("FM") then
+                NbToMerge = NbToMerge - NbToKeep
+            end
+
+            if IndexMaxPrice == 2 and NbToMerge > 0 then
+                global:printSuccess("On fusionne 1 fois")
+                local quantity = math.floor(NbToMerge / 3)
+                craft:putItem(element.objectGID, 3)
+                global:delay(math.random(500, 1500))
+                craft:changeQuantityToCraft(quantity)
+                global:delay(math.random(500, 1500))
+                craft:ready()
+            elseif IndexMaxPrice == 3 and NbToMerge > 0 then
+                global:printSuccess("On fusionne 2 fois")
+                local quantity = math.floor(NbToMerge / 3)
+                craft:putItem(element.objectGID, 3)
+                global:delay(math.random(500, 1500))
+                craft:changeQuantityToCraft(quantity)
+                global:delay(math.random(500, 1500))
+                craft:ready()
+                global:delay(math.random(500, 1500))
+
+                local nbNextRunes = inventory:itemCount(GetMergedRuneId(element.objectGID))
+                global:printSuccess("Il y a " .. (RunesInBank[tostring(element.objectGID)] and RunesInBank[tostring(element.objectGID)] or 0) .. " " .. inventory:itemNameId(element.objectGID) .. " en banque, on en a " .. inventory:itemCount(element.objectGID) .. " en inventaire")
+                NbToMerge = nbNextRunes
+                NbToKeep =  500 - (RunesInBank[tostring(GetMergedRuneId(element.objectGID))] and RunesInBank[tostring(GetMergedRuneId(element.objectGID))] or 0)
+                if NbToKeep > 0 then
+                    NbToMerge = NbToMerge - NbToKeep
+                end
+                if NbToMerge > 2 then
+                    craft:putItem(GetMergedRuneId(element.objectGID), 3)
+                    craft:changeQuantityToCraft(NbToMerge / 3)
+                    craft:ready()
+                end
+            end
+
+        elseif inventory:itemTypeId(element.objectGID) == 78 and GetNumberOfMergeAvailable(element.objectGID) == 1 and inventory:itemCount(element.objectGID) > 29 then
+            global:printMessage("Analyse des possibles fusions de [" .. inventory:itemNameId(element.objectGID) .. "]")
+            local tabPriceByPui = {
+                GetPriceByNumberRune(element.objectGID),
+                GetPriceByNumberRune(GetMergedRuneId(element.objectGID)),
+            }
+            local MaxPrice = 0
+            local IndexMaxPrice
+            for i, price in ipairs(tabPriceByPui) do
+                if price > MaxPrice then
+                    MaxPrice = price
+                    IndexMaxPrice = i
+                end
+            end
+            
+            global:printSuccess("Il y a " .. (RunesInBank[tostring(element.objectGID)] and RunesInBank[tostring(element.objectGID)] or 0) .. " " .. inventory:itemNameId(element.objectGID) .. " en banque, on en a " .. inventory:itemCount(element.objectGID) .. " en inventaire")
+            local NbToMerge = inventory:itemCount(element.objectGID)
+            local NbToKeep =  500 - (RunesInBank[tostring(element.objectGID)] and RunesInBank[tostring(element.objectGID)] or 0)
+            if NbToKeep > 0 and global:thisAccountController():getAlias():find("FM") then
+                NbToMerge = NbToMerge - NbToKeep
+            end
+
+
+            if IndexMaxPrice == 2 and NbToMerge > 0 then
+                global:printSuccess("On fusionne 1 fois")
+                local quantity = math.floor(NbToMerge / 3)
+                craft:putItem(element.objectGID, 3)
+                global:delay(math.random(500, 1500))
+                craft:changeQuantityToCraft(quantity)
+                global:delay(math.random(500, 1500))
+                craft:ready()
+            end
+
+        end
+    end
+    global:leaveDialog()
+end
+
+function GetNameCarac(Id)
+    for _, element in ipairs(IdWithCaracName) do
+        if element.Id == Id then
+            return element.Name
+        end
+    end
+end
+
+function GetIdCarac(name)
+    for _, element in ipairs(IdWithCaracName) do
+        if element.Name == name then
+            return element.Id
+        end
+    end
+end
+
+function IsActionIdKnown(actionId)
+    for _, element in ipairs(IdWithCaracName) do
+        if element.Id == actionId then
+            return true
+        end
+    end
+    return false
+end
+
+function IsItem(TypeId)
+    if not TypeId then
+        return false
+    end
+    local Ids = { 16, 17, 11, 10, 1, 9, 82, 151, 7, 19, 8, 6, 5, 2, 3, 4, 217, 248, 151, 178}
+    for _, Id in ipairs(Ids) do
+        if Id == TypeId then
+            return true
+        end
+    end
+    return false
+end
+
+function getIngredients(id)
+
+    local recipe = d2data:objectFromD2O("Recipes", id)
+    
+    local ingredientsTable = {}
+    
+    if recipe == nil then
+    
+        --global:printError("Objet introuvable !")
+    else
+        local ingredients = recipe.Fields["ingredientIds"]
+        local quantities = recipe.Fields["quantities"]
+        for i, ingredientId in ipairs(ingredients) do
+            local ingredient = d2data:objectFromD2O("Items", ingredientId)
+            local ingredientName = d2data:text(ingredient.Fields["nameId"])
+            local ingredientQuantity = quantities[i]
+            ingredientsTable[i] = { Id = ingredientId, Quantity = ingredientQuantity, Name = ingredientName }
+        end
+    end
+    
+    -- for i, ingredient in ipairs(ingredientsTable) do
+    --     global:printSuccess("[Ingrédient "..i.." : "..ingredient.Name.."] | [Id : "..ingredient.Id.." ] | [Quantité : "..ingredient.Quantity.."]")
+    -- end
+    
+    return ingredientsTable
+    
+end
+
+function _GetResultBreak(message)
+    developer:unRegisterMessage("DecraftResultMessage")
+    message = message.results
+    Pourcentage = math.floor(message[1].bonusMax * 100)
+    EstimationGain = 0 
+
+    for i = 1, #message[1].runesId do
+        for k, v in pairs(PoidsByStat) do
+            for _, element in ipairs(v.Runes) do
+                if element.Id == message[1].runesId[i] then
+                    global:printSuccess("[" .. inventory:itemNameId(message[1].runesId[i]) .. "] : " .. math.min(element.Prices.AveragePrice, element.Prices.TrueAveragePrice) * message[1].runesQty[i] .. " k")
+                    EstimationGain = EstimationGain + (math.min(element.Prices.AveragePrice, element.Prices.TrueAveragePrice) * message[1].runesQty[i])
+                end
+            end
+        end
+    end
+
+    global:printMessage("Nous avons obtenu " .. Pourcentage .. "% et " .. #message[1].runesId ..  " runes différentes estimées à " .. EstimationGain)
+end
+
+function CanCraftNow(Id, jsonFile)
+    for _, element in ipairs(jsonFile) do
+        if element.server == character:server() then
+            for _, id in ipairs(element.Temp) do
+                if id == Id then
+                    return false
+                end
+            end
+            for _, data in ipairs(element.BrisagesEffectues) do
+                if data.Id == Id 
+                and (not isXDaysLater(data.DateBreak, 8) or (data.CoefMiniNeeded and (data.CoefMiniNeeded / data.CurrentCoef) > 1.5 and not isXDaysLater(data.DateBreak, 12))) then
+                    return false
+                end
+            end
+        end
+    end
+    return true
+end
+
+function SetNewTemp(temp, data)
+    for _, element in ipairs(data) do
+        if element.server == character:server() then
+            element.Temp = temp
+        end
+    end
+
+    -- Convertir la table Lua modifiée en JSON
+    local new_content = json.encode(data)
+
+    -- Écrire les modifications dans le fichier JSON
+    file = io.open(global:getCurrentScriptDirectory() .. "\\" .. character:server() .. "\\Craft-Resell.json", "w")
+    file:write(new_content)
+    file:close()
+end
+
+function SetNewTempBrisage(temp, data)
+    for _, element in ipairs(data) do
+        if element.server == character:server() then
+            element.Temp = temp
+        end
+    end
+
+    -- Convertir la table Lua modifiée en JSON
+    local new_content = json.encode(data)
+
+    -- Écrire les modifications dans le fichier JSON
+    file = io.open(global:getCurrentScriptDirectory() .. "\\Brisage.json", "w")
+    file:write(new_content)
+    file:close()
+end
+
+function CanCraftItem(Id, data)
+    for _, element in ipairs(data) do
+        if element.server == character:server() then
+            for _, id in ipairs(element.Temp) do
+                if id == Id then
+                    return false
+                end
+            end
+            if global:thisAccountController():getAlias():find("Craft2") then
+                for _, item in ipairs(element.ItemsInHDV1) do
+                    if item.Id == Id then
+                        return false
+                    end
+                end
+            else
+                for _, item in ipairs(element.ItemsInHDV2) do
+                    if item.Id == Id then
+                        return false
+                    end
+                end
+            end
+        end
+    end
+    return true
+end
+
+function HasAllRessources(ListIdCraft)
+    for _, ressource in ipairs(ListIdCraft) do
+        if inventory:itemCount(ressource.Id) < ressource.Quantity then
+            return false
+        end
+    end    
+    return true
+end
+
+function AllStatsAreAboveMin(Stats, Id)
+    local exception = {
+        "Resistance Neutre",
+        "Resistance Terre",
+        "Resistance Feu",
+        "Resistance Eau",
+        "Resistance Air",
+        "Resistance Poussee",
+        "Fuite",
+        "Tacle",
+        "Soins",
+        "Prospection",
+        "Puissance pieges",
+        "Dommages Pieges",
+        "Pods"
+    }
+    local statsJP = GetDices(Id)
+
+    for _, statJP in ipairs(statsJP) do
+        for _, stat in ipairs(Stats) do
+            if (developer:typeOf(stat) == "ObjectEffectInteger" or stat.actionId) and stat.actionId == statJP.id and IsActionIdKnown(stat.actionId) and not GetNameCarac(stat.actionId):find("-") 
+            and ((stat.value < statJP.dice.min) and not IsInTable(exception, GetNameCarac(stat.actionId))) then
+                return false
+            end
+        end
+    end
+    return true
+end

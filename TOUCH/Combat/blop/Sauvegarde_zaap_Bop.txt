@@ -1,0 +1,102 @@
+-- Generated On Dofus-Map with Drigtime's SwiftPath Script Maker --
+-- Nom : 
+-- Zone : 
+-- Type : 
+-- Version : 1.0
+-- Auteur : 
+
+GATHER = {}
+OPEN_BAGS = true
+AUTO_DELETE = {}
+
+MAX_MONSTERS = 8
+MIN_MONSTERS = 1
+
+FORBIDDEN_MONSTERS = {}
+FORCE_MONSTERS = {}
+
+function hiboux()
+	npc:npc(522,3)
+	npc:reply(-1)
+	exchange:putAllItems()
+	global:leaveDialog()
+end
+
+
+function move()
+	return {
+		{map = "192415750", path = "409"}, --Interieur banque Astrub vers Sortie--
+		{map = "54534165", path = "424"}, --Interieur banque Frigost vers Sortie--
+		{map = "2885641", path = "424"}, --Interieur banque Bonta vers Sortie--
+		{map = "99095051", path = "410"}, --Interieur banque Amakna vers Sortie--
+		{map = "8912911", path = "424"}, --Interieur banque Brakmar vers Sortie--
+		{map = "91753985", path = "396"}, --Interieur banque Sufokia vers Sortie--
+		{map = "86511105", door = "452"}, --Interieur banque Ottomaï vers Sortie--
+		{map = "8129542", path = "409"}, --Interieur banque Pandala vers Sortie--
+		{map = "84935175", path = "425"}, --Interieur banque Montagne Koalak vers Sortie--
+		{map = "4,-19", path = "bottom"},
+		{map = "4,-18", path = "bottom"},
+		{map = "4,-17", path = "bottom"},
+		{map = "4,-16", path = "bottom"},
+		{map = "4,-15", path = "left"},
+		{map = "3,-15", path = "left"},
+		{map = "2,-15", path = "bottom"},
+		{map = "2,-14", path = "left"},
+		{map = "1,-14", path = "left"},
+		{map = "0,-14", path = "left"},
+		{map = "-1,-14", path = "top"},
+		{map = "-1,-19", path = "top"},
+		{map = "-1,-18", path = "top"},
+		{map = "-1,-17", path = "top"},
+		{map = "-1,-16", path = "top"},
+		{map = "-1,-15", path = "top"},
+		{map = "-1,-20", path = "left"},
+		{map = "-3,-20", path = "left"},
+		{map = "-4,-20", path = "left"},
+		{map = "-2,-20", path = "left"},
+		{map = "-5,-20", path = "left"},
+		{map = "-6,-20", path = "left"},
+		{map = "-8,-20", path = "left"},
+		{map = "-7,-20", path = "left"},
+		{map = "-9,-20", path = "left"},
+		{map = "-10,-20", path = "left"},
+		{map = "-11,-20", path = "left"},
+		{map = "-12,-20", path = "left"},
+		{map = "-13,-20", path = "left"},
+		{map = "-14,-20", path = "left"},
+		{map = "-15,-20", path = "left"},
+		{map = "-16,-20", path = "left"},
+		{map = "-17,-20", path = "left"},
+		{map = "-19,-20", path = "left"},
+		{map = "-18,-20", path = "left"},
+	}
+end
+
+function bank()
+	return {
+		{map = "191104002", door = "288"}, --Devant banque Astrub--
+		{map = "192415750", path = "409", custom = hiboux}, --Banque Astrub--
+		{map = "54172457", door = "358"}, --Devant banque Frigost--
+		{map = "54534165", path = "424", npcBank = true}, --Banque Frigost--
+		{map = "147254", door = "383"}, --Devant banque Bonta--
+		{map = "2885641", path = "424", npcBank = true}, --Banque Bonta--
+		{map = "88081177", door = "216"}, --Devant banque Amakna--
+		{map = "99095051", path = "410", npcBank = true}, --Banque Amakna--
+		{map = "144931", door = "248"}, --Devant banque Brakmar--
+		{map = "8912911", path = "424", npcBank = true}, --Banque Brakmar--
+		{map = "90703872", door = "302"}, --Devant banque Sufokia --
+		{map = "91753985", path = "494", npcBank = true}, --Banque Sufokia--
+		{map = "155157", door = "355"}, --Devant banque Ottomaï--
+		{map = "86511105", door = "452", npcBank = true}, --Banque Ottomaï--
+		{map = "12580", door = "284"}, --Devant banque Pandala--
+		{map = "8129542", path = "409", npcBank = true}, --Banque Pandala--
+		{map = "73400323", door = "330"}, --Devant banque Montagne Koalak--
+		{map = "84935175", path = "425", npcBank = true}, --Banque Montagne Koalak--
+	}
+end
+
+
+function phenix()
+	return {
+	}
+end

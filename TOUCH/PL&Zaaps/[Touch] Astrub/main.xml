@@ -1,0 +1,48 @@
+<?xml version="1.0" encoding="utf-8"?>
+<Configform xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xmlns:xsd="http://www.w3.org/2001/XMLSchema">
+  <Script>C:\Users\Admin\Documents\Mes Trajets\[Touch] Astrub (Before)\main.lua</Script>
+  <Placement>1</Placement>
+  <SpeedFight>1000</SpeedFight>
+  <SpeedFightType>1</SpeedFightType>
+  <Regen>80</Regen>
+  <RegenTeam>false</RegenTeam>
+  <Flood />
+  <FloodActivate>false</FloodActivate>
+  <Commerce>false</Commerce>
+  <Recrutement>false</Recrutement>
+  <ConnexionAuto>true</ConnexionAuto>
+  <Sucess>true</Sucess>
+  <StatuPrivate>false</StatuPrivate>
+  <AntiAgro>false</AntiAgro>
+  <BankReturn>101</BankReturn>
+  <ExchangeHost />
+  <ExchangeActivate>false</ExchangeActivate>
+  <TimeWait>-1</TimeWait>
+  <SpeedHack>100</SpeedHack>
+  <RegenAutoIDActivate>false</RegenAutoIDActivate>
+  <ToggleActivate>false</ToggleActivate>
+  <LogsActivate>true</LogsActivate>
+  <Incarnam>false</Incarnam>
+  <FloodSameCharacter>false</FloodSameCharacter>
+  <FloodMapEnter>false</FloodMapEnter>
+  <SpellConfig />
+  <notifyArchi>true</notifyArchi>
+  <customPlanning>false</customPlanning>
+  <planning>
+    <ArrayOfInt />
+    <ArrayOfInt />
+    <ArrayOfInt />
+    <ArrayOfInt />
+    <ArrayOfInt />
+    <ArrayOfInt />
+    <ArrayOfInt />
+  </planning>
+  <statsConfig />
+  <spellsConfig />
+  <modoDisco>20</modoDisco>
+  <modoReco>1800</modoReco>
+  <antiModo>false</antiModo>
+  <Tactic>AdvancedInScript</Tactic>
+  <FarCells>0</FarCells>
+  <ReadyDelay>1000</ReadyDelay>
+</Configform>
