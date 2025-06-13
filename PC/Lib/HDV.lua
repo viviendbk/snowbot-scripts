@@ -711,11 +711,12 @@ function GetPricesItem(Id)
 
     
     local message = developer:createMessage("ExchangeBidHousePriceRequest")
+    debug("ok")
     if message then
         message.object_gid:Add(Id)
         developer:sendMessage(message, false)
     end
-    
+    debug("ok2")
     developer:suspendScriptUntil("ExchangeBidPriceEvent", 5000, false, nil, 20)
 
     if Prices ~= {} and Prices ~= nil then

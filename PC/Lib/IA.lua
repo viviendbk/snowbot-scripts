@@ -373,13 +373,21 @@ function MoveInLineOf(cellId, max)
 	local listCellId = fightAction:getCells_cross(cellId, 1, max)
 	local listCellIdWithDistance = {}
     local entities = fightAction:getAllEntities()
+    debug("0")
+    debug(type(entities))
+    debug(cellId)
+    debug(fightCharacter:getCellId())
+    local a = fightAction:getShortestPath(fightCharacter:getCellId(), cellId, entities)
+    debug("ok")
     local distance = #fightAction:getShortestPath(fightCharacter:getCellId(), cellId, entities)
 
+    debug("1")
     if distance <= fightCharacter:getMP() then
         Deplacement()
         return
     end
-    
+    debug("2")
+
 	if (not Contain(listCellId, fightCharacter:getCellId()) and distance > max) 
 	    or not fightAction:inLineOfSight(fightCharacter:getCellId(), cellId) then -- si on est déjà en ligne alors on ne bouge pas
         for _, cell in ipairs(listCellId) do
@@ -392,10 +400,12 @@ function MoveInLineOf(cellId, max)
 				table.insert(listCellIdWithDistance, element)
 			end
         end
+        debug("3")
         table.sort(listCellIdWithDistance, function (a, b)
             return a.NbPMNeeded < b.NbPMNeeded
         end)
 		for _, element in ipairs(listCellIdWithDistance) do
+            debug("4")
 			if not IsHandToHandEnemy() and element.NbPMNeeded ~= nil and (fightCharacter:getMP() >= element.NbPMNeeded) and element.IsInLineOfSight then
                 local currentCellId = fightCharacter:getCellId()
 				fightAction:moveTowardCell(element.CellId)
