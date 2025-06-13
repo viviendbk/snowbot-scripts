@@ -2873,6 +2873,7 @@ function fightManagement()
                 end
             end
         end
+        fightAction:passTurn()
     else
         global:printSuccess("Ombre")
         
@@ -2925,7 +2926,7 @@ function fightManagement()
 
         Vengeance_Nocturne2()
         global:printSuccess("Fin Ombre")
-
+        fightAction:passTurn()
     end
 end
 

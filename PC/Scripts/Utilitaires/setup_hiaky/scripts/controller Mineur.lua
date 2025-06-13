@@ -230,7 +230,7 @@ local function ExporterComptes()
 
     AccountToLoad = { bank = {}, Combat = {}, LvlUp = {}, Bucheron = {}, Mineur = {}, Reste = {}}
     local all_alias = merge(snowbotController:getAliasNotLoadedAccounts(), snowbotController:getAliasLoadedAccounts())
-    local all_usernames = merge(snowbotController:getUsernameNotLoadedAccounts(), snowbotController:getUsernametLoadedAccounts())
+    local all_usernames = merge(snowbotController:getUsernameLoadedAccounts(), snowbotController:getUsernameNotLoadedAccounts())
 
     for i, Alias in ipairs(all_alias) do
         if Alias:find("bank") then
@@ -341,7 +341,7 @@ local function ExporterComptes()
         f = io.open("C:\\Users\\Administrator\\Documents\\snowbot-scripts\\PC\\ComptesCombat.txt", "w")
     else
         global:printSuccess("aaaaaa")
-        f = io.open("C:\\Users\\Administrator\\Documents\\snowbot-scripts\\PC\\ComptesRecolte.txt", "w")
+        f = io.open("C:\\Users\\Administrator\\Documents\\snowbot-scripts\\PC\\ComptesMineur.txt", "w")
     end
 
     f:write(content)
@@ -352,7 +352,7 @@ end
 
 local function FindInAllAccount(AliasToFind)
     local AllAlias = merge(snowbotController:getAliasNotLoadedAccounts(), snowbotController:getAliasLoadedAccounts())
-    local AllUsernames = merge(snowbotController:getUsernameLoadedAccounts(), snowbotController:getUsernameNotLoadedAccounts())
+    local AllUsernames = merge(snowbotController:getUsernameNotLoadedAccounts(), snowbotController:getUsernameLoadedAccounts())
 
     local Accs = {}
 
@@ -546,24 +546,24 @@ function move()
         snowbotController:loadAnAccount("//", false) -- délimitateur Combat
 
 
-        -- snowbotController:loadAnAccount("///", false) -- délimitateur Bucheron / LvlUp
-        -- for _, acc in ipairs(AccountToLoad.Bucheron) do
-        --     local proxy = proxyBucheron_Mineur4
-        --     snowbotController:assignProxyToAnAccount(acc, proxy.proxy, tonumber(proxy.port), proxy.username, proxy.password, (typeProxy ~= "socks5"), true)
-        --     snowbotController:loadAnAccount(acc, true)
-        -- end
-        -- for _, acc in ipairs(AccountToLoad.Bucheron2) do
-        --     -- local proxy = proxyBucheron2_Mineur
-        --     local proxy = proxyBucheron2_Mineur
-        --     snowbotController:assignProxyToAnAccount(acc, proxy.proxy, tonumber(proxy.port), proxy.username, proxy.password, (typeProxy ~= "socks5"), true)
-        --     snowbotController:loadAnAccount(acc, true)
-        -- end
-        -- for _, acc in ipairs(AccountToLoad.Bucheron3) do
-        --     -- local proxy = proxyBucheron2_Mineur
-        --     local proxy = proxyMineur5_Bucheron3
-        --     snowbotController:assignProxyToAnAccount(acc, proxy.proxy, tonumber(proxy.port), proxy.username, proxy.password, (typeProxy ~= "socks5"), true)
-        --     snowbotController:loadAnAccount(acc, true)
-        -- end
+        snowbotController:loadAnAccount("///", false) -- délimitateur Bucheron / LvlUp
+        for _, acc in ipairs(AccountToLoad.Bucheron) do
+            local proxy = proxyBucheron_Mineur4
+            snowbotController:assignProxyToAnAccount(acc, proxy.proxy, tonumber(proxy.port), proxy.username, proxy.password, (typeProxy ~= "socks5"), true)
+            snowbotController:loadAnAccount(acc, true)
+        end
+        for _, acc in ipairs(AccountToLoad.Bucheron2) do
+            -- local proxy = proxyBucheron2_Mineur
+            local proxy = proxyBucheron2_Mineur
+            snowbotController:assignProxyToAnAccount(acc, proxy.proxy, tonumber(proxy.port), proxy.username, proxy.password, (typeProxy ~= "socks5"), true)
+            snowbotController:loadAnAccount(acc, true)
+        end
+        for _, acc in ipairs(AccountToLoad.Bucheron3) do
+            -- local proxy = proxyBucheron2_Mineur
+            local proxy = proxyMineur5_Bucheron3
+            snowbotController:assignProxyToAnAccount(acc, proxy.proxy, tonumber(proxy.port), proxy.username, proxy.password, (typeProxy ~= "socks5"), true)
+            snowbotController:loadAnAccount(acc, true)
+        end
         -- for _, acc in ipairs(AccountToLoad.Bucheron3) do
         --     local proxy = proxyMineur2_3
         --     snowbotController:assignProxyToAnAccount(acc, proxy.proxy, tonumber(proxy.port), proxy.username, proxy.password, (typeProxy ~= "socks5"), true)
@@ -604,29 +604,11 @@ function move()
         for _, server in ipairs(ServersExeptMono) do
 
             global:printSuccess(server)
-            mineurs = {}
-
             for _, Alias in ipairs(AliasAllAccount) do
-                for i = 1, 4 do
-                    if i == 1 and Alias:find("Mineur " .. server) then
-                        mineurs[i] = true
-                    elseif Alias:find("Mineur" .. i) then
-                        mineurs[i] = true
-                    else
-                        mineurs[i] = false
-                    end
-                end
                 if Alias:find("Mineur " .. server) then
                     boolMineur = true
                 elseif Alias:find("Bucheron2 " .. server) then
                     boolBucheron2 = true
-                end
-            end
-
-            for _, canLoadNewAccount in ipairs(mineurs) do
-                if not canLoadNewAccount then
-                    global:printSuccess("On peut créer un nouveau compte Mineur " .. server)
-                    break
                 end
             end
 
@@ -823,38 +805,38 @@ function move()
                 end
             end
 
-            -- if not boolBucheron then
-            --     local AliasNotLoaded = snowbotController:getAliasNotLoadedAccounts()
-            --     for i, Alias in ipairs(AliasNotLoaded) do
-            --         if server == "Draconiros" and Alias:find("Next") then
-            --             local ServerToTake = WhichServer()
-            --             global:printSuccess("on crée le personnage sur " .. ServerToTake)
-            --             local UsernameNotLoaded = snowbotController:getUsernameNotLoadedAccounts()
-            --             for j, username in ipairs(UsernameNotLoaded) do
-            --                 if i == j then
-            --                     snowbotController:createCharacter(username, ServerToTake, 11, false, 0, {"#f2c07d", "#000000", "#000000", "#ffffff", "#400000"})
-            --                     snowbotController:assignProxyToAnAccount(username, proxyBucheron_Mineur4.proxy, tonumber(proxyBucheron_Mineur4.port), proxyBucheron_Mineur4.username, proxyBucheron_Mineur4.password, (typeProxy ~= "socks5"), true)
-            --                     local acc = snowbotController:loadAnAccount(username, true)
-            --                     acc.global():editAlias("Bucheron " .. server, true)
-            --                     break
-            --                 end
-            --             end
-            --             break
-            --         elseif Alias == "*" and server ~= "Draconiros" then
-            --             local UsernameNotLoaded = snowbotController:getUsernameNotLoadedAccounts()
-            --             for j, username in ipairs(UsernameNotLoaded) do
-            --                 if i == j then
-            --                     snowbotController:createCharacter(username, server, 11, false, 0, {"#f2c07d", "#000000", "#000000", "#ffffff", "#400000"})
-            --                     snowbotController:assignProxyToAnAccount(username, proxyBucheron_Mineur4.proxy, tonumber(proxyBucheron_Mineur4.port), proxyBucheron_Mineur4.username, proxyBucheron_Mineur4.password, (typeProxy ~= "socks5"), true)
-            --                     local acc = snowbotController:loadAnAccount(username, true)
-            --                     acc.global():editAlias("Bucheron " .. server, true)
-            --                     break
-            --                 end
-            --             end
-            --             break
-            --         end
-            --     end
-            -- end
+            if not boolBucheron then
+                local AliasNotLoaded = snowbotController:getAliasNotLoadedAccounts()
+                for i, Alias in ipairs(AliasNotLoaded) do
+                    if server == "Draconiros" and Alias:find("Next") then
+                        local ServerToTake = WhichServer()
+                        global:printSuccess("on crée le personnage sur " .. ServerToTake)
+                        local UsernameNotLoaded = snowbotController:getUsernameNotLoadedAccounts()
+                        for j, username in ipairs(UsernameNotLoaded) do
+                            if i == j then
+                                snowbotController:createCharacter(username, ServerToTake, 11, false, 0, {"#f2c07d", "#000000", "#000000", "#ffffff", "#400000"})
+                                snowbotController:assignProxyToAnAccount(username, proxyBucheron_Mineur4.proxy, tonumber(proxyBucheron_Mineur4.port), proxyBucheron_Mineur4.username, proxyBucheron_Mineur4.password, (typeProxy ~= "socks5"), true)
+                                local acc = snowbotController:loadAnAccount(username, true)
+                                acc.global():editAlias("Bucheron " .. server, true)
+                                break
+                            end
+                        end
+                        break
+                    elseif Alias == "*" and server ~= "Draconiros" then
+                        local UsernameNotLoaded = snowbotController:getUsernameNotLoadedAccounts()
+                        for j, username in ipairs(UsernameNotLoaded) do
+                            if i == j then
+                                snowbotController:createCharacter(username, server, 11, false, 0, {"#f2c07d", "#000000", "#000000", "#ffffff", "#400000"})
+                                snowbotController:assignProxyToAnAccount(username, proxyBucheron_Mineur4.proxy, tonumber(proxyBucheron_Mineur4.port), proxyBucheron_Mineur4.username, proxyBucheron_Mineur4.password, (typeProxy ~= "socks5"), true)
+                                local acc = snowbotController:loadAnAccount(username, true)
+                                acc.global():editAlias("Bucheron " .. server, true)
+                                break
+                            end
+                        end
+                        break
+                    end
+                end
+            end
 
 
             boolMineur4 = false
@@ -1167,7 +1149,7 @@ function move()
         end
     end
 
-    global:printSuccess("Création de nouveaux bot mineur...")
+    global:printSuccess("Création de nouveaux bot recoltes...")
         -- recherche du nombre de mineurs par serveur
         local Servers = {"Imagiro", "Orukam", "Tal Kasha", "Hell Mina", "Tylezia", "Draconiros", "Dakal", "Kourial", "Mikhal", "Rafal", "Salar", "Brial"}
         local AliasAllAccount = snowbotController:getAliasLoadedAccounts()
@@ -1240,39 +1222,39 @@ function move()
                     end
                 end
             end
-            -- if TotalBucheron50ByServ[server] == 1  and TotalBucheronByServ[server] == 1 then
-            --     global:printSuccess("On tente de créer un nouveau Bucheron sur " .. server)
-            --     local AliasNotLoaded = snowbotController:getAliasNotLoadedAccounts()
-            --     for i, Alias in ipairs(AliasNotLoaded) do
-            --         if Alias == "*" and server ~= "Draconiros" then
-            --             local UsernameNotLoaded = snowbotController:getUsernameNotLoadedAccounts()
-            --             for j, username in ipairs(UsernameNotLoaded) do
-            --                 if i == j then
-            --                     snowbotController:createCharacter(username, server, 11, false, 0, {"#f2c07d", "#000000", "#000000", "#ffffff", "#400000"})
-            --                     snowbotController:assignProxyToAnAccount(username, proxyBucheron2_Mineur.proxy, tonumber(proxyBucheron2_Mineur.port), proxyBucheron2_Mineur.username, proxyBucheron2_Mineur.password, (typeProxy ~= "socks5"), true)
-            --                     local acc = snowbotController:loadAnAccount(username, true)
-            --                     acc.global():editAlias("Bucheron2 " .. server, true)
-            --                     break
-            --                 end
-            --             end
-            --             break
-            --         elseif server == "Draconiros" and Alias:find("Next") then
-            --             local ServerToTake = WhichServer()
-            --             global:printSuccess("on crée le personnage sur " .. ServerToTake)
-            --             local UsernameNotLoaded = snowbotController:getUsernameNotLoadedAccounts()
-            --             for j, username in ipairs(UsernameNotLoaded) do
-            --                 if i == j then
-            --                     snowbotController:createCharacter(username, ServerToTake, 11, false, 0, {"#f2c07d", "#000000", "#000000", "#ffffff", "#400000"})
-            --                     snowbotController:assignProxyToAnAccount(username, proxyBucheron2_Mineur.proxy, tonumber(proxyBucheron2_Mineur.port), proxyBucheron2_Mineur.username, proxyBucheron2_Mineur.password, (typeProxy ~= "socks5"), true)
-            --                     local acc = snowbotController:loadAnAccount(username, true)
-            --                     acc.global():editAlias("Bucheron2 " .. server, true)
-            --                     break
-            --                 end
-            --             end
-            --             break
-            --         end
-            --     end
-            -- end
+            if TotalBucheron50ByServ[server] == 1  and TotalBucheronByServ[server] == 1 then
+                global:printSuccess("On tente de créer un nouveau Bucheron sur " .. server)
+                local AliasNotLoaded = snowbotController:getAliasNotLoadedAccounts()
+                for i, Alias in ipairs(AliasNotLoaded) do
+                    if Alias == "*" and server ~= "Draconiros" then
+                        local UsernameNotLoaded = snowbotController:getUsernameNotLoadedAccounts()
+                        for j, username in ipairs(UsernameNotLoaded) do
+                            if i == j then
+                                snowbotController:createCharacter(username, server, 11, false, 0, {"#f2c07d", "#000000", "#000000", "#ffffff", "#400000"})
+                                snowbotController:assignProxyToAnAccount(username, proxyBucheron2_Mineur.proxy, tonumber(proxyBucheron2_Mineur.port), proxyBucheron2_Mineur.username, proxyBucheron2_Mineur.password, (typeProxy ~= "socks5"), true)
+                                local acc = snowbotController:loadAnAccount(username, true)
+                                acc.global():editAlias("Bucheron2 " .. server, true)
+                                break
+                            end
+                        end
+                        break
+                    elseif server == "Draconiros" and Alias:find("Next") then
+                        local ServerToTake = WhichServer()
+                        global:printSuccess("on crée le personnage sur " .. ServerToTake)
+                        local UsernameNotLoaded = snowbotController:getUsernameNotLoadedAccounts()
+                        for j, username in ipairs(UsernameNotLoaded) do
+                            if i == j then
+                                snowbotController:createCharacter(username, ServerToTake, 11, false, 0, {"#f2c07d", "#000000", "#000000", "#ffffff", "#400000"})
+                                snowbotController:assignProxyToAnAccount(username, proxyBucheron2_Mineur.proxy, tonumber(proxyBucheron2_Mineur.port), proxyBucheron2_Mineur.username, proxyBucheron2_Mineur.password, (typeProxy ~= "socks5"), true)
+                                local acc = snowbotController:loadAnAccount(username, true)
+                                acc.global():editAlias("Bucheron2 " .. server, true)
+                                break
+                            end
+                        end
+                        break
+                    end
+                end
+            end
         end
     local LoadedAccounts = snowbotController:getLoadedAccounts()
 

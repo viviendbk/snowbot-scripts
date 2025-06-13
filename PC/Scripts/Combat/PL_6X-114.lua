@@ -1181,6 +1181,7 @@ function fightManagement()
 				if fightCharacter:getLevel() > 109 then
 					BainDeSang2()			
 				end
+				fightAction:passTurn()
 			else
 				delayFightStartTurn()
 
@@ -1251,7 +1252,7 @@ function fightManagement()
 					end
 				end
 
-				fightAction:passTurn() -- Je passe mon tour
+				fightAction:passTurn() 
 	
 			end
 			

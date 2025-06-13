@@ -1386,7 +1386,6 @@ function IsActionIdKnown(actionId)
 end
 
 function IsItem(TypeId)
-    global:printDebug("On vérifie si l'id [" .. TypeId .. "] est un item")
     if not TypeId then
         return false
     end

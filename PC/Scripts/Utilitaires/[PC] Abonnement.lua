@@ -29,7 +29,6 @@ local SERVER_ID
 ---------------------------------------------------------------------------
 function Abonnement()
 
-    global:printSuccess("ok")
     -----------------------------------------------------------------------
     -- 1️⃣  Obtention de l’API‑Key Haapi
     -----------------------------------------------------------------------
@@ -42,7 +41,6 @@ function Abonnement()
         global:printError("⛔ APIKEY is nil. Cannot continue.")
         return
     end
-    global:printSuccess("APIKEY = " .. APIKEY)
 
     -----------------------------------------------------------------------
     -- 2️⃣  Détermination du SERVER_ID courant
@@ -157,6 +155,8 @@ function Abonnement()
     global:printSuccess("Je possède maintenant " .. new_amount .. " ogrines.")
 
     subscribe(needed_ogrines_target, 17132)
+
+    global:reconnect(0)
 end
 
 ---------------------------------------------------------------------------
@@ -194,6 +194,7 @@ function subscribe(amount, article_id)
     local orders = JSON:decode(shopRequest("https://shop-api.ankama.com/fr/shops/DOFUS_UNITY_INGAME/carts/" .. carts.id .. "/orders", shopToken, orderBody) or "{}")
     if not orders.id then
         global:printError("[3] Échec — création de la commande.")
+        
         return
     end
     global:printSuccess("[3] OrderID : " .. orders.id)
@@ -212,7 +213,15 @@ end
 ---------------------------------------------------------------------------
 -- Écoute des messages réseaux --------------------------------------------
 ---------------------------------------------------------------------------
-function messagesRegistering()
-    developer:registerMessage("HaapiShopApiKeyMessage", function(msg) APIKEY = msg.token end)
-    developer:registerMessage("HaapiConfirmationMessage", function(msg) transaction_token = msg.transaction end)
+-- function messagesRegistering()
+--     developer:registerMessage("HaapiShopApiKeyMessage", function(msg) APIKEY = msg.token end)
+--     developer:registerMessage("HaapiConfirmationMessage", function(msg) transaction_token = msg.transaction end)
+-- end
+
+function _HaapiShopApiKeyMessage(msg)
+    APIKEY = msg.token
+end
+
+function _HaapiConfirmationMessage(msg)
+    transaction_token = msg.transaction
 end

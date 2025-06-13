@@ -2250,6 +2250,7 @@ function fightManagement()
 			launchBestSort3pa()
 
 			Courrone_Epine()
+			fightAction:passTurn()
 		else
 
 			delayFightStartTurn()
@@ -2320,7 +2321,7 @@ function fightManagement()
 				end
 			end
 
-			fightAction:passTurn() -- Je passe mon tour
+			fightAction:passTurn()
 
 		end
 end

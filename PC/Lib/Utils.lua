@@ -577,4 +577,10 @@ function secondsToHours(time)
     return time / 60 / 60
 end
 
+
+
+function debug(msg)
+    global:printSuccess("DEBUG: " .. msg)
+    
+end
 --- interaction bot bank ---

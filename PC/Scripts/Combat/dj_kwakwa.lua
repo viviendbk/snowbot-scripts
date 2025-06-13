@@ -736,7 +736,7 @@ function fightManagement()
             Douleur_Cuisante()
             MoveInLineOf(fightAction:getNearestEnemy(), 6)
 
-            return -- Je passe mon tour
+            fightAction:passTurn()
         else
             local random = math.random()
             if random < 0.05 then
@@ -748,7 +748,7 @@ function fightManagement()
             end
             global:printSuccess("Ombre")
 
-            return -- Je passe mon tour
+            fightAction:passTurn()
 
         end
 end

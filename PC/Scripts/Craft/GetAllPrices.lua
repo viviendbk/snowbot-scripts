@@ -271,13 +271,13 @@ function move()
         hdvEquipChecked = true
     end
 
-    if global:thisAccountController():getAlias():find("Requests1") then
+    if global:thisAccountController():getAlias():find("RequestsMulti") then
         global:thisAccountController():forceServer(switchServerMulti[character:server()])
         if character:server() == "Salar" then
             global:reconnectBis(100, 200)
         end
         global:reconnect(0)
-    elseif global:thisAccountController():getAlias():find("Requests2") then
+    elseif global:thisAccountController():getAlias():find("RequestsMono") then
         global:thisAccountController():forceServer(switchServerMono[character:server()])
         if character:server() == "Mikhal" then
             global:reconnectBis(400, 600)

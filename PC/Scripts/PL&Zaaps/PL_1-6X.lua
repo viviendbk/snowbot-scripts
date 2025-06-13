@@ -79,6 +79,7 @@ local pathDebug = {
 }
 
 local RouteDesAmes = {
+		{ map = "153093378", path = "right", gather = false, fight = false }, -- 152045573
 	{ map = "153092354", door = 409},
 	{ map = "152045573", path = "right", gather = false, fight = false }, -- 152045573
 	{ map = "152043521", path = "right", gather = false, fight = false }, -- 152045573
@@ -507,6 +508,7 @@ function goToAstrub()
 end
 
 local Piou = {
+	{map = "153093378", path = "right"},
 	{map = "190843392", path = "top"},
 	{ map = "153092354", door = 409},
   { map = "152045573", path = "right", gather = false, fight = false }, -- 152045573
@@ -1075,12 +1077,14 @@ function move()
 	if not global:thisAccountController():getAlias():find("Request") and not global:thisAccountController():getAlias():find("bank") then
 		global:editAlias(botType .. " " .. server .. "  / lvl " .. character:level(), true)
 	end
+	
 
 	if not EquipementFini then
 		equip()
 	end
 
 	global:printSuccess(global:remember("lvlFinish"))
+	
 
 	if character:level() >= global:remember("lvlFinish") then
 		if not LastSell then
@@ -1098,6 +1102,7 @@ function move()
 			stop()
 		end
 	end
+	
 
 	-- craft couteau de chasse
 	if (inventory:itemCount(1934) == 0) and (inventory:itemCount(519) < 3) then
@@ -1120,6 +1125,8 @@ function move()
 			map:moveToCell(313)
 		end
 	end
+	
+	
 
 	-- monter chasseur niveau 10
 	if (inventory:itemCount(16663) < 78) and (job:level(41) < 10) then
@@ -1137,6 +1144,7 @@ function move()
 			map:moveToCell(372)
 		end
 	end
+	
 
 	-- monter chaseur niv 20
 	if (inventory:itemCount(17123) < 275) and (job:level(41) < 20) then
@@ -1204,6 +1212,7 @@ function move()
 		MIN_MONSTERS = 1
 		return souterrain2 and treatMaps(Souterrain_Astrub2) or treatMaps(Souterrain_Astrub1)
 	elseif character:level() < 30 then
+		
 		MAX_MONSTERS = (character:level() < 10) and 1 or (character:level() < 18) and 3 or 5
 		MIN_MONSTERS = (character:level() >= 18) and 2 or 1
 		return treatMaps(Piou)
@@ -1445,6 +1454,7 @@ function fightManagement()
 				Hemmoragie(fightAction:getNearestEnemy())
 
 				Deplacement()
+				fightAction:passTurn()
 			end			
 		else
 			if fightCharacter:isItMyTurn() then
@@ -1454,20 +1464,18 @@ function fightManagement()
 				Deplacement()
 
 					
-				Hemmoragie(fightAction:getNearestEnemy())
+				Supplice(fightAction:getNearestEnemy())
 				Deplacement()
-				Hemmoragie(fightAction:getNearestEnemy())
+				Supplice(fightAction:getNearestEnemy())
 
-				if fightCharacter:getLevel() > 5 then
-					Stase()
-					Stase()
-				end
-				Attirance(fightAction:getNearestEnemy())
-
-				Hemmoragie(fightAction:getNearestEnemy())
+				Stase()
 				Deplacement()
-				Hemmoragie(fightAction:getNearestEnemy())
+				Stase()
 
+				Absorption(fightAction:getNearestEnemy())
+				Deplacement()
+				Absorption(fightAction:getNearestEnemy())
+				fightAction:passTurn()
 			end
 		end	
 end

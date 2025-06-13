@@ -135,6 +135,7 @@ function fightManagement()
         Courrone_Epine()
         
         Deplacement()
+		fightAction:passTurn()
         
     else
 		if fightSlave:name() == "Ombre" then
@@ -194,6 +195,7 @@ function fightManagement()
 
             Vengeance_Nocturne2()
             global:printSuccess("Fin Ombre")
+			fightAction:passTurn()
 		else
 			-- local random = math.random()
             -- if random < 0.05 then

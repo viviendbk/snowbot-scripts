@@ -3165,7 +3165,7 @@ function fightManagement()
         Afflux2()
         MoveInLineOf(fightAction:getNearestEnemy(), 6)
 
-        return -- Je passe mon tour
+        fightAction:passTurn()
     else
         delayFightStartTurn()
         global:printSuccess("Ombre")
@@ -3175,7 +3175,7 @@ function fightManagement()
         if passTurnForOmbre then
             global:printSuccess("Pass Turn For Ombre")
             passTurnForOmbre = false
-            return
+            fightAction:passTurn()
         end
 
         Colere_Noire()
@@ -3248,7 +3248,7 @@ function fightManagement()
         end
         global:printSuccess("Fin Ombre")
 
-        return -- Je passe mon tour
+        fightAction:passTurn()
 
     end
 end

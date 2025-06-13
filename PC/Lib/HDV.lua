@@ -636,12 +636,45 @@ function BuyItemIfLessExpencive(Id, CraftCost)
     
 end
 
+function protobufToTable(protoObj)
+    local result = {}
+
+    for k, v in pairs(protoObj) do
+        -- Si le champ est une sous-structure, on la convertit aussi
+        if type(v) == "userdata" then
+            if #v > 0 then
+                -- Liste (repeated)
+                result[k] = {}
+                for i, item in ipairs(v) do
+                    result[k][i] = type(item) == "userdata" and protobufToTable(item) or item
+                end
+            else
+                -- Table, mais pas une liste (ex: sous-message)
+                result[k] = protobufToTable(v)
+            end
+        else
+            result[k] = v
+        end
+    end
+
+    return result
+end
+
 function _GetMessagePrices(message)
 
-    developer:unRegisterMessage("ExchangeBidhouseMinimumItemPriceListMessage")
+    developer:unRegisterMessage("ExchangeBidPriceEvent")
     local messageDeBase = message
-    message = message.minimalPrices
+    message = message.bid_price_for_seller.minimal_prices
+    debug(type(message))
+    printVar(message)
 
+    local numberList = {}
+    for i, v in ipairs(message) do
+        table.insert(numberList, tonumber(v))
+    end
+
+    debug("ok")
+    debug(numberList[1] == 0 )
 
     local AveragePrice = 0
     if message[2] == 0 and message[3] == 0 then
@@ -660,25 +693,27 @@ function _GetMessagePrices(message)
         AveragePrice = (message[3] / 100 + message[2] / 10) / 2
     end
 
+    debug("ok")
+
     Prices = {
-        Id = messageDeBase.genericId,
+        Id = messageDeBase.object_gid,
         Price1 = message[1],
         Price10 = message[2],
         Price100 = message[3],
-        AveragePrice = messageDeBase.averagePrice,
+        AveragePrice = tonumber(messageDeBase.averagePrice),
         TrueAveragePrice = math.floor(AveragePrice)
     }
 end
 
 function GetPricesItem(Id)
     Prices = {}
-    developer:registerMessage("ExchangeBidPriceForSellerMessage", _GetMessagePrices)
+    developer:registerMessage("ExchangeBidPriceEvent", _GetMessagePrices)
 
-    local message = developer:createMessage("ExchangeBidHousePriceMessage")
-    message.objectGID = Id
+    local message = developer:createMessage("ExchangeBidHousePriceRequest")
+    message.object_gid = Id
     developer:sendMessage(message)
     
-    developer:suspendScriptUntil("ExchangeBidPriceForSellerMessage", 5000, false, nil, 20)
+    developer:suspendScriptUntil("ExchangeBidPriceEvent", 5000, false, nil, 20)
 
     if Prices ~= {} and Prices ~= nil then
         return Prices

@@ -299,7 +299,7 @@ end
 local function ExporterComptes()
     AccountToLoad = { bank = {}, Combat = {}, Combat2 = {}, LvlUp12 = {}, LvlUp34 = {}, Bucheron = {}, Mineur = {}, Craft = {}, Groupe = {}, Reste = {}}
     local all_alias = merge(snowbotController:getAliasNotLoadedAccounts(), snowbotController:getAliasLoadedAccounts())
-    local all_usernames = merge(snowbotController:getUsernameLoadedAccounts(), snowbotController:getUsernameNotLoadedAccounts())
+    local all_usernames = merge(snowbotController:getUsernameNotLoadedAccounts(), snowbotController:getUsernameLoadedAccounts())
 
     for i, Alias in ipairs(all_alias) do
         if Alias:find("bank") then
@@ -1682,7 +1682,7 @@ function move()
 
         global:printSuccess("ok")
 
-        if not acc:hasScript() and acc.character():level() < 10 and acc:isAccountFullyConnected() and not acc:getAlias():find("Groupe") then
+        if not acc.developer():hasScript() and acc.character():level() < 10 and acc:isAccountFullyConnected() and not acc:getAlias():find("Groupe") then
             acc:loadConfig("C:\\Users\\Administrator\\Documents\\snowbot-scripts\\PC\\Configs\\Config_PL_1-6X.xml")
             acc:loadScript("C:\\Users\\Administrator\\Documents\\snowbot-scripts\\PC\\Scripts\\PL&Zaaps\\PL_1-6X.lua")
             acc:disconnect()

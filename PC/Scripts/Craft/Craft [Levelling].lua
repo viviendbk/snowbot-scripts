@@ -525,6 +525,14 @@ local function HaveToBuyRessources()
 end
 
 function move()
+    HdvSell()
+        global:printMessage("a")
+
+    -- sale:GetPriceItem(747, 100)
+    global:printMessage("a")
+    a = GetPricesItem(747)
+    global:printSuccess("Prix de l'item 747 : " .. a.AveragePrice .. " | " .. a.MinPrice .. " | " .. a.MaxPrice)
+    global:finishScript()
     mapDelay()
     if ScriptStarting then
         -- vérifie qu'il est bien abonné        
@@ -573,34 +581,34 @@ function move()
 
         end
 
-        -- achat du stuff
-        if not map:onMap(212600837) and goBuyStuff then
-            global:printSuccess("On va hdv équip pour acheter le stuff")
-            return TreatMaps(goToHdvEquip)
-        elseif goBuyStuff then
-            global:printSuccess("On achète le stuff")
-            HdvBuy()
+        -- -- achat du stuff
+        -- if not map:onMap(212600837) and goBuyStuff then
+        --     global:printSuccess("On va hdv équip pour acheter le stuff")
+        --     return TreatMaps(goToHdvEquip)
+        -- elseif goBuyStuff then
+        --     global:printSuccess("On achète le stuff")
+        --     HdvBuy()
 
-            for _, element in ipairs(stuffPods) do
-                if inventory:itemCount(element.Id) == 0 then
-                    sale:buyItem(element.Id, 1, 300000)
-                end
-            end
+        --     for _, element in ipairs(stuffPods) do
+        --         if inventory:itemCount(element.Id) == 0 then
+        --             sale:buyItem(element.Id, 1, 300000)
+        --         end
+        --     end
 
-            global:leaveDialog()
-            for _, element in ipairs(stuffPods) do
-                inventory:equipItem(element.Id, element.Place)
-            end
-            goBuyStuff = false
-            goBuySushi = true
-        end
+        --     global:leaveDialog()
+        --     for _, element in ipairs(stuffPods) do
+        --         inventory:equipItem(element.Id, element.Place)
+        --     end
+        --     goBuyStuff = false
+        --     goBuySushi = true
+        -- end
 
-        if not map:onMap(217064452) and goBuySushi then
-            return TreatMaps(goToCosmetics)
-        elseif goBuySushi then
-            achatShushi()
-            goBuySushi = false
-        end
+        -- if not map:onMap(217064452) and goBuySushi then
+        --     return TreatMaps(goToCosmetics)
+        -- elseif goBuySushi then
+        --     achatShushi()
+        --     goBuySushi = false
+        -- end
 
 
         -- --va hdv ressources
@@ -630,13 +638,23 @@ function move()
                 local TotalPods = 0
                 local LackRessource = false
                 
+                global:printSuccess(#item.ListIdCraft)
                 if not item.ListIdCraft then
+                    global:printError("L'item " .. inventory:itemNameId(item.Id) .. " n'a pas de ressources de craft, on le supprime")
                     LackRessource = true
                 else
                     for _, Ressource in ipairs(item.ListIdCraft) do
+                        global:printSuccess("Ressource " .. inventory:itemNameId(Ressource.Id) .. " x" .. Ressource.Quantity)
                         if not PrixHdvAllRessources[Ressource.Id] then
                             PrixHdvAllRessources[Ressource.Id] = GetPricesItem(Ressource.Id)
                         end
+                        global:printSuccess(PrixHdvAllRessources[Ressource.Id].Price1)
+                        -- print all conditions for lack of resource
+                        global:printSuccess("TrueAveragePrice : " .. PrixHdvAllRessources[Ressource.Id].TrueAveragePrice)
+                        global:printSuccess("Price100 : " .. PrixHdvAllRessources[Ressource.Id].Price100)
+                        global:printSuccess("Price10 : " .. PrixHdvAllRessources[Ressource.Id].Price10)
+                        global:printSuccess("Price1 : " .. PrixHdvAllRessources[Ressource.Id].Price1)
+
                         if not PrixHdvAllRessources[Ressource.Id].TrueAveragePrice or PrixHdvAllRessources[Ressource.Id].TrueAveragePrice == 0 or IsItem(inventory:itemTypeId(Ressource.Id))
                         or (Ressource.Quantity > 29 and PrixHdvAllRessources[Ressource.Id].Price100 == 0 and PrixHdvAllRessources[Ressource.Id].Price10 == 0) then
                             LackRessource = true
@@ -644,6 +662,8 @@ function move()
                         end
                         TotalPods = TotalPods + inventory:itemWeight(Ressource.Id) * Ressource.Quantity
                         TotalCost = TotalCost + PrixHdvAllRessources[Ressource.Id].TrueAveragePrice * Ressource.Quantity
+                        global:printSuccess("Cout de la ressource " .. inventory:itemNameId(Ressource.Id) .. " : " .. PrixHdvAllRessources[Ressource.Id].TrueAveragePrice .. " kamas")
+                        global:printSuccess("Poids de la ressource " .. inventory:itemNameId(Ressource.Id) .. " : " .. inventory:itemWeight(Ressource.Id) .. " pods")
                     end
                 end
     
@@ -675,16 +695,21 @@ function move()
 
             local scriptFinished = true
             for _, element in ipairs(metiers) do
+                global:printMessage("On va craft pour le métier " .. job:name(element.Id) .. " [" .. element.Type[1] .. ", " .. element.Type[2] .. "]")
                 if job:level(element.Id) < 55 then
                     scriptFinished = false
                     hasToCraft = true
+                    global:printSuccess("a")
                     local podsAvailable = inventory:podsMax() - inventory:pods()
                     for _, item in ipairs(TableItem) do
+                        global:printSuccess(item.Id .. " - " .. inventory:itemNameId(item.Id) .. " [lvl " .. inventory:getLevel(item.Id) .. "] - " .. item.TotalCost .. " kamas - " .. item.PodsNeededToCraft .. " pods")
                         if #item.ListIdCraft > 0 and item.TotalCost > 0 and ((inventory:getLevel(item.Id)) > (job:level(element.Id) - 4)) and IsInTable(element.Type, item.Type) and ((item.PodsNeededToCraft * 100) < podsAvailable) then
+                            global:printError("AAAA" .. item.TotalCost)
                             table.insert(ItemsToCraft, {Id = item.Id, TotalCost = item.TotalCost, Type = item.Type, PodsNeededToCraft = item.PodsNeededToCraft, ListIdCraft = getIngredients(item.Id), NbToCraft = 100})
                         end
                     end
 
+                    global:printSuccess("b")
                     table.sort(ItemsToCraft, function (a, b)
                         return a.TotalCost < b.TotalCost
                     end)
