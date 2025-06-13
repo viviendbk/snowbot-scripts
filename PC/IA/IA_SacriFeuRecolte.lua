@@ -1,4 +1,4 @@
-dofile("C:\\Users\\Administrator\\Downloads\\Script_Bot_Dofus\\PC\\IA\\Functions_IA.lua")
+dofile("C:\\Users\\Administrator\\Documents\\snowbot-scripts\\PC\\IA\\Functions_IA.lua")
 
 
 

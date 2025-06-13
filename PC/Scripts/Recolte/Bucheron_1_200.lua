@@ -1,7 +1,7 @@
 ---@diagnostic disable: undefined-global, lowercase-global
 
-dofile("C:\\Users\\Administrator\\Downloads\\Script_Bot_Dofus\\PC\\IA\\IA_SacriFeuRecolte.lua")
-dofile("C:\\Users\\Administrator\\Downloads\\Script_Bot_Dofus\\PC\\Scripts\\Utilitaires\\IMPORT_LIBRARIES.lua")
+dofile("C:\\Users\\Administrator\\Documents\\snowbot-scripts\\PC\\IA\\IA_SacriFeuRecolte.lua")
+dofile("C:\\Users\\Administrator\\Documents\\snowbot-scripts\\PC\\Scripts\\Utilitaires\\IMPORT_LIBRARIES.lua")
 
 OPEN_BAGS = true 
 GATHER_NEXT_DELAY_MIN = 0
@@ -29,7 +29,7 @@ else
 	-- PLANNING = {9, 10, 11, 12, 13, 14, 15}
     phrase = "Bucheron " .. character:server()
 end
-local scriptPath = "C:\\Users\\Administrator\\Downloads\\Script_Bot_Dofus\\PC\\Scripts\\Recolte\\bucheron200.lua"
+local scriptPath = "C:\\Users\\Administrator\\Documents\\snowbot-scripts\\PC\\Scripts\\Recolte\\bucheron200.lua"
 
 --PLANNING = {3, 8, 13, 18, 23}
 

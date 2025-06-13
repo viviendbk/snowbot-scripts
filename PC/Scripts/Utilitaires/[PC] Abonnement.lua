@@ -2,7 +2,7 @@
 -- Script d’abonnement : version « getRequest2 » (remplace dofusRequest) ---
 ---------------------------------------------------------------------------
 -- 📦  Dépendances ---------------------------------------------------------
-local JSONFile = global:getCurrentScriptDirectory() .. "\\JSON.lua"
+local JSONFile = "C:\\Users\\Administrator\\Documents\\snowbot-scripts\\PC\\Scripts\\Utilitaires\\JSON.lua"
 local JSON     = (loadfile(JSONFile))()
 
 -- 🔧  Paramètres ----------------------------------------------------------
@@ -27,7 +27,9 @@ local SERVER_ID
 ---------------------------------------------------------------------------
 -- Point d’entrée ----------------------------------------------------------
 ---------------------------------------------------------------------------
-function move()
+function Abonnement()
+
+    global:printSuccess("ok")
     -----------------------------------------------------------------------
     -- 1️⃣  Obtention de l’API‑Key Haapi
     -----------------------------------------------------------------------

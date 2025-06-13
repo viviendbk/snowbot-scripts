@@ -1,8 +1,8 @@
 ---@diagnostic disable: undefined-global, lowercase-global
-dofile("C:\\Users\\Administrator\\Downloads\\Script_Bot_Dofus\\PC\\Scripts\\Utilitaires\\IMPORT_LIBRARIES.lua")
+dofile("C:\\Users\\Administrator\\Documents\\snowbot-scripts\\PC\\Scripts\\Utilitaires\\IMPORT_LIBRARIES.lua")
 
 local receiverAlias = "bank"
-local configPath = "C:\\Users\\Administrator\\Downloads\\ovh snowbot\\ConfigMineur\\configBank.xml"
+local configPath = "C:\\Users\\Administrator\\Documents\\ovh snowbot\\ConfigMineur\\configBank.xml"
 -- Montant de kamas que le bot farm devra garder 
 local minKamas = 8000
 -- Montant de kamas qui déclenchera le transfert au bot bank

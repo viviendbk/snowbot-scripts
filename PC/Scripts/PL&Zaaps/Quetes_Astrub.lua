@@ -1,4 +1,4 @@
-dofile("C:\\Users\\Administrator\\Downloads\\Script_Bot_Dofus\\PC\\Scripts\\Utilitaires\\IMPORT_LIBRARIES.lua")
+dofile("C:\\Users\\Administrator\\Documents\\snowbot-scripts\\PC\\Scripts\\Utilitaires\\IMPORT_LIBRARIES.lua")
 
 if not global:remember("ETAPE_QUETE") then
     global:addInMemory("ETAPE_QUETE", 0)

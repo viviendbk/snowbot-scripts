@@ -1,4 +1,4 @@
-dofile("C:\\Users\\Administrator\\Downloads\\Script_Bot_Dofus\\PC\\Scripts\\Utilitaires\\IMPORT_LIBRARIES.lua")
+dofile("C:\\Users\\Administrator\\Documents\\snowbot-scripts\\PC\\Scripts\\Utilitaires\\IMPORT_LIBRARIES.lua")
 
 
 local switchScript = false
@@ -67,7 +67,7 @@ end
 
 function move()
 	mapDelay()
-	if switchScript then global:loadAndStart("C:\\Users\\Administrator\\Downloads\\Script_Bot_Dofus\\PC\\Scripts\\Combat\\buyStuff.lua") end
+	if switchScript then global:loadAndStart("C:\\Users\\Administrator\\Documents\\snowbot-scripts\\PC\\Scripts\\Combat\\buyStuff.lua") end
     return treatMaps(trajet)
 end
 

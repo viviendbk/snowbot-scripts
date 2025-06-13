@@ -1,4 +1,4 @@
-dofile("C:\\Users\\Administrator\\Downloads\\Script_Bot_Dofus\\PC\\Scripts\\Utilitaires\\IMPORT_LIBRARIES.lua")
+dofile("C:\\Users\\Administrator\\Documents\\snowbot-scripts\\PC\\Scripts\\Utilitaires\\IMPORT_LIBRARIES.lua")
 
 
 local CraftCordonier = {}
@@ -528,10 +528,10 @@ function move()
     mapDelay()
     if ScriptStarting then
         -- vérifie qu'il est bien abonné        
-        if getRemainingSubscription(true) <= 0 and character:kamas() > (character:server() == "Draconiros" and 550000 or 1000000) then
-            global:printSuccess("il reste " .. getRemainingSubscription(true) .. "jours d'abonnement, on tente de s'abonner à nouveau")
+        if getRemainingHoursSubscription() <= 24 and character:kamas() > (character:server() == "Draconiros" and 550000 or 1000000) then
+            global:printSuccess("il reste " .. getRemainingHoursSubscription() .. "jours d'abonnement, on tente de s'abonner à nouveau")
             Abonnement()
-        elseif getRemainingSubscription(true) < 0 then
+        elseif getRemainingHoursSubscription() < 24 then
             Abonnement()
         end
 
@@ -696,7 +696,7 @@ function move()
             end
             
             if scriptFinished then
-                global:loadAndStart("C:\\Users\\Administrator\\Downloads\\Script_Bot_Dofus\\PC\\Scripts\\Craft\\Craft-Brisage.lua")
+                global:loadAndStart("C:\\Users\\Administrator\\Documents\\snowbot-scripts\\PC\\Scripts\\Craft\\Craft-Brisage.lua")
             end
 
             steep = 0 global:leaveDialog()
@@ -1054,7 +1054,7 @@ function move()
         --global:printSuccess("Total mis en vente : " ..)
         local random = math.random(1, 4)
         if random ~= 1 and character:kamas() > 10000000 then
-            global:loadAndStart("C:\\Users\\Administrator\\Downloads\\Script_Bot_Dofus\\PC\\Scripts\\Craft\\Craft-Brisage.lua")
+            global:loadAndStart("C:\\Users\\Administrator\\Documents\\snowbot-scripts\\PC\\Scripts\\Craft\\Craft-Brisage.lua")
         else
             if job:level(62) < 150 then
                 global:restartScript(true)

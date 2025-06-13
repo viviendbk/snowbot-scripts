@@ -1,10 +1,10 @@
 ---@diagnostic disable: undefined-global, lowercase-global
 
-dofile("C:\\Users\\Administrator\\Downloads\\Script_Bot_Dofus\\PC\\Scripts\\Utilitaires\\IMPORT_LIBRARIES.lua")
+dofile("C:\\Users\\Administrator\\Documents\\snowbot-scripts\\PC\\Scripts\\Utilitaires\\IMPORT_LIBRARIES.lua")
 
-dofile("C:\\Users\\Administrator\\Downloads\\Script_Bot_Dofus\\PC\\IA\\IA_SacriFeuRecolte.lua")
+dofile("C:\\Users\\Administrator\\Documents\\snowbot-scripts\\PC\\IA\\IA_SacriFeuRecolte.lua")
 
-Buyer = dofile("C:\\Users\\Administrator\\Downloads\\Script_Bot_Dofus\\PC\\Scripts\\Utilitaires\\setup_hiaky\\auto_stuff\\classes\\buyer.lua")
+Buyer = dofile("C:\\Users\\Administrator\\Documents\\snowbot-scripts\\PC\\Scripts\\Utilitaires\\setup_hiaky\\auto_stuff\\classes\\buyer.lua")
 
 OPEN_BAGS = true 
 GATHER_NEXT_DELAY_MIN = 0
@@ -1411,7 +1411,7 @@ function move()
 
     if job:level(2) < 180 then	
 		global:printSuccess("changement de script")
-		global:loadAndStart("C:\\Users\\Administrator\\Downloads\\Script_Bot_Dofus\\PC\\Recolte\\Bucheron_1_200.lua")
+		global:loadAndStart("C:\\Users\\Administrator\\Documents\\snowbot-scripts\\PC\\Recolte\\Bucheron_1_200.lua")
 	end
 
     minKamas = (getRemainingSubscription(true) == 0) and 1000000 or 300000

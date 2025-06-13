@@ -1,6 +1,6 @@
 <?xml version="1.0" encoding="utf-8"?>
 <Configform xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xmlns:xsd="http://www.w3.org/2001/XMLSchema">
-  <Script>C:\Users\Administrator\Downloads\Script_Bot_Dofus\PC\PL&amp;Zaaps\PL_1-6X.lua</Script>
+  <Script>C:\Users\Administrator\Documents\snowbot-scripts\PC\PL&amp;Zaaps\PL_1-6X.lua</Script>
   <Placement>1</Placement>
   <SpeedFightType>0</SpeedFightType>
   <Regen>0</Regen>

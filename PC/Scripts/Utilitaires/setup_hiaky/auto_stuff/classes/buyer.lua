@@ -1,6 +1,6 @@
 
 
-local PATH = "C:\\Users\\Administrator\\Downloads\\Script_Bot_Dofus\\PC\\Scripts\\Utilitaires\\setup_hiaky\\auto_stuff"
+local PATH = "C:\\Users\\Administrator\\Documents\\snowbot-scripts\\PC\\Scripts\\Utilitaires\\setup_hiaky\\auto_stuff"
 
 ---------------------------------------------------
 ---------------------- Utils ----------------------

@@ -1,7 +1,7 @@
 ---@diagnostic disable: undefined-global, lowercase-global
 
-dofile("C:\\Users\\Administrator\\Downloads\\Script_Bot_Dofus\\PC\\Scripts\\Utilitaires\\IMPORT_LIBRARIES.lua")
-dofile("C:\\Users\\Administrator\\Downloads\\Script_Bot_Dofus\\PC\\IA\\IA_SacriFeuRecolte.lua")
+dofile("C:\\Users\\Administrator\\Documents\\snowbot-scripts\\PC\\Scripts\\Utilitaires\\IMPORT_LIBRARIES.lua")
+dofile("C:\\Users\\Administrator\\Documents\\snowbot-scripts\\PC\\IA\\IA_SacriFeuRecolte.lua")
 
 
 GATHER = {17, 53, 55, 37, 54, 52, 114, 24, 26, 25, 135}
@@ -468,7 +468,7 @@ local tableVenteRestePL = {
 
 }
 
-scriptPath = "C:\\Users\\Administrator\\Downloads\\Script_Bot_Dofus\\PC\\Scripts\\Recolte\\Mineur_ultime.lua"
+scriptPath = "C:\\Users\\Administrator\\Documents\\snowbot-scripts\\PC\\Scripts\\Recolte\\Mineur_ultime.lua"
 local phrase = nil
 if global:thisAccountController():getAlias():find("Mineur2") then
     phrase = "Mineur2 " .. character:server()

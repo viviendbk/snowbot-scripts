@@ -1,4 +1,4 @@
-dofile("C:\\Users\\Administrator\\Downloads\\Script_Bot_Dofus\\PC\\Scripts\\Utilitaires\\IMPORT_LIBRARIES.lua")
+dofile("C:\\Users\\Administrator\\Documents\\snowbot-scripts\\PC\\Scripts\\Utilitaires\\IMPORT_LIBRARIES.lua")
 
 
 local CraftCordonier = {}
@@ -888,7 +888,7 @@ function move()
                 global:printError("l'hdv est plein, on retente dans 2 heures")
                 local random = math.random(1, 3)
                 if random ~= 1 and character:kamas() > 10000000 then
-                    global:loadAndStart("C:\\Users\\Administrator\\Downloads\\Script_Bot_Dofus\\PC\\Scripts\\Craft\\Craft-Brisage.lua")
+                    global:loadAndStart("C:\\Users\\Administrator\\Documents\\snowbot-scripts\\PC\\Scripts\\Craft\\Craft-Brisage.lua")
                 else
                     global:reconnectBis(math.random(100,150))
                 end
@@ -971,7 +971,7 @@ function move()
             local json = openFile(global:getCurrentScriptDirectory() .. "\\" .. character:server() .. "\\FM.json")
             global:printSuccess("2")
 
-            local blackListJson = openFile("C:\\Users\\Administrator\\Downloads\\Script_Bot_Dofus\\PC\\Scripts\\Craft\\BlackListFM.json")
+            local blackListJson = openFile("C:\\Users\\Administrator\\Documents\\snowbot-scripts\\PC\\Scripts\\Craft\\BlackListFM.json")
 
             local function IsBlackList(Id)
                 for _, element in ipairs(blackListJson) do
@@ -1092,7 +1092,7 @@ function move()
                 global:printError("On a trouvé aucune item, on change de script ou reco dans quelques temps")
                 local random = math.random(1, 4)
                 if random ~= 1 and character:kamas() > 10000000 then
-                    global:loadAndStart("C:\\Users\\Administrator\\Downloads\\Script_Bot_Dofus\\PC\\Scripts\\Craft\\Craft-Brisage.lua")
+                    global:loadAndStart("C:\\Users\\Administrator\\Documents\\snowbot-scripts\\PC\\Scripts\\Craft\\Craft-Brisage.lua")
                 else
                     global:reconnectBis(math.random(100,150))
                 end
@@ -1211,7 +1211,7 @@ function move()
                 global:printError("On a trouvé aucune item, on change de script ou reco dans quelques temps")
                 local random = math.random(1, 4)
                 if random ~= 1 and character:kamas() > 10000000 then
-                    global:loadAndStart("C:\\Users\\Administrator\\Downloads\\Script_Bot_Dofus\\PC\\Scripts\\Craft\\Craft-Brisage.lua")
+                    global:loadAndStart("C:\\Users\\Administrator\\Documents\\snowbot-scripts\\PC\\Scripts\\Craft\\Craft-Brisage.lua")
                 else
                     global:reconnectBis(math.random(100,150))
                 end
@@ -2230,7 +2230,7 @@ function move()
         --global:printSuccess("Total mis en vente : " ..)
         local random = math.random(1, 4)
         if random == 1 and character:kamas() > 10000000 then
-            global:loadAndStart("C:\\Users\\Administrator\\Downloads\\Script_Bot_Dofus\\PC\\Scripts\\Craft\\Craft-Brisage.lua")
+            global:loadAndStart("C:\\Users\\Administrator\\Documents\\snowbot-scripts\\PC\\Scripts\\Craft\\Craft-Brisage.lua")
         else
             global:printSuccess("On retourne crafter")
             for _, item in ipairs(TableItem) do

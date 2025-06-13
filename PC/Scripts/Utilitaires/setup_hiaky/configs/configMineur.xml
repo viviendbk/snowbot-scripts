@@ -1,6 +1,6 @@
 <?xml version="1.0" encoding="utf-8"?>
 <Configform xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xmlns:xsd="http://www.w3.org/2001/XMLSchema">
-  <Script>C:\Users\Administrator\Downloads\ovh snowbot\Mineur\Mineur_1-150_ULTIME.lua</Script>
+  <Script>C:\Users\Administrator\Documents\ovh snowbot\Mineur\Mineur_1-150_ULTIME.lua</Script>
   <Placement>1</Placement>
   <SpeedFight>2</SpeedFight>
   <Regen>50</Regen>

@@ -1,17 +1,17 @@
 
 --- <init>
 
-PATH =  "C:\\Users\\Administrator\\Downloads\\Script_Bot_Dofus\\PC\\Scripts\\Utilitaires\\setup_hiaky\\"
+PATH =  "C:\\Users\\Administrator\\Documents\\snowbot-scripts\\PC\\Scripts\\Utilitaires\\setup_hiaky\\"
 scriptName = "take-kamas.lua"
 dofile(PATH .. "template.lua")
 
-dofile("C:\\Users\\Administrator\\Downloads\\Script_Bot_Dofus\\PC\\Scripts\\Utilitaires\\IMPORT_LIBRARIES.lua")
+dofile("C:\\Users\\Administrator\\Documents\\snowbot-scripts\\PC\\Scripts\\Utilitaires\\IMPORT_LIBRARIES.lua")
 
 
 local insert = table.insert
 
-configPath = "C:\\Users\\Administrator\\Downloads\\Script_Bot_Dofus\\PC\\Configs\\configBank.xml"
-scriptPath = "C:\\Users\\Administrator\\Downloads\\Script_Bot_Dofus\\PC\\Scripts\\Utilitaires\\setup_hiaky\\scripts\\give-kamas.lua"
+configPath = "C:\\Users\\Administrator\\Documents\\snowbot-scripts\\PC\\Configs\\configBank.xml"
+scriptPath = "C:\\Users\\Administrator\\Documents\\snowbot-scripts\\PC\\Scripts\\Utilitaires\\setup_hiaky\\scripts\\give-kamas.lua"
 
 function messagesRegistering()
     developer:registerMessage("HaapiShopApiKeyMessage", _HaapiShopApiKeyMessage)
@@ -47,9 +47,9 @@ function move()
     -- if (getRemainingSubscription(true) >= 0 and not global:thisAccountController():getAlias():find("Draconiros")) 
     -- or (global:thisAccountController():getAlias():find("Draconiros") and character:kamas() > 150000) or character:kamas() > 1200000 then
     --     if not global:thisAccountController():getAlias():find("Groupe") then
-    --         global:loadAndStart("C:\\Users\\Administrator\\Downloads\\Script_Bot_Dofus\\PC\\Scripts\\PL&Zaaps\\Zaaps&Stuffs.lua")
+    --         global:loadAndStart("C:\\Users\\Administrator\\Documents\\snowbot-scripts\\PC\\Scripts\\PL&Zaaps\\Zaaps&Stuffs.lua")
     --     else
-    --         global:loadAndStart("C:\\Users\\Administrator\\Downloads\\Script_Bot_Dofus\\PC\\Scripts\\PL&Zaaps\\quete_pandala.lua")
+    --         global:loadAndStart("C:\\Users\\Administrator\\Documents\\snowbot-scripts\\PC\\Scripts\\PL&Zaaps\\quete_pandala.lua")
     --     end
     -- end
 
@@ -104,7 +104,7 @@ function move()
                     global:editInMemory("lvlFinish", character:level() + 1)
                 end
                 giver:disconnect()
-                global:loadAndStart("C:\\Users\\Administrator\\Downloads\\Script_Bot_Dofus\\PC\\Scripts\\PL&Zaaps\\PL_1-6X.lua")
+                global:loadAndStart("C:\\Users\\Administrator\\Documents\\snowbot-scripts\\PC\\Scripts\\PL&Zaaps\\PL_1-6X.lua")
             end
 
             giver:exchangeListen(true)
@@ -114,7 +114,7 @@ function move()
 
             giver:loadConfig(configPath)
 			if global:thisAccountController():getAlias():find("LvlUp") then
-				giver:loadScript("C:\\Users\\Administrator\\Downloads\\Script_Bot_Dofus\\PC\\Scripts\\Utilitaires\\setup_hiaky\\scripts\\give-kamas-and-stuff.lua")
+				giver:loadScript("C:\\Users\\Administrator\\Documents\\snowbot-scripts\\PC\\Scripts\\Utilitaires\\setup_hiaky\\scripts\\give-kamas-and-stuff.lua")
 			else
 				giver:loadScript(scriptPath)
             end
@@ -166,14 +166,14 @@ function move()
         end)
     elseif getRemainingSubscription(true) >= 0 then
         if global:thisAccountController():getAlias():find("Combat") then
-            global:loadAndStart("C:\\Users\\Administrator\\Downloads\\Script_Bot_Dofus\\PC\\Scripts\\Combat\\buyStuffSacri200.lua")
+            global:loadAndStart("C:\\Users\\Administrator\\Documents\\snowbot-scripts\\PC\\Scripts\\Combat\\buyStuffSacri200.lua")
         elseif not global:thisAccountController():getAlias():find("Groupe") then
             if character:level() > 140 then
-                global:loadAndStart("C:\\Users\\Administrator\\Downloads\\Script_Bot_Dofus\\PC\\Scripts\\Recolte\\buyStuffRecolte.lua")
+                global:loadAndStart("C:\\Users\\Administrator\\Documents\\snowbot-scripts\\PC\\Scripts\\Recolte\\buyStuffRecolte.lua")
             end
-            global:loadAndStart("C:\\Users\\Administrator\\Downloads\\Script_Bot_Dofus\\PC\\Scripts\\PL&Zaaps\\Zaaps&Stuffs.lua")
+            global:loadAndStart("C:\\Users\\Administrator\\Documents\\snowbot-scripts\\PC\\Scripts\\PL&Zaaps\\Zaaps&Stuffs.lua")
         else
-            global:loadAndStart("C:\\Users\\Administrator\\Downloads\\Script_Bot_Dofus\\PC\\Scripts\\PL&Zaaps\\quete_pandala.lua")
+            global:loadAndStart("C:\\Users\\Administrator\\Documents\\snowbot-scripts\\PC\\Scripts\\PL&Zaaps\\quete_pandala.lua")
         end
     else
         global:printSuccess("bug, on réessaye dans 1h")

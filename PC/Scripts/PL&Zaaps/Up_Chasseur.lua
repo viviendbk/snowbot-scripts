@@ -1,4 +1,4 @@
-dofile("C:\\Users\\Administrator\\Downloads\\Script_Bot_Dofus\\PC\\Scripts\\Utilitaires\\IMPORT_LIBRARIES.lua")
+dofile("C:\\Users\\Administrator\\Documents\\snowbot-scripts\\PC\\Scripts\\Utilitaires\\IMPORT_LIBRARIES.lua")
 
 
 if not global:remember("VidageBanqueFait") then
@@ -193,7 +193,7 @@ local GoAtelierChasseur = {
 function move()
     mapDelay()
     if job:level(41) > 130 then
-        global:loadAndStart("C:\\Users\\Administrator\\Downloads\\Script_Bot_Dofus\\PC\\Scripts\\Combat\\Combat+Archi.lua")
+        global:loadAndStart("C:\\Users\\Administrator\\Documents\\snowbot-scripts\\PC\\Scripts\\Combat\\Combat+Archi.lua")
     end
     if not global:remember("VidageBanqueFait") then
         return treatMaps(GoBankBonta)

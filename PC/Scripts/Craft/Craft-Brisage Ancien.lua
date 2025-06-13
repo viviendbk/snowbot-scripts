@@ -1,4 +1,4 @@
-dofile("C:\\Users\\Administrator\\Downloads\\Script_Bot_Dofus\\PC\\Scripts\\Utilitaires\\IMPORT_LIBRARIES.lua")
+dofile("C:\\Users\\Administrator\\Documents\\snowbot-scripts\\PC\\Scripts\\Utilitaires\\IMPORT_LIBRARIES.lua")
 
 
 local RunesInBank = {}
@@ -630,9 +630,9 @@ function move()
         StopNoFocus = totalValue > 120000000
         if totalValue > 200000000 then
             if global:thisAccountController():getAlias():find("FM") then
-                global:loadAndStart("C:\\Users\\Administrator\\Downloads\\Script_Bot_Dofus\\PC\\Scripts\\Craft\\Craft-FM-Resell.lua")
+                global:loadAndStart("C:\\Users\\Administrator\\Documents\\snowbot-scripts\\PC\\Scripts\\Craft\\Craft-FM-Resell.lua")
             else
-                global:loadAndStart("C:\\Users\\Administrator\\Downloads\\Script_Bot_Dofus\\PC\\Scripts\\Craft\\Craft-Resell.lua")
+                global:loadAndStart("C:\\Users\\Administrator\\Documents\\snowbot-scripts\\PC\\Scripts\\Craft\\Craft-Resell.lua")
             end
         end
         if StopNoFocus then
@@ -698,9 +698,9 @@ function move()
             local random = math.random(1, nbRunesAVendre > 10 and 4 or nbRunesAVendre > 6 and 3 or 2)
             if nbRunesAVendre < 5 then
                 if global:thisAccountController():getAlias():find("FM") then
-                    global:loadAndStart("C:\\Users\\Administrator\\Downloads\\Script_Bot_Dofus\\PC\\Scripts\\Craft\\Craft-FM-Resell.lua")
+                    global:loadAndStart("C:\\Users\\Administrator\\Documents\\snowbot-scripts\\PC\\Scripts\\Craft\\Craft-FM-Resell.lua")
                 else
-                    global:loadAndStart("C:\\Users\\Administrator\\Downloads\\Script_Bot_Dofus\\PC\\Scripts\\Craft\\Craft-Resell.lua")
+                    global:loadAndStart("C:\\Users\\Administrator\\Documents\\snowbot-scripts\\PC\\Scripts\\Craft\\Craft-Resell.lua")
                 end            end
             if random == 1 and not StopNoFocus then
                 StatSearched = "No focus"
@@ -1015,9 +1015,9 @@ function move()
             return move()
         elseif (#TableItemToChoice == 0 and reloadCount > 9) or maxFocus == "" then
             if global:thisAccountController():getAlias():find("FM") then
-                global:loadAndStart("C:\\Users\\Administrator\\Downloads\\Script_Bot_Dofus\\PC\\Scripts\\Craft\\Craft-FM-Resell.lua")
+                global:loadAndStart("C:\\Users\\Administrator\\Documents\\snowbot-scripts\\PC\\Scripts\\Craft\\Craft-FM-Resell.lua")
             else
-                global:loadAndStart("C:\\Users\\Administrator\\Downloads\\Script_Bot_Dofus\\PC\\Scripts\\Craft\\Craft-Resell.lua")
+                global:loadAndStart("C:\\Users\\Administrator\\Documents\\snowbot-scripts\\PC\\Scripts\\Craft\\Craft-Resell.lua")
             end
         end
             -- Trier les articles par ordre aléatoire
@@ -2081,9 +2081,9 @@ function move()
 
         --global:printSuccess("Total mis en vente : " ..)
         if global:thisAccountController():getAlias():find("FM") then
-            global:loadAndStart("C:\\Users\\Administrator\\Downloads\\Script_Bot_Dofus\\PC\\Scripts\\Craft\\Craft-FM-Resell.lua")
+            global:loadAndStart("C:\\Users\\Administrator\\Documents\\snowbot-scripts\\PC\\Scripts\\Craft\\Craft-FM-Resell.lua")
         else
-            global:loadAndStart("C:\\Users\\Administrator\\Downloads\\Script_Bot_Dofus\\PC\\Scripts\\Craft\\Craft-Resell.lua")
+            global:loadAndStart("C:\\Users\\Administrator\\Documents\\snowbot-scripts\\PC\\Scripts\\Craft\\Craft-Resell.lua")
         end
     end
     --- Final Selling

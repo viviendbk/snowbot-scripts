@@ -1,5 +1,5 @@
 ---@diagnostic disable: undefined-global, lowercase-global
-dofile("C:\\Users\\Administrator\\Downloads\\Script_Bot_Dofus\\PC\\Scripts\\Utilitaires\\IMPORT_LIBRARIES.lua")
+dofile("C:\\Users\\Administrator\\Documents\\snowbot-scripts\\PC\\Scripts\\Utilitaires\\IMPORT_LIBRARIES.lua")
 
 
 AUTO_DELETE = {16821, 2467, 881, 2574, 2453, 393, 16824, 8680, 13487, 13494, 641, 374, 306, 2663, 2659, 2661, 2662, 16832,16828, 1681, 8537, 8536, 8534, 8533, 8532, 1356, 2587, 16440, 16489, 8538, 312, 303, 421, 289, 16525, 16524, 310, 16834, 2477, 8245, 8248, 10967, 311, 16512, 367, 16515, 1984, 2475, 16518, 16504, 2473, 16522, 16522, 16513, 519, 16503, 2478, 16523, 290, 16511, 385, 16505, 2476, 17168, 16670, 6929, 6928, 6927, 6926, 8221, 8241, 8236, 8217, 8229,  8223, 8247, 16830, 16825,16831, 8219, 19679, 13526, 9679, 351, 8145, 6857, 8246 ,450, 16829 ,643 ,7423,394 , 6909 ,6908 ,6910 ,16823,287, 8213, 8214, 8215, 8216, 8218, 8220, 8222, 8224, 8225, 8226, 8227, 8228, 8230, 8231, 8232, 8233, 8234, 8235, 8237, 8238, 8239, 8240, 8242, 8243, 8244}
@@ -803,9 +803,9 @@ function stop()
 
 	if global:thisAccountController():getAlias():find("Requests") and character:level() >= 35 then
 		if getRemainingSubscription(true) <= 0 then
-			global:loadAndStart("C:\\Users\\Administrator\\Downloads\\Script_Bot_Dofus\\PC\\Scripts\\Utilitaires\\setup_hiaky\\scripts\\take-kamas-for-abo.lua")
+			global:loadAndStart("C:\\Users\\Administrator\\Documents\\snowbot-scripts\\PC\\Scripts\\Utilitaires\\setup_hiaky\\scripts\\take-kamas-for-abo.lua")
 		else
-			global:loadAndStart("C:\\Users\\Administrator\\Downloads\\Script_Bot_Dofus\\PC\\Scripts\\PL&Zaaps\\Zaaps&Stuffs.lua")
+			global:loadAndStart("C:\\Users\\Administrator\\Documents\\snowbot-scripts\\PC\\Scripts\\PL&Zaaps\\Zaaps&Stuffs.lua")
 		end
 	end
 
@@ -875,7 +875,7 @@ function stop()
 	global:printSuccess("4")
 
 	if global:thisAccountController():getAlias():find("Mineur") or global:thisAccountController():getAlias():find("Bucheron") then
-		global:loadConfigurationWithoutScript("C:\\Users\\Administrator\\Downloads\\Script_Bot_Dofus\\PC\\Configs\\ConfigRecolte.xml")
+		global:loadConfigurationWithoutScript("C:\\Users\\Administrator\\Documents\\snowbot-scripts\\PC\\Configs\\ConfigRecolte.xml")
 	end
 
 	global:editAlias(botType .. " " .. server .. " [PRÊT]", true)	
@@ -894,7 +894,7 @@ function stop()
 	if global:thisAccountController():getAlias():find("Craft") then
 		global:disconnect()
 	end
-	global:loadAndStart("C:\\Users\\Administrator\\Downloads\\Script_Bot_Dofus\\PC\\Scripts\\Utilitaires\\setup_hiaky\\scripts\\take-kamas.lua")
+	global:loadAndStart("C:\\Users\\Administrator\\Documents\\snowbot-scripts\\PC\\Scripts\\Utilitaires\\setup_hiaky\\scripts\\take-kamas.lua")
 end
 
 local function treatMaps(maps)
@@ -920,7 +920,7 @@ end
 function move()
 	if character:level() == 1 and global:thisAccountController():getAlias():find("Requests") and not configLoaded then
 		configLoaded = true
-		global:loadConfigurationWithoutScript("C:\\Users\\Administrator\\Downloads\\Script_Bot_Dofus\\PC\\Configs\\Config_PL_1-6X.xml")
+		global:loadConfigurationWithoutScript("C:\\Users\\Administrator\\Documents\\snowbot-scripts\\PC\\Configs\\Config_PL_1-6X.xml")
 	end
 	if character:level() > 50 then
 		PLANNING = {9, 10, 11, 12, 13, 14, 15}
@@ -1068,7 +1068,7 @@ function move()
 		  {map = "5,-19", path = "left"},
 		  {map = "7,-17", path = "top"},
 		  {map = "7,-19", path = "top"},
-		  {map = "191104002", custom = function() global:deleteAllMemory() global:loadAndStart("C:\\Users\\Administrator\\Downloads\\Script_Bot_Dofus\\PC\\Scripts\\Utilitaires\\setup_hiaky\\scripts\\take-kamas-Draconiros.lua") end},
+		  {map = "191104002", custom = function() global:deleteAllMemory() global:loadAndStart("C:\\Users\\Administrator\\Documents\\snowbot-scripts\\PC\\Scripts\\Utilitaires\\setup_hiaky\\scripts\\take-kamas-Draconiros.lua") end},
 		}
 	end
 
@@ -1160,7 +1160,7 @@ function move()
 
 	-- if inventory:itemCount(12660) == 0 and not global:remember("BUG") and global:remember("ETAPE") ~= 55 then
 	-- 	inventory:deleteItem(287, inventory:itemCount(287))
-	-- 	global:loadAndStart("C:\\Users\\Administrator\\Downloads\\Script_Bot_Dofus\\PC\\PL&Zaaps\\Quetes_Incarnam.lua")
+	-- 	global:loadAndStart("C:\\Users\\Administrator\\Documents\\snowbot-scripts\\PC\\PL&Zaaps\\Quetes_Incarnam.lua")
 	-- end
 
 	--

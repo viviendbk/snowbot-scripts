@@ -1,17 +1,17 @@
 
 --- <init>
 
-PATH =  "C:\\Users\\Administrator\\Downloads\\Script_Bot_Dofus\\PC\\Scripts\\Utilitaires\\setup_hiaky\\"
+PATH =  "C:\\Users\\Administrator\\Documents\\snowbot-scripts\\PC\\Scripts\\Utilitaires\\setup_hiaky\\"
 scriptName = "take-kamas.lua"
 dofile(PATH .. "template.lua")
 
-dofile("C:\\Users\\Administrator\\Downloads\\Script_Bot_Dofus\\PC\\Scripts\\Utilitaires\\IMPORT_LIBRARIES.lua")
+dofile("C:\\Users\\Administrator\\Documents\\snowbot-scripts\\PC\\Scripts\\Utilitaires\\IMPORT_LIBRARIES.lua")
 
 
 local insert = table.insert
 
-configPath = "C:\\Users\\Administrator\\Downloads\\Script_Bot_Dofus\\PC\\Configs\\configBank.xml"
-scriptPath = "C:\\Users\\Administrator\\Downloads\\Script_Bot_Dofus\\PC\\Scripts\\Utilitaires\\setup_hiaky\\scripts\\give-kamas.lua"
+configPath = "C:\\Users\\Administrator\\Documents\\snowbot-scripts\\PC\\Configs\\configBank.xml"
+scriptPath = "C:\\Users\\Administrator\\Documents\\snowbot-scripts\\PC\\Scripts\\Utilitaires\\setup_hiaky\\scripts\\give-kamas.lua"
 
 function messagesRegistering()
     developer:registerMessage("HaapiShopApiKeyMessage", _HaapiShopApiKeyMessage)
@@ -103,7 +103,7 @@ function move()
                 return order.id == character:id()
             end)
 
-			global:loadAndStart("C:\\Users\\Administrator\\Downloads\\Script_Bot_Dofus\\PC\\Scripts\\Craft\\GetAllPrices.lua")
+			global:loadAndStart("C:\\Users\\Administrator\\Documents\\snowbot-scripts\\PC\\Scripts\\Craft\\GetAllPrices.lua")
 
             global:printSuccess("le bot banque n'a pas pu nous donner les kamas, on retente dans 4h")
             global:deleteMemory("doneTransfert")

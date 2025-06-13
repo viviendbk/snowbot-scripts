@@ -1,17 +1,17 @@
 ---@diagnostic disable: undefined-global, lowercase-global
 --- <init>
 
-PATH =  "C:\\Users\\Administrator\\Downloads\\Script_Bot_Dofus\\PC\\Scripts\\Utilitaires\\setup_hiaky\\"
+PATH =  "C:\\Users\\Administrator\\Documents\\snowbot-scripts\\PC\\Scripts\\Utilitaires\\setup_hiaky\\"
 scriptName = "controller.lua"
 dofile(PATH .. "parameters.lua")
 dofile(PATH .. "modules//print.lua")
 --- </init>
 
-dofile("C:\\Users\\Administrator\\Downloads\\Script_Bot_Dofus\\PC\\Lib\\Craft.lua")
-dofile("C:\\Users\\Administrator\\Downloads\\Script_Bot_Dofus\\PC\\Lib\\DD.lua")
-dofile("C:\\Users\\Administrator\\Downloads\\Script_Bot_Dofus\\PC\\Lib\\HDV.lua")
-dofile("C:\\Users\\Administrator\\Downloads\\Script_Bot_Dofus\\PC\\Lib\\IA.lua")
-dofile("C:\\Users\\Administrator\\Downloads\\Script_Bot_Dofus\\PC\\Lib\\Utils.lua")
+dofile("C:\\Users\\Administrator\\Documents\\snowbot-scripts\\PC\\Lib\\Craft.lua")
+dofile("C:\\Users\\Administrator\\Documents\\snowbot-scripts\\PC\\Lib\\DD.lua")
+dofile("C:\\Users\\Administrator\\Documents\\snowbot-scripts\\PC\\Lib\\HDV.lua")
+dofile("C:\\Users\\Administrator\\Documents\\snowbot-scripts\\PC\\Lib\\IA.lua")
+dofile("C:\\Users\\Administrator\\Documents\\snowbot-scripts\\PC\\Lib\\Utils.lua")
 
 local totalKamas = 0
 local DebutDeScript = true
@@ -69,7 +69,7 @@ local function findMKamas(stringalias)
 end
 
 local function GetServerByAlias(Alias)
-    local Servers = {"Imagiro", "Orukam", "Tal Kasha", "Hell Mina", "Tylezia", "Draconiros"}
+    local Servers = {"Imagiro", "Orukam", "Tal Kasha", "Hell Mina", "Tylezia", "Draconiros", "Dakal", "Kourial", "Mikhal", "Rafal", "Salar", "Brial"}
     global:printSuccess(Alias:lower())
     for _, Server in ipairs(Servers) do
         if Alias:lower():find(Server:lower()) then
@@ -81,7 +81,7 @@ local function GetServerByAlias(Alias)
 end
 
 local function GetServer(account)
-    local Servers = {"Imagiro", "Orukam", "Tal Kasha", "Hell Mina", "Tylezia", "Draconiros"}
+    local Servers = {"Imagiro", "Orukam", "Tal Kasha", "Hell Mina", "Tylezia", "Draconiros", "Dakal", "Kourial", "Mikhal", "Rafal", "Salar", "Brial"}
     for _, Server in ipairs(Servers) do
         if account:getAlias():find(Server) then
             return Server
@@ -93,11 +93,11 @@ end
 local function GetProxy(lineToRead)
     local cpt = 0
     local i = 1
-    local f = io.open("C:\\Users\\Administrator\\Downloads\\Script_Bot_Dofus\\PC\\proxy.txt", "r")
+    local f = io.open("C:\\Users\\Administrator\\Documents\\snowbot-scripts\\PC\\proxy.txt", "r")
 
     local toReturn = {proxy = {}, port = {}, username = {}, password = {}}
 
-    for line in io.lines("C:\\Users\\Administrator\\Downloads\\Script_Bot_Dofus\\PC\\proxy.txt") do 
+    for line in io.lines("C:\\Users\\Administrator\\Documents\\snowbot-scripts\\PC\\proxy.txt") do 
         if i == lineToRead then
             tabline = line:split()
             for index, element in ipairs(tabline) do
@@ -229,40 +229,67 @@ local function ExporterComptes()
     global:printSuccess("Exportation des comptes ...")
 
     AccountToLoad = { bank = {}, Combat = {}, LvlUp = {}, Bucheron = {}, Mineur = {}, Reste = {}}
+    local all_alias = merge(snowbotController:getAliasNotLoadedAccounts(), snowbotController:getAliasLoadedAccounts())
+    local all_usernames = merge(snowbotController:getUsernameLoadedAccounts(), snowbotController:getUsernameNotLoadedAccounts())
 
-    for i, Alias in ipairs(snowbotController:getAliasAllRegistredAccounts()) do
+    for i, Alias in ipairs(all_alias) do
         if Alias:find("bank") then
-            for j, Username in ipairs(snowbotController:getUsernameAllRegistredAccounts()) do
+            for j, Username in ipairs(all_usernames) do
                 if i == j  then
+                    global:printSuccess(Alias .. ":" .. Username)
                     table.insert(AccountToLoad.bank, Username)
                 end
             end
-        elseif Alias:find("Combat") then
-            for j, Username in ipairs(snowbotController:getUsernameAllRegistredAccounts()) do
+        elseif Alias:find("Combat ") or Alias:find("Combat2") then
+            for j, Username in ipairs(all_usernames) do
                 if i == j then
                     table.insert(AccountToLoad.Combat, Username)
                 end
             end
-        elseif Alias:find("LvlUp") then
-            for j, Username in ipairs(snowbotController:getUsernameAllRegistredAccounts()) do
+        elseif Alias:find("Combat3") or Alias:find("Combat4") then
+            for j, Username in ipairs(all_usernames) do
                 if i == j then
-                    table.insert(AccountToLoad.LvlUp, Username)
+                    table.insert(AccountToLoad.Combat2, Username)
+                end
+            end
+        elseif Alias:find("LvlUp1") or Alias:find("LvlUp2") then
+            for j, Username in ipairs(all_usernames) do
+                if i == j then
+                    table.insert(AccountToLoad.LvlUp12, Username)
+                end
+            end
+        elseif Alias:find("LvlUp3") or Alias:find("LvlUp4") then
+            for j, Username in ipairs(all_usernames) do
+                if i == j then
+                    table.insert(AccountToLoad.LvlUp34, Username)
                 end
             end
         elseif Alias:find("Bucheron") then
-            for j, Username in ipairs(snowbotController:getUsernameAllRegistredAccounts()) do
+            for j, Username in ipairs(all_usernames) do
                 if i == j then
                     table.insert(AccountToLoad.Bucheron, Username)
                 end
             end
         elseif Alias:find("Mineur") then
-            for j, Username in ipairs(snowbotController:getUsernameAllRegistredAccounts()) do
+            for j, Username in ipairs(all_usernames) do
                 if i == j then
                     table.insert(AccountToLoad.Mineur, Username)
                 end
             end
-        elseif Alias:find("*") or Alias:find("Next") then
-            for j, Username in ipairs(snowbotController:getUsernameAllRegistredAccounts()) do
+        elseif Alias:find("Groupe") then
+            for j, Username in ipairs(all_usernames) do
+                if i == j then
+                    table.insert(AccountToLoad.Groupe, Username)
+                end
+            end
+        elseif Alias:find("Craft") then
+            for j, Username in ipairs(all_usernames) do
+                if i == j then
+                    table.insert(AccountToLoad.Craft, Username)
+                end
+            end
+        elseif not Alias:find("-") then
+            for j, Username in ipairs(all_usernames) do
                 if i == j then
                     table.insert(AccountToLoad.Reste, Username)
                 end
@@ -311,10 +338,10 @@ local function ExporterComptes()
     end   
 
     if #AccountToLoad.Combat > 0 then
-        f = io.open("C:\\Users\\Administrator\\Downloads\\Script_Bot_Dofus\\PC\\ComptesCombat.txt", "w")
+        f = io.open("C:\\Users\\Administrator\\Documents\\snowbot-scripts\\PC\\ComptesCombat.txt", "w")
     else
         global:printSuccess("aaaaaa")
-        f = io.open("C:\\Users\\Administrator\\Downloads\\Script_Bot_Dofus\\PC\\ComptesRecolte.txt", "w")
+        f = io.open("C:\\Users\\Administrator\\Documents\\snowbot-scripts\\PC\\ComptesRecolte.txt", "w")
     end
 
     f:write(content)
@@ -324,8 +351,9 @@ end
 
 
 local function FindInAllAccount(AliasToFind)
-    local AllAlias = snowbotController:getAliasAllRegistredAccounts()
-    local AllUsernames = snowbotController:getUsernameAllRegistredAccounts()
+    local AllAlias = merge(snowbotController:getAliasNotLoadedAccounts(), snowbotController:getAliasLoadedAccounts())
+    local AllUsernames = merge(snowbotController:getUsernameLoadedAccounts(), snowbotController:getUsernameNotLoadedAccounts())
+
     local Accs = {}
 
     for i, Alias in ipairs(AllAlias) do
@@ -339,7 +367,7 @@ end
 
 local function RegisterHLAccounts()
     -- Read the file
-    local file = io.open("C:\\Users\\Administrator\\Downloads\\Script_Bot_Dofus\\PC\\ComptesAVendre.txt", "r")
+    local file = io.open("C:\\Users\\Administrator\\Documents\\snowbot-scripts\\PC\\ComptesAVendre.txt", "r")
     if not file then
       return nil, "Unable to open file"
     end
@@ -357,7 +385,13 @@ local function RegisterHLAccounts()
       ["Tal Kasha"] = {},
       ["Hell Mina"] = {},
       ["Tylezia"] = {},
-      ["Draconiros"] = {}
+      ["Draconiros"] = {},
+      ["Dakal"] = {},
+      ["Kourial"] = {},
+      ["Mikhal"] = {},
+      ["Rafal"] = {},
+      ["Salar"] = {},
+      ["Brial"] = {}
     }
 
     for k, v in pairs(servers) do
@@ -396,7 +430,7 @@ local function RegisterHLAccounts()
     end
   
     -- Write the modified content back to the file
-    file = io.open("C:\\Users\\Administrator\\Downloads\\Script_Bot_Dofus\\PC\\ComptesAVendre.txt", "w")
+    file = io.open("C:\\Users\\Administrator\\Documents\\snowbot-scripts\\PC\\ComptesAVendre.txt", "w")
     if not file then
       return nil, "Unable to open file for writing"
     end
@@ -409,6 +443,7 @@ local function RegisterHLAccounts()
   
 
 function move()
+
     totalKamas = 0
     print:info("Checkup des bots")
 
@@ -425,13 +460,15 @@ function move()
     if DebutDeScript then
         global:printSuccess("Lancement des comptes")
 
-        local AliasAllAccount = snowbotController:getAliasAllRegistredAccounts()
-        local ServersExeptMono = {"Imagiro", "Orukam", "Tal Kasha", "Hell Mina", "Tylezia", "Draconiros"}
+        local AliasAllAccount = merge(snowbotController:getAliasNotLoadedAccounts(), snowbotController:getAliasLoadedAccounts())
+        local ServersExeptMono = {"Imagiro", "Orukam", "Tal Kasha", "Hell Mina", "Tylezia", "Draconiros", "Dakal", "Kourial", "Mikhal", "Rafal", "Salar", "Brial"}
         local boolMineur = false
         local boolBucheron = false
 
         AccountToLoad = { bank = {}, Groupe = {
-            ["Imagiro"] = {}, ["Orukam"] = {}, ["Tylezia"] = {}, ["Hell Mina"] = {}, ["Tal Kasha"] = {}, ["Draconiros"] = {}
+            ["Imagiro"] = {}, ["Orukam"] = {}, ["Tylezia"] = {}, ["Hell Mina"] = {}, ["Tal Kasha"] = {}, ["Draconiros"] = {},
+                        ["Dakal"] = {}, ["Kourial"] = {}, ["Mikhal"] = {}, ["Rafal"] = {}, ["Salar"] = {}, ["Brial"] = {}
+
         }, Combat = {}, LvlUp = {}, Bucheron = {}, Bucheron2 = {}, Bucheron3 = {}, Mineur = {}, Mineur2 = {}, Mineur3 = {}, Mineur4 = {}, Mineur5 = {}}
     
         for i, acc in ipairs(snowbotController:getAliasNotLoadedAccounts()) do
@@ -1073,19 +1110,19 @@ function move()
             end
             if nbDjBlSuccess > 10 then
                 acc.global():clearConsole()
-                acc.global():loadAndStart("C:\\Users\\Administrator\\Downloads\\Script_Bot_Dofus\\PC\\Scripts\\PL&Zaaps\\quete_pandala.lua")
+                acc.global():loadAndStart("C:\\Users\\Administrator\\Documents\\snowbot-scripts\\PC\\Scripts\\PL&Zaaps\\quete_pandala.lua")
             end
 
         end
 
         if not acc:hasScript() and acc.character():level() < 10 and acc:isAccountFullyConnected() and not acc:getAlias():find("Groupe") then
-            acc:loadConfig("C:\\Users\\Administrator\\Downloads\\Script_Bot_Dofus\\PC\\Configs\\Config_PL_1-6X.xml")
-            acc:loadScript("C:\\Users\\Administrator\\Downloads\\Script_Bot_Dofus\\PC\\Scripts\\PL&Zaaps\\PL_1-6X.lua")
+            acc:loadConfig("C:\\Users\\Administrator\\Documents\\snowbot-scripts\\PC\\Configs\\Config_PL_1-6X.xml")
+            acc:loadScript("C:\\Users\\Administrator\\Documents\\snowbot-scripts\\PC\\Scripts\\PL&Zaaps\\PL_1-6X.lua")
             acc:disconnect()
             acc:connect()
         elseif not acc:hasScript() and acc.character():level() > 140 and acc:isAccountFullyConnected() and not acc:getAlias():find("Groupe") then
-            acc:loadConfig("C:\\Users\\Administrator\\Downloads\\Script_Bot_Dofus\\PC\\Configs\\ConfigRecolte.xml")
-            acc:loadScript("C:\\Users\\Administrator\\Downloads\\Script_Bot_Dofus\\PC\\Scripts\\Utilitaires\\setup_hiaky\\scripts\\take-kamas.lua")
+            acc:loadConfig("C:\\Users\\Administrator\\Documents\\snowbot-scripts\\PC\\Configs\\ConfigRecolte.xml")
+            acc:loadScript("C:\\Users\\Administrator\\Documents\\snowbot-scripts\\PC\\Scripts\\Utilitaires\\setup_hiaky\\scripts\\take-kamas.lua")
             acc:disconnect()
             acc:connect()
         end
@@ -1114,12 +1151,16 @@ function move()
 
     global:printSuccess("Création de nouveaux bot recoltes...")
         -- recherche du nombre de mineurs par serveur
-        local Servers = {"Imagiro", "Orukam", "Tal Kasha", "Hell Mina", "Tylezia", "Draconiros"}
+        local Servers = {"Imagiro", "Orukam", "Tal Kasha", "Hell Mina", "Tylezia", "Draconiros", "Dakal", "Kourial", "Mikhal", "Rafal", "Salar", "Brial"}
         local AliasAllAccount = snowbotController:getAliasLoadedAccounts()
-        local TotalMineur50ByServ = {["Imagiro"] = 0, ["Orukam"] = 0, ["Hell Mina"] = 0, ["Tal Kasha"] = 0, ["Tylezia"] = 0, ["Draconiros"] = 0}
-        local TotalMineurByServ = {["Imagiro"] = 0, ["Orukam"] = 0, ["Hell Mina"] = 0, ["Tal Kasha"] = 0, ["Tylezia"] = 0, ["Draconiros"] = 0}
-        local TotalBucheron50ByServ = {["Imagiro"] = 0, ["Orukam"] = 0, ["Hell Mina"] = 0, ["Tal Kasha"] = 0, ["Tylezia"] = 0, ["Draconiros"] = 0}
-        local TotalBucheronByServ = {["Imagiro"] = 0, ["Orukam"] = 0, ["Hell Mina"] = 0, ["Tal Kasha"] = 0, ["Tylezia"] = 0, ["Draconiros"] = 0}
+        local TotalMineur50ByServ = {["Imagiro"] = 0, ["Orukam"] = 0, ["Hell Mina"] = 0, ["Tal Kasha"] = 0, ["Tylezia"] = 0, ["Draconiros"] = 0
+    , ["Dakal"] = 0, ["Kourial"] = 0, ["Mikhal"] = 0, ["Rafal"] = 0, ["Salar"] = 0, ["Brial"] = 0}
+        local TotalMineurByServ = {["Imagiro"] = 0, ["Orukam"] = 0, ["Hell Mina"] = 0, ["Tal Kasha"] = 0, ["Tylezia"] = 0, ["Draconiros"] = 0
+    , ["Dakal"] = 0, ["Kourial"] = 0, ["Mikhal"] = 0, ["Rafal"] = 0, ["Salar"] = 0, ["Brial"] = 0}
+        local TotalBucheron50ByServ = {["Imagiro"] = 0, ["Orukam"] = 0, ["Hell Mina"] = 0, ["Tal Kasha"] = 0, ["Tylezia"] = 0, ["Draconiros"] = 0,
+    ["Dakal"] = 0, ["Kourial"] = 0, ["Mikhal"] = 0, ["Rafal"] = 0, ["Salar"] = 0, ["Brial"] = 0}
+        local TotalBucheronByServ = {["Imagiro"] = 0, ["Orukam"] = 0, ["Hell Mina"] = 0, ["Tal Kasha"] = 0, ["Tylezia"] = 0, ["Draconiros"] = 0,
+    ["Dakal"] = 0, ["Kourial"] = 0, ["Mikhal"] = 0, ["Rafal"] = 0, ["Salar"] = 0, ["Brial"] = 0}
         
         for _, server in ipairs(Servers) do
             for i, Alias in ipairs(AliasAllAccount) do

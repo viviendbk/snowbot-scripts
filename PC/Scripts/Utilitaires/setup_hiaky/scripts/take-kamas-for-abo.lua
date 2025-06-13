@@ -1,16 +1,16 @@
 
 --- <init>
 
-PATH =  "C:\\Users\\Administrator\\Downloads\\Script_Bot_Dofus\\PC\\Scripts\\Utilitaires\\setup_hiaky\\"
+PATH =  "C:\\Users\\Administrator\\Documents\\snowbot-scripts\\PC\\Scripts\\Utilitaires\\setup_hiaky\\"
 scriptName = "take-kamas.lua"
 dofile(PATH .. "template.lua")
-dofile("C:\\Users\\Administrator\\Downloads\\Script_Bot_Dofus\\PC\\Scripts\\Utilitaires\\IMPORT_LIBRARIES.lua")
+dofile("C:\\Users\\Administrator\\Documents\\snowbot-scripts\\PC\\Scripts\\Utilitaires\\IMPORT_LIBRARIES.lua")
 
 
 local insert = table.insert
 
-configPath = "C:\\Users\\Administrator\\Downloads\\Script_Bot_Dofus\\PC\\Configs\\configBank.xml"
-scriptPath = "C:\\Users\\Administrator\\Downloads\\Script_Bot_Dofus\\PC\\Scripts\\Utilitaires\\setup_hiaky\\scripts\\give-kamas.lua"
+configPath = "C:\\Users\\Administrator\\Documents\\snowbot-scripts\\PC\\Configs\\configBank.xml"
+scriptPath = "C:\\Users\\Administrator\\Documents\\snowbot-scripts\\PC\\Scripts\\Utilitaires\\setup_hiaky\\scripts\\give-kamas.lua"
 
 function messagesRegistering()
     developer:registerMessage("HaapiShopApiKeyMessage", _HaapiShopApiKeyMessage)
@@ -32,28 +32,28 @@ function move()
     -- if (getRemainingSubscription(true) >= 0 and not global:thisAccountController():getAlias():find("Draconiros")) 
     -- or (global:thisAccountController():getAlias():find("Draconiros") and character:kamas() > 150000) or character:kamas() > 1200000 then
     --     if not global:thisAccountController():getAlias():find("Groupe") then
-    --         global:loadAndStart("C:\\Users\\Administrator\\Downloads\\Script_Bot_Dofus\\PC\\Scripts\\PL&Zaaps\\Zaaps&Stuffs.lua")
+    --         global:loadAndStart("C:\\Users\\Administrator\\Documents\\snowbot-scripts\\PC\\Scripts\\PL&Zaaps\\Zaaps&Stuffs.lua")
     --     else
-    --         global:loadAndStart("C:\\Users\\Administrator\\Downloads\\Script_Bot_Dofus\\PC\\Scripts\\PL&Zaaps\\quete_pandala.lua")
+    --         global:loadAndStart("C:\\Users\\Administrator\\Documents\\snowbot-scripts\\PC\\Scripts\\PL&Zaaps\\quete_pandala.lua")
     --     end
     -- end
     
     if getRemainingSubscription(true) >= 1 or character:kamas() > 2000000 then
         if global:thisAccountController():getAlias():find("Combat") then
             global:deleteMemory("doneTransfert")
-            global:loadAndStart("C:\\Users\\Administrator\\Downloads\\Script_Bot_Dofus\\PC\\Scripts\\Combat\\Combat+Archi.lua")
+            global:loadAndStart("C:\\Users\\Administrator\\Documents\\snowbot-scripts\\PC\\Scripts\\Combat\\Combat+Archi.lua")
         elseif global:thisAccountController():getAlias():find("Mineur") then
             global:deleteMemory("doneTransfert")
-            global:loadAndStart("C:\\Users\\Administrator\\Downloads\\Script_Bot_Dofus\\PC\\Scripts\\Recolte\\Mineur_1-150_ULTIME.lua")
+            global:loadAndStart("C:\\Users\\Administrator\\Documents\\snowbot-scripts\\PC\\Scripts\\Recolte\\Mineur_1-150_ULTIME.lua")
         elseif global:thisAccountController():getAlias():find("Bucheron") then
             global:deleteMemory("doneTransfert")
-            global:loadAndStart("C:\\Users\\Administrator\\Downloads\\Script_Bot_Dofus\\PC\\Scripts\\Recolte\\Bucheron_1_200.lua")
+            global:loadAndStart("C:\\Users\\Administrator\\Documents\\snowbot-scripts\\PC\\Scripts\\Recolte\\Bucheron_1_200.lua")
         elseif global:thisAccountController():getAlias():find("LvlUp") then
             global:deleteMemory("doneTransfert")
-            global:loadAndStart("C:\\Users\\Administrator\\Downloads\\Script_Bot_Dofus\\PC\\Scripts\\Combat\\PL_6X-114.lua")
+            global:loadAndStart("C:\\Users\\Administrator\\Documents\\snowbot-scripts\\PC\\Scripts\\Combat\\PL_6X-114.lua")
         elseif global:thisAccountController():getAlias():find("Request") then
             global:deleteMemory("doneTransfert")
-            global:loadAndStart("C:\\Users\\Administrator\\Downloads\\Script_Bot_Dofus\\PC\\Scripts\\Craft\\GetAllPrices.lua")
+            global:loadAndStart("C:\\Users\\Administrator\\Documents\\snowbot-scripts\\PC\\Scripts\\Craft\\GetAllPrices.lua")
         end
     end
 
@@ -133,19 +133,19 @@ function move()
     elseif getRemainingSubscription(true) >= 0 then
         if global:thisAccountController():getAlias():find("Combat") then
             global:deleteMemory("doneTransfert")
-            global:loadAndStart("C:\\Users\\Administrator\\Downloads\\Script_Bot_Dofus\\PC\\Scripts\\Combat\\Combat+Archi.lua")
+            global:loadAndStart("C:\\Users\\Administrator\\Documents\\snowbot-scripts\\PC\\Scripts\\Combat\\Combat+Archi.lua")
         elseif global:thisAccountController():getAlias():find("Mineur") then
             global:deleteMemory("doneTransfert")
-            global:loadAndStart("C:\\Users\\Administrator\\Downloads\\Script_Bot_Dofus\\PC\\Scripts\\Recolte\\Mineur_1-150_ULTIME.lua")
+            global:loadAndStart("C:\\Users\\Administrator\\Documents\\snowbot-scripts\\PC\\Scripts\\Recolte\\Mineur_1-150_ULTIME.lua")
         elseif global:thisAccountController():getAlias():find("Bucheron") then
             global:deleteMemory("doneTransfert")
-            global:loadAndStart("C:\\Users\\Administrator\\Downloads\\Script_Bot_Dofus\\PC\\Scripts\\Recolte\\Bucheron_1_200.lua")
+            global:loadAndStart("C:\\Users\\Administrator\\Documents\\snowbot-scripts\\PC\\Scripts\\Recolte\\Bucheron_1_200.lua")
         elseif global:thisAccountController():getAlias():find("LvlUp") then
             global:deleteMemory("doneTransfert")
-            global:loadAndStart("C:\\Users\\Administrator\\Downloads\\Script_Bot_Dofus\\PC\\Scripts\\Combat\\PL_6X-114.lua")
+            global:loadAndStart("C:\\Users\\Administrator\\Documents\\snowbot-scripts\\PC\\Scripts\\Combat\\PL_6X-114.lua")
         elseif global:thisAccountController():getAlias():find("Request") then
             global:deleteMemory("doneTransfert")
-            global:loadAndStart("C:\\Users\\Administrator\\Downloads\\Script_Bot_Dofus\\PC\\Scripts\\Craft\\GetAllPrices.lua")
+            global:loadAndStart("C:\\Users\\Administrator\\Documents\\snowbot-scripts\\PC\\Scripts\\Craft\\GetAllPrices.lua")
         end
     else
         global:printSuccess("bug, on réessaye dans 1h")

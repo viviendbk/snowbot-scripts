@@ -17,6 +17,14 @@ string.split = function(self, sep, rawSep)
     return result
 end
 
+function merge(t1, t2)
+    local result = {}
+    for i = 1, #t1 do table.insert(result, t1[i]) end
+    for i = 1, #t2 do table.insert(result, t2[i]) end
+    return result
+end
+
+
 function handleDisconnection()
     local currentTime = os.time()
 
@@ -126,26 +134,23 @@ function truncKamas(amount)
 end
 
 function getRemainingSubscription(inDay, acc)
-    local accDeveloper = acc and acc.developer or developer
-
-    local endDate = accDeveloper:historicalMessage("IdentificationSuccessMessage")[1].subscriptionEndDate 
-    local now = os.time(os.date("!*t")) * 1000
-
-    endDate = math.floor((endDate - now) / 3600000)
-
-    return inDay and math.floor(endDate / 24) or endDate
+    local ts = developer:historicalMessage("IdentificationSuccessMessage")[1].subscriptionEndDate
+    local now = os.time()
+    local diff = ts - now         -- différence en secondes
+    if diff <= 0 then
+        return 0                     -- la date est dépassée ou c'est le moment même
+    end
+    return math.floor(diff / 3600) -- 3600 s = 1 heure
 end
 
 function getRemainingHoursSubscription(acc)
-    local accDeveloper = acc and acc.developer or developer
-
-    local endDate = developer:historicalMessage("IdentificationSuccessMessage")[1].subscriptionEndDate 
-    local now = os.time(os.date("!*t")) * 1000
-
-    local remainingMilliseconds = endDate - now
-    local remainingHours = math.floor(remainingMilliseconds / (1000 * 3600))
-
-    return remainingHours
+    local ts = developer:historicalMessage("IdentificationSuccessMessage")[1].subscriptionEndDate
+    local now = os.time()
+    local diff = ts - now         -- différence en secondes
+    if diff <= 0 then
+        return 0                     -- la date est dépassée ou c'est le moment même
+    end
+    return math.floor(diff / 3600) -- 3600 s = 1 heure
 end
 
 
@@ -382,13 +387,13 @@ connected = false
 
 
 function isBotBankAvailable()
-    local json = openFile("C:\\Users\\Administrator\\Downloads\\Script_Bot_Dofus\\PC\\Temp\\" .. character:server() .. "\\botBankAvailability.json")
+    local json = openFile("C:\\Users\\Administrator\\Documents\\snowbot-scripts\\PC\\Temp\\" .. character:server() .. "\\botBankAvailability.json")
     return not json[1].connected
 end
 
 function setBotBankConnected(server, bool)
     global:printSuccess(server)
-    local jsonMemory = openFile("C:\\Users\\Administrator\\Downloads\\Script_Bot_Dofus\\PC\\Temp\\" .. server .. "\\botBankAvailability.json")
+    local jsonMemory = openFile("C:\\Users\\Administrator\\Documents\\snowbot-scripts\\PC\\Temp\\" .. server .. "\\botBankAvailability.json")
 
     global:printSuccess(server)
     global:printSuccess(bool)
@@ -398,7 +403,7 @@ function setBotBankConnected(server, bool)
     local new_content = json.encode(jsonMemory)
     -- Écrire les modifications dans le fichier JSON
 
-    local file = io.open("C:\\Users\\Administrator\\Downloads\\Script_Bot_Dofus\\PC\\Temp\\" .. server .. "\\botBankAvailability.json", "w")
+    local file = io.open("C:\\Users\\Administrator\\Documents\\snowbot-scripts\\PC\\Temp\\" .. server .. "\\botBankAvailability.json", "w")
 
     file:write(new_content)
     file:close()
@@ -411,7 +416,7 @@ function resetBotBankAvailability(force)
         if force then
             setBotBankConnected(server, false)
         else
-            local jsonMemory = openFile("C:\\Users\\Administrator\\Downloads\\Script_Bot_Dofus\\PC\\Temp\\" .. server .. "\\botBankAvailability.json")
+            local jsonMemory = openFile("C:\\Users\\Administrator\\Documents\\snowbot-scripts\\PC\\Temp\\" .. server .. "\\botBankAvailability.json")
             if isDateExceeded(jsonMemory[1].lastUpdate) and jsonMemory[1].connected then
                 setBotBankConnected(server, false)
             end
@@ -507,8 +512,8 @@ function connectReceiver(maxWaitingTime)
                 end
                 global:printSuccess("ok")
 
-				acc:loadConfig("C:\\Users\\Administrator\\Downloads\\Script_Bot_Dofus\\PC\\Configs\\configBank.xml")
-                acc:loadScript("C:\\Users\\Administrator\\Downloads\\Script_Bot_Dofus\\PC\\Scripts\\Utilitaires\\bot_banque.lua")				
+				acc:loadConfig("C:\\Users\\Administrator\\Documents\\snowbot-scripts\\PC\\Configs\\configBank.xml")
+                acc:loadScript("C:\\Users\\Administrator\\Documents\\snowbot-scripts\\PC\\Scripts\\Utilitaires\\bot_banque.lua")				
                 acc:startScript()
                 return acc
             else

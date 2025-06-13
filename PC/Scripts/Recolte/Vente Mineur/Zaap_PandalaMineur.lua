@@ -145,9 +145,9 @@ local function pandala_10()
 	global:delay(2000)
     global:deleteAllMemory()
     if global:thisAccountController():getAlias():find("Bucheron") then
-        global:loadAndStart("C:\\Users\\Administrator\\Downloads\\Script_Bot_Dofus\\PC\\PL&Zaaps\\zaap_otomai.lua")
+        global:loadAndStart("C:\\Users\\Administrator\\Documents\\snowbot-scripts\\PC\\PL&Zaaps\\zaap_otomai.lua")
     elseif global:thisAccountController():getAlias():find("Mineur") then
-        global:loadAndStart("C:\\Users\\Administrator\\Downloads\\Script_Bot_Dofus\\PC\\Recolte\\Mineur_1-150_ULTIME.lua")
+        global:loadAndStart("C:\\Users\\Administrator\\Documents\\snowbot-scripts\\PC\\Recolte\\Mineur_1-150_ULTIME.lua")
     else
         global:disconnect()
     end
@@ -229,11 +229,11 @@ function move()
         map:moveToCell(409)
     end
     if job:level(24) >= 6 then
-        global:loadAndStart("C:\\Users\\Administrator\\Downloads\\Script_Bot_Dofus\\PC\\Recolte\\Mineur_1-150_ULTIME.lua")
+        global:loadAndStart("C:\\Users\\Administrator\\Documents\\snowbot-scripts\\PC\\Recolte\\Mineur_1-150_ULTIME.lua")
     elseif job:level(2) >= 6 then
-        global:loadAndStart("C:\\Users\\Administrator\\Downloads\\Script_Bot_Dofus\\PC\\Recolte\\Bucheron_1_200.lua")
+        global:loadAndStart("C:\\Users\\Administrator\\Documents\\snowbot-scripts\\PC\\Recolte\\Bucheron_1_200.lua")
     elseif global:thisAccountController():isItATeam() and global:isBoss() or global:thisAccountController():getAlias():find("Groupe") then
-        global:loadAndStart("C:\\Users\\Administrator\\Downloads\\Script_Bot_Dofus\\PC\\PL&Zaaps\\zaapArbreHakam.lua")
+        global:loadAndStart("C:\\Users\\Administrator\\Documents\\snowbot-scripts\\PC\\PL&Zaaps\\zaapArbreHakam.lua")
     end
 
     if not map:currentArea():find("Astrub") and not map:currentArea():find("Pandala") then

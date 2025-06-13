@@ -1,6 +1,6 @@
 <?xml version="1.0" encoding="utf-8"?>
 <Configform xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xmlns:xsd="http://www.w3.org/2001/XMLSchema">
-  <Script>C:\Users\Administrator\Downloads\ovh snowbot\ConfigMineur\bot_banque.lua</Script>
+  <Script>C:\Users\Administrator\Documents\ovh snowbot\ConfigMineur\bot_banque.lua</Script>
   <Placement>0</Placement>
   <SpeedFight>1500</SpeedFight>
   <Regen>80</Regen>

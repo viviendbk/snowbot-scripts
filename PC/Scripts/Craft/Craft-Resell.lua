@@ -1,4 +1,4 @@
-dofile("C:\\Users\\Administrator\\Downloads\\Script_Bot_Dofus\\PC\\Scripts\\Utilitaires\\IMPORT_LIBRARIES.lua")
+dofile("C:\\Users\\Administrator\\Documents\\snowbot-scripts\\PC\\Scripts\\Utilitaires\\IMPORT_LIBRARIES.lua")
 
 
 local dicoItems = {}
@@ -389,7 +389,7 @@ function move()
         
             global:printSuccess("Remplissage de la TableItem...")
 
-            local jsonFile = openFile("C:\\Users\\Administrator\\Downloads\\Script_Bot_Dofus\\PC\\Scripts\\Craft\\" .. character:server() .. "\\Craft-Resell.json")
+            local jsonFile = openFile("C:\\Users\\Administrator\\Documents\\snowbot-scripts\\PC\\Scripts\\Craft\\" .. character:server() .. "\\Craft-Resell.json")
             for i = 1, 20000 do
                 if IsItem(inventory:itemTypeId(i)) and inventory:getLevel(i) <= job:level(GetJobIdByType(inventory:getTypeName(i))) and inventory:getLevel(i) > (character:server() == "Draconiros" and 49 or 49)
                 and inventory:getLevel(i) < (character:server() == "Ombre" and 150 or 200) and ((inventory:itemCount(i) > 0 and inventory:itemPosition(i) == 63) or inventory:itemCount(i) == 0) and CanCraftItem(i, jsonFile) then
@@ -795,7 +795,7 @@ function move()
                 global:printError("l'hdv est plein, on retente dans X heures")
                 local random = math.random(1, 3)
                 if random ~= 1 and character:kamas() > 10000000 then
-                    global:loadAndStart("C:\\Users\\Administrator\\Downloads\\Script_Bot_Dofus\\PC\\Scripts\\Craft\\Craft-Brisage.lua")
+                    global:loadAndStart("C:\\Users\\Administrator\\Documents\\snowbot-scripts\\PC\\Scripts\\Craft\\Craft-Brisage.lua")
                 elseif random == 2 then
                     global:reconnectBis(math.random(100, 150))
                 else
@@ -948,7 +948,7 @@ function move()
 
             HdvSell()
 
-            local json = openFile("C:\\Users\\Administrator\\Downloads\\Script_Bot_Dofus\\PC\\Scripts\\Craft\\" .. character:server() .. "\\Craft-Resell.json")
+            local json = openFile("C:\\Users\\Administrator\\Documents\\snowbot-scripts\\PC\\Scripts\\Craft\\" .. character:server() .. "\\Craft-Resell.json")
             local newTemp = {}
 
             for _, element in ipairs(tableCraft) do
@@ -1098,7 +1098,7 @@ function move()
         element.table = {}
     end
 
-    local json = openFile("C:\\Users\\Administrator\\Downloads\\Script_Bot_Dofus\\PC\\Scripts\\Craft\\" .. character:server() .. "\\Craft-Resell.json")
+    local json = openFile("C:\\Users\\Administrator\\Documents\\snowbot-scripts\\PC\\Scripts\\Craft\\" .. character:server() .. "\\Craft-Resell.json")
     SetNewTemp({}, json)
 
 
@@ -1122,7 +1122,7 @@ function move()
         --global:printSuccess("Total mis en vente : " ..)
         local random = math.random(1, 4)
         if random ~= 1 and character:kamas() > 10000000 then
-            global:loadAndStart("C:\\Users\\Administrator\\Downloads\\Script_Bot_Dofus\\PC\\Scripts\\Craft\\Craft-Brisage.lua")
+            global:loadAndStart("C:\\Users\\Administrator\\Documents\\snowbot-scripts\\PC\\Scripts\\Craft\\Craft-Brisage.lua")
         else
             global:reconnectBis(math.random(100,150))
         end

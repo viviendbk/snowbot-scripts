@@ -1,6 +1,6 @@
-dofile("C:\\Users\\Administrator\\Downloads\\Script_Bot_Dofus\\PC\\Scripts\\Utilitaires\\setup_hiaky\\modules\\print.lua")
-dofile("C:\\Users\\Administrator\\Downloads\\Script_Bot_Dofus\\PC\\Scripts\\Utilitaires\\setup_hiaky\\auto_stuff\\classes\\GetStatItem.lua")
-json = dofile("C:\\Users\\Administrator\\Downloads\\Script_Bot_Dofus\\PC\\Scripts\\Utilitaires\\setup_hiaky\\auto_stuff\\lib\\json.lua")
+dofile("C:\\Users\\Administrator\\Documents\\snowbot-scripts\\PC\\Scripts\\Utilitaires\\setup_hiaky\\modules\\print.lua")
+dofile("C:\\Users\\Administrator\\Documents\\snowbot-scripts\\PC\\Scripts\\Utilitaires\\setup_hiaky\\auto_stuff\\classes\\GetStatItem.lua")
+json = dofile("C:\\Users\\Administrator\\Documents\\snowbot-scripts\\PC\\Scripts\\Utilitaires\\setup_hiaky\\auto_stuff\\lib\\json.lua")
 
 PourcentageJetPerf_ItemToSell = 0
 IdToSell = 0
@@ -1386,6 +1386,7 @@ function IsActionIdKnown(actionId)
 end
 
 function IsItem(TypeId)
+    global:printDebug("On vérifie si l'id [" .. TypeId .. "] est un item")
     if not TypeId then
         return false
     end

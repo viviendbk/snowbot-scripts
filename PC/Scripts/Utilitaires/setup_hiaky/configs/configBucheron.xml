@@ -1,6 +1,6 @@
 <?xml version="1.0" encoding="utf-8"?>
 <Configform xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xmlns:xsd="http://www.w3.org/2001/XMLSchema">
-  <Script>C:\Users\Administrator\Downloads\ovh snowbot\Config Bucheron\zaap_bucheron.lua</Script>
+  <Script>C:\Users\Administrator\Documents\ovh snowbot\Config Bucheron\zaap_bucheron.lua</Script>
   <Placement>1</Placement>
   <SpeedFight>2</SpeedFight>
   <Regen>50</Regen>

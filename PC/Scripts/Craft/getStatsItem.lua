@@ -1,4 +1,4 @@
-dofile("C:\\Users\\Administrator\\Downloads\\Script_Bot_Dofus\\PC\\Scripts\\Utilitaires\\IMPORT_LIBRARIES.lua")
+dofile("C:\\Users\\Administrator\\Documents\\snowbot-scripts\\PC\\Scripts\\Utilitaires\\IMPORT_LIBRARIES.lua")
 
 local function openFile(path, del)
     local fileResult = io.open(path, "r")
@@ -15,7 +15,7 @@ local function openFile(path, del)
     end
 end
 
-local effectsEnum = openFile("C:\\Users\\Administrator\\Downloads\\Script_Bot_Dofus\\PC\\Utilitaires\\setup_hiaky\\auto_stuff\\data\\effects_enum.json")
+local effectsEnum = openFile("C:\\Users\\Administrator\\Documents\\snowbot-scripts\\PC\\Utilitaires\\setup_hiaky\\auto_stuff\\data\\effects_enum.json")
 local json = dofile(PATH .. "\\lib\\json.lua")
 
 

@@ -1,5 +1,5 @@
 ---@diagnostic disable: undefined-global, lowercase-global
-dofile("C:\\Users\\Administrator\\Downloads\\Script_Bot_Dofus\\PC\\Scripts\\Utilitaires\\IMPORT_LIBRARIES.lua")
+dofile("C:\\Users\\Administrator\\Documents\\snowbot-scripts\\PC\\Scripts\\Utilitaires\\IMPORT_LIBRARIES.lua")
 ---- Options ----
 MAX_MONSTERS = 8
 MIN_MONSTERS = 2
@@ -1103,8 +1103,8 @@ local function connectReceiver()
                         return acc
                     end
                 end
-				acc:loadConfig("C:\\Users\\Administrator\\Downloads\\Script_Bot_Dofus\\PC\\Configs\\configBank.xml")
-                acc:loadScript("C:\\Users\\Administrator\\Downloads\\Script_Bot_Dofus\\PC\\Scripts\\Utilitaires\\bot_banque.lua")
+				acc:loadConfig("C:\\Users\\Administrator\\Documents\\snowbot-scripts\\PC\\Configs\\configBank.xml")
+                acc:loadScript("C:\\Users\\Administrator\\Documents\\snowbot-scripts\\PC\\Scripts\\Utilitaires\\bot_banque.lua")
 				acc:startScript()
                 return acc
             else
@@ -1136,7 +1136,7 @@ local function takeKamas()
 	global:leaveDialog()
 	if character:kamas() < 1200000 then
 		global:printSuccess("Reco dans 2h")
-		global:loadAndStart("C:\\Users\\Administrator\\Downloads\\Script_Bot_Dofus\\PC\\Scripts\\Utilitaires\\setup_hiaky\\scripts\\take-kamas.lua")
+		global:loadAndStart("C:\\Users\\Administrator\\Documents\\snowbot-scripts\\PC\\Scripts\\Utilitaires\\setup_hiaky\\scripts\\take-kamas.lua")
 		global:reconnectBis(math.random(80, 120))
 	end
 end
@@ -1201,11 +1201,11 @@ end
 local function GetProxy(lineToRead)
     local cpt = 0
     local i = 1
-    local f = io.open("C:\\Users\\Administrator\\Downloads\\Script_Bot_Dofus\\PC\\proxy.txt", "r")
+    local f = io.open("C:\\Users\\Administrator\\Documents\\snowbot-scripts\\PC\\proxy.txt", "r")
 
     local toReturn = {proxy = {}, port = {}, username = {}, password = {}}
 
-    for line in io.lines("C:\\Users\\Administrator\\Downloads\\Script_Bot_Dofus\\PC\\proxy.txt") do
+    for line in io.lines("C:\\Users\\Administrator\\Documents\\snowbot-scripts\\PC\\proxy.txt") do
         if i == lineToRead then
             tabline = line:split()
             for index, element in ipairs(tabline) do
@@ -1413,7 +1413,7 @@ local function launchExchangeAndGive()
 
 		local TriParServeur = {"", "", "", "", "", ""}
 
-		for line in io.lines("C:\\Users\\Administrator\\Downloads\\Script_Bot_Dofus\\PC\\ComptesAVendre.txt") do
+		for line in io.lines("C:\\Users\\Administrator\\Documents\\snowbot-scripts\\PC\\ComptesAVendre.txt") do
 			if line ~= "" then
 				local tabline = line:split(":")
 				if tabline[3]:find("Imagiro") then TriParServeur[1] = TriParServeur[1] .. line .. "\r"
@@ -1437,7 +1437,7 @@ local function launchExchangeAndGive()
 		--
 		-- Write it out
 		--
-		local f = io.open("C:\\Users\\Administrator\\Downloads\\Script_Bot_Dofus\\PC\\ComptesAVendre.txt", "w")
+		local f = io.open("C:\\Users\\Administrator\\Documents\\snowbot-scripts\\PC\\ComptesAVendre.txt", "w")
 		f:write(content)
 		f:close()
 
@@ -1825,7 +1825,7 @@ function move()
         debutDeScript = falses
         local ComptesPrets = {}
         local nbComptesPrets = 0
-        for line in io.lines("C:\\Users\\Administrator\\Downloads\\Script_Bot_Dofus\\PC\\ComptesAVendre.txt") do
+        for line in io.lines("C:\\Users\\Administrator\\Documents\\snowbot-scripts\\PC\\ComptesAVendre.txt") do
             if line ~= "" then
                 if line:find(character:server()) then 
                     local level = line:split(" ")[#line:split(" ")]

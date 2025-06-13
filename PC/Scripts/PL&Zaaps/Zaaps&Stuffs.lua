@@ -1,5 +1,5 @@
-dofile("C:\\Users\\Administrator\\Downloads\\Script_Bot_Dofus\\PC\\Scripts\\Utilitaires\\IMPORT_LIBRARIES.lua")
-Buyer = dofile("C:\\Users\\Administrator\\Downloads\\Script_Bot_Dofus\\PC\\Scripts\\Utilitaires\\setup_hiaky\\auto_stuff\\classes\\buyer.lua")
+dofile("C:\\Users\\Administrator\\Documents\\snowbot-scripts\\PC\\Scripts\\Utilitaires\\IMPORT_LIBRARIES.lua")
+Buyer = dofile("C:\\Users\\Administrator\\Documents\\snowbot-scripts\\PC\\Scripts\\Utilitaires\\setup_hiaky\\auto_stuff\\classes\\buyer.lua")
 
 
 
@@ -397,7 +397,7 @@ end
 function move()
     -- global:printSuccess("ETAPE_ZAAP : " .. global:remember("ETAPE_ZAAP"))
     if character:level() == 1 then
-        global:loadAndStart("C:\\Users\\Administrator\\Downloads\\Script_Bot_Dofus\\PC\\Scripts\\PL&Zaaps\\PL_1-6X.lua")
+        global:loadAndStart("C:\\Users\\Administrator\\Documents\\snowbot-scripts\\PC\\Scripts\\PL&Zaaps\\PL_1-6X.lua")
     end
     mapDelay()
     if getRemainingSubscription(true) <= 0 and character:kamas() > (character:server() == "Draconiros"  and 700000 or 1200000) then
@@ -406,9 +406,9 @@ function move()
     end
 
 	-- if job:level(24) >= 6 or job:level(2) >= 6 or map:currentSubArea() == "Carrière d'Astrub" then
-    --     global:loadAndStart("C:\\Users\\Administrator\\Downloads\\Script_Bot_Dofus\\PC\\Scripts\\PL&Zaaps\\quete_pandala.lua")
+    --     global:loadAndStart("C:\\Users\\Administrator\\Documents\\snowbot-scripts\\PC\\Scripts\\PL&Zaaps\\quete_pandala.lua")
 	-- elseif character:level() > 70 and global:thisAccountController():getAlias():find("LvlUp") then
-    --     global:loadAndStart("C:\\Users\\Administrator\\Downloads\\Script_Bot_Dofus\\PC\\Scripts\\Combat\\PL_6X-114.lua")
+    --     global:loadAndStart("C:\\Users\\Administrator\\Documents\\snowbot-scripts\\PC\\Scripts\\Combat\\PL_6X-114.lua")
     -- end
 
     if global:thisAccountController():getAlias():find("Draconiros") and not character:server():find("Draconiros") then
@@ -452,7 +452,7 @@ function move()
                 if global:thisAccountController():getAlias():find("Mineur") or global:thisAccountController():getAlias():find("Bucheron") then
                     BuyStuff()
                 elseif global:thisAccountController():getAlias():find("Requests") then
-                    global:loadAndStart("C:\\Users\\Administrator\\Downloads\\Script_Bot_Dofus\\PC\\Scripts\\Craft\\GetAllPrices.lua")
+                    global:loadAndStart("C:\\Users\\Administrator\\Documents\\snowbot-scripts\\PC\\Scripts\\Craft\\GetAllPrices.lua")
                 else
                     BuyStuff114()
                 end 
@@ -742,9 +742,9 @@ function move()
         end)
     elseif global:remember("ETAPE_ZAAP") == 29 then
         if global:thisAccountController():getAlias():find("Mineur") or global:thisAccountController():getAlias():find("Bucheron") then
-            global:loadAndStart("C:\\Users\\Administrator\\Downloads\\Script_Bot_Dofus\\PC\\Scripts\\PL&Zaaps\\quete_pandala.lua")
+            global:loadAndStart("C:\\Users\\Administrator\\Documents\\snowbot-scripts\\PC\\Scripts\\PL&Zaaps\\quete_pandala.lua")
         elseif global:thisAccountController():getAlias():find("LvlUp") then
-            global:loadAndStart("C:\\Users\\Administrator\\Downloads\\Script_Bot_Dofus\\PC\\Scripts\\PL&Zaaps\\zaap_otomai.lua")
+            global:loadAndStart("C:\\Users\\Administrator\\Documents\\snowbot-scripts\\PC\\Scripts\\PL&Zaaps\\zaap_otomai.lua")
         end
     end
 end

@@ -1,4 +1,4 @@
-dofile("C:\\Users\\Administrator\\Downloads\\Script_Bot_Dofus\\PC\\Scripts\\Utilitaires\\IMPORT_LIBRARIES.lua")
+dofile("C:\\Users\\Administrator\\Documents\\snowbot-scripts\\PC\\Scripts\\Utilitaires\\IMPORT_LIBRARIES.lua")
 
 
 go = false
@@ -8,7 +8,7 @@ ok = true
 AUTO_DELETE = {2549 ,16826, 6926, 6929, 6908, 6928, 792, 16358, 16824, 398, 1672, 16835, 2302, 2303, 464, 16835, 8518, 2583, 463, 437, 1690, 2573, 407, 387, 386, 435, 434, 2576, 16830, 6910, 6909, 652, 6910, 16825, 16825, 2414, 2422, 383 , 2455 , 16819 , 1731 , 6921 , 6920 , 6919 , 6922 , 911 , 2419 ,2428 , 2425 , 2416 , 2411 , 892 ,16832 , 6794 , 6792 , 6796 , 8247,16829,8245,8248,8246,8223,8229,8217,8236,8241, 417, 384, 2858, 679, 16827, 16823, 380, 994, 995, 993, 311, 16833, 2585, 381, 1528, 1529, 1526, 1527, }
 
 
-local scriptPath = "C:\\Users\\Administrator\\Downloads\\Script_Bot_Dofus\\PC\\Scripts\\Recolte\\Bucheron_1_200.lua"
+local scriptPath = "C:\\Users\\Administrator\\Documents\\snowbot-scripts\\PC\\Scripts\\Recolte\\Bucheron_1_200.lua"
 
 
 local tableEquip = {
@@ -191,7 +191,7 @@ end
 function switch()
     global:printSuccess("on change de script")
     if global:thisAccountController():getAlias():find("LvlUp") then
-        global:loadAndStart("C:\\Users\\Administrator\\Downloads\\Script_Bot_Dofus\\PC\\Scripts\\Combat\\PL_6X-114.lua")
+        global:loadAndStart("C:\\Users\\Administrator\\Documents\\snowbot-scripts\\PC\\Scripts\\Combat\\PL_6X-114.lua")
     else
         global:loadAndStart(scriptPath)
     end
@@ -219,7 +219,7 @@ function move()
 		-- if job:level(2) >= 10 then
 		-- 	global:loadAndStart(scriptPath)
         -- elseif character:level() >= 190 and not global:thisAccountController():getAlias():find("Groupe") then
-        --     global:loadAndStart("C:\\Users\\Administrator\\Downloads\\Script_Bot_Dofus\\PC\\Scripts\\Combat\\PL_6X-114.lua")
+        --     global:loadAndStart("C:\\Users\\Administrator\\Documents\\snowbot-scripts\\PC\\Scripts\\Combat\\PL_6X-114.lua")
         -- end
 		if ok == true then havresac()
 		end

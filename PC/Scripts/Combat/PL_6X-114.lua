@@ -1,5 +1,5 @@
 ---@diagnostic disable: undefined-global, lowercase-global
-dofile("C:\\Users\\Administrator\\Downloads\\Script_Bot_Dofus\\PC\\Scripts\\Utilitaires\\IMPORT_LIBRARIES.lua")
+dofile("C:\\Users\\Administrator\\Documents\\snowbot-scripts\\PC\\Scripts\\Utilitaires\\IMPORT_LIBRARIES.lua")
 
 -- Generated On Dofus-Map with Drigtime's SwiftPath Script Maker --
 -- Nom : 
@@ -817,13 +817,13 @@ function move()
 
 
  	if character:level() >= 114 then
-		global:loadConfigurationWithoutScript("C:\\Users\\Administrator\\Downloads\\Script_Bot_Dofus\\PC\\Configs\\Config_PL_199.xml")
+		global:loadConfigurationWithoutScript("C:\\Users\\Administrator\\Documents\\snowbot-scripts\\PC\\Configs\\Config_PL_199.xml")
 		restat()
 		character:upgradeChance(200)
 		character:upgradeStrenght(200)
 		character:upgradeWisdom(170)	
-		global:loadConfigurationWithoutScript("C:\\Users\\Administrator\\Downloads\\Script_Bot_Dofus\\PC\\Configs\\Config_PL_1-6X.xml")
-		global:loadAndStart("C:\\Users\\Administrator\\Downloads\\Script_Bot_Dofus\\PC\\Scripts\\Combat\\PL_114-XXX.lua")
+		global:loadConfigurationWithoutScript("C:\\Users\\Administrator\\Documents\\snowbot-scripts\\PC\\Configs\\Config_PL_1-6X.xml")
+		global:loadAndStart("C:\\Users\\Administrator\\Documents\\snowbot-scripts\\PC\\Scripts\\Combat\\PL_114-XXX.lua")
 	end
 	if map:onMap("0,0") then
 		if actualMap == "12,12" then
