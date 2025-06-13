@@ -709,9 +709,12 @@ function GetPricesItem(Id)
     Prices = {}
     developer:registerMessage("ExchangeBidPriceEvent", _GetMessagePrices)
 
+    
     local message = developer:createMessage("ExchangeBidHousePriceRequest")
-    message.object_gid = Id
-    developer:sendMessage(message)
+    if message then
+        message.object_gid:Add(Id)
+        developer:sendMessage(message, false)
+    end
     
     developer:suspendScriptUntil("ExchangeBidPriceEvent", 5000, false, nil, 20)
 

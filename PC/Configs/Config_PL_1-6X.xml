@@ -5,7 +5,7 @@
   <CaractAuto>0</CaractAuto>
   <Placement>1</Placement>
   <SpeedFight>0</SpeedFight>
-  <Regen>80</Regen>
+  <Regen>0</Regen>
   <RegenTeam>false</RegenTeam>
   <Flood />
   <FloodActivate>false</FloodActivate>

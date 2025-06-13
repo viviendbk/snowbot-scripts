@@ -1119,6 +1119,7 @@ function move()
 			craft:putItem(519, 3)
 			craft:putItem(16511, 3)
 			craft:ready()
+			global:delay(500)
 			global:leaveDialog()
 			global:delay(500)
 			inventory:equipItem(1934, 1)
@@ -1373,7 +1374,7 @@ function fightManagement()
 			if fightCharacter:isItMyTurn() then
 				
 				delayFightStartTurn()
-
+				debug("debut")
 				if fightAction:getCurrentTurn() == 1 then
 					lancable = 0
 					incrementation = 0
@@ -1408,7 +1409,7 @@ function fightManagement()
 					LaunchEpee_Vorace()
 				end
 				-- lancement bain de sang
-
+				debug("1")
 				Supplice()
 				Supplice()
 
@@ -1416,14 +1417,17 @@ function fightManagement()
 					Courrone_Epine()
 				end
 				
+				debug("2")
 				-- J'avance vers mon ennemi le plus proche
 				Deplacement()
 				
 				-- lancement ravage
 				if fightCharacter:getLevel() >= 22 then
+					debug("2.5")
+					debug(WeakerMonsterAdjacent())
 					Ravage(WeakerMonsterAdjacent())
 				end
-
+				debug("3")
 				Supplice()
 
 				if (fightCharacter:getLifePointsP() < 40) and (GetEntitiesAdjacents() > 0) and (fightCharacter:getLevel() > 44) then
@@ -1434,7 +1438,7 @@ function fightManagement()
 				
 				Stase()
 				Stase()
-
+				debug("4")
 				-- lancement assaut
 				if fightCharacter:getLevel() > 39 then
 					Hostilite(WeakerMonsterAdjacent())
@@ -1450,7 +1454,7 @@ function fightManagement()
 						Assaut()
 					end	
 				end
-				
+				debug("5")
 				Hemmoragie(fightAction:getNearestEnemy())
 
 				Deplacement()

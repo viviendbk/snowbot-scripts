@@ -2559,6 +2559,7 @@ end
 
 
 function Ravage(cellid)
+    debug("oui")
 	if fightAction:canCastSpellOnCell(fightCharacter:getCellId(), 12746, cellid) == 0 then 
 		fightAction:castSpellOnCell(12746, cellid)
     else
