@@ -8,26 +8,19 @@ dofile(PATH .. "template.lua")
 dofile("C:\\Users\\Administrator\\Documents\\snowbot-scripts\\PC\\Scripts\\Utilitaires\\IMPORT_LIBRARIES.lua")
 
 
-local insert = table.insert
-
 configPath = "C:\\Users\\Administrator\\Documents\\snowbot-scripts\\PC\\Configs\\configBank.xml"
 scriptPath = "C:\\Users\\Administrator\\Documents\\snowbot-scripts\\PC\\Scripts\\Utilitaires\\setup_hiaky\\scripts\\give-kamas.lua"
+local serversMono = {
+    "Draconiros", "Dakal", "Kourial", "Mikhal"
+}
+
 
 function messagesRegistering()
     developer:registerMessage("HaapiShopApiKeyMessage", _HaapiShopApiKeyMessage)
 	developer:registerMessage("HaapiConfirmationMessage", _HaapiConfirmationMessage)
 end
 
-function getRemainingSubscription(inDay, acc)
-    local accDeveloper = acc and acc.developer or developer
 
-    local endDate = developer:historicalMessage("IdentificationSuccessMessage")[1].subscriptionEndDate 
-    local now = os.time(os.date("!*t")) * 1000
-
-    endDate = math.floor((endDate - now) / 3600000)
-
-    return inDay and math.floor(endDate / 24) or endDate
-end
 
 local function mapDelay()
 	local random = math.random()
@@ -53,31 +46,32 @@ function move()
     --     end
     -- end
 
-    if not global:remember("doneTransfert") then
+    if not global:remember("doneTransfert") and getRemainingSubscription(true) < 2 then
         local submitKamas = 0
         if character:kamas() < 2000000 then
+
             if global:thisAccountController():getAlias():find("Groupe") then
                 global:printSuccess("on demande 3500000")
-                Exch:submitKamasOrder((character:server() == "Draconiros") and 4500000 or 4000000)
+                Exch:submitKamasOrder(IsInTable(serversMono, character:server()) and 4500000 or 4000000)
             elseif global:thisAccountController():getAlias():find("Combat") or global:thisAccountController():getAlias():find("Craft") then
                 global:printSuccess("on demande 10000000")
                 Exch:submitKamasOrder(10000000)
-            elseif character:server() == "Draconiros" then
-                Exch:submitKamasOrder(600000)
-                submitKamas = 600000
+            elseif IsInTable(serversMono, character:server()) then
+                Exch:submitKamasOrder(800000)
+                submitKamas = 800000
             elseif global:thisAccountController():getAlias():find("LvlUp") then
-                Exch:submitKamasOrder(1800000)
-                submitKamas = 1800000
+                Exch:submitKamasOrder(2200000)
+                submitKamas = 2200000
             else
-                Exch:submitKamasOrder(1600000)
-                submitKamas = 1600000
+                Exch:submitKamasOrder(2000000)
+                submitKamas = 2000000
             end
         else
             global:addInMemory("doneTransfert", true)
-            if not global:thisAccountController():getAlias():find("Draconiros") and getRemainingSubscription(true) <= 0 then 
+            if not IsInTable(serversMono, character:server()) and getRemainingSubscription(true) <= 0 then 
 				Abonnement() 
 			end
-            global:reconnect(0)
+            global:disconnect()
         end
 
         global:delay(500)
@@ -91,7 +85,7 @@ function move()
 
             if not giver then
                 print:errorInfo("Impossible de connecter le bot banque, nouvelle tentative dans " .. timeToRetry .. " heures.")
-                global:reconnect(timeToRetry)
+                customReconnect(timeToRetry * 60)
             end
 
             if giver.character():kamas() < submitKamas 
@@ -150,18 +144,18 @@ function move()
             if character:kamas() < 500000 then
                 global:printSuccess("le bot banque n'a pas pu nous donner les kamas, on retente dans 1h")
                 global:deleteMemory("doneTransfert")
-                global:reconnect(1)
+                customReconnect(60)
             end
 
             if not global:thisAccountController():getAlias():find("Draconiros") and getRemainingSubscription(true) <= 0 then 
 				Abonnement() 
 			else
-				global:reconnect(0)
+				global:disconnect()
 			end
 
             global:printSuccess("le bot banque n'a pas pu nous donner les kamas, on retente dans 4h")
             global:deleteMemory("doneTransfert")
-            global:reconnect(4)
+            customReconnect(4 * 60)
 
         end)
     elseif getRemainingSubscription(true) >= 0 then
@@ -178,7 +172,7 @@ function move()
     else
         global:printSuccess("bug, on réessaye dans 1h")
         global:deleteMemory("doneTransfert")
-        global:reconnect(1)
+        customReconnect(60)
     end
 end
 

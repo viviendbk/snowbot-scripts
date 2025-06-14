@@ -24,6 +24,14 @@ function merge(t1, t2)
     return result
 end
 
+function customReconnect(minutes)
+    local currentTime = os.time()
+    local reconnectTime = currentTime + (minutes * 60)
+
+    global:printMessage("Le script sera en pause jusqu'à " .. os.date("%H:%M:%S", reconnectTime) .. ". Déconnexion du compte.")
+    global:editAlias(global:thisAccountController():getAlias() .. "Reconnect at " .. os.date("%H:%M:%S", reconnectTime), false)
+    global:disconnect()
+end
 
 function handleDisconnection()
     local currentTime = os.time()
@@ -100,9 +108,7 @@ function handleDisconnection()
             minutesDisconnection = math.random(40, 60)
         end
 
-        global:printMessage("Le script sera en pause pendant " .. minutesDisconnection .. " minutes.")
-        global:editAlias(global:thisAccountController():getAlias() .. "Reconnect at " .. os.date("%H:%M:%S", currentTime + minutesDisconnection * 60), false)
-        global:disconnect()
+        customReconnect(minutesDisconnection)
     end
 end
 
@@ -137,10 +143,16 @@ end
 
 function getRemainingSubscription(inDay, acc)
     local ts = developer:historicalMessage("IdentificationSuccessMessage")[1].subscriptionEndDate
+
     local now = os.time()
+    
     local diff = ts - now         -- différence en secondes
+
     if diff <= 0 then
         return 0                     -- la date est dépassée ou c'est le moment même
+    end
+    if inDay then
+        return math.floor(diff / 86400) -- 86400 s = 1 jour
     end
     return math.floor(diff / 3600) -- 3600 s = 1 heure
 end
@@ -646,30 +658,31 @@ function upgradeCharacteristics(vitality, strength, wisdom, intelligence, chance
 
 end
 
-function calculCharacteristicsPointsToSet(nbPointsDispo)
-    local toReturn = 0
+function calculCharacteristicsPointsToSet(nbPoints)
+    local gained = 0
+    local remaining = nbPoints
 
-    -- palier 1 : 1 pour 1 (jusqu’à 100)
-    local toReturn = math.min(nbPointsDispo, 100)
-    gain = gain + toReturn
-    nbPointsDispo = nbPointsDispo - toReturn
+    -- Palier 1 (100 points à 1 pour 1)
+    local gain = math.min(remaining, 100)
+    gained = gained + gain
+    remaining = remaining - gain
 
-    -- palier 2 : 2 pour 1 (jusqu’à 200 points dépensés, soit 100 gagnés)
-    toReturn = math.min(nbPointsDispo, 200)
-    gain = gain + toReturn / 2
-    nbPointsDispo = nbPointsDispo - toReturn
+    -- Palier 2 (100 points à 2 pour 1)
+    gain = math.min(math.floor(remaining / 2), 100)
+    gained = gained + gain
+    remaining = remaining - gain * 2
 
-    -- palier 3 : 3 pour 1 (jusqu’à 300 points dépensés, soit 100 gagnés)
-    toReturn = math.min(nbPointsDispo, 300)
-    gain = gain + toReturn / 3
-    nbPointsDispo = nbPointsDispo - toReturn
+    -- Palier 3 (100 points à 3 pour 1)
+    gain = math.min(math.floor(remaining / 3), 100)
+    gained = gained + gain
+    remaining = remaining - gain * 3
 
-    -- palier 4 : 4 pour 1
-    if nbPointsDispo > 0 then
-        gain = gain + nbPointsDispo / 4
-    end
+    -- Palier 4+ (points illimités à 4 pour 1)
+    gain = math.floor(remaining / 4)
+    gained = gained + gain
+    remaining = remaining - gain * 4
 
-    return gain
+    return nbPoints - remaining
 end
 
 --- interaction bot bank ---

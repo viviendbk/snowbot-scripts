@@ -261,7 +261,7 @@ local function ProcessCraft(table, cellId, jobId)
 
                 if ConsoleRead(global:thisAccountController(), "Erreur dans le script : Impossible d'utiliser l'élément interactif") then
                     global:clearConsole()
-                    global:reconnect(0)
+                    global:disconnect()
                 end
     
                 randomDelay()
@@ -579,7 +579,7 @@ function move()
 
     if global:thisAccountController():getAlias():find("Draconiros") and character:server() ~= "Draconiros" then
         global:thisAccountController():forceServer("Draconiros")
-        global:reconnect(0)
+        global:disconnect()
     end
     global:editAlias("CraftFM " .. character:server() .. " : [" .. truncKamas() .. "m]", true)
     --- Determines which item we'll craft and resell
@@ -986,9 +986,9 @@ function move()
                 if random ~= 1 and character:kamas() > 10000000 then
                     global:loadAndStart("C:\\Users\\Administrator\\Documents\\snowbot-scripts\\PC\\Scripts\\Craft\\Craft-Brisage.lua")
                 elseif random == 2 then
-                    global:reconnectBis(math.random(100, 150))
+                    customReconnect(math.random(100, 150))
                 else
-                    global:reconnectBis(math.random(480, 600))
+                    customReconnect(math.random(480, 600))
                 end
             end
             global:printMessage("")
@@ -1198,9 +1198,9 @@ function move()
                 else
                     local random2 = math.random(1, 2)
                     if random2 == 1 and job:level(64) > 190 and job:level(63) > 190 and job:level(62) > 190 and job:level(48) > 190 and job:level(44) > 190 then
-                        global:reconnectBis(math.random(400, 600))
+                        customReconnect(math.random(400, 600))
                     else
-                        global:reconnectBis(math.random(100, 150))
+                        customReconnect(math.random(100, 150))
                     end
                 end
             end
@@ -1260,7 +1260,7 @@ function move()
                 if random ~= 1 and character:kamas() > 10000000 then
                     global:loadAndStart("C:\\Users\\Administrator\\Documents\\snowbot-scripts\\PC\\Scripts\\Craft\\Craft-Brisage.lua")
                 else
-                    global:reconnectBis(math.random(100,150))
+                    customReconnect(math.random(100, 150))
                 end
             end
 
@@ -2139,6 +2139,6 @@ end
 function stopped()
     local lines = global:consoleLines()
     if lines[#lines - 2]:find("Cette action est impossible car vous êtes occupé.") or lines[#lines - 1]:find("Echec lors de l'utilisation d'un Zaap/Zaapi") then
-        global:reconnect(0)
+        global:disconnect()
     end
 end

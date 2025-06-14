@@ -1583,7 +1583,7 @@ local function antiModo()
             global:editAlias("Bucheron " .. character:server() .. " [" .. job:level(2) .. "]  [MODO]", true)
         end
         global:delay(timerdisconnect)
-        global:reconnectBis(timerdisconnect / 1000)
+		customReconnect(timerdisconnect / 1000)
         map:changeMap("havenbag")
 	end
 end
@@ -1999,7 +1999,7 @@ local function takeKamas()
 		global:loadAndStart(scriptPath)
 	else
 		global:printSuccess("Reco dans 2h")
-		global:reconnectBis(math.random(80, 120))
+		customReconnect(math.random(80, 120))
 	end
 end
 
@@ -2013,11 +2013,12 @@ function move()
 	mapDelay()
 	if global:thisAccountController():getAlias():find("Draconiros") and character:server() ~= "Draconiros" then
 		global:thisAccountController():forceDelete(character:name())
-		global:reconnect(0)
+		global:disconnect()
 	end
 	--[[job:level(2) < 50 and global:getCountGather() > 0 and (global:getCountGather() + global:remember("increm")) % (global:remember("increm") == 0 and 50 or 400) == 0 then
 		global:editInMemory("increm", global:remember("increm") + 1)
-		global:reconnectBis(math.random(80, 120))
+		customReconnect(math.random(80, 120))
+
 	end]]
 	if getRemainingSubscription(true) <= 0 and (character:kamas() > ((character:server() == "Draconiros") and 600000 or 1100000)) then
         Abonnement()

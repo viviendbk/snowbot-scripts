@@ -107,13 +107,13 @@ function move()
 
             global:printSuccess("le bot banque n'a pas pu nous donner les kamas, on retente dans 4h")
             global:deleteMemory("doneTransfert")
-            global:reconnect(4)
+            customReconnect(4 * 60)
 
         end)
     else
         global:printSuccess("bug, on réessaye dans 1h")
         global:deleteMemory("doneTransfert")
-        global:reconnect(1)
+        customReconnect(60)
     end
 end
 

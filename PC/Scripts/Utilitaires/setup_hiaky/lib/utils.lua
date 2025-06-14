@@ -166,13 +166,6 @@ function Utils:getPairsLength(tab)
     return c
 end
 
-function Utils:normalServer()
-    local server = character:server()
-    if #server == 0 then server = "Controller" end
-
-    return server:lower()
-end
-
 function Utils:normalStr(str)
     local tableAccents = {}
 	tableAccents["À"] = "A"

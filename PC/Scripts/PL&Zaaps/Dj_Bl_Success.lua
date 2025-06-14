@@ -46,7 +46,7 @@ function stop()
 		if _ExchangeMoneyMovementInformationMessage[#_ExchangeMoneyMovementInformationMessage].limit < 20000000 then
 			global:printSuccess("le temps de jeu est pas suffisant")
 			global:editInMemory("lvlFinish", global:remember("lvlFinish") + 1)
-			global:reconnect(2)
+			customReconnect(120)
 		else
 			global:printSuccess("temps de jeu suffisant")
 		end
@@ -64,7 +64,7 @@ function stop()
 		for _, acc in ipairs(LoadedAccounts) do
 			if acc:getAlias():find("Mineur " .. character:server()) and not (acc.job():level(24) > 70) then
 				global:printSuccess("l'autre mineur est pas encore assez up, on reco dans 2h")
-				global:reconnect(2)
+				customReconnect(120)
 			end
 		end
 	elseif global:thisAccountController():getAlias():find("Bucheron2") then
@@ -72,7 +72,7 @@ function stop()
 		for _, acc in ipairs(LoadedAccounts) do
 			if acc:getAlias():find("Bucheron " .. character:server()) and not (acc.job():level(2) > 55) then
 				global:printSuccess("l'autre mineur est pas encore assez up, on reco dans 2h")
-				global:reconnect(2)
+				customReconnect(120)
 			end
 		end
 	elseif global:thisAccountController():getAlias():find("LvlUp2") then
@@ -82,11 +82,11 @@ function stop()
 				or (not acc:isAccountConnected() and global:getCurrentScriptDirectory():find("200") and not acc:getAlias():find("200"))) then
 
 				global:printSuccess("l'autre LvlUp2 n'est pas encore prêt, on attend 2h")
-				global:reconnect(2)
+				customReconnect(120)
 			end
 			if acc:getAlias():find("LvlUp " .. character:server()) and acc.character():level() < 155 then
 				global:printSuccess("l'autre LvlUp n'est pas encore lvl 155, on attend 2h")
-				global:reconnect(2)
+				customReconnect(120)
 			end
 		end
 	elseif global:thisAccountController():getAlias():find("LvlUp ") then
@@ -96,7 +96,7 @@ function stop()
 				or (not acc:isAccountConnected() and global:getCurrentScriptDirectory():find("200") and not acc:getAlias():find("200"))) then
 
 				global:printSuccess("l'autre LvlUp n'est pas encore prêt, on attend 2h")
-				global:reconnect(2)
+				customReconnect(120)
 			end
 		end
 	end

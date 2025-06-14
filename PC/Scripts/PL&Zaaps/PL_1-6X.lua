@@ -760,7 +760,7 @@ local function ProcessBank()
 
 	if character:level() >= global:remember("lvlWait11H") and not global:thisAccountController():getAlias():find("FAIT") and not global:thisAccountController():getAlias():find("bank") and not global:thisAccountController():getAlias():find("Requests") and character:level() < 50 then
 		global:editAlias(botType .. " " .. server .. " [FAIT]", true)
-		global:reconnectBis(math.random(12 * 60, 14 * 60))
+		customReconnect(math.random(12 * 60, 14 * 60))
 	end
 
 	hdvFull = false
@@ -815,7 +815,7 @@ function stop()
 		if _ExchangeMoneyMovementInformationMessage[#_ExchangeMoneyMovementInformationMessage].limit < 20000000 then
 			global:printSuccess("le temps de jeu est pas suffisant")
 			global:editInMemory("lvlFinish", global:remember("lvlFinish") + 1)
-			global:reconnect(2)
+			customReconnect(120)
 		else
 			global:printSuccess("temps de jeu suffisant")
 		end
@@ -831,7 +831,7 @@ function stop()
 		-- for _, acc in ipairs(LoadedAccounts) do
 		-- 	if acc:getAlias():find("Mineur " .. character:server()) and (acc.job():level(24) < 50) and acc.character():level() > 45 then
 		-- 		global:printSuccess("l'autre mineur est pas encore assez up, on reco dans 2h")
-		-- 		global:reconnect(2)
+		-- 		customReconnect(120)
 		-- 	end
 		-- end
 	elseif global:thisAccountController():getAlias():find("Bucheron2") then
@@ -839,7 +839,7 @@ function stop()
 		-- for _, acc in ipairs(LoadedAccounts) do
 		-- 	if acc:getAlias():find("Bucheron " .. character:server()) and (acc.job():level(2) < 50) and acc.character():level() > 45 then
 		-- 		global:printSuccess("l'autre mineur est pas encore assez up, on reco dans 2h")
-		-- 		global:reconnect(2)
+		-- 		customReconnect(120)
 		-- 	end
 		-- end
 	elseif global:thisAccountController():getAlias():find("LvlUp2") then
@@ -849,11 +849,11 @@ function stop()
 				or (not acc:isAccountConnected() and global:getCurrentScriptDirectory():find("200") and not acc:getAlias():find("200"))) then
 
 				global:printSuccess("l'autre LvlUp2 n'est pas encore prêt, on attend 2h")
-				global:reconnect(2)
+				customReconnect(120)
 			end
 			if acc:getAlias():find("LvlUp " .. character:server()) and acc.character():level() < 100 then
 				-- global:printSuccess("l'autre LvlUp n'est pas encore lvl 100, on attend 2h")
-				-- global:reconnect(2)
+				-- customReconnect(120)
 			end
 		end
 	elseif global:thisAccountController():getAlias():find("LvlUp ") then
@@ -863,7 +863,7 @@ function stop()
 				or (not acc:isAccountConnected() and global:getCurrentScriptDirectory():find("200") and not acc:getAlias():find("200"))) then
 
 				global:printSuccess("l'autre LvlUp n'est pas encore prêt, on attend 2h")
-				global:reconnect(2)
+				customReconnect(120)
 			end
 		end
 	end

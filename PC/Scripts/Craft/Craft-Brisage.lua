@@ -198,7 +198,7 @@ local function ProcessCraft(table, cellId)
     
                 if ConsoleRead(global:thisAccountController(), "Erreur dans le script : Impossible d'utiliser l'élément interactif") then
                     global:clearConsole()
-                    global:reconnect(0)
+                    global:disconnect()
                 end
                 randomDelay()
                 return ProcessCraft(table, cellId)
@@ -479,7 +479,7 @@ function move()
     mapDelay()
     if global:thisAccountController():getAlias():find("Draconiros") and character:server() ~= "Draconiros" then
         global:thisAccountController():forceServer("Draconiros")
-        global:reconnect(0)
+        global:disconnect()
     end
     --[[
         nouveau possible trajet:
@@ -772,7 +772,7 @@ function move()
             local random = math.random(1, nbRunesAVendre > 10 and 4 or nbRunesAVendre > 6 and 3 or 2)
             if nbRunesAVendre < 5 then
                 if character:kamas() < 20000000 then
-                    global:reconnectBis(math.random(100,150))
+                    customReconnect(math.random(100,150))
                 else
                     if global:thisAccountController():getAlias():find("FM") then
                         global:loadAndStart("C:\\Users\\Administrator\\Documents\\snowbot-scripts\\PC\\Scripts\\Craft\\Craft-FM-Resell.lua")
@@ -1124,7 +1124,7 @@ function move()
                     global:loadAndStart("C:\\Users\\Administrator\\Documents\\snowbot-scripts\\PC\\Scripts\\Craft\\Craft-Resell.lua")
                 end
             else
-                global:reconnectBis(math.random(100, 150))
+                customReconnect(math.random(100, 150))
             end
         end
             -- Trier les articles par ordre aléatoire
@@ -1417,7 +1417,7 @@ function move()
 
                     if ConsoleRead(global:thisAccountController(), "Erreur dans le script : Impossible d'utiliser l'élément interactif") then
                         global:clearConsole()
-                        global:reconnect(0)
+                        global:disconnect()
                     end
                 end
                 for _, item in ipairs(TableItemToChoice) do
@@ -1773,7 +1773,7 @@ function move()
         --global:printSuccess("Total mis en vente : " ..)
         if global:thisAccountController():getAlias():find("FM") then
             if character:kamas() < 10000000 then
-                global:reconnectBis(math.random(100,150))
+                customReconnect(math.random(100,150))
             else
                 global:loadAndStart("C:\\Users\\Administrator\\Documents\\snowbot-scripts\\PC\\Scripts\\Craft\\Craft-FM-Resell.lua")
             end
@@ -1802,6 +1802,6 @@ end
 function stopped()
     local lines = global:consoleLines()
     if lines[#lines - 2]:find("Cette action est impossible car vous êtes occupé.") or lines[#lines - 1]:find("Echec lors de l'utilisation d'un Zaap/Zaapi") then
-        global:reconnect(0)
+        global:disconnect()
     end
 end

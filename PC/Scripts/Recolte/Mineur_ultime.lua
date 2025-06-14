@@ -733,7 +733,7 @@ local function TakeKamas()
     elseif exchange:storageKamas() == 0 then
         global:printError("il n'y a pas de kamas dans la banque on attend un peu")
         global:leaveDialog()
-        global:reconnect(1)
+        customReconnect(60)
     end
 end
 
@@ -1064,7 +1064,8 @@ local function antiModo()
         end
 
         global:delay(timerdisconnect)
-        global:reconnectBis(timerdisconnect / 1000)
+        customReconnect(timerdisconnect / 1000)
+
         map:changeMap("havenbag")
 	end
 end
@@ -1222,7 +1223,7 @@ local function ProcessBank()
     FirstBankReturn = false
 
     if (#GATHER == 0 and not NeedToSell) then
-        global:reconnect(2)
+        customReconnect(120)
     end
 
     MaxCompteurZone = (#GATHER == 1) and 50 or 20
@@ -1534,7 +1535,7 @@ function move()
     mapDelay()
     if global:thisAccountController():getAlias():find("Draconiros") and character:server() ~= "Draconiros" then
         global:thisAccountController():forceServer("Draconiros")
-        global:reconnect(0)
+        global:disconnect()
     end
     while character:kamas() == 0 and map:onMap("4,-18") do
         npc:npcBank(-1)
@@ -1547,7 +1548,7 @@ function move()
         elseif exchange:storageKamas() == 0 then
             global:printError("il n'y a pas de kamas dans la banque on attend un peu")
             global:leaveDialog()
-            global:reconnect(1)
+            customReconnect(60)
         end
     end
     if character:kamas() < 3000 then
@@ -1720,7 +1721,7 @@ end
 function stopped()
     local lines = global:consoleLines()
     if lines[#lines - 2]:find("Cette action est impossible car vous êtes occupé.") then
-        global:reconnect(0)
+        global:disconnect()
     end
     map:changeMap("havenbag")
 end

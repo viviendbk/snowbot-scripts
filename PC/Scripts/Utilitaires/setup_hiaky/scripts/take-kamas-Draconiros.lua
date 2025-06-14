@@ -18,17 +18,6 @@ function messagesRegistering()
 	developer:registerMessage("HaapiConfirmationMessage", _HaapiConfirmationMessage)
 end
 
-function getRemainingSubscription(inDay, acc)
-    local accDeveloper = acc and acc.developer or developer
-
-    local endDate = developer:historicalMessage("IdentificationSuccessMessage")[1].subscriptionEndDate 
-    local now = os.time(os.date("!*t")) * 1000
-
-    endDate = math.floor((endDate - now) / 3600000)
-
-    return inDay and math.floor(endDate / 24) or endDate
-end
-
 local function mapDelay()
 	local random = math.random()
 	if random < 0.05 then
@@ -46,7 +35,7 @@ function move()
     mapDelay()
     if character:server() ~= "Draconiros" and getRemainingSubscription(true) > 0 then
         global:thisAccountController():forceServer("Draconiros")
-        global:reconnect(0)
+        global:disconnect()
     end
     if not global:remember("doneTransfert") then
 
@@ -120,7 +109,7 @@ function move()
             global:printSuccess("Kamas transférés. On crée un compte sur Draconiros")
             giver:disconnect()
         
-            global:reconnect(0)
+            global:disconnect()
         end)
     else
         if not global:thisAccountController():getAlias():find("Groupe") then

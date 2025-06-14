@@ -1900,7 +1900,7 @@ local function antiModo()
         end
 
         global:delay(timerdisconnect)
-        global:reconnectBis(timerdisconnect / 1000)
+        customReconnect(timerdisconnect / 1000)
 	end
 end
 
@@ -2408,7 +2408,7 @@ function move()
 
     if global:thisAccountController():getAlias():find("Draconiros") and character:server() ~= "Draconiros" then
         global:thisAccountController():forceServer("Draconiros")
-        global:reconnect(0)
+        global:disconnect()
     end
     StopAchatGoujon = false
     archionmap()

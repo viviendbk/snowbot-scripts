@@ -627,7 +627,7 @@ local function TakeKamas()
     elseif exchange:storageKamas() == 0 then
         global:printError("il n'y a pas de kamas dans la banque on attend un peu")
         global:leaveDialog()
-        global:reconnect(1)
+        customReconnect(60)
     end
 end
 
@@ -795,7 +795,8 @@ local function antiModo()
             global:editAlias("Bucheron " .. character:server() .. " [" .. job:level(2) .. "]  [MODO]", true)
         end
         global:delay(timerdisconnect)
-        global:reconnectBis(timerdisconnect / 1000)
+        customReconnect(timerdisconnect / 1000)
+
         map:changeMap("havenbag")
 	end
 end
@@ -1333,7 +1334,7 @@ function move()
     mapDelay()
     if global:thisAccountController():getAlias():find("Draconiros") and character:server() ~= "Draconiros" then
         global:thisAccountController():forceServer("Draconiros")
-        global:reconnect(0)
+        global:disconnect()
     end
 
     while character:kamas() == 0 and map:onMap("4,-18") do

@@ -44,7 +44,7 @@ local function ProcessCraft(table, cellId)
     
                 if ConsoleRead(global:thisAccountController(), "Erreur dans le script : Impossible d'utiliser l'élément interactif") then
                     global:clearConsole()
-                    global:reconnect(0)
+                    global:disconnect()
                 end
                 randomDelay()
                 return ProcessCraft(table, cellId)
@@ -359,7 +359,7 @@ function move()
     mapDelay()
     if global:thisAccountController():getAlias():find("Draconiros") and character:server() ~= "Draconiros" then
         global:thisAccountController():forceServer("Draconiros")
-        global:reconnect(0)
+        global:disconnect()
     end
     if global:thisAccountController():getAlias():find("Craft2") then
         global:editAlias("Craft2 " .. character:server() .. " : [" .. truncKamas() .. "m]", true)
@@ -797,9 +797,9 @@ function move()
                 if random ~= 1 and character:kamas() > 10000000 then
                     global:loadAndStart("C:\\Users\\Administrator\\Documents\\snowbot-scripts\\PC\\Scripts\\Craft\\Craft-Brisage.lua")
                 elseif random == 2 then
-                    global:reconnectBis(math.random(100, 150))
+                    customReconnect(math.random(100, 150))
                 else
-                    global:reconnectBis(math.random(480, 600))
+                    customReconnect(math.random(480, 600))
                 end
             end
             global:printMessage("")
@@ -1124,7 +1124,7 @@ function move()
         if random ~= 1 and character:kamas() > 10000000 then
             global:loadAndStart("C:\\Users\\Administrator\\Documents\\snowbot-scripts\\PC\\Scripts\\Craft\\Craft-Brisage.lua")
         else
-            global:reconnectBis(math.random(100,150))
+            customReconnect(math.random(100, 150))
         end
     end
     --- Final Selling
@@ -1148,6 +1148,6 @@ end
 function stopped()
     local lines = global:consoleLines()
     if lines[#lines - 2]:find("Cette action est impossible car vous êtes occupé.") or lines[#lines - 1]:find("Echec lors de l'utilisation d'un Zaap/Zaapi") then
-        global:reconnect(0)
+        global:disconnect()
     end
 end

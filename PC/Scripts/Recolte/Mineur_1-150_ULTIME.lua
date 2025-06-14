@@ -530,7 +530,7 @@ local function antiModo()
             global:editAlias("Mineur " .. character:server() .. " [" .. job:level(24) .. "]  [MODO]", true)
         end        
         global:delay(timerdisconnect)
-        global:reconnectBis(timerdisconnect / 1000)
+        customReconnect(timerdisconnect / 1000)
         map:changeMap("havenbag")
 	end
 end
@@ -865,7 +865,7 @@ function move()
     mapDelay()
     if global:thisAccountController():getAlias():find("Draconiros") and character:server() ~= "Draconiros" then
         global:thisAccountController():forceServer("Draconiros")
-        global:reconnect(0)
+        global:disconnect()
     end
     if global:thisAccountController():getAlias():find("Mineur2") then
         global:editAlias("Mineur2 " .. character:server() .. " [" .. job:level(24) .. "]", true)
@@ -898,7 +898,7 @@ function move()
 
 	--[[if job:level(24) < 50 and global:getCountGather() > 0 and (global:getCountGather() + global:remember("increm")) % (global:remember("increm") == 0 and 50 or 400) == 0 then
 		global:editInMemory("increm", global:remember("increm") + 1)
-		global:reconnectBis(math.random(80, 120))
+        customReconnect(math.random(80, 120))
 	end]]
 
 

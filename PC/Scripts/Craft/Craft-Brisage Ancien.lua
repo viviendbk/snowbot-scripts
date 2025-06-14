@@ -83,7 +83,7 @@ local function ProcessCraft(table, cellId, jobId)
     
                 if ConsoleRead(global:thisAccountController(), "Erreur dans le script : Impossible d'utiliser l'élément interactif") then
                     global:clearConsole()
-                    global:reconnect(0)
+                    global:disconnect()
                 end
                 global:delay(math.random(500, 1500))
                 return ProcessCraft(table, cellId, jobId)
@@ -423,7 +423,7 @@ function move()
     end
     if global:thisAccountController():getAlias():find("Draconiros") and character:server() ~= "Draconiros" then
         global:thisAccountController():forceServer("Draconiros")
-        global:reconnect(0)
+        global:disconnect()
     end
     --[[
         nouveau possible trajet:
@@ -851,7 +851,7 @@ function move()
 
         if isXDaysLater(jsonPrice[1].Date, 2) then
             global:printSuccess("Les prix des items ne sont pas à jour, on attends un peu")
-            global:reconnectBis(math.random(40, 60))
+            customReconnect(matth.random(40, 60))
         end
 
         if cpt == 0 then
@@ -1670,7 +1670,7 @@ function move()
                     global:leaveDialog()
                     if ConsoleRead(global:thisAccountController(), "Erreur dans le script : Impossible d'utiliser l'élément interactif") then
                         global:clearConsole()
-                        global:reconnect(0)
+                        global:disconnect()
                     end
                 end
                 for _, item in ipairs(TableItemToChoice) do
@@ -2107,6 +2107,6 @@ end
 function stopped()
     local lines = global:consoleLines()
     if lines[#lines - 2]:find("Cette action est impossible car vous êtes occupé.") or lines[#lines - 1]:find("Echec lors de l'utilisation d'un Zaap/Zaapi") then
-        global:reconnect(0)
+        global:disconnect()
     end
 end

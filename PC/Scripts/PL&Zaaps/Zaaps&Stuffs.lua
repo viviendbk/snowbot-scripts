@@ -414,7 +414,7 @@ function move()
     if global:thisAccountController():getAlias():find("Draconiros") and not character:server():find("Draconiros") then
         global:thisAccountController():forceDelete(character:name())
         global:thisAccountController():forceServer("Draconiros")
-        global:reconnect(0)
+        global:disconnect()
     end
     
     if global:remember("ETAPE_ZAAP") == 0 then

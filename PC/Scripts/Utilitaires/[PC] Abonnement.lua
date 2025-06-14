@@ -156,7 +156,7 @@ function Abonnement()
 
     subscribe(needed_ogrines_target, 17132)
 
-    global:reconnect(0)
+    global:disconnect()
 end
 
 ---------------------------------------------------------------------------

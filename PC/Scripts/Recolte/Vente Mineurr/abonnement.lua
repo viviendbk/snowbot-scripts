@@ -104,7 +104,7 @@
 	 developer:dofusRequest("GET", "https://haapi.ankama.com/json/Ankama/v4/Shop/SimpleBuy?quantity=1&amount=0&currency=OGR&article_id=11020&APIKEY="..APIKEY, APIKEY)
 	 global:printSuccess("Abonnement effectué !")
 	 if not boolReconnect then
-		 global:reconnect(0)
+		 global:disconnect()
 	 end
  end
  

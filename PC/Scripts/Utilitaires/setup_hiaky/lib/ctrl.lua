@@ -30,7 +30,7 @@ function Ctrl:connect(aliasTag, disconnectOnError)
                             end
 
                             acc:disconnect()
-                            global:reconnect(timeToRetry)
+                            customReconnect(timeToRetry)
 
                             return
                         else
@@ -72,7 +72,7 @@ function Ctrl:connect2(aliasTag, disconnectOnError)
                             end
 
                             acc:disconnect()
-                            global:reconnect(timeToRetry)
+                            customReconnect(timeToRetry)
 
                             return
                         else

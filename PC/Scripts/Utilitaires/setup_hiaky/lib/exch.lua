@@ -1,5 +1,4 @@
 
-
 Exch = {}
 Exch.whitelist = {}
 
@@ -13,8 +12,7 @@ function Exch:refuse()
 end
 
 function Exch:submitKamasOrder(amount)
-    Exch.ordersPath = Exch.ordersPath or TEMP_PATH .. Utils:normalServer() .. "\\bank-orders.json"
-
+    Exch.ordersPath = Exch.ordersPath or TEMP_PATH .. character:server() .. "\\bank-orders.json"
     local orders = Utils:try(function()
         return File:openJsonFile(self.ordersPath) 
     end)
@@ -41,7 +39,7 @@ function Exch:submitKamasOrder(amount)
 end
 
 function Exch:deleteKamasOrder(searchFn)
-    self.ordersPath = self.ordersPath or TEMP_PATH .. Utils:normalServer() .. "\\bank-orders.json"
+    self.ordersPath = self.ordersPath or TEMP_PATH .. character:server() .. "\\bank-orders.json"
 
     local orders = File:forceFile(self.ordersPath, 200, true)
     
@@ -53,14 +51,14 @@ function Exch:deleteKamasOrder(searchFn)
 end
 
 function Exch:whitelistOrderers(updateOrders)
-    self.ordersPath = self.ordersPath or TEMP_PATH .. Utils:normalServer() .. "\\bank-orders.json"
+    self.ordersPath = self.ordersPath or TEMP_PATH .. character:server() .. "\\bank-orders.json"
     self.orders = File:forceFile(self.ordersPath, 200, true)
 
     if not self.orders or (self.orders and #self.orders == 0) then
         global:delay(10000)
         self.retry = plus(self.retry)
 
-        if self.retry >= 90 then global:reconnect(0.5) end
+        if self.retry >= 90 then customReconnect(0.5) end
 
         return self:whitelistOrderers()
     end

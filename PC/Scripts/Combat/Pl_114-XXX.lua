@@ -1137,7 +1137,7 @@ local function takeKamas()
 	if character:kamas() < 1200000 then
 		global:printSuccess("Reco dans 2h")
 		global:loadAndStart("C:\\Users\\Administrator\\Documents\\snowbot-scripts\\PC\\Scripts\\Utilitaires\\setup_hiaky\\scripts\\take-kamas.lua")
-		global:reconnectBis(math.random(80, 120))
+		customReconnect(math.random(80, 120))
 	end
 end
 
@@ -1512,7 +1512,7 @@ local function antiModo()
 		end
 
         global:delay(timerdisconnect)
-        global:reconnectBis(timerdisconnect / 1000)
+		customReconnect(timerdisconnect / 1000)
         map:changeMap("havenbag")
 	end
 end
@@ -1922,7 +1922,7 @@ function move()
 
 
     if (getRemainingSubscription(true) < 0) and (levelToReach == 160) and (character:level() >= 155) and map:currentArea() ~= "Astrub" then
-        global:reconnect(0)
+        global:disconnect()
     end
 
 	if global:remember("failed") then

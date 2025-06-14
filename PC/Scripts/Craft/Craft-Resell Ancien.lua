@@ -44,7 +44,7 @@ local function ProcessCraft(table, cellId, jobId)
     
                 if ConsoleRead(global:thisAccountController(), "Erreur dans le script : Impossible d'utiliser l'élément interactif") then
                     global:clearConsole()
-                    global:reconnect(0)
+                    global:disconnect()
                 end
                 global:delay(math.random(500, 1500))
                 return ProcessCraft(table, cellId, jobId)
@@ -296,7 +296,7 @@ function move()
     mapDelay()
     if global:thisAccountController():getAlias():find("Draconiros") and character:server() ~= "Draconiros" then
         global:thisAccountController():forceServer("Draconiros")
-        global:reconnect(0)
+        global:disconnect()
     end
     if global:thisAccountController():getAlias():find("Craft2") then
         global:editAlias("Craft2 " .. character:server() .. " : [" .. truncKamas() .. "m]", true)
@@ -1308,6 +1308,6 @@ end
 function stopped()
     local lines = global:consoleLines()
     if lines[#lines - 2]:find("Cette action est impossible car vous êtes occupé.") or lines[#lines - 1]:find("Echec lors de l'utilisation d'un Zaap/Zaapi") then
-        global:reconnect(0)
+        global:disconnect()
     end
 end

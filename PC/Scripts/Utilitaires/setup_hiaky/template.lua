@@ -11,7 +11,16 @@ dofile(PATH .. "env.lua")
 dofile(PATH .. "modules\\print.lua")
 json = dofile(PATH .. "modules\\json.lua")
 
-
+dofile(LIB_PATH .. "char.lua")
+dofile(LIB_PATH .. "ctrl.lua")
+dofile(LIB_PATH .. "err-string.lua")
+dofile(LIB_PATH .. "exch.lua")
+dofile(LIB_PATH .. "file.lua")
+dofile(LIB_PATH .. "items.lua")
+dofile(LIB_PATH .. "misc.lua")
+dofile(LIB_PATH .. "moving.lua")
+dofile(LIB_PATH .. "shop.lua")
+dofile(LIB_PATH .. "utils.lua")
 --- </routes>
 
 
@@ -109,12 +118,9 @@ end
 
 dofile(PATH .. "parameters.lua")
 
-TEMP_BY_SERVER_PATH = TEMP_PATH .. Utils:normalServer()
-server = Utils:normalServer()
+TEMP_BY_SERVER_PATH = TEMP_PATH .. character:server()
+server = character:server()
 
 --- </mode dev>
 
 --- <misc>
-
-
---- </misc>

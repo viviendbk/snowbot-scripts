@@ -2135,7 +2135,7 @@ local function takeKamas()
 		global:loadAndStart(scriptPath)
 	else
 		global:printSuccess("Reco dans 2h")
-		global:reconnectBis(math.random(80, 120))
+        customReconnect(math.random(80, 120))
 	end
 end
 

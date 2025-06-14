@@ -274,15 +274,15 @@ function move()
     if global:thisAccountController():getAlias():find("RequestsMulti") then
         global:thisAccountController():forceServer(switchServerMulti[character:server()])
         if character:server() == "Salar" then
-            global:reconnectBis(100, 200)
+            customReconnect(100, 200)
         end
-        global:reconnect(0)
+        global:disconnect()
     elseif global:thisAccountController():getAlias():find("RequestsMono") then
         global:thisAccountController():forceServer(switchServerMono[character:server()])
         if character:server() == "Mikhal" then
-            global:reconnectBis(400, 600)
+            customReconnect(400, 600)
         end
-        global:reconnect(0)
+        global:disconnect()
     else
         global:printError("Alias de l'account controller non reconnu, impossible de changer de serveur.")
     end
