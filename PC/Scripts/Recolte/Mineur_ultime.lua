@@ -1046,28 +1046,42 @@ function messagesRegistering()
     developer:registerMessage("GameFightEndMessage", CheckEndFight)
 end
 
+local function editAlias(toAdd)
+    if global:thisAccountController():getAlias():find("Mineur2") then
+        global:editAlias("Mineur2 " .. character:server() .. " " .. toAdd, true)
+    elseif global:thisAccountController():getAlias():find("Mineur3") then
+        global:editAlias("Mineur3 " .. character:server() .. " " .. toAdd, true)
+    elseif global:thisAccountController():getAlias():find("Mineur4") then
+        global:editAlias("Mineur4 " .. character:server() .. " " .. toAdd, true)
+    elseif global:thisAccountController():getAlias():find("Mineur5") then
+        global:editAlias("Mineur5 " .. character:server() .. " " .. toAdd, true)
+    else
+        global:editAlias("Mineur1 " .. character:server() .. " " .. toAdd, true)
+    end
+end
+
 local function antiModo()
-    if global:isModeratorPresent(30) then
-		timerdisconnect = math.random(30000, 36000) 
-        if not map:onMap("0,0") then
-            map:changeMap("havenbag")
-        end
-        global:printError("Modérateur présent. On attend " .. timerdisconnect)
-        if global:thisAccountController():getAlias():find("Mineur2") then
-            global:editAlias("Mineur2 " .. character:server() .. " [" .. job:level(24) .. "]  [MODO]", true)
-        elseif global:thisAccountController():getAlias():find("Mineur3") then
-            global:editAlias("Mineur3 " .. character:server() .. " [" .. job:level(24) .. "]  [MODO]", true)
-        elseif global:thisAccountController():getAlias():find("Mineur4") then
-            global:editAlias("Mineur4 " .. character:server() .. " [" .. job:level(24) .. "]  [MODO]", true)
-        else
-            global:editAlias("Mineur " .. character:server() .. " [" .. job:level(24) .. "]  [MODO]", true)
-        end
+    -- if global:isModeratorPresent(30) then
+	-- 	timerdisconnect = math.random(30000, 36000) 
+    --     if not map:onMap("0,0") then
+    --         map:changeMap("havenbag")
+    --     end
+    --     global:printError("Modérateur présent. On attend " .. timerdisconnect)
+    --     if global:thisAccountController():getAlias():find("Mineur2") then
+    --         global:editAlias("Mineur2 " .. character:server() .. " [" .. job:level(24) .. "]  [MODO]", true)
+    --     elseif global:thisAccountController():getAlias():find("Mineur3") then
+    --         global:editAlias("Mineur3 " .. character:server() .. " [" .. job:level(24) .. "]  [MODO]", true)
+    --     elseif global:thisAccountController():getAlias():find("Mineur4") then
+    --         global:editAlias("Mineur4 " .. character:server() .. " [" .. job:level(24) .. "]  [MODO]", true)
+    --     else
+    --         global:editAlias("Mineur " .. character:server() .. " [" .. job:level(24) .. "]  [MODO]", true)
+    --     end
 
-        global:delay(timerdisconnect)
-        customReconnect(timerdisconnect / 1000)
+    --     global:delay(timerdisconnect)
+    --     customReconnect(timerdisconnect / 1000)
 
-        map:changeMap("havenbag")
-	end
+    --     map:changeMap("havenbag")
+	-- end
 end
 
 local function defineGather()
@@ -1569,15 +1583,8 @@ function move()
         global:loadAndStart("C:\\Users\\Administrator\\Documents\\snowbot-scripts\\PC\\Scripts\\Recolte\\Mineur_1-150_ULTIME.lua")
     end
 
-    if global:thisAccountController():getAlias():find("Mineur2") then
-        global:editAlias("Mineur2 " .. character:server() .. " [" .. job:level(24) .. "] " .. getRemainingSubscription(true), true)
-    elseif global:thisAccountController():getAlias():find("Mineur3") then
-        global:editAlias("Mineur3 " .. character:server() .. " [" .. job:level(24) .. "] " .. getRemainingSubscription(true), true)
-    elseif global:thisAccountController():getAlias():find("Mineur4") then
-        global:editAlias("Mineur4 " .. character:server() .. " [" .. job:level(24) .. "] " .. getRemainingSubscription(true), true)
-    else
-        global:editAlias("Mineur " .. character:server() .. " [" .. job:level(24) .. "] " .. getRemainingSubscription(true), true)
-    end
+    editAlias("[" .. job:level(24) .. "] " .. getRemainingSubscription(true))
+
     
 
     if DebutDuScript then ChoosePath() end
@@ -1644,15 +1651,9 @@ end
 
 function bank()
     mapDelay()
-    if global:thisAccountController():getAlias():find("Mineur2") then
-        global:editAlias("Mineur2 " .. character:server() .. " [" .. job:level(24) .. "]", true)
-    elseif global:thisAccountController():getAlias():find("Mineur3") then
-        global:editAlias("Mineur3 " .. character:server() .. " [" .. job:level(24) .. "]", true)
-    elseif global:thisAccountController():getAlias():find("Mineur4") then
-        global:editAlias("Mineur4 " .. character:server() .. " [" .. job:level(24) .. "]", true)
-    else
-        global:editAlias("Mineur " .. character:server() .. " [" .. job:level(24) .. "]", true)
-    end
+    
+    editAlias("[" .. job:level(24) .. "] " .. getRemainingSubscription(true))
+
     ChoosePath()
 
     if NeedToCraft then

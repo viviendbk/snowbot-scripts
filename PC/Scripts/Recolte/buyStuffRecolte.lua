@@ -95,22 +95,24 @@ end
 
 
 function  _GetBestPriceDDLvl1And100(message)
+
     BestPrice100 = 0
     BestPrice1 = 0
     local dd = message.itemTypeDescriptions
-
     table.sort(dd, function (a, b)
         return a.prices[1] < b.prices[1]
     end)
 
+
     for _, element in ipairs(dd) do
-        if #element.effects > 0 and developer:typeOf(element.effects[1]) == "ObjectEffectMount" and element.effects[1].level == 100 and element.effects[1].isRideable then
+        if #element.effects > 0 and tostring(element.effects[1]) == "SwiftBot.ObjectEffectMount" and element.effects[1].level == 100 and element.effects[1].isRideable then
             BestPrice100 = element.prices[1] - 1
             break
         end
     end
+
     for _, element in ipairs(dd) do
-        if #element.effects > 0 and developer:typeOf(element.effects[1]) == "ObjectEffectMount" and element.effects[1].isRideable then
+        if #element.effects > 0 and tostring(element.effects[1]) == "SwiftBot.ObjectEffectMount" and element.effects[1].isRideable then
             BestPrice1 = element.prices[1] - 1
             break
         end
@@ -124,7 +126,7 @@ function  _BuyCheapestDD(message)
         return a.prices[1] < b.prices[1]
     end)
     for _, element in ipairs(dd) do
-        if #element.effects > 0 and developer:typeOf(element.effects[1]) == "ObjectEffectMount" and element.effects[1].isRideable then
+        if #element.effects > 0 and tostring(element.effects[1]) == "SwiftBot.ObjectEffectMount" and element.effects[1].isRideable then
             message = developer:createMessage("ExchangeBidHouseBuyMessage")
             message.uid = element.objectUID
             message.qty = 1
@@ -143,12 +145,15 @@ function achatDD()
     local Ids = {7863, 7814, 7856}
     local minPrice = 100000000
     local bestIndex = 1
+
     for i, Id in ipairs(Ids) do
+
         HdvBuy()
         local message = developer:createMessage("ExchangeBidHouseSearchMessage")
         message.objectGID = Id
         message.follow = true
         developer:registerMessage("ExchangeTypesItemsExchangerDescriptionForUserMessage", _GetBestPriceDDLvl1And100)
+
         developer:sendMessage(message)
         developer:suspendScriptUntil("ExchangeTypesItemsExchangerDescriptionForUserMessage", 2000, true)
         global:leaveDialog()
@@ -174,19 +179,8 @@ function achatDD()
 end
 
 
-function equiperDD()
-    local ddEquipables = GetDDInfLvl100()
-    map:moveToCell(332)
-    map:door(357)
-    developer:suspendScriptUntil("ExchangeStartOkMountWithOutPaddockMessage", 5000, true)
-    local message = developer:createMessage("ExchangeHandleMountsMessage")
-    message.actionType = 15
-    message.ridesId = {ddEquipables[1][2]}
-    developer:sendMessage(message)
-    developer:suspendScriptUntil("InventoryWeightMessage", 2000, true)
-    global:delay(math.random(500, 1500))
-    global:leaveDialog()
-    global:delay(math.random(500, 1500))
+function equiperDD()    
+    equipDD(getUIDOfDD())
     ManageXpMount()
     global:loadAndStart("C:\\Users\\Administrator\\Documents\\snowbot-scripts\\PC\\Scripts\\PL&Zaaps\\quete_pandala.lua")
 end

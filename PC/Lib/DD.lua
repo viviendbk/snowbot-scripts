@@ -17,23 +17,30 @@ end
 
 function _AnalyseDD(message)
     developer:unRegisterMessage("MountDataMessage")
-    LvlDD = message.mountData.level
+    LvlDD = message.mount_data.level
     global:leaveDialog()
 end
 
 function GetDDInfLvl100()
     local toReturn = {}
     local content = inventory:inventoryContent()
+    printVar(content)
+    for _, element in ipairs(content) do
+        if inventory:itemTypeId(element.objectGID) == 97 then
+            printVar(element.effects[1])
+            debug(element.effects[1].expirationDate)
+        end
+    end
 
     for _, element in ipairs(content) do
         if inventory:itemTypeId(element.objectGID) == 97 then
 
-            local message = developer:createMessage("MountInformationRequestMessage")
-            message.id = element.effects[1].id
+            local message = developer:createMessage("MountInformationRequest")
+            message.mount_id = element.objectGID
             message.time = element.effects[1].expirationDate
-            developer:registerMessage("MountDataMessage", _AnalyseDD)
+            developer:registerMessage("MountDataEvent", _AnalyseDD)
             developer:sendMessage(message)
-            developer:suspendScriptUntil("MountDataMessage", 2000, true)
+            developer:suspendScriptUntil("MountDataEvent", 2000, true)
             global:printSuccess(LvlDD)
 
             if LvlDD < 100 then
@@ -71,13 +78,13 @@ function GetDDLvl100()
             end)
             
             if success then
-                local message = developer:createMessage("MountInformationRequestMessage")
-                message.id = element.effects[1].id
+                local message = developer:createMessage("MountInformationRequest")
+                message.mount_id = element.effects[1].id
                 message.time = element.effects[1].expirationDate
     
-                developer:registerMessage("MountDataMessage", _AnalyseDD)
+                developer:registerMessage("MountDataEvent", _AnalyseDD)
                 developer:sendMessage(message)
-                developer:suspendScriptUntil("MountDataMessage", 2000, true)
+                developer:suspendScriptUntil("MountDataEvent", 2000, true)
     
                 if LvlDD == 100 then
                     toReturn[#toReturn+1] = {element.objectGID, element.objectUID}
@@ -111,13 +118,13 @@ function GetAllDD()
             end)
             
             if success then
-                local message = developer:createMessage("MountInformationRequestMessage")
-                message.id = element.effects[1].id
+                local message = developer:createMessage("MountInformationRequest")
+                message.mount_id = element.effects[1].id
                 message.time = element.effects[1].expirationDate
     
-                developer:registerMessage("MountDataMessage", _AnalyseDD)
+                developer:registerMessage("MountDataEvent", _AnalyseDD)
                 developer:sendMessage(message)
-                developer:suspendScriptUntil("MountDataMessage", 2000, true)
+                developer:suspendScriptUntil("MountDataEvent", 2000, true)
                 toReturn[#toReturn+1] = {element.objectGID, element.objectUID}
             else
                 global:printSuccess("La dd a un certificat invalide, on la delete")
@@ -131,4 +138,31 @@ function GetAllDD()
         end
     end
     return toReturn
+end
+
+function getUIDOfDD()
+    local content = inventory:inventoryContent()
+    for _, element in ipairs(content) do
+        if inventory:itemTypeId(element.objectGID) == 97 then
+            return element.objectUID
+        end
+    end
+    return nil
+end
+
+function equipDD(objectUID)
+    map:moveToCell(332)
+    map:door(357)
+    local message = developer:createMessage("ExchangeHandleMountsRequest")
+    if message then
+        message.rides_id:Add(objectUID)
+        message.action_type = 14 -- 12 pour déséquiper, 14 pour équiper
+        developer:sendMessage(message)
+        developer:suspendScriptUntil("MountEquippedEvent", 2000, true)
+        global:printSuccess("DD équipée")
+    else
+        global:printError("Impossible d'équiper la DD")
+    end
+    randomDelay()
+    global:leaveDialog()
 end
