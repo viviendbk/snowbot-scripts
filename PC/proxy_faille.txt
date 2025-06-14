@@ -1,0 +1,14 @@
+193.252.210.41#SOCKS5_193.252.210.41#http^//192.168.1.48^80/reset?proxy=p:5001
+5001#5002
+proxy#proxy
+proxy123#proxy123
+
+193.252.210.41#SOCKS5_193.252.210.41#http^//192.168.1.48^80/reset?proxy=p:5003
+5003#5004
+proxy#proxy
+proxy123#proxy123
+
+193.252.210.41#SOCKS5_193.252.210.41#http^//192.168.1.48^80/reset?proxy=p:5005
+5005#5006
+proxy#proxy
+proxy123#proxy123

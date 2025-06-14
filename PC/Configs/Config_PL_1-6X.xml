@@ -1,6 +1,6 @@
 <?xml version="1.0" encoding="utf-8"?>
 <Configform xmlns:xsd="http://www.w3.org/2001/XMLSchema" xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance">
-  <Script>C:\Users\Administrator\Documents\snowbot-scripts\PC\Scripts\PL&amp;Zaaps\PL_1-6X.lua</Script>
+  <Script>C:\Users\Administrator\Documents\snowbot-scripts\PC\Scripts\Craft\Craft [Levelling].lua</Script>
   <SpellAuto>-1</SpellAuto>
   <CaractAuto>0</CaractAuto>
   <Placement>1</Placement>
@@ -13,7 +13,7 @@
   <Recrutement>false</Recrutement>
   <Communaute>false</Communaute>
   <Guild>true</Guild>
-  <ConnexionAuto>true</ConnexionAuto>
+  <ConnexionAuto>false</ConnexionAuto>
   <Sucess>false</Sucess>
   <StatuPrivate>false</StatuPrivate>
   <AntiAgro>false</AntiAgro>

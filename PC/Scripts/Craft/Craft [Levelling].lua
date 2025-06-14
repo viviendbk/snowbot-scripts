@@ -527,7 +527,6 @@ end
 function move()
     HdvSell()
     global:printMessage("a")
-    
     a = GetPricesItem(747)
     global:printSuccess("Prix de l'item 747 : " .. a.AveragePrice .. " | " .. a.MinPrice .. " | " .. a.MaxPrice)
 

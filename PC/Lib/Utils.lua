@@ -577,7 +577,9 @@ function secondsToHours(time)
     return time / 60 / 60
 end
 
-
+function isAccountController(alias)
+    return alias:find("controller") or alias:find("contrôleur")
+end
 
 function debug(msg)
     global:printSuccess("DEBUG: " .. msg)

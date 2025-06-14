@@ -661,39 +661,52 @@ function protobufToTable(protoObj)
 end
 
 function _GetMessagePrices(message)
-
     developer:unRegisterMessage("ExchangeBidPriceEvent")
     local messageDeBase = message
     message = message.bid_price_for_seller.minimal_prices
-    debug(type(message))
-    printVar(message)
 
-    local numberList = {}
-    for i, v in ipairs(message) do
-        table.insert(numberList, tonumber(v))
+
+    local pricesList = {}
+    for i = 0, #message - 1 do
+        table.insert(pricesList, tonumber(message[i]))
     end
 
-    debug("ok")
-    debug(numberList[1] == 0 )
+
+    printVar(pricesList)
+    debug(type(pricesList))
+    debug(type(pricesList[1]))
+    debug(pricesList[1] + 1)
+
+
+    pricesList[1] = pricesList[1] + 1 -- focntionne
+    global:printSuccess(pricesList[1] == 0) -- fonctionne pas
+    
+    a = "ok " .. pricesList[1]
+    global:printSuccess(a:find("ok")) -- fonctionne
+    global:printSuccess(a:find("p")) -- fonctionne pas
+
+    debug(a)
+    debug(a:find("p"))
+    debug(pricesList[1] == pricesList[1])
+
 
     local AveragePrice = 0
-    if message[2] == 0 and message[3] == 0 then
-        AveragePrice = message[1]
-    elseif message[3] == 0 and message[1] == 0 then
-        AveragePrice = message[2] / 10
-    elseif message[2] == 0 and message[1] == 0 then
-        AveragePrice = message[3] / 100
-    elseif message[3] ~= 0 and message[1] ~= 0 and message[2] ~= 0 then
-        AveragePrice =(message[3] / 100 + message[2] / 10 + message[1]) / 3
-    elseif message[3] == 0 then
-        AveragePrice = (message[2] / 10 + message[1]) / 2
-    elseif message[2] == 0 then
-        AveragePrice = (message[3] / 100 + message[1]) / 2
-    elseif message[1] == 0 then
-        AveragePrice = (message[3] / 100 + message[2] / 10) / 2
+    if pricesList[2] == 0 and pricesList[3] == 0 then
+        AveragePrice = pricesList[1]
+    elseif pricesList[3] == 0 and pricesList[1] == 0 then
+        AveragePrice = pricesList[2] / 10
+    elseif pricesList[2] == 0 and pricesList[1] == 0 then
+        AveragePrice = pricesList[3] / 100
+    elseif pricesList[3] ~= 0 and pricesList[1] ~= 0 and pricesList[2] ~= 0 then
+        AveragePrice =(pricesList[3] / 100 + pricesList[2] / 10 + pricesList[1]) / 3
+    elseif pricesList[3] == 0 then
+        AveragePrice = (pricesList[2] / 10 + pricesList[1]) / 2
+    elseif pricesList[2] == 0 then
+        AveragePrice = (pricesList[3] / 100 + pricesList[1]) / 2
+    elseif pricesList[1] == 0 then
+        AveragePrice = (pricesList[3] / 100 + pricesList[2] / 10) / 2
     end
 
-    debug("ok")
 
     Prices = {
         Id = messageDeBase.object_gid,
@@ -710,14 +723,12 @@ function GetPricesItem(Id)
     developer:registerMessage("ExchangeBidPriceEvent", _GetMessagePrices)
 
     
-    local message = developer:createMessage("ExchangeBidHousePriceRequest")
-    debug("ok")
-    if message then
-        message.object_gid:Add(Id)
-        developer:sendMessage(message, false)
-    end
-    debug("ok2")
-    developer:suspendScriptUntil("ExchangeBidPriceEvent", 5000, false, nil, 20)
+    local message = developer:createMessage("ExchangeBidHousePriceMessage")
+    message.objectGID = Id
+    developer:sendMessage(message)
+    
+    developer:suspendScriptUntil("ExchangeBidPriceForSellerMessage", 5000, false, nil, 20)
+    developer:suspendScriptUntil("ExchangeBidPriceMessage", 5000, false, nil, 20)
 
     if Prices ~= {} and Prices ~= nil then
         return Prices
