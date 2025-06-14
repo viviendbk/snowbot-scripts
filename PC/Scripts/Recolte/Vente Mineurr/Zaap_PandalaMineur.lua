@@ -35,8 +35,8 @@ local function pandala_1()
     npc:reply(-1)
     npc:reply(-1)
     restat()
-    character:upgradeIntelligence(144)
-    character:upgradeVitality(150) 
+    upgradeCharacteristics(150, 0,  0, calculCharacteristicsPointsToSet(character:level() * 5 - 155))
+
     map:changeMap("bottom")
 end
 
@@ -49,7 +49,7 @@ local function pandala_2()
     npc:reply(-1)
     if global:thisAccountController():getAlias():find("LvlUp") then
         restat()
-        character:upgradeWisdom((character:level() * 5) / 3)  
+        upgradeCharacteristics(0, 0,  character:level() * 5 / 3)
     end
     map:changeMap("left")
 end

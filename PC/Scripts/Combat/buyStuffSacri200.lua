@@ -180,8 +180,7 @@ local function achatStuff()
 
     restat()
 
-    character:upgradeWisdom(99)
-    character:upgradeStrenght(600)
+    upgradeCharacteristics(0, 600, 99)
 
     map:changeMap("zaapi(212601350)") -- hdv ressource
 end

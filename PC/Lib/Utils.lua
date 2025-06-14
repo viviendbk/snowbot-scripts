@@ -30,47 +30,48 @@ function handleDisconnection()
 
     local nextDisconnection = global:remember("nextDisconnection")
 
-    -- Si la variable n'existe pas, on l'initialise
     if not nextDisconnection then
         local random = math.random()
         local minutesDisconnection = 0
 
         if random < 0.02 then
-            minutesDisconnection = math.random(400, 600)
+            minutesDisconnection = math.random(200, 300)
         elseif random < 0.03 then
-            minutesDisconnection = math.random(35, 55)
+            minutesDisconnection = math.random(30, 45)
         elseif random < 0.15 then
-            minutesDisconnection = math.random(90, 120)    
+            minutesDisconnection = math.random(70, 110)    
         elseif random < 0.35 then
-            minutesDisconnection = math.random(120, 150)          
+            minutesDisconnection = math.random(100, 130)          
         elseif random < 0.65 then
-            minutesDisconnection = math.random(150, 180)    
+            minutesDisconnection = math.random(130, 160)    
         else
-            minutesDisconnection = math.random(180, 240)   
+            minutesDisconnection = math.random(150, 210)   
         end
         global:addInMemory("nextDisconnection", currentTime + minutesDisconnection * 60)
+        global:printMessage("Prochaine déconnexion à " .. os.date("%H:%M:%S", currentTime + minutesDisconnection * 60) .. ".")
         return
     end
 
-    -- Si l'horaire est dépassé de plus de 5 minutes (300 secondes)
+    -- Si l'horaire est dépassé de plus de 5 minutes (300 secondes), on planifie une nouvelle déconnexion
     if currentTime > (nextDisconnection + 300) then
-                local random = math.random()
+        local random = math.random()
         local minutesDisconnection = 0
 
         if random < 0.02 then
-            minutesDisconnection = math.random(400, 600)
+            minutesDisconnection = math.random(200, 300)
         elseif random < 0.03 then
-            minutesDisconnection = math.random(35, 55)
+            minutesDisconnection = math.random(30, 45)
         elseif random < 0.15 then
-            minutesDisconnection = math.random(90, 120)    
+            minutesDisconnection = math.random(70, 110)    
         elseif random < 0.35 then
-            minutesDisconnection = math.random(120, 150)          
+            minutesDisconnection = math.random(100, 130)          
         elseif random < 0.65 then
-            minutesDisconnection = math.random(150, 180)    
+            minutesDisconnection = math.random(130, 160)    
         else
-            minutesDisconnection = math.random(180, 240)   
+            minutesDisconnection = math.random(150, 210)   
         end
         global:addInMemory("nextDisconnection", currentTime + minutesDisconnection * 60)
+        global:printMessage("Prochaine déconnexion à " .. os.date("%H:%M:%S", currentTime + minutesDisconnection * 60) .. ".")
         return
     end
 
@@ -81,7 +82,7 @@ function handleDisconnection()
         local minutesDisconnection = 0
         if random < 0.05 then
             -- Rare : pause longue
-            minutesDisconnection = math.random(200, 400)
+            minutesDisconnection = math.random(60, 120)
         elseif random < 0.15 then
             -- Moins fréquent : pause plus courte
             minutesDisconnection = math.random(5, 15)
@@ -100,7 +101,8 @@ function handleDisconnection()
         end
 
         global:printMessage("Le script sera en pause pendant " .. minutesDisconnection .. " minutes.")
-        global:reconnectBis(minutesDisconnection)
+        global:editAlias(global:thisAccountController():getAlias() .. "Reconnect at " .. os.date("%H:%M:%S", currentTime + minutesDisconnection * 60), false)
+        global:disconnect()
     end
 end
 
@@ -296,6 +298,19 @@ function compareDates(date1, date2)
     return false
 end
 
+function extract_reconnect_hour(str)
+    return str:match("Reconnect at (%d%d:%d%d:%d%d)$")
+end
+
+function comparehHour(h1, h2)
+    local function to_seconds(hms)
+        local h, m, s = hms:match("^(%d%d):(%d%d):(%d%d)$")
+        return tonumber(h) * 3600 + tonumber(m) * 60 + tonumber(s)
+    end
+
+    return to_seconds(h1) >= to_seconds(h2)
+end
+
 function NbDaysBetweenTodayAnd(date)
     if date == "" then
         return 0
@@ -341,24 +356,27 @@ function randomDelay()
 	if random < 0.05 then
 		global:delay(math.random(8000, 10000))
 	elseif random < 0.25 then
-		global:delay(math.random(3000, 5000))
+		global:delay(math.random(2500, 5000))
 	elseif random < 0.5 then
-		global:delay(math.random(1500, 3000))
+		global:delay(math.random(1000, 2500))
 	else
-		global:delay(math.random(500, 1500))
+		global:delay(math.random(100, 1000))
 	end
 end
 
 function mapDelay()
 	local random = math.random()
-	if random < 0.05 then
+    if random < 0.005 then
+        global:printMessage("gros délais")
+        global:delay(math.random(30000, 570000))
+    elseif random < 0.05 then
 		global:delay(math.random(7000, 11000))
 	elseif random < 0.25 then
-		global:delay(math.random(4000, 6500))
+		global:delay(math.random(1000, 3000))
 	elseif random < 0.5 then
-		global:delay(math.random(2000, 4000))
+		global:delay(math.random(300, 1000))
 	else
-		global:delay(math.random(1000, 2500))
+		global:delay(math.random(100, 500))
 	end
 end
 
@@ -383,6 +401,7 @@ bankMaps = {
 retryTimestamp = 0
 givingMode = false
 cannotConnect = false
+botFound = false
 connected = false
 
 
@@ -447,9 +466,11 @@ function forwardKamasBotBankIfNeeded(givingTriggerValue, minKamas, maxWaitingTim
             end
             receiver = connectReceiver(maxWaitingTime)
 
-            if cannotConnect then
+            if cannotConnect or not botFound then
                 rerollVar()
-                receiver:disconnect()
+                if botFound then
+                    receiver:disconnect()
+                end
                 global:editInMemory("retryTimestamp", os.time())
                 global:addInMemory("failed", true)
 				cannotConnect = false
@@ -487,6 +508,7 @@ function connectReceiver(maxWaitingTime)
 
     for _, acc in ipairs(snowbotController:getLoadedAccounts()) do
 		if acc:getAlias():find("bank_" .. character:server():lower()) then
+            botFound = true
             if not acc:isAccountFullyConnected() then
                 setBotBankConnected(character:server(), true)
                 acc:connect()
@@ -521,6 +543,7 @@ function connectReceiver(maxWaitingTime)
             end
         end
     end
+    botFound = false
 end
 
 function rerollVar()
@@ -585,4 +608,71 @@ function debug(msg)
     global:printSuccess("DEBUG: " .. msg)
     
 end
+
+function canReconnect(Alias)
+    if not Alias:find("Reconnect") then
+        return true
+    end
+
+    local reconnectTime = extract_reconnect_hour(Alias)
+    if not reconnectTime then
+        debug("impossible de trouver l'heure de reconnexion dans l'alias: " .. Alias)
+        return false
+    end
+
+    -- Vérification si l'heure actuelle dépasse celle de reconnexion
+    local currentTime = getCurrentTime()
+    if comparehHour(currentTime, reconnectTime) then
+        global:printSuccess(Alias .. ": L'heure actuelle " .. currentTime .. " est supérieure ou égale à l'heure de reconnexion " .. reconnectTime)
+        return true
+    end
+end
+
+
+function upgradeCharacteristics(vitality, strength, wisdom, intelligence, chance, agility)
+    local message = developer:createMessage("CharacterCharacteristicUpgradeRequest")
+    if message then
+        message.vitality = vitality or 0
+        message.strength = strength or 0
+        message.wisdom = wisdom or 0
+        message.intelligence = intelligence or 0
+        message.chance = chance or 0
+        message.agility = agility or 0
+
+        developer:sendMessage(message)
+    else
+        global:printError("Impossible de créer le message de mise à niveau des caractéristiques.")
+    end
+
+end
+
+function calculCharacteristicsPointsToSet(nbPointsDispo)
+    local toReturn = 0
+
+    -- palier 1 : 1 pour 1 (jusqu’à 100)
+    local toReturn = math.min(nbPointsDispo, 100)
+    gain = gain + toReturn
+    nbPointsDispo = nbPointsDispo - toReturn
+
+    -- palier 2 : 2 pour 1 (jusqu’à 200 points dépensés, soit 100 gagnés)
+    toReturn = math.min(nbPointsDispo, 200)
+    gain = gain + toReturn / 2
+    nbPointsDispo = nbPointsDispo - toReturn
+
+    -- palier 3 : 3 pour 1 (jusqu’à 300 points dépensés, soit 100 gagnés)
+    toReturn = math.min(nbPointsDispo, 300)
+    gain = gain + toReturn / 3
+    nbPointsDispo = nbPointsDispo - toReturn
+
+    -- palier 4 : 4 pour 1
+    if nbPointsDispo > 0 then
+        gain = gain + nbPointsDispo / 4
+    end
+
+    return gain
+end
+
 --- interaction bot bank ---
+
+
+

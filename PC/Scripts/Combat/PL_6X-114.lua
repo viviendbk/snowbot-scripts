@@ -819,9 +819,7 @@ function move()
  	if character:level() >= 114 then
 		global:loadConfigurationWithoutScript("C:\\Users\\Administrator\\Documents\\snowbot-scripts\\PC\\Configs\\Config_PL_199.xml")
 		restat()
-		character:upgradeChance(200)
-		character:upgradeStrenght(200)
-		character:upgradeWisdom(170)	
+		upgradeCharacteristics(0, 200, 170, 0, 200)
 		global:loadConfigurationWithoutScript("C:\\Users\\Administrator\\Documents\\snowbot-scripts\\PC\\Configs\\Config_PL_1-6X.xml")
 		global:loadAndStart("C:\\Users\\Administrator\\Documents\\snowbot-scripts\\PC\\Scripts\\Combat\\PL_114-XXX.lua")
 	end

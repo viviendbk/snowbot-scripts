@@ -93,8 +93,7 @@ end
 
 local function achatIdoles()
     restat()
-    character:upgradeAgility(10)
-    character:upgradeStrenght(700)
+    upgradeCharacteristics(0, 700, 0, 0, 0, 10)
 
     local tableIdSorts = {{Id = 12725, Lvl = 110}, {Id = 12751, Lvl = 170}, {Id = 12729, Lvl = 145}, {Id = 12763, Lvl = 140}}
     for _, element in ipairs(tableIdSorts) do

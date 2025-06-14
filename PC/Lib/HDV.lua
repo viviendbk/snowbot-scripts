@@ -660,6 +660,12 @@ function protobufToTable(protoObj)
     return result
 end
 
+
+function test(value)
+    local a = (value + 1)
+    return math.floor(a * 2)
+end
+
 function _GetMessagePrices(message)
     developer:unRegisterMessage("ExchangeBidPriceEvent")
     local messageDeBase = message
@@ -669,18 +675,33 @@ function _GetMessagePrices(message)
     local pricesList = {}
     for i = 0, #message - 1 do
         table.insert(pricesList, tonumber(message[i]))
+    end    
+    printVar(pricesList)
+
+
+    local file = io.open("C:\\Users\\Administrator\\Documents\\snowbot-scripts\\PC\\a.txt", "r")
+    if not file then
+      return nil, "Unable to open file"
     end
+  
+    file:write(message, "\n")
+    file:close()
+
+
+
 
 
     printVar(pricesList)
     debug(type(pricesList))
     debug(type(pricesList[1]))
-    debug(pricesList[1] + 1)
+    debug(math.floor(pricesList[1]))
+    debug(pricesList[1] *2)
+    debug(tostring(test(pricesList[1] + 1)) == "0") -- fonctionne
 
-
+    debug(test(pricesList[1] == 1))
     pricesList[1] = pricesList[1] + 1 -- focntionne
     global:printSuccess(pricesList[1] == 0) -- fonctionne pas
-    
+
     a = "ok " .. pricesList[1]
     global:printSuccess(a:find("ok")) -- fonctionne
     global:printSuccess(a:find("p")) -- fonctionne pas

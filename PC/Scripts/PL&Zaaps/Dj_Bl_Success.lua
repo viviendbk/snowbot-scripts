@@ -54,11 +54,8 @@ function stop()
 
 	if not phrase:find("LvlUp") then
 		restat()
-		character:upgradeIntelligence(144)
-		character:upgradeVitality(150) 
-		for i = 60, character:level() do
-			character:upgradeIntelligence(5)
-		end
+
+        upgradeCharacteristics(150, 0,  0, calculCharacteristicsPointsToSet(character:level() * 5 - 155))
 	end
 	_ExchangeMoneyMovementInformationMessage = developer:historicalMessage("ExchangeMoneyMovementInformationMessage")
 

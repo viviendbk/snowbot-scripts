@@ -7,9 +7,6 @@ GATHER = {}
 
 
 FORBIDDEN_MONSTERS = {463, 1247, 460 }
-local goAcheterDynamo = true
-local dynamoMineurId = 16358
-local dynamoMineurIdPourEquiper = 31
 local debugPath = false
 local EquipementFini = false
 local lancable = 0		
@@ -826,11 +823,7 @@ function stop()
 
 	if not phrase:find("LvlUp") then
 		restat()
-		character:upgradeIntelligence(100)
-		character:upgradeVitality(200) 
-		for i = 60, character:level() do
-			character:upgradeVitality(5)
-		end
+		upgradeCharacteristics(character:level() * 5 - 105, 0, 0, 100)
 	end
 
 	if global:thisAccountController():getAlias():find("Mineur2") then
@@ -920,13 +913,12 @@ end
 
 
 function move()
+	handleDisconnection()
 	if character:level() == 1 and global:thisAccountController():getAlias():find("Requests") and not configLoaded then
 		configLoaded = true
 		global:loadConfigurationWithoutScript("C:\\Users\\Administrator\\Documents\\snowbot-scripts\\PC\\Configs\\Config_PL_1-6X.xml")
 	end
-	if character:level() > 50 then
-		PLANNING = {9, 10, 11, 12, 13, 14, 15}
-	end
+
 	forwardKamasBotBankIfNeeded(300000, 50000, 120, 4)
 
 	mapDelay()
@@ -1085,7 +1077,6 @@ function move()
 
 	global:printSuccess(global:remember("lvlFinish"))
 	
-
 	if character:level() >= global:remember("lvlFinish") then
 		if not LastSell then
 			if not map:onMap("4,-17") then
@@ -1185,7 +1176,7 @@ function move()
 	elseif character:level() >= 62 then
 		MAX_MONSTERS = 6
 		MIN_MONSTERS = 1
-		return egouts2 and treatMaps(Egouts_Astrub2) or treatMaps(Egouts_Astrub1)
+		return egouts2 and treatMaps(Egouts_Asftrub2) or treatMaps(Egouts_Astrub1)
 	elseif character:level() >= 61 and character:level() < 62 then 
 		MAX_MONSTERS = 4
 		MIN_MONSTERS = 1

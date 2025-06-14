@@ -82,7 +82,8 @@ local function achatStuff()
     equiper()
 
     restat()
-    character:upgradeIntelligence(700)
+
+    upgradeCharacteristics(0, 0,  0, calculCharacteristicsPointsToSet(character:level() * 5 - 5))
     
     map:changeMap("right")
 end
