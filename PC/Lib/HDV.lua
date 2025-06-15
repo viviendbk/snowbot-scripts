@@ -1360,17 +1360,23 @@ function fetchItemInHDV(objectId)
     developer:suspendScriptUntil("ExchangeTypesItemsExchangerDescriptionForUserMessage", 5000, false, nil, 20)
 end
 
-function buyBestItem(objectId)
+function buyWorthItem(objectId, limit)
     HdvBuy()
-    fetchItemInHDV(objectId)
-    debug(#itemList)
-
-    for _, item in ipairs(itemList) do
-        debug("1")
-        item.quality = GetQualityItemWithoutException(item.effects, item.objectGID) -- - 0.05
-        debug(item.objectGID .. " - " .. item.objectPrice[1] .. " - " .. item.quality)
-    end
+    sale:buyItem(objectId, 1, limit or 10000000)
+    global:leaveDialog()
 
 
-    itemList = {}
+
+
+    -- fetchItemInHDV(objectId)
+    -- debug(#itemList)
+
+    -- for _, item in ipairs(itemList) do
+    --     debug("1")
+    --     item.quality = GetQualityItemWithoutException(item.effects, item.objectGID) -- - 0.05
+    --     debug(item.objectGID .. " - " .. item.objectPrice[1] .. " - " .. item.quality)
+    -- end
+
+
+    -- itemList = {}
 end

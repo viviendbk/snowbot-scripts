@@ -426,6 +426,10 @@ IdWithCaracName = {
     {
         Id = 97,
         Name = "Degats Terre"
+    },
+    {
+        Id = 2862,
+        Name = "Legendaire" -- a verifier le nom en jeu
     }
 }
 

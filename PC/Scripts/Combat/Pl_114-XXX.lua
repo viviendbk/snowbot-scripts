@@ -1065,7 +1065,7 @@ local function goAstrubBank(inBankCallback)
         end
     else
         if map:currentMapId() ~= tonumber(bankMaps.bankAstrubInt) then
-            return map:moveToward(tonumber(bankMaps.bankAstrubInt))
+            return debugMoveToward(tonumber(bankMaps.bankAstrubInt))
         else
             if inBankCallback then
                 return inBankCallback()

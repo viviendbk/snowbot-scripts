@@ -81,7 +81,7 @@ function move()
 		  end}, -- 153880323
 		}
 	elseif not map:onMap(192415750) then
-		map:moveToward(192415750)
+		debugMoveToward(192415750)
 	end
 	return {
 		{map = "192415750", custom = fini},

@@ -1755,7 +1755,7 @@ function move()
     end
     
     if not map:onMap(192415750) then
-        map:moveToward(192415750)
+        debugMoveToward(192415750)
     else
         npc:npcBank(-1)
         randomDelay()

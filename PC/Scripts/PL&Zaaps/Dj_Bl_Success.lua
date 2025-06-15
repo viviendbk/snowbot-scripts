@@ -152,6 +152,8 @@ end
 
 
 function move()
+    d2data:exportD2O("Items")
+    global:finishScript()
     mapDelay()
     global:printSuccess(global:remember("ETAPEDJ"))
     if job:level(24) >= 5 or job:level(2) >= 5 then

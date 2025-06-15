@@ -192,6 +192,11 @@ local function BuyStuff()
 	end
 
     global:printSuccess("o")
+    for _, element in ipairs(tableEquip) do
+        if (inventory:itemCount(element.Id) == 0) then
+            buyWorthItem(element.Id, 200000)
+        end
+    end
 	Buyer:many(items)
     global:printSuccess("oss")
 
@@ -375,9 +380,9 @@ local function GoTo(mapToward, action)
     local toward = mapToward:split(",")
     if not map:onMap(mapToward) then
         if #toward == 2 then
-            return map:moveTowardMap(tonumber(toward[1]), tonumber(toward[2]))
+            return debugMoveTowardMap(tonumber(toward[1]), tonumber(toward[2]))
         elseif #toward == 1 then
-            return map:moveToward(tonumber(toward[1]))
+            return debugMoveToward(tonumber(toward[1])) 
         end
     else
         action()

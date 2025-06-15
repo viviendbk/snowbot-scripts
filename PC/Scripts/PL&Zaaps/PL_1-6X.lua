@@ -789,13 +789,23 @@ local function GoTo(mapToward, action)
     local toward = mapToward:split(",")
     if not map:onMap(mapToward) then
         if #toward == 2 then
-            return map:moveToward(tonumber(toward[1]), tonumber(toward[2]))
+            return debugMoveTowardMap(tonumber(toward[1]), tonumber(toward[2]))
         elseif #toward == 1 then
-            return map:moveToward(tonumber(toward[1]))
+            return debugMoveToward(tonumber(toward[1]))
         end
     else
         action()
     end
+end
+
+
+local function isBotBankConnected()
+	for _, acc in ipairs(snowbotController:getLoadedAccounts()) do
+		if acc:getAlias():find("bank") and acc:getAlias():find(character:server()) then
+			return true
+		end
+	end
+	return false
 end
 
 function stop()
@@ -809,6 +819,13 @@ function stop()
 	end
 
 	_ExchangeMoneyMovementInformationMessage = developer:historicalMessage("ExchangeMoneyMovementInformationMessage")
+
+	if not isBotBankConnected() then
+		global:printMessage("il n'y a pas de bot bank chargé, on continue de farm")
+		global:editInMemory("lvlFinish", global:remember("lvlFinish") + 1)
+		map:moveToCell(409)
+		return move()
+	end
 
 	if _ExchangeMoneyMovementInformationMessage ~= nil and #_ExchangeMoneyMovementInformationMessage > 0 then
 		global:printSuccess(_ExchangeMoneyMovementInformationMessage[#_ExchangeMoneyMovementInformationMessage].limit)
@@ -904,22 +921,31 @@ local function treatMaps(maps)
 	if not map:onMap(maps[1].map) then
 		local toward = maps[1].map:split(",")
 		if #toward == 2 then
-			map:moveToward(tonumber(toward[1]), tonumber(toward[2]))
+			debugMoveTowardMap(tonumber(toward[1]), tonumber(toward[2]))
 		elseif #toward == 1 then
-			map:moveToward(tonumber(maps[1].map))
+			debugMoveToward(tonumber(maps[1].map))
 		end
 	end
 end
 
 
 function move()
+		debug("ok")
+
 	handleDisconnection()
 	if character:level() == 1 and global:thisAccountController():getAlias():find("Requests") and not configLoaded then
 		configLoaded = true
 		global:loadConfigurationWithoutScript("C:\\Users\\Administrator\\Documents\\snowbot-scripts\\PC\\Configs\\Config_PL_1-6X.xml")
 	end
+	debug("ok")
 
 	forwardKamasBotBankIfNeeded(300000, 50000, 120, 4)
+		debug("ok")
+
+	if inventory:podsP() > 50 then
+		return bank()
+	end
+	debug("ok")
 
 	mapDelay()
 	if debugPath then
@@ -928,14 +954,14 @@ function move()
 
     if NeedToSell then
         if not map:onMap("4,-17") then
-            map:moveTowardMap(4, -17)
+            debugMoveTowardMap(4, -17)
         else
             Selling()
         end
     end
     if NeedToReturnBank then
         if not map:onMap("192415750") then
-            map:moveToward(192415750) 
+            debugMoveToward(192415750) 
         else
             ProcessBank()
         end
@@ -1080,7 +1106,7 @@ function move()
 	if character:level() >= global:remember("lvlFinish") then
 		if not LastSell then
 			if not map:onMap("4,-17") then
-				map:moveTowardMap(4, -17)
+				debugMoveTowardMap(4, -17)
 			end
 			return
 			{
@@ -1088,7 +1114,7 @@ function move()
 			}
 		end
 		if not map:onMap("192415750") then
-			map:moveToward(192415750)
+			debugMoveToward(192415750)
 		else
 			stop()
 		end
@@ -1104,7 +1130,7 @@ function move()
 		return Paturages
 	elseif inventory:itemCount(1934) == 0 then
 		if not map:onMap(153355264) then
-			map:moveToward(153355264)
+			debugMoveToward(153355264)
 		else
 			map:useById(489177, -1)
 			craft:putItem(519, 3)
@@ -1126,7 +1152,7 @@ function move()
 		return FarmGlobalIncarnam  -- si le métier chasseur est inférieur à 10, on farm la zone spéciale pour drop les viandes
 	elseif job:level(41) < 9 then
 		if not map:onMap(153355268) then -- quand on a suffisament de viandes pour monter niveau 10 le métier chasseur, on se rend à l'atelier pour craft
-			map:moveToward(153355268)
+			debugMoveToward(153355268)
 		else
 			map:useById(489360, -1) -- dans l'atelier, on craft
 			craft:putItem(16663, 1)
@@ -1145,7 +1171,7 @@ function move()
 		return Piou
 	elseif job:level(41) < 19 then
 		if not map:onMap(192937994) then
-			map:moveToward(192937994)
+			debugMoveToward(192937994)
 		else
 			map:useById(515869, -1)
 			craft:putItem(17123, 1)
@@ -1212,6 +1238,7 @@ function move()
 end
 
 
+
 function bank()
 	mapDelay()
 
@@ -1221,22 +1248,22 @@ function bank()
 	
     if NeedToSell then
         if not map:onMap("4,-17") then
-            map:moveTowardMap(4, -17)
+            debugMoveTowardMap(4, -17)
         else
             Selling()
         end
     end
     if NeedToReturnBank then
         if not map:onMap("192415750") then
-            map:moveToward(192415750) 
+            debugMoveToward(192415750) 
         else
             ProcessBank()
         end
     end
 	
-
+	
 	if not map:onMap("4,-17") then
-		map:moveTowardMap(4, -17)
+		debugMoveTowardMap(4, -17)
 	end
     return
     {

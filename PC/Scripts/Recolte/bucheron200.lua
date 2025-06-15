@@ -1025,7 +1025,7 @@ local function ProcessSell() -- done
         global:leaveDialog()
 
     end 
-    
+
 	HdvSell()
     local MuflePrices = GetPricesItem(10669)
     MuflePrice1 = MuflePrices.Price1
@@ -1093,7 +1093,7 @@ local function ProcessSell() -- done
         local priceItem = GetPricesItem(element.Id)
         cpt = get_quantity(element.Id).quantity["1"]
 
-        while inventory:itemCount(element.Id) >= 1 and sale:availableSpace() > 0 and cpt < element.MaxHdv1 do 
+        while inventory:itemCount(element.Id) >= 1 and sale:availableSpace() > 0 and cpt < 10 do 
             sale:SellItem(element.Id, 1, priceItem.Price1 - 1) 
             global:printSuccess("1 lot de " .. 1 .. " x " .. element.Name .. " à " .. priceItem.Price1 - 1 .. "kamas")
             cpt = cpt + 1
@@ -1124,7 +1124,7 @@ local function ProcessSell() -- done
     end
 
 	global:leaveDialog()
-		
+
     while inventory:itemCount(10669) < 20 and character:kamas() > 50000 and ((MuflePrice100 > 0 and MuflePrice100 < 20000) or (MuflePrice10 > 0 and MuflePrice10 < 2000) or (MuflePrice1 > 0 and MuflePrice1 < 200)) do
         
         npc:npc(333, 5)
@@ -1152,6 +1152,7 @@ local function ProcessSell() -- done
 
         global:leaveDialog()
     end
+    debug("ok7")
 
     HdvSell()
 
@@ -1182,6 +1183,7 @@ local function ProcessSell() -- done
 	else
 		CanSellSubstratDeSylve = true
 	end
+    debug("ok8")
 
 	if cptActualiser >= 3 and character:kamas() > 30000 then
 		cptActualiser = 0

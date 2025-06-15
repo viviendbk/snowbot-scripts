@@ -518,7 +518,10 @@ connected = false
 
 function isBotBankAvailable()
     local json = openFile("C:\\Users\\Administrator\\Documents\\snowbot-scripts\\PC\\Temp\\" .. character:server() .. "\\botBankAvailability.json")
-    return not json[1].connected
+    if not json then
+        setBotBankConnected(character:server(), false)
+    end
+    return not json and false or not json[1].connected
 end
 
 function setBotBankConnected(server, bool)
@@ -527,20 +530,32 @@ function setBotBankConnected(server, bool)
 
     global:printSuccess(server)
     global:printSuccess(bool)
-    jsonMemory[1].connected = bool
-    jsonMemory[1].lastUpdate = getCurrentDateTime()
-
+    if not jsonMemory then
+        debug("ooo")
+        jsonMemory = {
+            {
+                connected = bool,
+                lastUpdate = getCurrentDateTime()
+            }
+        }
+    else
+        jsonMemory[1].connected = bool
+        jsonMemory[1].lastUpdate = getCurrentDateTime()
+    end
+    debug("aaa")
     local new_content = json.encode(jsonMemory)
     -- Écrire les modifications dans le fichier JSON
 
     local file = io.open("C:\\Users\\Administrator\\Documents\\snowbot-scripts\\PC\\Temp\\" .. server .. "\\botBankAvailability.json", "w")
+        debug("aaa")
 
     file:write(new_content)
+        debug("aaa")
     file:close()
 end
 
 function resetBotBankAvailability(force)
-    local servers = {"Imagiro", "Orukam", "Tal Kasha", "Hell Mina", "Tylezia", "Draconiros"}
+    local servers = merge(serversMulti, serversMono)
     for _, server in ipairs(servers) do
         global:printSuccess(server)
         if force then
@@ -574,17 +589,23 @@ function forwardKamasBotBankIfNeeded(givingTriggerValue, minKamas, maxWaitingTim
             global:editInMemory("retryTimestamp", 0)
         end
     end
-
+    debug("oui")
     if character:kamas() >= givingTriggerValue and not global:remember("failed") then
         givingMode = true
     end
 
     if givingMode then
+            debug("oui")
+
         if not connected then
+                debug("oui")
+
             while not isBotBankAvailable() do
                 global:printError("Le bot bank est connecté sur une autre instance, on attend 10 secondes")
                 global:delay(10000)
             end
+                debug("oui")
+
             receiver = connectReceiver(maxWaitingTime)
 
             if cannotConnect or not botFound then
@@ -600,7 +621,8 @@ function forwardKamasBotBankIfNeeded(givingTriggerValue, minKamas, maxWaitingTim
 				connected = true
             end
         end
-        
+            debug("oui")
+
         if not global:remember("failed") then
             if not movingPrinted then
                 global:printMessage("Déplacement jusqu'à la banque d'Astrub")
@@ -979,3 +1001,15 @@ function getCurrentAreaName()
     return 0
 end
 
+
+function debugMoveToward(mapToward)
+	if not map:moveToward(mapToward) then
+		map:changeMap("top|bottom|left|right")
+	end
+end
+
+function debugMoveTowardMap(x, y)
+	if not map:moveTowardMap(x, y) then
+		map:changeMap("top|bottom|left|right")
+	end
+end
