@@ -226,17 +226,7 @@ end
 
 local typeProxy = "socks5"
 local proxyBank = GetProxy(1)
-local proxyBucheron2_Mineur = GetProxy(3)
-local proxyMineur2_3 = GetProxy(5)
-local proxyBucheron_Mineur4 = GetProxy(2)
--- local proxyMineur = GetProxy(3)
-local proxyMineur2 = GetProxy(5)
-local proxyMineur3 = GetProxy(5) -- 11 avant
-local proxyMineur5_Bucheron3 = GetProxy(11)
--- proxy normalement pas ici
--- local proxyMineur4 = GetProxy(7)
--- local proxyBucheron = GetProxy(2)
--- local proxyBucheron2 = GetProxy(8)
+
 
 local function WhichServer()
     for _, acc in ipairs(snowbotController:getLoadedAccounts()) do
@@ -372,7 +362,7 @@ local function ExporterComptes()
     end   
 
 
-    f = io.open("C:\\Users\\Administrator\\Documents\\snowbot-scripts\\PC\\ComptesMineur.txt", "w")
+    f = io.open("C:\\Users\\Administrator\\Documents\\snowbot-scripts\\PC\\CompteBucheron.txt", "w")
 
 
     f:write(content)
@@ -407,8 +397,8 @@ local function launchNewAccounts()
 
         for i = 1, 5 do
             for _, Alias in ipairs(AliasAllAccount) do
-                if Alias:find("Mineur" .. i) and GetServerByAlias(Alias):find(server) then
-                    global:printSuccess("On a trouvé un compte Mineur " .. i .. " sur " .. server)
+                if Alias:find("Bucheron" .. i) and GetServerByAlias(Alias):find(server) then
+                    global:printSuccess("On a trouvé un compte Bucheron " .. i .. " sur " .. server)
                     mineursPresents[i] = true
                     break
                 else
@@ -420,14 +410,12 @@ local function launchNewAccounts()
         for _, canLoadNewAccount in ipairs(mineursPresents) do
             if not canLoadNewAccount then
 
-                global:printSuccess("On peut créer un nouveau compte Mineur" .. _ .. " " .. server)
+                global:printSuccess("On peut créer un nouveau compte Bucheron" .. _ .. " " .. server)
                 local AliasNotLoaded = snowbotController:getAliasNotLoadedAccounts()
                 for i, Alias in ipairs(AliasNotLoaded) do
 
                     if IsInTable(serversMono, server) and Alias:find("Next") then
 
-                        local ServerToTake = WhichServer()
-                        global:printSuccess("on crée le personnage sur " .. ServerToTake)
                         local UsernameNotLoaded = snowbotController:getUsernameNotLoadedAccounts()
                         for j, username in ipairs(UsernameNotLoaded) do
                             if i == j then
@@ -436,11 +424,9 @@ local function launchNewAccounts()
                                 local acc = snowbotController:getAccount(username)
                                 acc:forceServer(server)
                                 acc:forceCreate(11, false, 0, {"#f2c07d", "#000000", "#000000", "#ffffff", "#400000", "#400000"})
-                                snowbotController:assignProxyToAnAccount(username, proxies["1"].ips,  proxies["1"].port,  proxies["1"].username,  proxies["1"].password, (typeProxy ~= "socks5"), true)
+                                snowbotController:assignProxyToAnAccount(username, proxies["2"].ips,  proxies["2"].port,  proxies["2"].username,  proxies["2"].password, (typeProxy ~= "socks5"), true)
                                 
-                                snowbotController:loadAnAccount(username, false)
-
-                                acc.global():editAlias("Mineur" .. _ .. " " .. server, true)
+                                acc.global():editAlias("LvlUp" .. _ .. " " .. server, true)
                                 break
 
                             end
@@ -460,7 +446,7 @@ local function launchNewAccounts()
 
                                 snowbotController:assignProxyToAnAccount(username, proxies["1"].ips,  proxies["1"].port,  proxies["1"].username,  proxies["1"].password, (typeProxy ~= "socks5"), true)
 
-                                acc.global():editAlias("Mineur" .. _ .. " " .. server, true)
+                                acc.global():editAlias("Bucheron" .. _ .. " " .. server, true)
                                 break
 
                             end
@@ -482,14 +468,17 @@ function connectAccountsWithFailleProxy()
                         ["Dakal"] = {}, ["Kourial"] = {}, ["Mikhal"] = {}, ["Rafal"] = {}, ["Salar"] = {}, ["Brial"] = {}
     }
     
+    -- debug("a")
     for _, server in ipairs(allServers) do
         for _, acc in ipairs(loadedAccounts) do
-            if acc:getAlias():find(server) and acc:getAlias():find("Mineur") and not acc:isAccountConnected() and canReconnect(acc:getAlias()) then
+            -- debug(acc:getAlias())
+            if acc:getAlias():find(server) and (acc:getAlias():find("Mineur") or acc:getAlias():find("Bucheron")) and not acc:getAlias():find("BAN")
+            and not acc:isAccountConnected() and canReconnect(acc:getAlias()) then
                 table.insert(accountsToConnectByServer[server], acc)
             end
         end
     end
-
+    -- debug("b")
     local nbVagues = 0
     for _, accounts in pairs(accountsToConnectByServer) do
         if #accounts > nbVagues then
@@ -604,6 +593,81 @@ local function RegisterHLAccounts()
   end
   
 
+local function loadAccounts()
+        AccountToLoad = { bank = {}, Groupe = {
+            ["Imagiro"] = {}, ["Orukam"] = {}, ["Tylezia"] = {}, ["Hell Mina"] = {}, ["Tal Kasha"] = {}, ["Draconiros"] = {},
+                        ["Dakal"] = {}, ["Kourial"] = {}, ["Mikhal"] = {}, ["Rafal"] = {}, ["Salar"] = {}, ["Brial"] = {}
+
+        }, Combat = {}, LvlUp = {}, Bucheron = {}, Mineur = {}}
+    
+        for i, acc in ipairs(snowbotController:getAliasNotLoadedAccounts()) do
+            if acc:find("bank") then
+                for j, Username in ipairs(snowbotController:getUsernameNotLoadedAccounts()) do
+                    if i == j  then
+                        table.insert(AccountToLoad.bank, Username)
+                    end
+                end
+            elseif acc:find("Combat") and not acc:find("Next") then
+                for j, Username in ipairs(snowbotController:getUsernameNotLoadedAccounts()) do
+                    if i == j then
+                        --table.insert(AccountToLoad.LvlUp, Username)
+                    end
+                end
+            elseif acc:find("LvlUp") and not acc:find("Next") then
+                for j, Username in ipairs(snowbotController:getUsernameNotLoadedAccounts()) do
+                    if i == j then
+                        --table.insert(AccountToLoad.LvlUp, Username)
+                    end
+                end
+            elseif acc:find("Bucheron") and not acc:find("Next") then
+                for j, Username in ipairs(snowbotController:getUsernameNotLoadedAccounts()) do
+                    if i == j then
+                        table.insert(AccountToLoad.Bucheron, Username)
+                    end
+                end
+            elseif acc:find("Mineur") and not acc:find("Next") then
+                for j, Username in ipairs(snowbotController:getUsernameNotLoadedAccounts()) do
+                    if i == j then
+                        --table.insert(AccountToLoad.Mineur, Username)
+                    end
+                end
+            end
+            
+        end
+
+
+        snowbotController:loadAnAccount("/", false) -- délimitateur bank
+        for _, acc in ipairs(AccountToLoad.bank) do
+            snowbotController:assignProxyToAnAccount(acc, proxies["1"].ips,  proxies["1"].port,  proxies["1"].username,  proxies["1"].password, (typeProxy ~= "socks5"), true)
+            snowbotController:loadAnAccount(acc, false)
+        end
+
+        snowbotController:loadAnAccount("//", false) -- délimitateur Combat
+        
+        for _, acc in ipairs(AccountToLoad.Combat) do
+            snowbotController:assignProxyToAnAccount(acc, proxies["2"].ips,  proxies["2"].port,  proxies["2"].username,  proxies["2"].password, (typeProxy ~= "socks5"), true)
+            snowbotController:loadAnAccount(acc, false)
+        end
+
+        for _, acc in ipairs(AccountToLoad.LvlUp) do
+            snowbotController:assignProxyToAnAccount(acc, proxies["2"].ips,  proxies["2"].port,  proxies["2"].username,  proxies["2"].password, (typeProxy ~= "socks5"), true)
+            snowbotController:loadAnAccount(acc, false)
+        end
+
+        snowbotController:loadAnAccount("///", false) -- délimitateur Bucheron / LvlUp
+        for _, acc in ipairs(AccountToLoad.Bucheron) do
+            snowbotController:assignProxyToAnAccount(acc, proxies["1"].ips,  proxies["1"].port,  proxies["1"].username,  proxies["1"].password, (typeProxy ~= "socks5"), true)
+            snowbotController:loadAnAccount(acc, false)
+        end
+
+        snowbotController:loadAnAccount("////", false) -- délimitateur Mineur
+        for _, acc in ipairs(AccountToLoad.Mineur) do
+            snowbotController:assignProxyToAnAccount(acc, proxies["1"].ips,  proxies["1"].port,  proxies["1"].username,  proxies["1"].password, (typeProxy ~= "socks5"), true)
+            snowbotController:loadAnAccount(acc, false)
+        end    
+
+end
+
 
 function move()
 
@@ -623,141 +687,7 @@ function move()
     if DebutDeScript then
         global:printSuccess("Lancement des comptes")
 
-        AccountToLoad = { bank = {}, Groupe = {
-            ["Imagiro"] = {}, ["Orukam"] = {}, ["Tylezia"] = {}, ["Hell Mina"] = {}, ["Tal Kasha"] = {}, ["Draconiros"] = {},
-                        ["Dakal"] = {}, ["Kourial"] = {}, ["Mikhal"] = {}, ["Rafal"] = {}, ["Salar"] = {}, ["Brial"] = {}
-
-        }, Combat = {}, LvlUp = {}, Bucheron = {}, Bucheron2 = {}, Bucheron3 = {}, Mineur = {}, Mineur2 = {}, Mineur3 = {}, Mineur4 = {}, Mineur5 = {}}
-    
-        for i, acc in ipairs(snowbotController:getAliasNotLoadedAccounts()) do
-            if acc:find("bank") then
-                for j, Username in ipairs(snowbotController:getUsernameNotLoadedAccounts()) do
-                    if i == j  then
-                        table.insert(AccountToLoad.bank, Username)
-                    end
-                end
-            elseif acc:find("LvlUp") and not acc:find("Next") then
-                for j, Username in ipairs(snowbotController:getUsernameNotLoadedAccounts()) do
-                    if i == j then
-                        table.insert(AccountToLoad.LvlUp, Username)
-                    end
-                end
-            elseif acc:find("Bucheron ") and not acc:find("Next") then
-                for j, Username in ipairs(snowbotController:getUsernameNotLoadedAccounts()) do
-                    if i == j then
-                        table.insert(AccountToLoad.Bucheron, Username)
-                    end
-                end
-            elseif acc:find("Bucheron2") and not acc:find("Next") then
-                for j, Username in ipairs(snowbotController:getUsernameNotLoadedAccounts()) do
-                    if i == j then
-                        table.insert(AccountToLoad.Bucheron2, Username)
-                    end
-                end
-            -- elseif acc:find("Bucheron3") and not acc:find("Next") then
-            --     for j, Username in ipairs(snowbotController:getUsernameNotLoadedAccounts()) do
-            --         if i == j then
-            --             table.insert(AccountToLoad.Bucheron3, Username)
-            --         end
-            --     end
-            elseif acc:find("Mineur ") and not acc:find("Next") then
-                for j, Username in ipairs(snowbotController:getUsernameNotLoadedAccounts()) do
-                    if i == j then
-                        table.insert(AccountToLoad.Mineur, Username)
-                    end
-                end
-            elseif acc:find("Mineur2") and not acc:find("Next") then
-                for j, Username in ipairs(snowbotController:getUsernameNotLoadedAccounts()) do
-                    if i == j then
-                        table.insert(AccountToLoad.Mineur2, Username)
-                    end
-                end
-            elseif acc:find("Mineur3") and not acc:find("Next") then
-                for j, Username in ipairs(snowbotController:getUsernameNotLoadedAccounts()) do
-                    if i == j then
-                        table.insert(AccountToLoad.Mineur3, Username)
-                    end
-                end
-            elseif acc:find("Mineur4") and not acc:find("Next") then
-                for j, Username in ipairs(snowbotController:getUsernameNotLoadedAccounts()) do
-                    if i == j then
-                        table.insert(AccountToLoad.Mineur4, Username)
-                    end
-                end
-            -- elseif acc:find("Mineur5") and not acc:find("Next") then
-            --     for j, Username in ipairs(snowbotController:getUsernameNotLoadedAccounts()) do
-            --         if i == j then
-            --             table.insert(AccountToLoad.Mineur5, Username)
-            --         end
-            --     end
-            end
-            
-        end
-
-
-        DebutDeScript = false
-        snowbotController:loadAnAccount("/", false) -- délimitateur bank
-        for _, acc in ipairs(AccountToLoad.bank) do
-            snowbotController:assignProxyToAnAccount(acc, proxies["1"].ips,  proxies["1"].port,  proxies["1"].username,  proxies["1"].password, (typeProxy ~= "socks5"), true)
-            snowbotController:loadAnAccount(acc, false)
-        end
-        snowbotController:loadAnAccount("//", false) -- délimitateur Combat
-
-
-        -- snowbotController:loadAnAccount("///", false) -- délimitateur Bucheron / LvlUp
-        -- for _, acc in ipairs(AccountToLoad.Bucheron) do
-        --     local proxy = proxyBucheron_Mineur4
-        --     snowbotController:assignProxyToAnAccount(acc, proxy.proxy, tonumber(proxy.port), proxy.username, proxy.password, (typeProxy ~= "socks5"), true)
-        --     snowbotController:loadAnAccount(acc, true)
-        -- end
-        -- for _, acc in ipairs(AccountToLoad.Bucheron2) do
-        --     -- local proxy = proxyBucheron2_Mineur
-        --     local proxy = proxyBucheron2_Mineur
-        --     snowbotController:assignProxyToAnAccount(acc, proxy.proxy, tonumber(proxy.port), proxy.username, proxy.password, (typeProxy ~= "socks5"), true)
-        --     snowbotController:loadAnAccount(acc, true)
-        -- end
-        -- for _, acc in ipairs(AccountToLoad.Bucheron3) do
-        --     -- local proxy = proxyBucheron2_Mineur
-        --     local proxy = proxyMineur5_Bucheron3
-        --     snowbotController:assignProxyToAnAccount(acc, proxy.proxy, tonumber(proxy.port), proxy.username, proxy.password, (typeProxy ~= "socks5"), true)
-        --     snowbotController:loadAnAccount(acc, true)
-        -- end
-        -- for _, acc in ipairs(AccountToLoad.Bucheron3) do
-        --     local proxy = proxyMineur2_3
-        --     snowbotController:assignProxyToAnAccount(acc, proxy.proxy, tonumber(proxy.port), proxy.username, proxy.password, (typeProxy ~= "socks5"), true)
-        --     snowbotController:loadAnAccount(acc, true)
-        -- end
-        snowbotController:loadAnAccount("////", false) -- délimitateur Mineur
-        for _, acc in ipairs(AccountToLoad.Mineur) do
-            -- local proxy = proxyBucheron2_Mineur
-            local proxy = proxyBucheron2_Mineur
-            snowbotController:assignProxyToAnAccount(acc, proxies["1"].ips,  proxies["1"].port,  proxies["1"].username,  proxies["1"].password, (typeProxy ~= "socks5"), true)
-            snowbotController:loadAnAccount(acc, false)
-        end    
-        for _, acc in ipairs(AccountToLoad.Mineur2) do
-            -- local proxy = proxyMineur2_3
-            local proxy = proxyMineur2
-            snowbotController:assignProxyToAnAccount(acc, proxies["1"].ips,  proxies["1"].port,  proxies["1"].username,  proxies["1"].password, (typeProxy ~= "socks5"), true)
-            snowbotController:loadAnAccount(acc, false)
-        end
-        for _, acc in ipairs(AccountToLoad.Mineur3) do
-            -- local proxy = proxyMineur2_3
-            local proxy = proxyMineur3
-            snowbotController:assignProxyToAnAccount(acc, proxies["1"].ips,  proxies["1"].port,  proxies["1"].username,  proxies["1"].password, (typeProxy ~= "socks5"), true)
-            snowbotController:loadAnAccount(acc, false)
-        end 
-        for _, acc in ipairs(AccountToLoad.Mineur4) do
-            -- local proxy = proxyBucheron_Mineur4
-            local proxy = proxyBucheron_Mineur4
-            snowbotController:assignProxyToAnAccount(acc, proxies["1"].ips,  proxies["1"].port,  proxies["1"].username,  proxies["1"].password, (typeProxy ~= "socks5"), true)
-            snowbotController:loadAnAccount(acc, false)
-        end 
-
-        for _, acc in ipairs(AccountToLoad.Mineur5) do
-            local proxy = proxyMineur5_Bucheron3
-            snowbotController:assignProxyToAnAccount(acc, proxies["1"].ips,  proxies["1"].port,  proxies["1"].username,  proxies["1"].password, (typeProxy ~= "socks5"), true)
-            snowbotController:loadAnAccount(acc, false)
-        end 
+        loadAccounts()
 
         launchNewAccounts()
 
@@ -768,6 +698,7 @@ function move()
         global:printSuccess("ok1")
         resetBotBankAvailability(true)
         global:printSuccess("ok2")
+        DebutDeScript = false
 
     end
 
@@ -803,7 +734,7 @@ function move()
                 acc.global():clearConsole()
                 acc.disconnect()
             end
-
+            -- debug("1")
             local nbDjBlSuccess = 0
             local nbZaapsTaken = 0
             for _, ligne in ipairs(lines) do
@@ -818,6 +749,8 @@ function move()
                     nbZaapsTaken = nbZaapsTaken + 1
                 end
             end
+                        -- debug("2")
+
             if nbZaapsTaken > 20 then
                 acc.global():clearConsole()
                 acc:setScriptVariable("NeedToReturnBank", true)
@@ -828,7 +761,7 @@ function move()
             end
 
         end
-
+        -- debug("3")
         if not acc.developer():hasScript() and acc.character():level() < 10 and acc:isAccountFullyConnected() and not acc:getAlias():find("Groupe") then
             acc:loadConfig("C:\\Users\\Administrator\\Documents\\snowbot-scripts\\PC\\Configs\\Config_PL_1-6X.xml")
             acc:loadScript("C:\\Users\\Administrator\\Documents\\snowbot-scripts\\PC\\Scripts\\PL&Zaaps\\PL_1-6X.lua")
@@ -840,11 +773,12 @@ function move()
             acc:disconnect()
             acc:connect()
         end
-
+        -- debug("4")
         if condition(acc) then
             acc:reloadScript()
             acc:startScript()
         end
+        -- debug("5")
         if acc:isAccountFullyConnected() and not acc:isScriptPlaying() and acc:isTeamLeader() then
             local team = acc:getTeamAccounts()
             local ready = true
@@ -858,18 +792,19 @@ function move()
                 acc:startScript()
             end
         end
+        -- debug("6")
         if acc:getAlias():find("bank") then
             totalKamas = totalKamas + findMKamas(acc:getAlias())
         end
     end
 
-
+    -- debug("7")
     connectAccountsWithFailleProxy()
 
 
     local LoadedAccounts = snowbotController:getLoadedAccounts()
 
-
+    -- debug("8")
     for _, acc in ipairs(LoadedAccounts) do
         if acc:isAccountFullyConnected() and not acc:isScriptPlaying() and acc:isTeamLeader() then
             local team = acc:getTeamAccounts()

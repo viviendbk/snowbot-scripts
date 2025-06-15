@@ -226,7 +226,17 @@ end
 
 local typeProxy = "socks5"
 local proxyBank = GetProxy(1)
-
+local proxyBucheron2_Mineur = GetProxy(3)
+local proxyMineur2_3 = GetProxy(5)
+local proxyBucheron_Mineur4 = GetProxy(2)
+-- local proxyMineur = GetProxy(3)
+local proxyMineur2 = GetProxy(5)
+local proxyMineur3 = GetProxy(5) -- 11 avant
+local proxyMineur5_Bucheron3 = GetProxy(11)
+-- proxy normalement pas ici
+-- local proxyMineur4 = GetProxy(7)
+-- local proxyBucheron = GetProxy(2)
+-- local proxyBucheron2 = GetProxy(8)
 
 local function WhichServer()
     for _, acc in ipairs(snowbotController:getLoadedAccounts()) do
@@ -361,14 +371,9 @@ local function ExporterComptes()
         content = content .. "\n" .. Username .. ":" .. snowbotController:getPassword(Username) .. ":" .. snowbotController:getAlias(Username)
     end   
 
-    local f = ""
-    if #AccountToLoad.Combat > 0 then
-        f = io.open("C:\\Users\\Administrator\\Documents\\snowbot-scripts\\PC\\ComptesCombat.txt", "w")
-    elseif #AccountToLoad.LvlUp > 0 then
-        f = io.open("C:\\Users\\Administrator\\Documents\\snowbot-scripts\\PC\\ComptesLvlUp.txt", "w")
-    elseif #AccountToLoad.Craft > 0 then
-        f = io.open("C:\\Users\\Administrator\\Documents\\snowbot-scripts\\PC\\ComptesCraft.txt", "w")
-    end
+
+    f = io.open("C:\\Users\\Administrator\\Documents\\snowbot-scripts\\PC\\ComptesMineur.txt", "w")
+
 
     f:write(content)
     f:close()
@@ -421,8 +426,6 @@ local function launchNewAccounts()
 
                     if IsInTable(serversMono, server) and Alias:find("Next") then
 
-                        local ServerToTake = WhichServer()
-                        global:printSuccess("on crée le personnage sur " .. ServerToTake)
                         local UsernameNotLoaded = snowbotController:getUsernameNotLoadedAccounts()
                         for j, username in ipairs(UsernameNotLoaded) do
                             if i == j then
@@ -433,7 +436,7 @@ local function launchNewAccounts()
                                 acc:forceCreate(11, false, 0, {"#f2c07d", "#000000", "#000000", "#ffffff", "#400000", "#400000"})
                                 snowbotController:assignProxyToAnAccount(username, proxies["1"].ips,  proxies["1"].port,  proxies["1"].username,  proxies["1"].password, (typeProxy ~= "socks5"), true)
                                 
-                                acc.global():editAlias("Mineur" .. _ .. " " .. server, true)
+                                acc.global():editAlias("LvlUp" .. _ .. " " .. server, true)
                                 break
 
                             end
@@ -478,7 +481,7 @@ function connectAccountsWithFailleProxy()
     for _, server in ipairs(allServers) do
         for _, acc in ipairs(loadedAccounts) do
             if acc:getAlias():find(server) and (acc:getAlias():find("Mineur") or acc:getAlias():find("Bucheron") 
-            or acc:getAlias("Combat") or acc:getAlias():find("LvlUp") or acc:getAlias():find("Craft")) and not acc:getAlias():find("BAN")
+            or acc:getAlias("Combat") or acc:getAlias():find("LvlUp")) and not acc:getAlias():find("BAN")
             and not acc:isAccountConnected() and canReconnect(acc:getAlias()) then
                 table.insert(accountsToConnectByServer[server], acc)
             end
@@ -497,17 +500,30 @@ function connectAccountsWithFailleProxy()
     -- 4. Connexion par vague
     for i = 1, nbVagues do
         global:printSuccess("----- Vague de connexion " .. i .. " -----")
+
         local ipDeBase = developer:getRequest("http://api.ipify.org", {}, {}, ipproxy .. ":5001:proxy:proxy123")
         global:printMessage("IP de base : " .. ipDeBase)
-        developer:getRequest("http://" .. ipproxy .. "/reset?proxy=p:5001")
+
+        developer:getRequestWithDelay("http://" .. ipproxy .. "/reset?proxy=p:5001", 15000)
         global:printMessage("On vient de rotate le proxy")
+
+        local proxyReady = json.decode(developer:getRequest("http://" .. ipproxy .. "/status?proxy=p:5001"))
+
+        while not proxyReady.status do
+            debug("ip pas encore ready, on attend")
+            global:delay(2000)
+            proxyReady = json.decode(developer:getRequest("http://" .. ipproxy .. "/status?proxy=p:5001"))
+        end
+
+        global:delay(3000)
+
         local nouvelleIp = developer:getRequest("http://api.ipify.org", {}, {}, ipproxy .. ":5001:proxy:proxy123")
 
         if ipDeBase ~= nouvelleIp then
             global:printMessage("Nouvelle IP : " .. nouvelleIp)
         else
-            global:printError("L'IP n'a pas changé, on retente dans 1 minutes")
-            global:delay(60000) -- Attendre 1 minute avant de retenter
+            global:printError("L'IP n'a pas changé, on retente dans 10 secondes")
+            global:delay(10000) -- Attendre 1 minute avant de retenter
             return connectAccountsWithFailleProxy() -- Retenter la connexion
         end
         for server, accountList in pairs(accountsToConnectByServer) do
@@ -676,7 +692,6 @@ end
 
 
 function move()
-
     totalKamas = 0
     print:info("Checkup des bots")
 
@@ -686,7 +701,7 @@ function move()
     if cptExportation == 20 then
         cptExportation = 0
         ExporterComptes()
-        --RegisterHLAccounts()
+        RegisterHLAccounts()
         resetBotBankAvailability(false)
     end
     
@@ -695,10 +710,10 @@ function move()
 
         loadAccounts()
 
-        -- launchNewAccounts()
+        launchNewAccounts()
 
         global:printSuccess("Fin du lancement des comptes")
-        --RegisterHLAccounts()
+        RegisterHLAccounts()
         global:printSuccess("ok0")
         ExporterComptes()
         global:printSuccess("ok1")
@@ -733,38 +748,35 @@ function move()
         end
 
 
-        lines = acc.global():consoleLines()
-        if lines ~= nil then
-            if not isAccountController(acc:getAlias()) and #lines > 100 and LoopBug(lines) then
-                global:printSuccess("On débug le bot " .. acc:getAlias() .. " (loop bug)")
-                acc.global():clearConsole()
-                acc.disconnect()
-            end
+        -- lines = acc.global():consoleLines()
+        -- if lines ~= nil then
+        --     if not isAccountController(acc:getAlias()) and #lines > 100 and LoopBug(lines) then
+        --         global:printSuccess("On débug le bot " .. acc:getAlias() .. " (loop bug)")
+        --         acc.global():clearConsole()
+        --         acc.disconnect()
+        --     end
 
-            local nbDjBlSuccess = 0
-            local nbZaapsTaken = 0
-            for _, ligne in ipairs(lines) do
-                if ligne:find("Identifiant ou mot de passe incorrect !") then
-                    snowbotController:deleteAccount(acc:getUsername())
-                    DebutDeScript = true
-                end
-                if ligne:find("Trajet : Dj_Bl_Success lancé !") then
-                    nbDjBlSuccess = nbDjBlSuccess + 1
-                end
-                if ligne:find("Vous avez perdu") then
-                    nbZaapsTaken = nbZaapsTaken + 1
-                end
-            end
-            if nbZaapsTaken > 20 then
-                acc.global():clearConsole()
-                acc:setScriptVariable("NeedToReturnBank", true)
-            end
-            if nbDjBlSuccess > 10 then
-                acc.global():clearConsole()
-                acc.global():loadAndStart("C:\\Users\\Administrator\\Documents\\snowbot-scripts\\PC\\Scripts\\PL&Zaaps\\quete_pandala.lua")
-            end
+        --     local nbDjBlSuccess = 0
+        --     local nbZaapsTaken = 0
+        --     for _, ligne in ipairs(lines) do
+        --         if ligne:find("Identifiant ou mot de passe incorrect !") then
+        --             snowbotController:deleteAccount(acc:getUsername())
+        --             DebutDeScript = true
+        --         end
+        --         if ligne:find("Vous avez perdu") then
+        --             nbZaapsTaken = nbZaapsTaken + 1
+        --         end
+        --     end
+        --     if nbZaapsTaken > 20 then
+        --         acc.global():clearConsole()
+        --         acc:setScriptVariable("NeedToReturnBank", true)
+        --     end
+        --     if nbDjBlSuccess > 10 then
+        --         acc.global():clearConsole()
+        --         acc.global():loadAndStart("C:\\Users\\Administrator\\Documents\\snowbot-scripts\\PC\\Scripts\\PL&Zaaps\\quete_pandala.lua")
+        --     end
 
-        end
+        -- end
 
         if not acc.developer():hasScript() and acc.character():level() < 10 and acc:isAccountFullyConnected() and not acc:getAlias():find("Groupe") then
             acc:loadConfig("C:\\Users\\Administrator\\Documents\\snowbot-scripts\\PC\\Configs\\Config_PL_1-6X.xml")
@@ -807,7 +819,7 @@ function move()
     local LoadedAccounts = snowbotController:getLoadedAccounts()
 
     for _, acc in ipairs(LoadedAccounts) do
-        if acc:isAccountFullyConnected() and not acc:isScriptPlaying() and acc:isTeamLeader() then
+        if acc:isTeamLeader() and acc:isAccountFullyConnected() and not acc:isScriptPlaying() then
             local team = acc:getTeamAccounts()
             local ready = true
             for _, acc in ipairs(team) do
@@ -826,38 +838,38 @@ function move()
                 acc:startScript()
             end
         end
-        lines = acc.global():consoleLines()     
-        if lines and not isAccountController(acc:getAlias()) then
-            local cptTimeOut = 0
-            local cptInactifReco = 0
+        -- lines = acc.global():consoleLines()     
+        -- if lines and not isAccountController(acc:getAlias()) then
+        --     local cptTimeOut = 0
+        --     local cptInactifReco = 0
             
-            for i, ligne in ipairs(lines) do
-                if ligne:find("Reconnexion automatique dans 5 secondes") then
-                    cptInactifReco = cptInactifReco + 1
-                    if cptInactifReco > 3 and acc:getAlias():find("bank") then
-                        acc:disconnect()
-                    end
-                end
-                if ligne:find("Identifiant ou mot de passe incorrect !") then
+        --     for i, ligne in ipairs(lines) do
+        --         if ligne:find("Reconnexion automatique dans 5 secondes") then
+        --             cptInactifReco = cptInactifReco + 1
+        --             if cptInactifReco > 3 and acc:getAlias():find("bank") then
+        --                 acc:disconnect()
+        --             end
+        --         end
+        --         if ligne:find("Identifiant ou mot de passe incorrect !") then
 
-                    snowbotController:deleteAccount(acc:getUsername())
-                    DebutDeScript = true
-                end
+        --             snowbotController:deleteAccount(acc:getUsername())
+        --             DebutDeScript = true
+        --         end
 
-                if ligne:find("TimeOut") and not ligne:find("ExchangeStartedBidSellerMessage") then
-                    cptTimeOut = cptTimeOut + 1
-                    global:printSuccess(cptTimeOut)
-                else
-                    cptTimeOut = 0
-                end
-                if cptTimeOut > 4 then
-                    global:printSuccess("Je debug le compte " .. acc:getAlias() ..  " (TimeOut)")
-                    acc.global():clearConsole()
-                    acc:disconnect()
-                    break
-                end
-            end
-        end   
+        --         if ligne:find("TimeOut") and not ligne:find("ExchangeStartedBidSellerMessage") then
+        --             cptTimeOut = cptTimeOut + 1
+        --             global:printSuccess(cptTimeOut)
+        --         else
+        --             cptTimeOut = 0
+        --         end
+        --         if cptTimeOut > 4 then
+        --             global:printSuccess("Je debug le compte " .. acc:getAlias() ..  " (TimeOut)")
+        --             acc.global():clearConsole()
+        --             acc:disconnect()
+        --             break
+        --         end
+        --     end
+        -- end   
     end
 
 

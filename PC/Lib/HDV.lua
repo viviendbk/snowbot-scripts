@@ -1,3 +1,5 @@
+itemList = {}
+
 function HdvSell()
     developer:registerMessage("ExchangeStartedBidSellerMessage", _Stack_items_informations)
     local message = developer:createMessage("NpcGenericActionRequestMessage")
@@ -183,7 +185,7 @@ function FinalSelling(Id, UID, Price, MaxPrice, CraftCost, RuneCost)
         global:leaveDialog()
     else
         global:printError("Pas assez de kamas pour vendre, on réessaie dans 2 heures")
-        global:reconnect(2)
+        customReconnect(120)
     end
 
     if finalPrice > 0 and CraftCost then
@@ -622,6 +624,11 @@ function SellItem(Id, CraftCost, RuneCost, MaxPrice)
     PourcentageJetPerf_ItemToSell = 0
 end
 
+
+function sellResource(Id, lot, price)
+    
+end
+
 function BuyItemIfLessExpencive(Id, CraftCost)
     HdvBuy()
     Craft_Cost = CraftCost
@@ -672,83 +679,92 @@ function _GetMessagePrices(message)
     message = message.bid_price_for_seller.minimal_prices
 
 
-    local pricesList = {}
-    for i = 0, #message - 1 do
-        table.insert(pricesList, tonumber(message[i]))
-    end    
-    printVar(pricesList)
+    -- local pricesList = {}
+    -- for i = 0, #message - 1 do
+    --     table.insert(pricesList, tonumber(message[i]))
+    -- end    
+    -- printVar(pricesList)
 
 
-    local file = io.open("C:\\Users\\Administrator\\Documents\\snowbot-scripts\\PC\\a.txt", "r")
-    if not file then
-      return nil, "Unable to open file"
-    end
+    -- local file = io.open("C:\\Users\\Administrator\\Documents\\snowbot-scripts\\PC\\a.txt", "r")
+    -- if not file then
+    --   return nil, "Unable to open file"
+    -- end
   
-    file:write(message, "\n")
-    file:close()
+    -- file:write(message, "\n")
+    -- file:close()
 
 
 
 
 
-    printVar(pricesList)
-    debug(type(pricesList))
-    debug(type(pricesList[1]))
-    debug(math.floor(pricesList[1]))
-    debug(pricesList[1] *2)
-    debug(tostring(test(pricesList[1] + 1)) == "0") -- fonctionne
+    -- printVar(pricesList)
+    -- debug(type(pricesList))
+    -- debug(type(pricesList[1]))
+    -- debug(math.floor(pricesList[1]))
+    -- debug(pricesList[1] *2)
+    -- debug(tostring(test(pricesList[1] + 1)) == "0") -- fonctionne
 
-    debug(test(pricesList[1] == 1))
-    pricesList[1] = pricesList[1] + 1 -- focntionne
-    global:printSuccess(pricesList[1] == 0) -- fonctionne pas
+    -- debug(test(pricesList[1] == 1))
+    -- pricesList[1] = pricesList[1] + 1 -- focntionne
+    -- global:printSuccess(pricesList[1] == 0) -- fonctionne pas
 
-    a = "ok " .. pricesList[1]
-    global:printSuccess(a:find("ok")) -- fonctionne
-    global:printSuccess(a:find("p")) -- fonctionne pas
+    -- a = "ok " .. pricesList[1]
+    -- global:printSuccess(a:find("ok")) -- fonctionne
+    -- global:printSuccess(a:find("p")) -- fonctionne pas
 
-    debug(a)
-    debug(a:find("p"))
-    debug(pricesList[1] == pricesList[1])
+    -- debug(a)
+    -- debug(a:find("p"))
+    -- debug(pricesList[1] == pricesList[1])
 
 
-    local AveragePrice = 0
-    if pricesList[2] == 0 and pricesList[3] == 0 then
-        AveragePrice = pricesList[1]
-    elseif pricesList[3] == 0 and pricesList[1] == 0 then
-        AveragePrice = pricesList[2] / 10
-    elseif pricesList[2] == 0 and pricesList[1] == 0 then
-        AveragePrice = pricesList[3] / 100
-    elseif pricesList[3] ~= 0 and pricesList[1] ~= 0 and pricesList[2] ~= 0 then
-        AveragePrice =(pricesList[3] / 100 + pricesList[2] / 10 + pricesList[1]) / 3
-    elseif pricesList[3] == 0 then
-        AveragePrice = (pricesList[2] / 10 + pricesList[1]) / 2
-    elseif pricesList[2] == 0 then
-        AveragePrice = (pricesList[3] / 100 + pricesList[1]) / 2
-    elseif pricesList[1] == 0 then
-        AveragePrice = (pricesList[3] / 100 + pricesList[2] / 10) / 2
-    end
-
+    -- local AveragePrice = 0
+    -- if pricesList[2] == 0 and pricesList[3] == 0 then
+    --     AveragePrice = pricesList[1]
+    -- elseif pricesList[3] == 0 and pricesList[1] == 0 then
+    --     AveragePrice = pricesList[2] / 10
+    -- elseif pricesList[2] == 0 and pricesList[1] == 0 then
+    --     AveragePrice = pricesList[3] / 100
+    -- elseif pricesList[3] ~= 0 and pricesList[1] ~= 0 and pricesList[2] ~= 0 then
+    --     AveragePrice =(pricesList[3] / 100 + pricesList[2] / 10 + pricesList[1]) / 3
+    -- elseif pricesList[3] == 0 then
+    --     AveragePrice = (pricesList[2] / 10 + pricesList[1]) / 2
+    -- elseif pricesList[2] == 0 then
+    --     AveragePrice = (pricesList[3] / 100 + pricesList[1]) / 2
+    -- elseif pricesList[1] == 0 then
+    --     AveragePrice = (pricesList[3] / 100 + pricesList[2] / 10) / 2
+    -- end
 
     Prices = {
         Id = messageDeBase.object_gid,
-        Price1 = message[1],
-        Price10 = message[2],
-        Price100 = message[3],
-        AveragePrice = tonumber(messageDeBase.averagePrice),
-        TrueAveragePrice = math.floor(AveragePrice)
+        Price1 = message[0],
+        Price10 = message[1],
+        Price100 = message[2],
+        AveragePrice = messageDeBase.average_price,
+        -- TrueAveragePrice = math.floor(AveragePrice)
     }
 end
 
 function GetPricesItem(Id)
+
     Prices = {}
     developer:registerMessage("ExchangeBidPriceEvent", _GetMessagePrices)
 
-    
-    local message = developer:createMessage("ExchangeBidHousePriceMessage")
-    message.objectGID = Id
-    developer:sendMessage(message)
-    
-    developer:suspendScriptUntil("ExchangeBidPriceForSellerMessage", 5000, false, nil, 20)
+    local message1 = developer:createMessage("ExchangeBidHouseSearchRequest")
+    message1.follow = false
+    message1.object_gid = Id
+
+    local message2 = developer:createMessage("ExchangeBidHouseSearchRequest")
+    message2.follow = true
+    message2.object_gid = Id
+
+    local message3 = developer:createMessage("ExchangeBidHousePriceRequest")
+    message3.object_gid = Id
+
+    developer:sendMessage(message1)
+    developer:sendMessage(message2)
+    developer:sendMessage(message3)
+
     developer:suspendScriptUntil("ExchangeBidPriceMessage", 5000, false, nil, 20)
 
     if Prices ~= {} and Prices ~= nil then
@@ -830,7 +846,7 @@ function Achat(IdItem, qtt)
         if qtt >= 100 then
             if character:kamas() < Prices.Price100 then
                 global:printSuccess("Plus assez de kamas, on retente dans 2h")
-                global:reconnect(2)
+                customReconnect(120)
             end
             if ((Prices.Price10 * 1.2 < Prices.Price100 / 10) and Prices.Price10 ~= 0) or Prices.Price100 == 0 then
                 for i = 1, 10 do
@@ -851,7 +867,7 @@ function Achat(IdItem, qtt)
         elseif qtt >= 10 and qtt < 100 then
             if character:kamas() < Prices.Price10 then
                 global:printSuccess("Plus assez de kamas, on retente dans 2h")
-                global:reconnect(2)
+                customReconnect(120)
             end
             if ((Prices.Price1 * 1.2 < Prices.Price10 / 10) and Prices.Price1 ~= 0) or Prices.Price10 == 0 then
                 for i = 1, 10 do
@@ -866,7 +882,7 @@ function Achat(IdItem, qtt)
         elseif qtt >= 1 and qtt < 10 then
             if character:kamas() < Prices.Price1 then
                 global:printSuccess("Plus assez de kamas, on retente dans 2h")
-                global:reconnect(2)
+                customReconnect(120)
             end
             sale:buyItem(IdItem, 1, Prices.Price1 * 2)
             qtt = qtt - 1 
@@ -1349,4 +1365,52 @@ function UpdatePriceDD()
     message.npcMapId = map:currentMapId()
     developer:sendMessage(message)
     developer:suspendScriptUntil("ExchangeStartedBidSellerMessage", 5000, false, nil, 20)
+end
+
+
+
+function _getItemsInHDV(message)
+    developer:unRegisterMessage("ExchangeTypesItemsExchangerDescriptionForUserMessage")
+    local items = message.itemTypeDescriptions
+
+    for _, item in ipairs(items) do
+        if item.objectGID > 0 then
+            table.insert(itemList, {
+                objectGID = item.objectGID,
+                objectUID = item.objectUID,
+                objectPrice = item.prices,
+                effects = item.effects
+            })
+        end
+    end
+
+    debug(#itemList)
+
+    global:printSuccess("Nombre d'items trouvés dans l'HDV : " .. #itemList)
+end
+
+function fetchItemInHDV(objectId)
+    developer:registerMessage("ExchangeTypesItemsExchangerDescriptionForUserMessage", _getItemsInHDV)
+    local message = developer:createMessage("ExchangeBidHouseSearchRequest")
+    if message then
+        message.follow = true
+        message.object_gid = objectId
+    end
+    developer:sendMessage(message)
+    developer:suspendScriptUntil("ExchangeTypesItemsExchangerDescriptionForUserMessage", 5000, false, nil, 20)
+end
+
+function buyBestItem(objectId)
+    HdvBuy()
+    fetchItemInHDV(objectId)
+    debug(#itemList)
+
+    for _, item in ipairs(itemList) do
+        debug("1")
+        item.quality = GetQualityItemWithoutException(item.effects, item.objectGID) -- - 0.05
+        debug(item.objectGID .. " - " .. item.objectPrice[1] .. " - " .. item.quality)
+    end
+
+
+    itemList = {}
 end

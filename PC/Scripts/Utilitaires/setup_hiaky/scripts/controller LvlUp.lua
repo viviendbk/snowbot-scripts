@@ -61,7 +61,6 @@ local proxies = {
 }
 
 
-local allServers = merge(serversMulti, serversMono)
 
 local condition = function(acc)
     return acc:isAccountFullyConnected() and not acc:isScriptPlaying() and (acc:isTeamLeader() or not acc:isItATeam())
@@ -97,31 +96,6 @@ function join(tab, sep)
     return result
 end
 
-local function findMKamas(stringalias)
-    local stringKamas = { }
-    local tabstring = stringalias:split()
-
-    for index, element in ipairs(tabstring) do
-        if tabstring[index] == "[" then
-            for i = 1, 3 do
-                if tabstring[i + index] ~= "m" then
-                    stringKamas[i] = tabstring[i + index]
-                end
-            end
-        end
-    end
-    stringKamas = join(stringKamas)
-    return (tonumber(stringKamas) == nil or tonumber(stringKamas) <= 5) and 0 or tonumber(stringKamas) - 5
-end
-
-local function GetServerByAlias(Alias)
-    for _, Server in ipairs(allServers) do
-        if Alias:lower():find(Server:lower()) then
-            return Server
-        end
-    end
-    return nil
-end
 
 local function GetServer(account)
     for _, Server in ipairs(allServers) do
@@ -227,38 +201,6 @@ end
 local typeProxy = "socks5"
 local proxyBank = GetProxy(1)
 
-
-local function WhichServer()
-    for _, acc in ipairs(snowbotController:getLoadedAccounts()) do
-        if findMKamas(acc:getAlias()) > 2 and not acc:getAlias():lower():find("Draconiros") and not isAccountController(acc:getAlias()) and acc:getAlias():find("bank") then
-            global:printSuccess("on tente de connecter : " .. acc:getAlias())
-            acc:connect()
-            local cannotConnect = false
-            local safetyCount = 0
-            while not acc:isAccountFullyConnected() and not cannotConnect do
-                safetyCount = safetyCount + 1
-    
-                if safetyCount == 1 then
-                    global:printMessage("Attente de la connexion du bot banque (" .. 120 .. " secondes max)")
-                end
-    
-                global:delay(1000)
-    
-                if safetyCount >= 120 then
-                    global:printError("Bot banque non-connecté après " .. 120 .. " secondes, on tente le suivant")
-                    cannotConnect = true
-                end
-            end
-            if cannotConnect then
-                acc:disconnect()
-            else
-                acc:disconnect()
-                return GetServerByAlias(acc:getAlias())
-            end
-        end
-    end
-    return nil
-end
 
 local function ExporterComptes()
     global:printSuccess("Exportation des comptes ...")
@@ -398,31 +340,29 @@ local function launchNewAccounts()
     for _, server in ipairs(allServers) do
 
         global:printSuccess(server)
-        mineursPresents = {}
+        lvlupPresents = {}
 
-        for i = 1, 5 do
+        for i = 1, 4 do
             for _, Alias in ipairs(AliasAllAccount) do
-                if Alias:find("Mineur" .. i) and GetServerByAlias(Alias):find(server) then
-                    global:printSuccess("On a trouvé un compte Mineur " .. i .. " sur " .. server)
-                    mineursPresents[i] = true
+                if Alias:find("LvlUp" .. i) and GetServerByAlias(Alias):find(server) then
+                    global:printSuccess("On a trouvé un compte LvlUp " .. i .. " sur " .. server)
+                    lvlupPresents[i] = true
                     break
                 else
-                    mineursPresents[i] = false
+                    lvlupPresents[i] = false
                 end
             end
         end
 
-        for _, canLoadNewAccount in ipairs(mineursPresents) do
+        for _, canLoadNewAccount in ipairs(lvlupPresents) do
             if not canLoadNewAccount then
 
-                global:printSuccess("On peut créer un nouveau compte Mineur" .. _ .. " " .. server)
+                global:printSuccess("On peut créer un nouveau compte LvlUp" .. _ .. " " .. server)
                 local AliasNotLoaded = snowbotController:getAliasNotLoadedAccounts()
                 for i, Alias in ipairs(AliasNotLoaded) do
 
                     if IsInTable(serversMono, server) and Alias:find("Next") then
 
-                        local ServerToTake = WhichServer()
-                        global:printSuccess("on crée le personnage sur " .. ServerToTake)
                         local UsernameNotLoaded = snowbotController:getUsernameNotLoadedAccounts()
                         for j, username in ipairs(UsernameNotLoaded) do
                             if i == j then
@@ -431,9 +371,9 @@ local function launchNewAccounts()
                                 local acc = snowbotController:getAccount(username)
                                 acc:forceServer(server)
                                 acc:forceCreate(11, false, 0, {"#f2c07d", "#000000", "#000000", "#ffffff", "#400000", "#400000"})
-                                snowbotController:assignProxyToAnAccount(username, proxies["1"].ips,  proxies["1"].port,  proxies["1"].username,  proxies["1"].password, (typeProxy ~= "socks5"), true)
+                                snowbotController:assignProxyToAnAccount(username, proxies["2"].ips,  proxies["2"].port,  proxies["2"].username,  proxies["2"].password, (typeProxy ~= "socks5"), true)
                                 
-                                acc.global():editAlias("Mineur" .. _ .. " " .. server, true)
+                                acc.global():editAlias("LvlUp" .. _ .. " " .. server, true)
                                 break
 
                             end
@@ -451,9 +391,9 @@ local function launchNewAccounts()
                                 acc:forceServer(server)
                                 acc:forceCreate(11, false, 0, {"#f2c07d", "#000000", "#000000", "#ffffff", "#400000", "#400000"})
 
-                                snowbotController:assignProxyToAnAccount(username, proxies["1"].ips,  proxies["1"].port,  proxies["1"].username,  proxies["1"].password, (typeProxy ~= "socks5"), true)
+                                snowbotController:assignProxyToAnAccount(username, proxies["2"].ips,  proxies["2"].port,  proxies["2"].username,  proxies["2"].password, (typeProxy ~= "socks5"), true)
 
-                                acc.global():editAlias("Mineur" .. _ .. " " .. server, true)
+                                acc.global():editAlias("LvlUp" .. _ .. " " .. server, true)
                                 break
 
                             end
@@ -616,19 +556,19 @@ local function loadAccounts()
             elseif acc:find("Combat") and not acc:find("Next") then
                 for j, Username in ipairs(snowbotController:getUsernameNotLoadedAccounts()) do
                     if i == j then
-                        --table.insert(AccountToLoad.LvlUp, Username)
+                       table.insert(AccountToLoad.Combat, Username)
                     end
                 end
             elseif acc:find("LvlUp") and not acc:find("Next") then
                 for j, Username in ipairs(snowbotController:getUsernameNotLoadedAccounts()) do
                     if i == j then
-                        --table.insert(AccountToLoad.LvlUp, Username)
+                        table.insert(AccountToLoad.LvlUp, Username)
                     end
                 end
             elseif acc:find("Bucheron") and not acc:find("Next") then
                 for j, Username in ipairs(snowbotController:getUsernameNotLoadedAccounts()) do
                     if i == j then
-                        -- table.insert(AccountToLoad.Bucheron, Username)
+                        table.insert(AccountToLoad.Bucheron, Username)
                     end
                 end
             elseif acc:find("Mineur") and not acc:find("Next") then
@@ -695,7 +635,7 @@ function move()
 
         loadAccounts()
 
-        -- launchNewAccounts()
+        launchNewAccounts()
 
         global:printSuccess("Fin du lancement des comptes")
         --RegisterHLAccounts()

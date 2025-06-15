@@ -166,3 +166,50 @@ function equipDD(objectUID)
     randomDelay()
     global:leaveDialog()
 end
+
+function buyAndfeedDD()
+    local index = 0
+    local minPrice = 500000000
+    local TableAchat = {
+        {Name = "Poisson Pané", Id = 1750},
+        {Name = "Crabe Sourimi", Id = 1757},
+        {Name = "Goujon", Id = 1782},
+        {Name = "Brochet", Id = 1847},
+        {Name = "Sardine Brillante", Id = 1805},
+        {Name = "Cuisse de Boufton", Id = 1911},
+        {Name = "Cuisse de Bouftou **", Id = 1912},
+        {Name = "Poisson-Chaton", Id = 603},
+        {Name = "Bar Rikain", Id = 1779},
+    }
+    debug("ok")
+    HdvSell()
+
+    global:printSuccess("Check du meilleur prix")
+
+    for i, element in ipairs(TableAchat) do
+        local Price = GetPricesItem(element.Id).Price100
+        if Price ~= nil and Price ~= 0 and Price < minPrice then
+            minPrice = Price
+            index = i
+        end
+    end
+
+    global:leaveDialog()
+
+    global:delay(500)
+
+    if minPrice < 6000 then
+        HdvBuy()
+        sale:buyItem(TableAchat[index].Id, 100, 10000)
+        global:leaveDialog()
+        mount:feedMount(TableAchat[index].Id, 100)
+        global:printSuccess("DD nourrie")
+
+        if inventory:itemCount(TableAchat[index].Id) == 0 then
+            global:printError("la dd a bien mangé, on retente de la nourrir")
+            buyAndfeedDD()
+        end
+    else
+        global:printSuccess("les prix sont trop cher, on a pas pu acheter")
+    end
+end

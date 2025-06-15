@@ -760,7 +760,7 @@ local function ProcessBank()
 
 	if character:level() >= global:remember("lvlWait11H") and not global:thisAccountController():getAlias():find("FAIT") and not global:thisAccountController():getAlias():find("bank") and not global:thisAccountController():getAlias():find("Requests") and character:level() < 50 then
 		global:editAlias(botType .. " " .. server .. " [FAIT]", true)
-		customReconnect(math.random(12 * 60, 14 * 60))
+		-- customReconnect(math.random(12 * 60, 14 * 60))
 	end
 
 	hdvFull = false
@@ -802,7 +802,7 @@ function stop()
 
 	if global:thisAccountController():getAlias():find("Requests") and character:level() >= 35 then
 		if getRemainingSubscription(true) <= 0 then
-			global:loadAndStart("C:\\Users\\Administrator\\Documents\\snowbot-scripts\\PC\\Scripts\\Utilitaires\\setup_hiaky\\scripts\\take-kamas-for-abo.lua")
+			global:editAlias(global:thisAccountController():getAlias() .. " [NEED ABONNEMENT]", true)
 		else
 			global:loadAndStart("C:\\Users\\Administrator\\Documents\\snowbot-scripts\\PC\\Scripts\\PL&Zaaps\\Zaaps&Stuffs.lua")
 		end
@@ -1365,7 +1365,7 @@ function fightManagement()
 			if fightCharacter:isItMyTurn() then
 				
 				delayFightStartTurn()
-				debug("debut")
+				--debug("debut")
 				if fightAction:getCurrentTurn() == 1 then
 					lancable = 0
 					incrementation = 0
@@ -1400,7 +1400,7 @@ function fightManagement()
 					LaunchEpee_Vorace()
 				end
 				-- lancement bain de sang
-				debug("1")
+				--debug("1")
 				Supplice()
 				Supplice()
 
@@ -1408,17 +1408,17 @@ function fightManagement()
 					Courrone_Epine()
 				end
 				
-				debug("2")
+				--debug("2")
 				-- J'avance vers mon ennemi le plus proche
 				Deplacement()
 				
 				-- lancement ravage
 				if fightCharacter:getLevel() >= 22 then
-					debug("2.5")
-					debug(WeakerMonsterAdjacent())
+					--debug("2.5")
+					--debug(WeakerMonsterAdjacent())
 					Ravage(WeakerMonsterAdjacent())
 				end
-				debug("3")
+				--debug("3")
 				Supplice()
 
 				if (fightCharacter:getLifePointsP() < 40) and (GetEntitiesAdjacents() > 0) and (fightCharacter:getLevel() > 44) then
@@ -1429,7 +1429,7 @@ function fightManagement()
 				
 				Stase()
 				Stase()
-				debug("4")
+				--debug("4")
 				-- lancement assaut
 				if fightCharacter:getLevel() > 39 then
 					Hostilite(WeakerMonsterAdjacent())
@@ -1445,7 +1445,7 @@ function fightManagement()
 						Assaut()
 					end	
 				end
-				debug("5")
+				--debug("5")
 				Hemmoragie(fightAction:getNearestEnemy())
 
 				Deplacement()

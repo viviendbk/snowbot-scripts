@@ -369,53 +369,55 @@ function MoveInLineOf(cellId, max)
     if not cellId then
         return
     end
+    Deplacement() -- à retirer
 
-	local listCellId = fightAction:getCells_cross(cellId, 1, max)
-	local listCellIdWithDistance = {}
-    local entities = fightAction:getAllEntities()
-    debug("0")
-    debug(type(entities))
-    debug(type(cellId))
-    debug(type(fightCharacter:getCellId()))
-    local a = fightAction:getShortestPath(fightCharacter:getCellId(), cellId, entities)
-    debug("ok")
-    local distance = #fightAction:getShortestPath(fightCharacter:getCellId(), cellId, entities)
 
-    debug("1")
-    if distance <= fightCharacter:getMP() then
-        Deplacement()
-        return
-    end
-    debug("2")
+	-- local listCellId = fightAction:getCells_cross(cellId, 1, max)
+	-- local listCellIdWithDistance = {}
+    -- local entities = fightAction:getAllEntities()
+    -- --debug("0")
+    -- --debug(type(entities))
+    -- --debug(type(cellId))
+    -- --debug(type(fightCharacter:getCellId()))
+    -- local a = fightAction:getShortestPath(fightCharacter:getCellId(), cellId, entities)
+    -- --debug("ok")
+    -- local distance = #fightAction:getShortestPath(fightCharacter:getCellId(), cellId, entities)
 
-	if (not Contain(listCellId, fightCharacter:getCellId()) and distance > max) 
-	    or not fightAction:inLineOfSight(fightCharacter:getCellId(), cellId) then -- si on est déjà en ligne alors on ne bouge pas
-        for _, cell in ipairs(listCellId) do
-			if fightAction:isWalkable(cell) and fightAction:isFreeCell(cell) then
-				local element = {
-					CellId = cell,
-					NbPMNeeded = #fightAction:getShortestPath(fightCharacter:getCellId(), cell, entities),
-					IsInLineOfSight = fightAction:inLineOfSight(cell, cellId)
-				}
-				table.insert(listCellIdWithDistance, element)
-			end
-        end
-        debug("3")
-        table.sort(listCellIdWithDistance, function (a, b)
-            return a.NbPMNeeded < b.NbPMNeeded
-        end)
-		for _, element in ipairs(listCellIdWithDistance) do
-            debug("4")
-			if not IsHandToHandEnemy() and element.NbPMNeeded ~= nil and (fightCharacter:getMP() >= element.NbPMNeeded) and element.IsInLineOfSight then
-                local currentCellId = fightCharacter:getCellId()
-				fightAction:moveTowardCell(element.CellId)
-				if currentCellId == fightCharacter:getCellId() then
-					fightAction:moveTowardCell(cellId)
-				end
-				break
-			end
-		end
-	end
+    -- --debug("1")
+    -- if distance <= fightCharacter:getMP() then
+    --     Deplacement()
+    --     return
+    -- end
+    -- --debug("2")
+
+	-- if (not Contain(listCellId, fightCharacter:getCellId()) and distance > max) 
+	--     or not fightAction:inLineOfSight(fightCharacter:getCellId(), cellId) then -- si on est déjà en ligne alors on ne bouge pas
+    --     for _, cell in ipairs(listCellId) do
+	-- 		if fightAction:isWalkable(cell) and fightAction:isFreeCell(cell) then
+	-- 			local element = {
+	-- 				CellId = cell,
+	-- 				NbPMNeeded = #fightAction:getShortestPath(fightCharacter:getCellId(), cell, entities),
+	-- 				IsInLineOfSight = fightAction:inLineOfSight(cell, cellId)
+	-- 			}
+	-- 			table.insert(listCellIdWithDistance, element)
+	-- 		end
+    --     end
+    --     --debug("3")
+    --     table.sort(listCellIdWithDistance, function (a, b)
+    --         return a.NbPMNeeded < b.NbPMNeeded
+    --     end)
+	-- 	for _, element in ipairs(listCellIdWithDistance) do
+    --         --debug("4")
+	-- 		if not IsHandToHandEnemy() and element.NbPMNeeded ~= nil and (fightCharacter:getMP() >= element.NbPMNeeded) and element.IsInLineOfSight then
+    --             local currentCellId = fightCharacter:getCellId()
+	-- 			fightAction:moveTowardCell(element.CellId)
+	-- 			if currentCellId == fightCharacter:getCellId() then
+	-- 				fightAction:moveTowardCell(cellId)
+	-- 			end
+	-- 			break
+	-- 		end
+	-- 	end
+	-- end
 end
 
 function Cac(cellid)
@@ -532,14 +534,14 @@ function Attirance(cellid)
 end
 
 function Ravage(cellid)
-    debug("Ravage")
+    --debug("Ravage")
 	if fightAction:canCastSpellOnCell(fightCharacter:getCellId(), 12746, cellid) == 0 then 
 		fightAction:castSpellOnCell(12746, cellid)
         actionFightDelay()
     else
-        debug("1")
+        --debug("1")
         MoveInLineOf(fightAction:getNearestEnemy(), 6)
-        debug("2")
+        --debug("2")
         if not fightAction:isHandToHand(fightCharacter:getCellId(), cellid) then
             if fightAction:canCastSpellOnCell(fightCharacter:getCellId(), 12746, cellid) == 0 then 
                 fightAction:castSpellOnCell(12746, cellid)

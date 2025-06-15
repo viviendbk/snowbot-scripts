@@ -1,47 +1,16 @@
 /::---------- BOT BANQUE ----------
 ///::---------- BUCHERON ----------
-NoeliaBowerize8085@hotmail.com:LBci7FhTJ1:Bucheron Tylezia [200] 6
-ElsieBrakefield92@hotmail.com:yacnu06kucu1:Bucheron2 Imagiro [200] 4
-RennaZboral265@hotmail.com:S9lpcdGkys1:Bucheron Imagiro [60] -1
-MelodeeZangara6719@hotmail.com:15mdOHhsmib71:Bucheron2 Tylezia [170]
-rc7302966@gmail.com:4kN!5vS@8g:Bucheron Tal Kasha [200] 4
-margaretacd55kr@gmail.com:2tN!5wG@7q:Bucheron2 Tal Kasha [200] 5
-millerdnv14vh@gmail.com:2eF@5kU!8t:Bucheron Draconiros  / lvl 19
-johnsonslp13ld@gmail.com:L8!b2WqX@r:Bucheron2 Orukam [PRÊT]
-carterdjv97ei@gmail.com:cD@9t5S!6h:Bucheron Orukam [PRÊT]
-caroleku50ui@gmail.com:2jM!pR8b@L:Bucheron Hell Mina [PRÊT]
-greenrkc85vf@gmail.com:2eF@5kU!8t:Bucheron2 Hell Mina [PRÊT]
 ////::---------- MINEUR ----------
+PeterkinRhump15026@hotmail.com:TkSuQRc7CV1:Mineur1 Imagiro [185] 6
 LashaundaLallemand899@hotmail.com:NGKcz3dOr6Z1:Mineur1 Orukam [200] 5
-OlivaSymmonds6537@hotmail.com:QEm6F5K56U1:Mineur1 Tylezia
+OlivaSymmonds6537@hotmail.com:QEm6F5K56U1:Mineur1 Tylezia [PRÊT]
 carterbau52ne@gmail.com:5jM$kR8!pA:Mineur1 Hell Mina [PRÊT]
 LornaKealoha101@hotmail.com:0UnVZOF8IvB0Pu1:Mineur1 Tal Kasha [200] 5
 josephjohnson734005@gmail.com:WTQx9qC3:Mineur1 Tal Kasha
-markhess541091@gmail.com:w2G6kdbP:Mineur5 Imagiro
-oliviahall594260@gmail.com:SCDO3MOzL:Mineur5 Orukam  / lvl 21
-erikanewman347516@gmail.com:fJJ2l4nZb:Mineur5 Tal Kasha  / lvl 19
-jessicahernandez354436@gmail.com:b4Aq87lfI:Mineur5 Hell Mina  / lvl 22
-brianpruitt432779@gmail.com:yFJJ9wUOK:Mineur5 Tylezia  / lvl 23
-victoriarodriguez193078@gmail.com:STSm0vk4:Mineur1 Rafal  / lvl 16
-randallsingh249134@gmail.com:ozlDN8iX:Mineur2 Rafal  / lvl 19
-seanvilla357197@gmail.com:sLWRXDAJ4:Mineur3 Rafal  / lvl 15
-matthewpowell473273@gmail.com:fpi6Z3jM:Mineur4 Rafal  / lvl 17
-kurtmccarthy699233@gmail.com:vLwbjet8W:Mineur5 Rafal  / lvl 19
-jeremywilliams953595@gmail.com:5oA5pus5m:Mineur1 Salar  / lvl 23
-nathanielbrady231773@gmail.com:u35nIFuX:Mineur2 Salar  / lvl 16
-danielrojas504746@gmail.com:YPOOum1l:Mineur3 Salar  / lvl 11
-davidbrown550623@gmail.com:mwzVZQj2j:Mineur4 Salar  / lvl 14
-paulawilson432986@gmail.com:Cmb2DMoFW:Mineur5 Salar  / lvl 17
-jeffreyhouse217026@gmail.com:HnVMs5wDJ:Mineur1 Brial  / lvl 17
-stevenmoody338185@gmail.com:TnSpoi9Y:Mineur2 Brial  / lvl 20
-ryantrevino668391@gmail.com:ROTyLTGQ7:Mineur3 Brial  / lvl 17
-terrifrazier865431@gmail.com:0MKKJ5qkO:Mineur4 Brial  / lvl 16
-tiffanyhartman781295@gmail.com:zOCGW3l39:Mineur5 Brial  / lvl 17
-PeterkinRhump15026@hotmail.com:TkSuQRc7CV1:Mineur1 Imagiro  / lvl 160
 RetaTeamer06@hotmail.com:hncqfKfim1:Mineur2 Tylezia [200] 4
 LeolaBendzus3491@hotmail.com:01g83uohV3Vvv1:Mineur2 Draconiros  / lvl 84
 thomashjl95oh@gmail.com:8zN@2pW#rT:Mineur2 Hell Mina [PRÊT]
-ShuFryar61923@hotmail.com:Ie03hvDw331:Mineur2 Tal Kasha
+ShuFryar61923@hotmail.com:Ie03hvDw331:Mineur2 Tal Kasha [PRÊT]
 StuartBleattler60@hotmail.com:FkgpmNazCfsO1:Mineur2 Imagiro
 helenkcf64gz@gmail.com:Y#7dFpQ9m6:Mineur2 Orukam [PRÊT]
 RickReitter21@hotmail.com:YGOMMnkkXf2ovY1:Mineur3 Tylezia [200] 4
@@ -55,6 +24,26 @@ tayloraos86mm@gmail.com:P@2qZ7h#mE:Mineur4 Tal Kasha  / lvl 63
 phillipsbmg20fe@gmail.com:mG!7wB4@sN:Mineur4 Draconiros  / lvl 19
 garciadvo80sh@gmail.com:H@7zN6v#jM:Mineur4 Orukam [PRÊT]
 hernandezibt72xq@gmail.com:3bN@8yZ!wD:Mineur4 Hell Mina [PRÊT]
+oliviahall594260@gmail.com:SCDO3MOzL:Mineur5 Orukam  / lvl 52
+erikanewman347516@gmail.com:fJJ2l4nZb:Mineur5 Tal Kasha  / lvl 52
+jessicahernandez354436@gmail.com:b4Aq87lfI:Mineur5 Hell Mina  / lvl 53
+brianpruitt432779@gmail.com:yFJJ9wUOK:Mineur5 Tylezia  / lvl 52
+victoriarodriguez193078@gmail.com:STSm0vk4:Mineur1 Rafal  / lvl 53
+randallsingh249134@gmail.com:ozlDN8iX:Mineur2 Rafal  / lvl 53
+seanvilla357197@gmail.com:sLWRXDAJ4:Mineur3 Rafal  / lvl 51
+matthewpowell473273@gmail.com:fpi6Z3jM:Mineur4 Rafal  / lvl 52
+kurtmccarthy699233@gmail.com:vLwbjet8W:Mineur5 Rafal  / lvl 51
+jeremywilliams953595@gmail.com:5oA5pus5m:Mineur1 Salar  / lvl 51
+nathanielbrady231773@gmail.com:u35nIFuX:Mineur2 Salar  / lvl 52
+danielrojas504746@gmail.com:YPOOum1l:Mineur3 Salar  / lvl 53
+davidbrown550623@gmail.com:mwzVZQj2j:Mineur4 Salar  / lvl 51
+paulawilson432986@gmail.com:Cmb2DMoFW:Mineur5 Salar  / lvl 51
+jeffreyhouse217026@gmail.com:HnVMs5wDJ:Mineur1 Brial  / lvl 52
+stevenmoody338185@gmail.com:TnSpoi9Y:Mineur2 Brial  / lvl 51
+ryantrevino668391@gmail.com:ROTyLTGQ7:Mineur3 Brial  / lvl 51
+terrifrazier865431@gmail.com:0MKKJ5qkO:Mineur4 Brial  / lvl 52
+tiffanyhartman781295@gmail.com:zOCGW3l39:Mineur5 Brial  / lvl 52
+markhess541091@gmail.com:w2G6kdbP:Mineur5 Imagiro  / lvl 42
 joannakelly722856@gmail.com:CZGiBnw4:*
 nicolehouse384944@gmail.com:uEYRBX46L:*
 christophermartin243497@gmail.com:dPkT48KFu:*

@@ -453,23 +453,21 @@ function BidHouse:search(id)
     message.objectGID = id
     message.follow = true
 
-    if not developer:isMessageRegistred(self.packets.price) then
-        developer:registerMessage(self.packets.price, function(msg)
-            for _, itd in ipairs(msg.itemTypeDescriptions) do
-                local shopItem = ShopItem:new(itd)
+    developer:registerMessage(self.packets.price, function(msg)
+        for _, itd in ipairs(msg.itemTypeDescriptions) do
+            local shopItem = ShopItem:new(itd)
 
-                dices = dices or shopItem.dices
+            dices = dices or shopItem.dices
 
-                if dices then shopItem.dices = nil end
+            if dices then shopItem.dices = nil end
 
-                insert(items, shopItem)
-            end
+            insert(items, shopItem)
+        end
 
-            sort(items, function(x, y)
-                return x.price < y.price
-            end)
+        sort(items, function(x, y)
+            return x.price < y.price
         end)
-    end
+    end)
 
     developer:sendMessage(message)
     developer:suspendScriptUntil(await, 100, false)

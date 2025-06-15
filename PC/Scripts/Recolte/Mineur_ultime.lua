@@ -988,6 +988,9 @@ local function ChoosePath()
 end
 
 local function achatSacStaca()
+    buyBestItem(1704) 
+
+    global:finishScript()
     Buyer:many({1704})
     global:leaveDialog()
     inventory:equipItem(1704, 7)
@@ -1289,56 +1292,15 @@ local function ProcessCraft()
     map:door(437)
 end
 
+
 local function ProcessSell()
+
     NeedToSell = false
     NeedToReturnBank = true
-    if mount:hasMount() then
-        local myMount = mount:myMount()
-        if (myMount.energyMax - myMount.energy) > 1000 then
-            local index = 0
-            local minPrice = 500000000
-            local TableAchat = {
-                {Name = "Poisson Pané", Id = 1750},
-                {Name = "Crabe Sourimi", Id = 1757},
-                {Name = "Goujon", Id = 1782},
-                {Name = "Brochet", Id = 1847},
-                {Name = "Sardine Brillante", Id = 1805},
-                {Name = "Cuisse de Boufton", Id = 1911},
-                {Name = "Cuisse de Bouftou **", Id = 1912},
-                {Name = "Poisson-Chaton", Id = 603},
-                {Name = "Bar Rikain", Id = 1779},
-            }
-        
-            npc:npc(333, 5)
-        
-            global:printSuccess("Check du meilleur prix")
-        
-            for i, element in ipairs(TableAchat) do
-                local Price = sale:getPriceItem(element.Id, 3)
-                if Price ~= nil and Price ~= 0 and Price < minPrice then
-                    minPrice = Price
-                    index = i
-                end
-            end
-        
-            global:leaveDialog()
-        
-            global:delay(500)
-        
-            if  minPrice < 6000 then
-                local myMount1 = mount:myMount()
-                while (myMount1.energyMax - myMount1.energy) > 1000 and character:kamas() > 10000 and (inventory:podsMax() - inventory:pods()) > 200 do
-                    npc:npc(333, 6)
-                    sale:buyItem(TableAchat[index].Id, 100, 10000)
-                    global:leaveDialog()
-                    mount:feedMount(TableAchat[index].Id, 100)
-                    myMount1 = mount:myMount()
-                end
-                    global:printSuccess("DD nourrie")
-            else
-                global:printSuccess("les prix sont trop cher, on a pas pu acheter")
-            end
-        end	
+    if mount:hasMount() and not DDNourrie then
+        DDNourrie = true
+        buyAndfeedDD()
+
         if not mount:isRiding() then
             mount:toggleRiding()
         end
@@ -1348,32 +1310,31 @@ local function ProcessSell()
 
     for _, element in ipairs(Aliage) do
         local itemSold = false
-
         cpt = get_quantity(element.Id).quantity["100"]
-		local Priceitem = sale:getPriceItem(element.Id, 3)
+
+		local priceItem = GetPricesItem(element.Id)
     	while inventory:itemCount(element.Id) >= 100 and sale:availableSpace() > 0 and element.MaxHdv100 ~= nil and cpt < element.MaxHdv100 do 
-			Priceitem = (Priceitem == nil or Priceitem == 0 or Priceitem == 1) and sale:getAveragePriceItem(element.Id, 2) * 1.5 or Priceitem
-            sale:SellItem(element.Id, 100, Priceitem - 1) 
-            global:printSuccess("1 lot de " .. 100 .. " x " .. element.Name .. " à " .. Priceitem - 1 .. "kamas")
+			priceItem.Price100 = (priceItem.Price100 == nil or priceItem.Price100 == 0 or priceItem.Price100 == 1) and priceItem.AveragePrice * 150 or priceItem.Price100
+            sale:SellItem(element.Id, 100, priceItem.Price100 - 1) 
+            global:printSuccess("1 lot de " .. 100 .. " x " .. element.Name .. " à " .. priceItem.Price100 - 1 .. "kamas")
             cpt = cpt + 1
             itemSold = true
         end
+
         cpt = get_quantity(element.Id).quantity["10"]
-        local Priceitem = sale:getPriceItem(element.Id, 2)
         while inventory:itemCount(element.Id) >= 10 and sale:availableSpace() > 0 and cpt < element.MaxHdv10 do 
-            Priceitem = (Priceitem == nil or Priceitem == 0 or Priceitem == 1) and sale:getAveragePriceItem(element.Id, 2) * 1.5 or Priceitem
-            sale:SellItem(element.Id, 10, Priceitem - 1) 
-            global:printSuccess("1 lot de " .. 10 .. " x " .. element.Name .. " à " .. Priceitem - 1 .. "kamas")
+			priceItem.Price10 = (priceItem.Price10 == nil or priceItem.Price10 == 0 or priceItem.Price10 == 1) and priceItem.AveragePrice * 15 or priceItem.Price10
+            sale:SellItem(element.Id, 10, priceItem.Price10 - 1) 
+            global:printSuccess("1 lot de " .. 10 .. " x " .. element.Name .. " à " .. priceItem.Price10 - 1 .. "kamas")
             cpt = cpt + 1
             itemSold = true
         end
 
         cpt = get_quantity(element.Id).quantity["1"]
-        local Priceitem = sale:getPriceItem(element.Id, 1)
         while inventory:itemCount(element.Id) >= 1 and sale:availableSpace() > 0 and cpt < element.MaxHdv1 do 
-            Priceitem = (Priceitem == nil or Priceitem == 0 or Priceitem == 1) and sale:getAveragePriceItem(element.Id, 2) * 1.5 or Priceitem
-            sale:SellItem(element.Id, 1, Priceitem - 1) 
-            global:printSuccess("1 lot de " .. 1 .. " x " .. element.Name .. " à " .. Priceitem - 1 .. "kamas")
+			priceItem.Price1 = (priceItem.Price1 == nil or priceItem.Price1 == 0 or priceItem.Price1 == 1) and priceItem.AveragePrice * 1.5 or priceItem.Price1
+            sale:SellItem(element.Id, 1, priceItem.Price1 - 1) 
+            global:printSuccess("1 lot de " .. 1 .. " x " .. element.Name .. " à " .. priceItem.Price1 - 1 .. "kamas")
             cpt = cpt + 1
             itemSold = true
         end
@@ -1382,30 +1343,33 @@ local function ProcessSell()
             randomDelay()
         end
     end
+
     for _, element in ipairs(Minerai) do
+		priceItem = GetPricesItem(element.Id)
+
         cpt = get_quantity(element.Id).quantity["100"]
-		local Priceitem = sale:getPriceItem(element.Id, 3)
     	while inventory:itemCount(element.Id) >= 100 and sale:availableSpace() > 0 and cpt < element.MaxHdv100 do 
-			Priceitem = (Priceitem == nil or Priceitem == 0 or Priceitem == 1) and sale:getAveragePriceItem(element.Id, 2) * 1.5 or Priceitem
-            sale:SellItem(element.Id, 100, Priceitem - 1) 
-            global:printSuccess("1 lot de " .. 100 .. " x " .. element.Name .. " à " .. Priceitem - 1 .. "kamas")
+			priceItem.Price100 = (priceItem.Price100 == nil or priceItem.Price100 == 0 or priceItem.Price100 == 1) and priceItem.AveragePrice * 150 or priceItem.Price100
+            sale:SellItem(element.Id, 100, priceItem.Price100 - 1) 
+            global:printSuccess("1 lot de " .. 100 .. " x " .. element.Name .. " à " .. priceItem.Price100 - 1 .. "kamas")
             cpt = cpt + 1
         end
+
         cpt = get_quantity(element.Id).quantity["10"]
-		local Priceitem = sale:getPriceItem(element.Id, 2)
         while inventory:itemCount(element.Id) >= 10 and sale:availableSpace() > 0 and cpt < element.MaxHdv10 do 
-			Priceitem = (Priceitem == nil or Priceitem == 0 or Priceitem == 1) and sale:getAveragePriceItem(element.Id, 2) * 1.5 or Priceitem
-            sale:SellItem(element.Id, 10, Priceitem - 1) 
-            global:printSuccess("1 lot de " .. 10 .. " x " .. element.Name .. " à " .. Priceitem - 1 .. "kamas")
+			priceItem.Price10 = (priceItem.Price10 == nil or priceItem.Price10 == 0 or priceItem.Price10 == 1) and priceItem.AveragePrice * 15 or priceItem.Price10
+            sale:SellItem(element.Id, 10, priceItem.Price10 - 1) 
+            global:printSuccess("1 lot de " .. 10 .. " x " .. element.Name .. " à " .. priceItem.Price10 - 1 .. "kamas")
             cpt = cpt + 1
         end
     end
 
-    prixEtain = sale:getPriceItem(444, 3)
-    prixArgent = sale:getPriceItem(350, 3)
-    prixBronze = sale:getPriceItem(442, 3)
-    prixCendrePierre = sale:getPriceItem(27621, 3)
-    prixPyrute = sale:getPriceItem(7035, 1)
+    prixEtain = GetPricesItem(444).Price100
+    prixArgent = GetPricesItem(350).Price100
+    prixBronze = GetPricesItem(442).Price100
+    prixCendrePierre = GetPricesItem(27621).Price100
+    prixPyrute = GetPricesItem(7035).Price1
+
     global:leaveDialog()
 
     npc:npc(333,6)
@@ -1545,6 +1509,7 @@ local function WhichArea()
 end
 
 function move()
+
     handleDisconnection()
     mapDelay()
     if global:thisAccountController():getAlias():find("Draconiros") and character:server() ~= "Draconiros" then
@@ -1639,9 +1604,9 @@ function move()
     
     antiModo()
 
-    if job:level(24) > 180 and inventory:itemCount(1704) == 0 and character:kamas() >= 150000 then
-        return treatMaps(AreaAchatSacStaca)
-    end
+    -- if job:level(24) > 180 and inventory:itemCount(1704) == 0 and character:kamas() >= 150000 then
+    --     return treatMaps(AreaAchatSacStaca)
+    -- end
     if character:energyPoints() < 5000 then
         return treatMaps(AreaEnergie)
     end
@@ -1650,8 +1615,9 @@ function move()
 end
 
 function bank()
+
     mapDelay()
-    
+
     editAlias("[" .. job:level(24) .. "] " .. getRemainingSubscription(true))
 
     ChoosePath()

@@ -506,7 +506,7 @@ local CoefMiniByCarac = {
     ["Puissance"] = 0.9,
 }
 
-local exception = {
+exception = {
     "Resistance Neutre",
     "Resistance Terre",
     "Resistance Feu",
@@ -1049,11 +1049,13 @@ function GetQualityItemWithoutException(ItemStats, Id)
         "Pods"
     }
 
+    debug("ok")
     Id = Id or IdToSell
     local PoidsItem = 0
     local PoidsMaxItem = 0
     local statsJP = GetDices(Id) -- y'a pas les %dommages et %resistance
 
+    debug("ok")
     -- vérifier une première fois dans ce sens pour que les stats à 0 soient prises en compte
     for _, statJP in ipairs(statsJP) do
         local found = false

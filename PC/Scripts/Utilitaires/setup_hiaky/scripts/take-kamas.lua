@@ -60,11 +60,11 @@ function move()
                 Exch:submitKamasOrder(800000)
                 submitKamas = 800000
             elseif global:thisAccountController():getAlias():find("LvlUp") then
-                Exch:submitKamasOrder(2200000)
-                submitKamas = 2200000
+                Exch:submitKamasOrder(400000)
+                submitKamas = 400000
             else
-                Exch:submitKamasOrder(2000000)
-                submitKamas = 2000000
+                Exch:submitKamasOrder(300000)
+                submitKamas = 300000
             end
         else
             global:addInMemory("doneTransfert", true)

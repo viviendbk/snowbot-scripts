@@ -538,21 +538,18 @@ local function openFile(path, del)
 end
 
 
-local PATH = "C:\\Users\\Administrator\\Documents\\snowbot-scripts\\PC\\Scripts\\Utilitaires\\setup_hiaky\\auto_stuff\\data\\effects_enum.json"
-local effectsEnum = openFile(PATH)
 
 local function getEffect(data)
-    local search = nil
-
+  debug("a")
     local search = switch(type(data), {
         ["number"] = { id = data, name = "" },
         ["string"] = { id = 0, name = data },
         ["table"] = data,
     })
 
-    return find(effectsEnum, function(effect)
-        return effect.id == search.id
-            or effect.name == search.name
+    return find(IdWithCaracName, function(effect)
+        return effect.Id == search.id
+            or effect.Name == search.name
     end)
 end
 
@@ -564,6 +561,7 @@ local ShopItem = {}
 
 
 function GetDices(Id)
+  debug("oui")
     local dices = {}
     local itemData = d2data:objectFromD2O("Items", Id)
 
@@ -572,12 +570,19 @@ function GetDices(Id)
 
         return {}
     end
+  debug("oui")
 
     itemData = itemData.Fields
 
+    printVar(itemData.possibleEffects)
+
     for k, v in ipairs(itemData.possibleEffects) do
+        debug(k)
         local data = v.Fields
+        printVar(data)
+                debug(k)
         local effect = getEffect(data.effectId)
+        debug(k)
 
         if effect then
             effect = clone(effect)

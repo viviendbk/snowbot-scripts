@@ -78,7 +78,8 @@ function handleDisconnection()
         else
             minutesDisconnection = math.random(150, 210)   
         end
-        global:addInMemory("nextDisconnection", currentTime + minutesDisconnection * 60)
+
+        global:editInMemory("nextDisconnection", currentTime + minutesDisconnection * 60)
         global:printMessage("Prochaine déconnexion à " .. os.date("%H:%M:%S", currentTime + minutesDisconnection * 60) .. ".")
         return
     end
@@ -107,7 +108,7 @@ function handleDisconnection()
             -- Occasionnelle longue pause
             minutesDisconnection = math.random(40, 60)
         end
-
+        global:deleteMemory("nextDisconnection")
         customReconnect(minutesDisconnection)
     end
 end
@@ -317,7 +318,16 @@ end
 function comparehHour(h1, h2)
     local function to_seconds(hms)
         local h, m, s = hms:match("^(%d%d):(%d%d):(%d%d)$")
-        return tonumber(h) * 3600 + tonumber(m) * 60 + tonumber(s)
+        if h and m and s then
+            return tonumber(h) * 3600 + tonumber(m) * 60 + tonumber(s)
+        end
+
+        h, m = hms:match("^(%d%d):(%d%d)$")
+        if h and m then
+            return tonumber(h) * 3600 + tonumber(m) * 60
+        end
+
+        error("Format d'heure invalide : " .. tostring(hms))
     end
 
     return to_seconds(h1) >= to_seconds(h2)
@@ -631,7 +641,6 @@ function canReconnect(Alias)
         debug("impossible de trouver l'heure de reconnexion dans l'alias: " .. Alias)
         return false
     end
-
     -- Vérification si l'heure actuelle dépasse celle de reconnexion
     local currentTime = getCurrentTime()
     if comparehHour(currentTime, reconnectTime) then
@@ -685,7 +694,47 @@ function calculCharacteristicsPointsToSet(nbPoints)
     return nbPoints - remaining
 end
 
+serversMulti = {
+    "Imagiro", "Orukam", "Tal Kasha", "Hell Mina", "Tylezia", "Rafal", "Salar", "Brial"
+}
+
+serversMono = {
+    "Draconiros", "Dakal", "Kourial", "Mikhal"
+}
+
+allServers = merge(serversMulti, serversMono)
+
+
+function GetServerByAlias(Alias)
+    for _, Server in ipairs(allServers) do
+        if Alias:lower():find(Server:lower()) then
+            return Server
+        end
+    end
+    return nil
+end
+
+function findMKamas(stringalias)
+    local stringKamas = { }
+    local tabstring = stringalias:split()
+
+    for index, element in ipairs(tabstring) do
+        if tabstring[index] == "[" then
+            for i = 1, 3 do
+                if tabstring[i + index] ~= "m" then
+                    stringKamas[i] = tabstring[i + index]
+                end
+            end
+        end
+    end
+    stringKamas = join(stringKamas)
+    return (tonumber(stringKamas) == nil or tonumber(stringKamas) <= 5) and 0 or tonumber(stringKamas) - 5
+end
+
+
+
 --- interaction bot bank ---
+
 
 
 
