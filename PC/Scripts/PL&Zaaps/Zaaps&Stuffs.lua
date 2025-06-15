@@ -269,13 +269,14 @@ function  _GetBestPriceDDLvl1And100(message)
     end)
 
     for _, element in ipairs(dd) do
-        if #element.effects > 0 and developer:typeOf(element.effects[1]) == "ObjectEffectMount" and element.effects[1].level == 100 and element.effects[1].isRideable then
+        if #element.effects > 0 and tostring(element.effects[1]) == "SwiftBot.ObjectEffectMount" and element.effects[1].level == 100 and element.effects[1].isRideable then
             BestPrice100 = element.prices[1] - 1
             break
         end
     end
+
     for _, element in ipairs(dd) do
-        if #element.effects > 0 and developer:typeOf(element.effects[1]) == "ObjectEffectMount" and element.effects[1].isRideable then
+        if #element.effects > 0 and tostring(element.effects[1]) == "SwiftBot.ObjectEffectMount" and element.effects[1].isRideable then
             BestPrice1 = element.prices[1] - 1
             break
         end
@@ -289,7 +290,7 @@ function  _BuyCheapestDD(message)
         return a.prices[1] < b.prices[1]
     end)
     for _, element in ipairs(dd) do
-        if #element.effects > 0 and developer:typeOf(element.effects[1]) == "ObjectEffectMount" and element.effects[1].isRideable then
+        if #element.effects > 0 and tostring(element.effects[1]) == "SwiftBot.ObjectEffectMount"and element.effects[1].isRideable then
             message = developer:createMessage("ExchangeBidHouseBuyMessage")
             message.uid = element.objectUID
             message.qty = 1
@@ -317,10 +318,13 @@ function achatDD()
             local message = developer:createMessage("ExchangeBidHouseSearchMessage")
             message.objectGID = Id
             message.follow = true
+            debug("oui")
             developer:registerMessage("ExchangeTypesItemsExchangerDescriptionForUserMessage", _GetBestPriceDDLvl1And100)
             developer:sendMessage(message)
             developer:suspendScriptUntil("ExchangeTypesItemsExchangerDescriptionForUserMessage", 2000, true)
+
             global:leaveDialog()
+
             if BestPrice1 < minPrice and BestPrice1 > 0 then
                 global:printSuccess("la dd la moins chère coute " .. BestPrice1 .. " kamas")
                 bestIndex = i
@@ -348,23 +352,27 @@ end
 
 function equiperDD()
     if not global:thisAccountController():getAlias():find("LvlUp") then
-        local ddEquipables = GetDDInfLvl100()
-        map:moveToCell(332)
-        map:door(357)
-        developer:suspendScriptUntil("ExchangeStartOkMountWithOutPaddockMessage", 5000, true)
-        local message = developer:createMessage("ExchangeHandleMountsMessage")
-        if ddEquipables[1][2] then
-            message.actionType = 15
-            message.ridesId = {ddEquipables[1][2]}
-            developer:sendMessage(message)
-            developer:suspendScriptUntil("InventoryWeightMessage", 2000, true)
-        end
-        global:delay(math.random(500, 1500))
-        global:leaveDialog()
-        global:delay(math.random(500, 1500))
-        if not mount:isRiding() then
-            mount:toggleRiding()
-        end
+        equipDD(getUIDOfDD())
+        ManageXpMount()
+        -- local ddEquipables = GetDDInfLvl100()
+        -- map:moveToCell(332)
+        -- map:door(357)
+        -- developer:suspendScriptUntil("ExchangeStartOkMountWithOutPaddockMessage", 5000, true)
+        -- local message = developer:createMessage("ExchangeHandleMountsMessage")
+        -- debug("ok")
+        -- if ddEquipables[1][2] then
+        --     message.actionType = 15
+        --     message.ridesId = {ddEquipables[1][2]}
+        --     developer:sendMessage(message)
+        --     developer:suspendScriptUntil("InventoryWeightMessage", 2000, true)
+        -- end
+        -- debug("ok")
+        -- global:delay(math.random(500, 1500))
+        -- global:leaveDialog()
+        -- global:delay(math.random(500, 1500))
+        -- if not mount:isRiding() then
+        --     mount:toggleRiding()
+        -- end
     end
     increment()
     inventory:useItem(6964)
@@ -391,7 +399,7 @@ end
 
 function move()
 
-    -- global:printSuccess("ETAPE_ZAAP : " .. global:remember("ETAPE_ZAAP"))
+    global:printSuccess("ETAPE_ZAAP : " .. global:remember("ETAPE_ZAAP"))
     if character:level() == 1 then
         global:loadAndStart("C:\\Users\\Administrator\\Documents\\snowbot-scripts\\PC\\Scripts\\PL&Zaaps\\PL_1-6X.lua")
     end
@@ -429,13 +437,14 @@ function move()
             BuyCityPotions() 
         end)
     elseif global:remember("ETAPE_ZAAP") == 1 then -- bonta 1/2
-        global:printSuccess("ok")
+
         if map:onMap(192415750) then
             map:moveToCell(409)
         end
         if getCurrentAreaName() == "Astrub" then
             global:editInMemory("ETAPE_ZAAP", 0)
         end
+
         return {
         
 
@@ -542,6 +551,9 @@ function move()
     elseif global:remember("ETAPE_ZAAP") == 5 then
         if map:onMap(70778880) then
             map:moveToCell(443)
+        end
+        if map:onMap("-2,-9") or map:onMap("-3,-8") then
+            map:changeMap("left")
         end
         GoTo("-2,0", function ()
             increment()
@@ -753,20 +765,20 @@ if not global:remember("lostCounter") then
     global:addInMemory("lostCounter", 0)
 end
 
-function stopped()
-    if character:energyPoints() > 0 then
-        global:editInMemory("lostCounter", global:remember("lostCounter") + 1)
-        if global:remember("lostCounter") > 10 then
-            global:printError(global:remember("lostCounter") .. " fois que le bot s'arrête, on relance le script")
-            global:editInMemory("ETAPE_ZAAP", 0)
-            global:editInMemory("lostCounter", 0)
-            global:delay(5000)
-            global:thisAccountController():startScript()
-        end
-        global:delay(5000)
-        global:thisAccountController():startScript()
-    end
-end
+-- function stopped()
+--     if character:energyPoints() > 0 then
+--         global:editInMemory("lostCounter", global:remember("lostCounter") + 1)
+--         if global:remember("lostCounter") > 10 then
+--             global:printError(global:remember("lostCounter") .. " fois que le bot s'arrête, on relance le script")
+--             global:editInMemory("ETAPE_ZAAP", 0)
+--             global:editInMemory("lostCounter", 0)
+--             global:delay(5000)
+--             global:thisAccountController():startScript()
+--         end
+--         global:delay(5000)
+--         global:thisAccountController():startScript()
+--     end
+-- end
 
 
 function phenix()
@@ -823,4 +835,10 @@ function phenix()
 			map:changeMap("havenbag")
         end},
 	}
+end
+
+
+function stopped()
+    global:delay(2000)
+    global:thisAccountController():startScript()
 end

@@ -648,6 +648,12 @@ local tableVente = {
 	{Name = "Viande faisandée", Id = 17124, CanSell = false, MaxHdv100 = 5, MaxHdv10 = 3},
 	{Name = "Viande Frelatée", Id = 17126, CanSell = false, MaxHdv100 = 5, MaxHdv10 = 3},
 
+	{Name = "Eklame Inférieur", Id = 31518, CanSell = false, MaxHdv100 = 2, MaxHdv10 = 2},
+
+	{Name = "Petale de rose demoniaque", Id = 309, CanSell = false, MaxHdv100 = 2, MaxHdv10 = 2},
+	{Name = "Oeuf de larve dorée", Id = 7423, CanSell = false, MaxHdv100 = 2, MaxHdv10 = 2},
+	{Name = "Fil de soie", Id = 643, CanSell = false, MaxHdv100 = 2, MaxHdv10 = 2},
+
 }
 
 local function equip()

@@ -1037,7 +1037,7 @@ function  _GetBestPriceDDLvl100(message)
     end)
 
     for _, element in ipairs(dd) do
-        if #element.effects > 0 and developer:typeOf(element.effects[1]) == "ObjectEffectMount" and element.effects[1].level == 100 and element.effects[1].isRideable then
+        if #element.effects > 0 and tostring(element.effects[1]) == "SwiftBot.ObjectEffectInteger" and element.effects[1].level == 100 and element.effects[1].isRideable then
             BestPrice = element.prices[1] - 1
             break
         end
@@ -1081,13 +1081,13 @@ function  _GetBestPriceDDLvl1And100(message)
     end)
 
     for _, element in ipairs(dd) do
-        if #element.effects > 0 and developer:typeOf(element.effects[1]) == "ObjectEffectMount" and element.effects[1].level == 100 and element.effects[1].isRideable then
+        if #element.effects > 0 and tostring(element.effects[1]) == "SwiftBot.ObjectEffectMount" and element.effects[1].level == 100 and element.effects[1].isRideable then
             BestPrice100 = element.prices[1] - 1
             break
         end
     end
     for _, element in ipairs(dd) do
-        if #element.effects > 0 and developer:typeOf(element.effects[1]) == "ObjectEffectMount" and element.effects[1].isRideable then
+        if #element.effects > 0 and tostring(element.effects[1]) == "SwiftBot.ObjectEffectMount" and element.effects[1].isRideable then
             BestPrice1 = element.prices[1] - 1
             break
         end
@@ -1102,7 +1102,7 @@ function  _BuyCheapestDD(message)
         return a.prices[1] < b.prices[1]
     end)
     for _, element in ipairs(dd) do
-        if #element.effects > 0 and developer:typeOf(element.effects[1]) == "ObjectEffectMount" and element.effects[1].isRideable then
+        if #element.effects > 0 and tostring(element.effects[1]) == "SwiftBot.ObjectEffectInteger" and element.effects[1].isRideable then
             message = developer:createMessage("ExchangeBidHouseBuyMessage")
             message.uid = element.objectUID
             message.qty = 1
@@ -1124,7 +1124,7 @@ function  _BuyCheapestDD100(message)
         return a.prices[1] < b.prices[1]
     end)
     for _, element in ipairs(dd) do
-        if #element.effects > 0 and developer:typeOf(element.effects[1]) == "ObjectEffectMount" and element.effects[1].isRideable and element.effects[1].level == 100 then
+        if #element.effects > 0 and tostring(element.effects[1]) == "SwiftBot.ObjectEffectInteger" and element.effects[1].isRideable and element.effects[1].level == 100 then
             message = developer:createMessage("ExchangeBidHouseBuyMessage")
             message.uid = element.objectUID
             message.qty = 1

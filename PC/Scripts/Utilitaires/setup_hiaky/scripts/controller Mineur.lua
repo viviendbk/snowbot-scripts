@@ -16,7 +16,7 @@ dofile("C:\\Users\\Administrator\\Documents\\snowbot-scripts\\PC\\Lib\\Utils.lua
 local totalKamas = 0
 local DebutDeScript = true
 local cptExportation = 0
-local ipproxy = "193.252.210.41"
+ipproxy = "193.252.210.41"
 
 local serversMulti = {
     "Imagiro", "Orukam", "Tal Kasha", "Hell Mina", "Tylezia", "Rafal", "Salar", "Brial"
@@ -225,18 +225,6 @@ local function LoopBug(lines)
 end
 
 local typeProxy = "socks5"
-local proxyBank = GetProxy(1)
-local proxyBucheron2_Mineur = GetProxy(3)
-local proxyMineur2_3 = GetProxy(5)
-local proxyBucheron_Mineur4 = GetProxy(2)
--- local proxyMineur = GetProxy(3)
-local proxyMineur2 = GetProxy(5)
-local proxyMineur3 = GetProxy(5) -- 11 avant
-local proxyMineur5_Bucheron3 = GetProxy(11)
--- proxy normalement pas ici
--- local proxyMineur4 = GetProxy(7)
--- local proxyBucheron = GetProxy(2)
--- local proxyBucheron2 = GetProxy(8)
 
 local function WhichServer()
     for _, acc in ipairs(snowbotController:getLoadedAccounts()) do
@@ -593,7 +581,7 @@ local function loadAccounts()
 
         snowbotController:loadAnAccount("/", false) -- délimitateur bank
         for _, acc in ipairs(AccountToLoad.bank) do
-            snowbotController:assignProxyToAnAccount(acc, proxies["1"].ips,  proxies["1"].port,  proxies["1"].username,  proxies["1"].password, (typeProxy ~= "socks5"), true)
+            snowbotController:assignProxyToAnAccount(acc, proxies["5"].ips,  proxies["5"].port,  proxies["5"].username,  proxies["5"].password, (typeProxy ~= "socks5"), true)
             snowbotController:loadAnAccount(acc, false)
         end
 
@@ -668,12 +656,12 @@ function move()
             for i, Alias in ipairs(AliasNotLoaded) do
                 if IsInTable(serversMono, GetServerByAlias(acc:getAlias())) and Alias:find("Next") and (acc:getAlias():find("Mineur") or acc:getAlias():find("Bucheron")) then
                     global:printSuccess("On remparte le compte " .. acc:getAlias())
-                    snowbotController:deleteAccount(acc:getUsername())
+                    -- snowbotController:deleteAccount(acc:getUsername())
                     launchNewAccounts()
                     break
                 elseif IsInTable(serversMulti, GetServerByAlias(acc:getAlias())) and Alias == "*" and (acc:getAlias():find("Mineur") or acc:getAlias():find("Bucheron")) then
                     global:printSuccess("On remparte le compte " .. acc:getAlias())
-                    snowbotController:deleteAccount(acc:getUsername())
+                    -- snowbotController:deleteAccount(acc:getUsername())
                     launchNewAccounts()
                     break
                 end

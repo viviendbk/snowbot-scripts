@@ -590,7 +590,7 @@ local function loadAccounts()
 
         snowbotController:loadAnAccount("/", false) -- délimitateur bank
         for _, acc in ipairs(AccountToLoad.bank) do
-            snowbotController:assignProxyToAnAccount(acc, proxies["1"].ips,  proxies["1"].port,  proxies["1"].username,  proxies["1"].password, (typeProxy ~= "socks5"), true)
+            snowbotController:assignProxyToAnAccount(acc, proxies["5"].ips,  proxies["5"].port,  proxies["5"].username,  proxies["5"].password, (typeProxy ~= "socks5"), true)
             snowbotController:loadAnAccount(acc, false)
         end
 

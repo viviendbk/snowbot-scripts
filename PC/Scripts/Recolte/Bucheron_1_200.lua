@@ -1787,6 +1787,7 @@ local function ProcessSell() -- done
 		local itemSold = false
 
         local priceItem = GetPricesItem(element.Id)
+		priceItem.Price1 = (priceItem.Price1 == nil or priceItem.Price1 == 0 or priceItem.Price0 == 1) and priceItem.AveragePrice * 1.5 or priceItem.Price1
         cpt = get_quantity(element.Id).quantity["1"]
 
         while inventory:itemCount(element.Id) >= 1 and sale:availableSpace() > 0 and cpt < element.MaxHdv1 do 

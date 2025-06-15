@@ -10,7 +10,7 @@ function checkmap(message)
     for _, element in ipairs(Pierre_Ames_Pleines) do
         for i=1,#message.itemTypeDescriptions do
             for j = 1, message.itemTypeDescriptions[i].prices[1] < element.Price and (#message.itemTypeDescriptions[i].effects) or 0 do
-                if developer:typeOf(message.itemTypeDescriptions[i].effects[j]) == "ObjectEffectDice" and message.itemTypeDescriptions[i].effects[j].diceConst == element.IdArchi then
+                if tostring(message.itemTypeDescriptions[i].effects[j]) == "Swiftbot.ObjectEffectDice" and message.itemTypeDescriptions[i].effects[j].diceConst == element.IdArchi then
 					global:printSuccess("----------------------------------------------")
 					global:printSuccess("ID ARCHI :  ".. message.itemTypeDescriptions[i].effects[j].diceConst)
 
@@ -139,7 +139,7 @@ function CheckPierreAme()
 				Price = 400000
             }
             for _, data in ipairs(item.effects) do                
-                if developer:typeOf(data) == "ObjectEffectDice" and IsArchiMonstre(data.diceConst) then
+                if tostring(data) == "SwiftBot.ObjectEffectDice" and IsArchiMonstre(data.diceConst) then
                     element.IdArchi = data.diceConst
 					table.insert(toReturn, element)
                 end

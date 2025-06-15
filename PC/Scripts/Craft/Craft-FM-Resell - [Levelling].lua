@@ -349,7 +349,7 @@ function _AnalyseResultsFM(message)
             if GetNameCarac(effect.actionId) == k then
                 found = true
             end
-            if developer:typeOf(effect) == "ObjectEffectInteger" and GetNameCarac(effect.actionId) == k and (v.Current - effect.value) ~= 0 then
+            if tostring(effect) == "SwiftBot.ObjectEffectInteger" and GetNameCarac(effect.actionId) == k and (v.Current - effect.value) ~= 0 then
                 if message.magicPoolStatus == 2 and (v.Current - effect.value) > 0 then
                     -- si on a + reliquat, on actualise le pui
                     InfoCurrentItemFM.InfoFm.Pui = InfoCurrentItemFM.InfoFm.Pui + (v.Current - effect.value) * PoidsByStat[k].PoidsUnite

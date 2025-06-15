@@ -311,8 +311,10 @@ function compareDates(date1, date2)
     return false
 end
 
-function extract_reconnect_hour(str)
-    return str:match("Reconnect at (%d%d:%d%d:%d%d)$")
+function extractDateTime(text)
+    -- Recherche une date et heure au format "YYYY-MM-DD HH:MM:SS"
+    local dateTime = text:match("(%d%d%d%d%-%d%d%-%d%d %d%d:%d%d:%d%d)")
+    return dateTime
 end
 
 function compareDateTime(d1, d2)
@@ -519,19 +521,16 @@ connected = false
 function isBotBankAvailable()
     local json = openFile("C:\\Users\\Administrator\\Documents\\snowbot-scripts\\PC\\Temp\\" .. character:server() .. "\\botBankAvailability.json")
     if not json then
-        setBotBankConnected(character:server(), false)
+        global:printError("Le fichier botBankAvailability.json n'existe pas pour le serveur " .. character:server())
+        global:finishScript()
     end
     return not json and false or not json[1].connected
 end
 
 function setBotBankConnected(server, bool)
-    global:printSuccess(server)
     local jsonMemory = openFile("C:\\Users\\Administrator\\Documents\\snowbot-scripts\\PC\\Temp\\" .. server .. "\\botBankAvailability.json")
 
-    global:printSuccess(server)
-    global:printSuccess(bool)
     if not jsonMemory then
-        debug("ooo")
         jsonMemory = {
             {
                 connected = bool,
@@ -542,15 +541,13 @@ function setBotBankConnected(server, bool)
         jsonMemory[1].connected = bool
         jsonMemory[1].lastUpdate = getCurrentDateTime()
     end
-    debug("aaa")
+
     local new_content = json.encode(jsonMemory)
     -- Écrire les modifications dans le fichier JSON
 
     local file = io.open("C:\\Users\\Administrator\\Documents\\snowbot-scripts\\PC\\Temp\\" .. server .. "\\botBankAvailability.json", "w")
-        debug("aaa")
 
     file:write(new_content)
-        debug("aaa")
     file:close()
 end
 
@@ -893,9 +890,8 @@ function connectAccountsWithFailleProxy()
 
             writeToJsonFile(global:getCurrentScriptDirectory() .. "\\connexion.json", connexionFile)
         elseif connexionFile[1].inUse and compareDateTime(os.date("%Y-%m-%d %H:%M:%S"), connexionFile[1].date) < 20 * 60 then
-            global:printError("Un autre script est déjà en train de se connecter, on attend 2 minutes")
-            global:delay(120000)
-            return connectAccountsWithFailleProxy() -- Retenter la connexion
+            global:printError("Un autre script est déjà en train de se connecter, on continue le script")
+            return 
         elseif connexionFile[1].inUse and compareDateTime(os.date("%Y-%m-%d %H:%M:%S"), connexionFile[1].date) >= 20 * 60 
         and json.decode(developer:getRequest("http://" .. ipproxy .. "/status?proxy=p:5001")).status then
             -- Si le script de connexion a planté, on le relance

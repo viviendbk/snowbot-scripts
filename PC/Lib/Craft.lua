@@ -1001,7 +1001,7 @@ function GetQualityItem(ItemStats, Id)
     for _, statJP in ipairs(statsJP) do
         local found = false
         for _, stat in ipairs(ItemStats) do
-            if (developer:typeOf(stat) == "ObjectEffectInteger" or stat.actionId) and stat.actionId == statJP.id and IsActionIdKnown(stat.actionId) and not GetNameCarac(stat.actionId):find("-") then
+            if (tostring(stat) == "SwiftBot.ObjectEffectInteger" or stat.actionId) and stat.actionId == statJP.id and IsActionIdKnown(stat.actionId) and not GetNameCarac(stat.actionId):find("-") then
                 found = true
                 if stat.value > statJP.dice.max and (PoidsByStat[statJP.name].PoidsUnite < 30) and statJP.name == "Vitalite" then
                     PoidsItem = PoidsItem + (statJP.dice.max + (stat.value - statJP.dice.max) * 3) * PoidsByStat[statJP.name].PoidsUnite
@@ -1023,7 +1023,7 @@ function GetQualityItem(ItemStats, Id)
 
     -- vérifier ensuite la présence d'exo
     for _, stat in ipairs(ItemStats) do
-        if developer:typeOf(stat) == "ObjectEffectInteger" and IsActionIdKnown(stat.actionId) and not GetNameCarac(stat.actionId):find("-") then
+        if tostring(stat) == "SwiftBot.ObjectEffectInteger" and IsActionIdKnown(stat.actionId) and not GetNameCarac(stat.actionId):find("-") then
             local found = false
             for _, statJP in ipairs(statsJP) do
                 if statJP.id == stat.actionId then
@@ -1064,7 +1064,7 @@ function GetQualityItemWithoutException(ItemStats, Id)
     for _, statJP in ipairs(statsJP) do
         local found = false
         for _, stat in ipairs(ItemStats) do
-            if (developer:typeOf(stat) == "ObjectEffectInteger" or stat.actionId) and stat.actionId == statJP.id and IsActionIdKnown(stat.actionId) and not GetNameCarac(stat.actionId):find("-") 
+            if (tostring(stat) == "SwiftBot.ObjectEffectInteger" or stat.actionId) and stat.actionId == statJP.id and IsActionIdKnown(stat.actionId) and not GetNameCarac(stat.actionId):find("-") 
             and not IsInTable(exception, GetNameCarac(stat.actionId)) then
                 found = true
                 if stat.value > statJP.dice.max and (PoidsByStat[statJP.name].PoidsUnite < 30) and statJP.name == "Vitalite" then
@@ -1087,7 +1087,7 @@ function GetQualityItemWithoutException(ItemStats, Id)
 
     -- vérifier ensuite la présence d'exo
     for _, stat in ipairs(ItemStats) do
-        if developer:typeOf(stat) == "ObjectEffectInteger" and IsActionIdKnown(stat.actionId) and not GetNameCarac(stat.actionId):find("-") then
+        if tostring(stat) == "SwiftBot.ObjectEffectInteger" and IsActionIdKnown(stat.actionId) and not GetNameCarac(stat.actionId):find("-") then
             local found = false
             for _, statJP in ipairs(statsJP) do
                 if statJP.id == stat.actionId then
@@ -1111,7 +1111,7 @@ function GetPoidsOver(ItemStats, Id)
     for i, stat in ipairs(ItemStats) do
         local found = false
         for j, statJP in ipairs(statsJp) do
-            if (developer:typeOf(stat) == "ObjectEffectInteger" or stat.actionId) and stat.actionId == statJP.id
+            if (tostring(stat) == "SwiftBot.ObjectEffectInteger" or stat.actionId) and stat.actionId == statJP.id
             and IsActionIdKnown(stat.actionId) and not GetNameCarac(stat.actionId):find("-") and stat.value > statJP.dice.max then
                 found = true
                 poidsOver = poidsOver + (stat.value - statJP.dice.max) * PoidsByStat[GetNameCarac(stat.actionId)].PoidsUnite
@@ -1119,7 +1119,7 @@ function GetPoidsOver(ItemStats, Id)
             end
         end
         -- pour les exo, on verra plus tard
-        -- if not found and developer:typeOf(stat) == "ObjectEffectInteger" and IsActionIdKnown(stat.actionId) and not GetNameCarac(stat.actionId):find("-") then
+        -- if not found and tostring(stat) == "SwiftBot.ObjectEffectInteger" and IsActionIdKnown(stat.actionId) and not GetNameCarac(stat.actionId):find("-") then
         --     poidsOver = poidsOver + stat.value * PoidsByStat[GetNameCarac(stat.actionId)].PoidsUnite
         -- end
     end   
@@ -1135,7 +1135,7 @@ function GetPoidsItem(Stats)
     for i, stat in ipairs(Stats) do
         local trouvee = false
         for j, statJP in ipairs(statsJP) do
-            if developer:typeOf(stat) == "ObjectEffectInteger" and stat.actionId == statJP.id and IsActionIdKnown(stat.actionId) and not GetNameCarac(stat.actionId):find("-") then
+            if tostring(stat) == "SwiftBot.ObjectEffectInteger" and stat.actionId == statJP.id and IsActionIdKnown(stat.actionId) and not GetNameCarac(stat.actionId):find("-") then
                 local over = stat.value - statJP.dice.max
                 trouvee = true
                 if over > 0 then
@@ -1146,7 +1146,7 @@ function GetPoidsItem(Stats)
                 break
             end
         end
-        if not trouvee and developer:typeOf(stat) == "ObjectEffectInteger" and IsActionIdKnown(stat.actionId) and not GetNameCarac(stat.actionId):find("-") then
+        if not trouvee and tostring(stat) == "SwiftBot.ObjectEffectInteger" and IsActionIdKnown(stat.actionId) and not GetNameCarac(stat.actionId):find("-") then
             toReturn = toReturn + stat.value * PoidsByStat[GetNameCarac(stat.actionId)].PoidsUnite
         end
     end
@@ -1558,7 +1558,7 @@ function AllStatsAreAboveMin(Stats, Id)
 
     for _, statJP in ipairs(statsJP) do
         for _, stat in ipairs(Stats) do
-            if (developer:typeOf(stat) == "ObjectEffectInteger" or stat.actionId) and stat.actionId == statJP.id and IsActionIdKnown(stat.actionId) and not GetNameCarac(stat.actionId):find("-") 
+            if (tostring(stat) == "SwiftBot.ObjectEffectInteger" or stat.actionId) and stat.actionId == statJP.id and IsActionIdKnown(stat.actionId) and not GetNameCarac(stat.actionId):find("-") 
             and ((stat.value < statJP.dice.min) and not IsInTable(exception, GetNameCarac(stat.actionId))) then
                 return false
             end

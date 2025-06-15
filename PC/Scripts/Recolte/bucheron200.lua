@@ -96,9 +96,10 @@ local function RegenEnergie()
 
 	npc:npc(385,5)
 	global:delay(1500)
-		if inventory:itemCount(678) >= 100 then
+	if inventory:itemCount(678) >= 100 then
 		itemname = inventory:itemNameId(678)
-		Priceitem = sale:getPriceItem(678, 3) 
+		Priceitem = GetPricesItem(678).Price100
+
 		if Priceitem > 400 then -- 
 			while (inventory:itemCount(678) >= 100) and (sale:availableSpace() > 0) do 
 				sale:SellItem(678, 100, Priceitem -1) 
@@ -107,15 +108,17 @@ local function RegenEnergie()
 		   end
 		end
 		if inventory:itemCount(680) >= 10 then
+
 		itemname = inventory:itemNameId(680)
-		Priceitem = sale:getPriceItem(680, 2) 
+		Priceitem = GetPricesItem(678).Price10
+
 		if Priceitem > 400 then -- 
 			while (inventory:itemCount(680) >= 10) and (sale:availableSpace() > 0) do 
 				sale:SellItem(680, 10, Priceitem -1) 
 				global:printSuccess("1 lot de " .. 10 .. " x " .. itemname .. " à " .. Priceitem -1 .. "kamas")
 			end 
-		   end
 		end
+	end
 		
 	global:delay(1500)
 	global:leaveDialog()
@@ -931,6 +934,7 @@ local function ProcessBank() -- done
             end
         end
 
+        debug("ok")
         for _, element in ipairs(Seves) do
 			local QuantiteAPrendre = math.min(math.floor(podsAvailable / inventory:itemWeight(element.Id)), exchange:storageItemQuantity(element.Id))
 			if QuantiteAPrendre > 0 and not hdvFull and element.CanSell then
@@ -1091,6 +1095,7 @@ local function ProcessSell() -- done
 		local itemSold = false
 
         local priceItem = GetPricesItem(element.Id)
+        priceItem.Price1 = (priceItem.Price1 == nil or priceItem.Price1 == 0 or priceItem.Price1 == 1) and priceItem.AveragePrice * 1.5 or priceItem.Price1
         cpt = get_quantity(element.Id).quantity["1"]
 
         while inventory:itemCount(element.Id) >= 1 and sale:availableSpace() > 0 and cpt < 10 do 
