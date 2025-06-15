@@ -141,20 +141,26 @@ function move()
         global:loadAndStart("C:\\Users\\Administrator\\Documents\\snowbot-scripts\\PC\\Scripts\\PL&Zaaps\\PL_1-6X.lua")
     end
     mapDelay()
-    global:editAlias("Requests", true)
+    if global:thisAccountController():getAlias():find("RequestsMulti") then
+        global:editAlias("RequestsMulti", true)
+    elseif global:thisAccountController():getAlias():find("RequestsMono") then
+        global:editAlias("RequestsMono", true)
+    end
 
-    local lines = global:consoleLines()
+    if not map:currentArea() == "Bonta" then
+        local lines = global:consoleLines()
 
-    local counterBug = 0
-    for _, line in ipairs(lines) do
-        if line:find("Téléportation Mapid") then
-            counterBug = counterBug + 1
-        else
-            counterBug = 0
-        end
-        if counterBug > 3 then
-            global:clearConsole()
-			global:loadAndStart("C:\\Users\\Administrator\\Documents\\snowbot-scripts\\PC\\Scripts\\PL&Zaaps\\Zaaps&Stuffs.lua")
+        local counterBug = 0
+        for _, line in ipairs(lines) do
+            if line:find("Téléportation Mapid") then
+                counterBug = counterBug + 1
+            else
+                counterBug = 0
+            end
+            if counterBug > 3 then
+                global:clearConsole()
+                global:loadAndStart("C:\\Users\\Administrator\\Documents\\snowbot-scripts\\PC\\Scripts\\PL&Zaaps\\Zaaps&Stuffs.lua")
+            end
         end
     end
 
@@ -200,7 +206,6 @@ function move()
         if cpt == 0 then
             cpt = cpt +1
             for _, item in ipairs(tableItem) do
-            
                 if _ == math.floor(#tableItem / 4) then
                     global:printMessage("25% effectué...")
                 elseif _ == math.floor(#tableItem / 2) then
@@ -241,6 +246,7 @@ function move()
         HdvSell()
         local priceItems = {}
         for _, item in ipairs(tableItem) do
+
             if _ == math.floor(#tableItem / 4) then
                 global:printMessage("25% effectué...")
             elseif _ == math.floor(#tableItem / 2) then

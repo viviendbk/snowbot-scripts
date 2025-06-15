@@ -1312,9 +1312,12 @@ local function ProcessSell()
         local itemSold = false
         cpt = get_quantity(element.Id).quantity["100"]
 
-		local priceItem = GetPricesItem(element.Id)
+        local priceItem = GetPricesItem(element.Id)
+        priceItem.Price100 = (priceItem.Price100 == nil or priceItem.Price100 == 0 or priceItem.Price100 == 1) and priceItem.AveragePrice * 150 or priceItem.Price100
+        priceItem.Price10 = (priceItem.Price10 == nil or priceItem.Price10 == 0 or priceItem.Price10 == 1) and priceItem.AveragePrice * 15 or priceItem.Price10
+        priceItem.Price1 = (priceItem.Price1 == nil or priceItem.Price1 == 0 or priceItem.Price1 == 1) and priceItem.AveragePrice * 1.5 or priceItem.Price1
+
     	while inventory:itemCount(element.Id) >= 100 and sale:availableSpace() > 0 and element.MaxHdv100 ~= nil and cpt < element.MaxHdv100 do 
-			priceItem.Price100 = (priceItem.Price100 == nil or priceItem.Price100 == 0 or priceItem.Price100 == 1) and priceItem.AveragePrice * 150 or priceItem.Price100
             sale:SellItem(element.Id, 100, priceItem.Price100 - 1) 
             global:printSuccess("1 lot de " .. 100 .. " x " .. element.Name .. " à " .. priceItem.Price100 - 1 .. "kamas")
             cpt = cpt + 1
@@ -1323,7 +1326,6 @@ local function ProcessSell()
 
         cpt = get_quantity(element.Id).quantity["10"]
         while inventory:itemCount(element.Id) >= 10 and sale:availableSpace() > 0 and cpt < element.MaxHdv10 do 
-			priceItem.Price10 = (priceItem.Price10 == nil or priceItem.Price10 == 0 or priceItem.Price10 == 1) and priceItem.AveragePrice * 15 or priceItem.Price10
             sale:SellItem(element.Id, 10, priceItem.Price10 - 1) 
             global:printSuccess("1 lot de " .. 10 .. " x " .. element.Name .. " à " .. priceItem.Price10 - 1 .. "kamas")
             cpt = cpt + 1
@@ -1332,7 +1334,6 @@ local function ProcessSell()
 
         cpt = get_quantity(element.Id).quantity["1"]
         while inventory:itemCount(element.Id) >= 1 and sale:availableSpace() > 0 and cpt < element.MaxHdv1 do 
-			priceItem.Price1 = (priceItem.Price1 == nil or priceItem.Price1 == 0 or priceItem.Price1 == 1) and priceItem.AveragePrice * 1.5 or priceItem.Price1
             sale:SellItem(element.Id, 1, priceItem.Price1 - 1) 
             global:printSuccess("1 lot de " .. 1 .. " x " .. element.Name .. " à " .. priceItem.Price1 - 1 .. "kamas")
             cpt = cpt + 1
@@ -1346,10 +1347,11 @@ local function ProcessSell()
 
     for _, element in ipairs(Minerai) do
 		priceItem = GetPricesItem(element.Id)
+        priceItem.Price100 = (priceItem.Price100 == nil or priceItem.Price100 == 0 or priceItem.Price100 == 1) and priceItem.AveragePrice * 150 or priceItem.Price100
+        priceItem.Price10 = (priceItem.Price10 == nil or priceItem.Price10 == 0 or priceItem.Price10 == 1) and priceItem.AveragePrice * 15 or priceItem.Price10
 
         cpt = get_quantity(element.Id).quantity["100"]
     	while inventory:itemCount(element.Id) >= 100 and sale:availableSpace() > 0 and cpt < element.MaxHdv100 do 
-			priceItem.Price100 = (priceItem.Price100 == nil or priceItem.Price100 == 0 or priceItem.Price100 == 1) and priceItem.AveragePrice * 150 or priceItem.Price100
             sale:SellItem(element.Id, 100, priceItem.Price100 - 1) 
             global:printSuccess("1 lot de " .. 100 .. " x " .. element.Name .. " à " .. priceItem.Price100 - 1 .. "kamas")
             cpt = cpt + 1
@@ -1357,7 +1359,6 @@ local function ProcessSell()
 
         cpt = get_quantity(element.Id).quantity["10"]
         while inventory:itemCount(element.Id) >= 10 and sale:availableSpace() > 0 and cpt < element.MaxHdv10 do 
-			priceItem.Price10 = (priceItem.Price10 == nil or priceItem.Price10 == 0 or priceItem.Price10 == 1) and priceItem.AveragePrice * 15 or priceItem.Price10
             sale:SellItem(element.Id, 10, priceItem.Price10 - 1) 
             global:printSuccess("1 lot de " .. 10 .. " x " .. element.Name .. " à " .. priceItem.Price10 - 1 .. "kamas")
             cpt = cpt + 1
@@ -1557,7 +1558,7 @@ function move()
 
     if NeedToCraft then
         return {
-            {map = "212600322", path = "bottom(552)"}, -- Map extérieure de la banque de bonta
+            {map = "212600322", path = "zaapi(212602886)"}, -- Map extérieure de la banque de bonta
 			{map = "-31,-56", path = "right"},
 			{map = "-30,-56", path = "right"},
 			{map = "-29,-56", path = "bottom"},
@@ -1579,10 +1580,11 @@ function move()
 
     if NeedToSell then
         return {
-			{map = "212602886", path = "left"}, -- map extérieur atelier mineur
+			{map = "212602886", path = "zaapi(212601350)"}, -- map extérieur atelier mineur
 			{map = "-29,-55", path = "left"},
 			{map = "-30,-55", path = "left"},
-            {map = "212600322", path = "bottom(552)"}, -- Map extérieure de la banque de bonta
+            -- {map = "212600322", path = "bottom(552)"}, -- Map extérieure de la banque de bonta
+            {map = "212600322", path = "zaapi(212601350)"}, -- Map extérieure de la banque de bonta
 			{map = "-31,-56", path = "bottom"},
 			{map = "-31,-55", path = "bottom"},
 			{map = "-31,-54", path = "right"},
@@ -1624,7 +1626,7 @@ function bank()
 
     if NeedToCraft then
         return {
-            {map = "212600322", path = "bottom(552)"}, -- Map extérieure de la banque de bonta
+            {map = "212600322", path = "zaapi(212602886)"}, -- Map extérieure de la banque de bonta
 			{map = "-31,-56", path = "right"},
 			{map = "-30,-56", path = "right"},
 			{map = "-29,-56", path = "bottom"},
@@ -1646,10 +1648,11 @@ function bank()
 
     if NeedToSell then
         return {
-			{map = "212602886", path = "left"}, -- map extérieur atelier mineur
+			{map = "212602886", path = "zaapi(212601350)"}, -- map extérieur atelier mineur
 			{map = "-29,-55", path = "left"},
 			{map = "-30,-55", path = "left"},
-            {map = "212600322", path = "bottom(552)"}, -- Map extérieure de la banque de bonta
+            -- {map = "212600322", path = "bottom(552)"}, -- Map extérieure de la banque de bonta
+            {map = "212600322", path = "zaapi(212601350)"}, -- Map extérieure de la banque de bonta
 			{map = "-31,-56", path = "bottom"},
 			{map = "-31,-55", path = "bottom"},
 			{map = "-31,-54", path = "right"},

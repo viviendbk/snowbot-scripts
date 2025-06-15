@@ -40,7 +40,7 @@ if global:thisAccountController():getAlias():find("Bucheron2") then
 elseif global:thisAccountController():getAlias():find("Bucheron3") then
     phrase = "Bucheron3 " .. character:server()
 else
-	PLANNING = {9, 10, 11, 12, 13, 14}
+	-- PLANNING = {9, 10, 11, 12, 13, 14}
     -- phrase = "Bucheron " .. character:server()
 end
 
@@ -746,16 +746,7 @@ local Seves = {
 
 --- </init>
 
-local function getRemainingSubscription(inDay, acc)
-    local accDeveloper = acc and acc.developer or developer
 
-    local endDate = developer:historicalMessage("IdentificationSuccessMessage")[1].subscriptionEndDate 
-    local now = os.time(os.date("!*t")) * 1000
-
-    endDate = math.floor((endDate - now) / 3600000)
-
-    return inDay and math.floor(endDate / 24) or endDate
-end
 
 if global:thisAccountController():getAlias():find("Bucheron2") then
     phrase = "Bucheron2 " .. character:server()
@@ -781,24 +772,24 @@ local function GetLength(Table)
 end
 
 local function antiModo()
-    if global:isModeratorPresent(30) then
-		timerdisconnect = math.random(30000, 36000) 
-        if not map:onMap("0,0") then
-            map:changeMap("havenbag")
-        end
-        global:printError("Modérateur présent. On attend " .. timerdisconnect)
-        if global:thisAccountController():getAlias():find("Bucheron2") then
-            global:editAlias("Bucheron2 " .. character:server() .. " [" .. job:level(2) .. "]  [MODO]", true)
-        elseif global:thisAccountController():getAlias():find("Bucheron3") then
-            global:editAlias("Bucheron3 " .. character:server() .. " [" .. job:level(2) .. "]  [MODO]", true)
-        else
-            global:editAlias("Bucheron " .. character:server() .. " [" .. job:level(2) .. "]  [MODO]", true)
-        end
-        global:delay(timerdisconnect)
-        customReconnect(timerdisconnect / 1000)
+    -- if global:isModeratorPresent(30) then
+	-- 	timerdisconnect = math.random(30000, 36000) 
+    --     if not map:onMap("0,0") then
+    --         map:changeMap("havenbag")
+    --     end
+    --     global:printError("Modérateur présent. On attend " .. timerdisconnect)
+    --     if global:thisAccountController():getAlias():find("Bucheron2") then
+    --         global:editAlias("Bucheron2 " .. character:server() .. " [" .. job:level(2) .. "]  [MODO]", true)
+    --     elseif global:thisAccountController():getAlias():find("Bucheron3") then
+    --         global:editAlias("Bucheron3 " .. character:server() .. " [" .. job:level(2) .. "]  [MODO]", true)
+    --     else
+    --         global:editAlias("Bucheron " .. character:server() .. " [" .. job:level(2) .. "]  [MODO]", true)
+    --     end
+    --     global:delay(timerdisconnect)
+    --     customReconnect(timerdisconnect / 1000)
 
-        map:changeMap("havenbag")
-	end
+    --     map:changeMap("havenbag")
+	-- end
 end
 
 
@@ -997,53 +988,10 @@ end
 	
 local function ProcessSell() -- done
     NeedToSell = false
-    if mount:hasMount() then
-        local myMount = mount:myMount()
-        if (myMount.energyMax - myMount.energy) > 1000 then
-            local index = 0
-            local minPrice = 500000000
-            local TableAchat = {
-                {Name = "Poisson Pané", Id = 1750},
-                {Name = "Crabe Sourimi", Id = 1757},
-                {Name = "Goujon", Id = 1782},
-                {Name = "Brochet", Id = 1847},
-                {Name = "Sardine Brillante", Id = 1805},
-                {Name = "Cuisse de Boufton", Id = 1911},
-                {Name = "Cuisse de Bouftou **", Id = 1912},
-                {Name = "Poisson-Chaton", Id = 603},
-                {Name = "Bar Rikain", Id = 1779},
-            }
-        
-            npc:npc(333, 5)
-        
-            global:printSuccess("Check du meilleur prix")
-        
-            for i, element in ipairs(TableAchat) do
-                local Price = sale:getPriceItem(element.Id, 3)
-                if Price ~= nil and Price ~= 0 and Price < minPrice then
-                    minPrice = Price
-                    index = i
-                end
-            end
-        
-            global:leaveDialog()
-        
-            global:delay(500)
-        
-            if  minPrice < 6000 then
-                local myMount1 = mount:myMount()
-                while (myMount1.energyMax - myMount1.energy) > 1000 and character:kamas() > 10000 and (inventory:podsMax() - inventory:pods()) > 200 do
-                    npc:npc(333, 6)
-                    sale:buyItem(TableAchat[index].Id, 100, 10000)
-                    global:leaveDialog()
-                    mount:feedMount(TableAchat[index].Id, 100)
-                    myMount1 = mount:myMount()
-                end
-                    global:printSuccess("DD nourrie")
-            else
-                global:printSuccess("les prix sont trop cher, on a pas pu acheter")
-            end
-        end	
+    if mount:hasMount() and not DDNourrie then
+        DDNourrie = true
+        buyAndfeedDD()
+
         if not mount:isRiding() then
             mount:toggleRiding()
         end
@@ -1051,15 +999,15 @@ local function ProcessSell() -- done
 
 
     while craftSubstratDeSylve and not STOP and (inventory:itemCount(16420) < CraftQuantity or inventory:itemCount(16419) < CraftQuantity) do
-        npc:npc(333, 5)
+        HdvSell()
 
-        local Priceitem1Glandage = sale:getPriceItem(16420, 1) -- potion de glandage
-        local Priceitem10Glandage = sale:getPriceItem(16420, 2)
-		local Priceitem1Ancetre = sale:getPriceItem(16419, 1) -- potion des ancêtre
-        local Priceitem10Ancetre = sale:getPriceItem(16419, 2)
+        local Priceitem1Glandage = GetPricesItem(16420).Price1
+        local Priceitem10Glandage = GetPricesItem(16420).Price10
+        local Priceitem1Ancetre = GetPricesItem(16419).Price1
+        local Priceitem10Ancetre = GetPricesItem(16419).Price10
 
         global:leaveDialog()
-        npc:npc(333, 6)
+        HdvBuy()
 
         if ((Priceitem1Glandage == 0 and Priceitem10Glandage == 0 or (Priceitem10Glandage > 200000 and Priceitem1Glandage > 20000)) and inventory:itemCount(16420) < CraftQuantity) or 
         ((Priceitem1Ancetre == 0 and Priceitem10Ancetre == 0 or (Priceitem10Ancetre > 200000 and Priceitem1Ancetre > 20000)) and inventory:itemCount(16419) < CraftQuantity)  then
@@ -1079,97 +1027,99 @@ local function ProcessSell() -- done
     end 
     
 	HdvSell()
-    
-    MuflePrice1 = sale:getPriceItem(10669, 1)
-    MuflePrice10 = sale:getPriceItem(10669, 2)
-    MuflePrice100 = sale:getPriceItem(10669, 3)
+    local MuflePrices = GetPricesItem(10669)
+    MuflePrice1 = MuflePrices.Price1
+    MuflePrice10 = MuflePrices.Price10
+    MuflePrice100 = MuflePrices.Price100
+
 
 	for _, element in ipairs(Planches) do
-        local itemSold = false
+		local priceItem = GetPricesItem(element.Id)
+        priceItem.Price10 = (priceItem.Price10 == nil or priceItem.Price10 == 0 or priceItem.Price10 == 1) and priceItem.AveragePrice * 15 or priceItem.Price10
+		priceItem.Price1 = (priceItem.Price1 == nil or priceItem.Price1 == 0 or priceItem.Price1 == 1) and priceItem.AveragePrice * 1.5 or priceItem.Price1
 
-	   	cpt = get_quantity(element.Id).quantity["10"]
-	   	local Priceitem = sale:getPriceItem(element.Id, 2)
-		while inventory:itemCount(element.Id) >= 10 and sale:availableSpace() > 0 and cpt < element.MaxHdv10 do 
-			Priceitem = (Priceitem == nil or Priceitem == 0) and sale:getAveragePriceItem(element.Id, 2) * 1.5 or Priceitem
-			sale:SellItem(element.Id, 10, Priceitem - 1) 
-			global:printSuccess("1 lot de " .. 10 .. " x " .. element.Name .. " à " .. Priceitem - 1 .. "kamas")
-			cpt = cpt + 1
+        cpt = get_quantity(element.Id).quantity["10"]
+        while inventory:itemCount(element.Id) >= 10 and sale:availableSpace() > 0 and cpt < element.MaxHdv10 do 
+            sale:SellItem(element.Id, 10, priceItem.Price10 - 1) 
+            global:printSuccess("1 lot de " .. 10 .. " x " .. element.Name .. " à " .. priceItem.Price10 - 1 .. "kamas")
+            cpt = cpt + 1
             itemSold = true
         end
-       	cpt = get_quantity(element.Id).quantity["1"]
-	   	local Priceitem = sale:getPriceItem(element.Id, 1)
-		while inventory:itemCount(element.Id) >= 1 and sale:availableSpace() > 0 and cpt < element.MaxHdv1 do 
-			Priceitem = (Priceitem == nil or Priceitem == 0) and sale:getAveragePriceItem(element.Id, 2) * 1.5 or Priceitem
-			sale:SellItem(element.Id, 1, Priceitem - 1) 
-			global:printSuccess("1 lot de " .. 1 .. " x " .. element.Name .. " à " .. Priceitem - 1 .. "kamas")
-			cpt = cpt + 1
-            itemSold = true
-		end
 
-        if itemSold then
+        cpt = get_quantity(element.Id).quantity["1"]
+        while inventory:itemCount(element.Id) >= 1 and sale:availableSpace() > 0 and cpt < element.MaxHdv1 do 
+            sale:SellItem(element.Id, 1, priceItem.Price1 - 1) 
+            global:printSuccess("1 lot de " .. 1 .. " x " .. element.Name .. " à " .. priceItem.Price1 - 1 .. "kamas")
+            cpt = cpt + 1
+            itemSold = true
+        end
+
+		if itemSold then
             randomDelay()
         end
     end
 
     for _, element in ipairs(Bois) do
-        local itemSold = false
+		local itemSold = false
+
+        local priceItem = GetPricesItem(element.Id)
+		priceItem.Price100 = (priceItem.Price100 == nil or priceItem.Price100 == 0 or priceItem.Price100 == 1) and priceItem.AveragePrice * 150 or priceItem.Price100
+		priceItem.Price10 = (priceItem.Price10 == nil or priceItem.Price10 == 0 or priceItem.Price10 == 1) and priceItem.AveragePrice * 15 or priceItem.Price10
 
         cpt = get_quantity(element.Id).quantity["100"]
-		element.Priceitem100 = sale:getPriceItem(element.Id, 3)
-        element.Priceitem100 = (element.Priceitem100 == nil or element.Priceitem100 == 0) and sale:getAveragePriceItem(element.Id, 2) * 1.5 or element.Priceitem100
-    	while inventory:itemCount(element.Id) >= 100 and sale:availableSpace() > 0 and cpt < element.MaxHdv100 and element.Priceitem100 > element.MinPrice do 
-            sale:SellItem(element.Id, 100, element.Priceitem100 - 1) 
-            global:printSuccess("1 lot de " .. 100 .. " x " .. element.Name .. " à " .. element.Priceitem100 - 1 .. "kamas")
+    	while inventory:itemCount(element.Id) >= 100 and sale:availableSpace() > 0 and cpt < element.MaxHdv100 do 
+            sale:SellItem(element.Id, 100, priceItem.Price100 - 1) 
+            global:printSuccess("1 lot de " .. 100 .. " x " .. element.Name .. " à " .. priceItem.Price100 - 1 .. "kamas")
             cpt = cpt + 1
-            itemSold = true
+			itemSold = true
         end
+
         cpt = get_quantity(element.Id).quantity["10"]
-		local Priceitem = sale:getPriceItem(element.Id, 2)
-        while inventory:itemCount(element.Id) >= 10 and sale:availableSpace() > 0 and cpt < element.MaxHdv10 and element.Priceitem100 > element.MinPrice do 
-			Priceitem = (Priceitem == nil or Priceitem == 0) and sale:getAveragePriceItem(element.Id, 2) * 1.5 or Priceitem
-            sale:SellItem(element.Id, 10, Priceitem - 1) 
-            global:printSuccess("1 lot de " .. 10 .. " x " .. element.Name .. " à " .. Priceitem - 1 .. "kamas")
+        while inventory:itemCount(element.Id) >= 10 and sale:availableSpace() > 0 and cpt < element.MaxHdv10 do 
+            sale:SellItem(element.Id, 10, priceItem.Price10 - 1) 
+            global:printSuccess("1 lot de " .. 10 .. " x " .. element.Name .. " à " .. priceItem.Price10 - 1 .. "kamas")
             cpt = cpt + 1
-            itemSold = true
+			itemSold = true
         end
 
-        if itemSold then
-            randomDelay()
-        end
+		if itemSold then
+			randomDelay()
+		end
     end
 
-    for _, element in ipairs(Seves) do
-        local itemSold = false
+     for _, element in ipairs(Seves) do
+		local itemSold = false
 
+        local priceItem = GetPricesItem(element.Id)
         cpt = get_quantity(element.Id).quantity["1"]
-		local Priceitem = sale:getPriceItem(element.Id, 1)
-        while inventory:itemCount(element.Id) >= 1 and sale:availableSpace() > 0 and cpt < 2 do 
-			Priceitem = (Priceitem == nil or Priceitem == 0) and sale:getAveragePriceItem(element.Id, 2) * 1.5 or Priceitem
-            sale:SellItem(element.Id, 1, Priceitem - 1) 
-            global:printSuccess("1 lot de " .. 1 .. " x " .. element.Name .. " à " .. Priceitem - 1 .. "kamas")
+
+        while inventory:itemCount(element.Id) >= 1 and sale:availableSpace() > 0 and cpt < element.MaxHdv1 do 
+            sale:SellItem(element.Id, 1, priceItem.Price1 - 1) 
+            global:printSuccess("1 lot de " .. 1 .. " x " .. element.Name .. " à " .. priceItem.Price1 - 1 .. "kamas")
             cpt = cpt + 1
             itemSold = true
         end
 
-        if itemSold then
-            randomDelay()
-        end
-    end
+		if itemSold then
+			randomDelay()
+		end
+     end
+
+    local priceItem = GetPricesItem(substrat_de_sylve)
+    priceItem.Price100 = (priceItem.Price100 == nil or priceItem.Price100 == 0 or priceItem.Price100 == 1) and priceItem.AveragePrice * 150 or priceItem.Price100
+    priceItem.Price10 = (priceItem.Price10 == nil or priceItem.Price10 == 0 or priceItem.Price10 == 1) and priceItem.AveragePrice * 15 or priceItem.Price10
 
     cpt = get_quantity(substrat_de_sylve).quantity["10"]
-	local Priceitem = sale:getPriceItem(substrat_de_sylve, 2)
     while inventory:itemCount(substrat_de_sylve) >= 10 and sale:availableSpace() > 0 and cpt < 4 do 
-		Priceitem = (Priceitem == nil or Priceitem == 0) and sale:getAveragePriceItem(element.Id, 2) * 1.5 or Priceitem
-        sale:SellItem(substrat_de_sylve, 10, Priceitem - 1) 
-        global:printSuccess("1 lot de " .. 10 .. " x " .. inventory:itemNameId(substrat_de_sylve) .. " à " .. Priceitem - 1 .. "kamas")
+        sale:SellItem(substrat_de_sylve, 10, priceItem.Price10 - 1) 
+        global:printSuccess("1 lot de " .. 10 .. " x " .. inventory:itemNameId(substrat_de_sylve) .. " à " .. priceItem.Price10 - 1 .. "kamas")
         cpt = cpt + 1
     end
+
     cpt = get_quantity(substrat_de_sylve).quantity["1"]
-	local Priceitem = sale:getPriceItem(substrat_de_sylve, 1)
     while inventory:itemCount(substrat_de_sylve) >= 1 and sale:availableSpace() > 0 and cpt < 10 do 
-		Priceitem = (Priceitem == nil or Priceitem == 0) and sale:getAveragePriceItem(element.Id, 2) * 1.5 or Priceitem
-        sale:SellItem(substrat_de_sylve, 1, Priceitem - 1) 
-        global:printSuccess("1 lot de " .. 1 .. " x " .. inventory:itemNameId(substrat_de_sylve) .. " à " .. Priceitem - 1 .. "kamas")
+        sale:SellItem(substrat_de_sylve, 1, priceItem.Price1 - 1) 
+        global:printSuccess("1 lot de " .. 1 .. " x " .. inventory:itemNameId(substrat_de_sylve) .. " à " .. priceItem.Price1 - 1 .. "kamas")
         cpt = cpt + 1
     end
 
@@ -1179,9 +1129,11 @@ local function ProcessSell() -- done
         
         npc:npc(333, 5)
 
-        MuflePrice1 = sale:getPriceItem(10669, 1)
-        MuflePrice10 = sale:getPriceItem(10669, 2)
-        MuflePrice100 = sale:getPriceItem(10669, 3)
+        local MuflePrices = GetPricesItem(10669)
+        MuflePrice100 = MuflePrices.Price100
+        MuflePrice10 = MuflePrices.Price10
+        MuflePrice1 = MuflePrices.Price1
+
 
         global:leaveDialog()
 

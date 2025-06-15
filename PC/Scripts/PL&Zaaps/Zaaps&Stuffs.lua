@@ -365,16 +365,6 @@ function equiperDD()
     inventory:useItem(6964)
 end
 
-local function getRemainingSubscription(inDay, acc)
-    local accDeveloper = acc and acc.developer or developer
-
-    local endDate = developer:historicalMessage("IdentificationSuccessMessage")[1].subscriptionEndDate 
-    local now = os.time(os.date("!*t")) * 1000
-
-    endDate = math.floor((endDate - now) / 3600000)
-
-    return inDay and math.floor(endDate / 24) or endDate
-end
 
 function messagesRegistering()
 	developer:registerMessage("HaapiShopApiKeyMessage", _HaapiShopApiKeyMessage)
@@ -395,6 +385,9 @@ local function GoTo(mapToward, action)
 end
 
 function move()
+            debug(map:currentArea())
+        debug(getCurrentAreaName())
+        global:finishScript()
     -- global:printSuccess("ETAPE_ZAAP : " .. global:remember("ETAPE_ZAAP"))
     if character:level() == 1 then
         global:loadAndStart("C:\\Users\\Administrator\\Documents\\snowbot-scripts\\PC\\Scripts\\PL&Zaaps\\PL_1-6X.lua")
@@ -418,14 +411,18 @@ function move()
     end
     
     if global:remember("ETAPE_ZAAP") == 0 then
-        if map:currentArea() ~= "Astrub" and not map:onMap("0,0") then
+        debug(map:currentArea())
+        debug(getCurrentAreaName())
+        if map:currentArea() ~= "Cité d'Astrub" and not map:onMap("0,0") then
             map:changeMap("havenbag")
-        elseif map:currentArea() ~= "Astrub" then
+        elseif map:currentArea() ~= "Cité d'Astrub" then
             map:changeMap("zaap(191105026)")
         end
+        debug("ok")
         if map:onMap(192415750) then
             map:moveToCell(409)
         end
+        debug("ok")
         GoTo("3,-19", function() 
             increment() 
             BuyCityPotions() 

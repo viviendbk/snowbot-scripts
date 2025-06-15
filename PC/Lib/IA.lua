@@ -335,7 +335,13 @@ function DeplacementProche()
     local enemy = fightAction:getNearestEnemy()
     local myCellId = fightCharacter:getCellId()
     local entities = fightAction:getAllEntities()
-    local path = fightAction:getShortestPath(myCellId, enemy, entities)
+    local cellIdEntities = {}
+    for _, entity in ipairs(entities) do
+        if entity.Team and entity.CellId then
+            table.insert(cellIdEntities, entity.CellId)
+        end
+    end
+    local path = fightAction:GetShortestPath(myCellId, enemy, cellIdEntities)
 
     if path and #path > 0 then
         Deplacement()
@@ -344,8 +350,8 @@ function DeplacementProche()
         table.sort(cellProches, function(a, b)
             local distA = fightAction:getDistance(enemy, a)
             local distB = fightAction:getDistance(enemy, b)
-            local pathA = #fightAction:getShortestPath(myCellId, a, entities)
-            local pathB = #fightAction:getShortestPath(myCellId, b, entities)
+            local pathA = #fightAction:GetShortestPath(myCellId, a, cellIdEntities)
+            local pathB = #fightAction:GetShortestPath(myCellId, b, cellIdEntities)
         
             if distA < distB or (distA == distB and pathA < pathB) then
                 return true
@@ -355,7 +361,7 @@ function DeplacementProche()
         end)
         
         for _, element in ipairs(cellProches) do
-            local newPath = fightAction:getShortestPath(myCellId, element, entities)
+            local newPath = fightAction:GetShortestPath(myCellId, element, cellIdEntities)
             if newPath and #newPath > 0 then
                 fightAction:moveTowardCell(element)
                 global:delay(math.random(400, 700))
@@ -369,55 +375,53 @@ function MoveInLineOf(cellId, max)
     if not cellId then
         return
     end
-    Deplacement() -- à retirer
 
+	local listCellId = fightAction:getCells_cross(cellId, 1, max)
+	local listCellIdWithDistance = {}
+    local entities = fightAction:getAllEntities()
 
-	-- local listCellId = fightAction:getCells_cross(cellId, 1, max)
-	-- local listCellIdWithDistance = {}
-    -- local entities = fightAction:getAllEntities()
-    -- --debug("0")
-    -- --debug(type(entities))
-    -- --debug(type(cellId))
-    -- --debug(type(fightCharacter:getCellId()))
-    -- local a = fightAction:getShortestPath(fightCharacter:getCellId(), cellId, entities)
-    -- --debug("ok")
-    -- local distance = #fightAction:getShortestPath(fightCharacter:getCellId(), cellId, entities)
+    local cellIdEntities = {}
+    for _, entity in ipairs(entities) do
+        if entity.Team and entity.CellId then
+            table.insert(cellIdEntities, entity.CellId)
+        end
+    end
 
-    -- --debug("1")
-    -- if distance <= fightCharacter:getMP() then
-    --     Deplacement()
-    --     return
-    -- end
-    -- --debug("2")
+    local distance = #fightAction:GetShortestPath(fightCharacter:getCellId(), cellId, cellIdEntities)
 
-	-- if (not Contain(listCellId, fightCharacter:getCellId()) and distance > max) 
-	--     or not fightAction:inLineOfSight(fightCharacter:getCellId(), cellId) then -- si on est déjà en ligne alors on ne bouge pas
-    --     for _, cell in ipairs(listCellId) do
-	-- 		if fightAction:isWalkable(cell) and fightAction:isFreeCell(cell) then
-	-- 			local element = {
-	-- 				CellId = cell,
-	-- 				NbPMNeeded = #fightAction:getShortestPath(fightCharacter:getCellId(), cell, entities),
-	-- 				IsInLineOfSight = fightAction:inLineOfSight(cell, cellId)
-	-- 			}
-	-- 			table.insert(listCellIdWithDistance, element)
-	-- 		end
-    --     end
-    --     --debug("3")
-    --     table.sort(listCellIdWithDistance, function (a, b)
-    --         return a.NbPMNeeded < b.NbPMNeeded
-    --     end)
-	-- 	for _, element in ipairs(listCellIdWithDistance) do
-    --         --debug("4")
-	-- 		if not IsHandToHandEnemy() and element.NbPMNeeded ~= nil and (fightCharacter:getMP() >= element.NbPMNeeded) and element.IsInLineOfSight then
-    --             local currentCellId = fightCharacter:getCellId()
-	-- 			fightAction:moveTowardCell(element.CellId)
-	-- 			if currentCellId == fightCharacter:getCellId() then
-	-- 				fightAction:moveTowardCell(cellId)
-	-- 			end
-	-- 			break
-	-- 		end
-	-- 	end
-	-- end
+    if distance <= fightCharacter:getMP() then
+        Deplacement()
+        return
+    end
+
+	if (not Contain(listCellId, fightCharacter:getCellId()) and distance > max) 
+	    or not fightAction:inLineOfSight(fightCharacter:getCellId(), cellId) then -- si on est déjà en ligne alors on ne bouge pas
+        for _, cell in ipairs(listCellId) do
+			if fightAction:isWalkable(cell) and fightAction:isFreeCell(cell) then
+				local element = {
+					CellId = cell,
+					NbPMNeeded = #fightAction:GetShortestPath(fightCharacter:getCellId(), cell, cellIdEntities),
+					IsInLineOfSight = fightAction:inLineOfSight(cell, cellId)
+				}
+				table.insert(listCellIdWithDistance, element)
+			end
+        end
+
+        table.sort(listCellIdWithDistance, function (a, b)
+            return a.NbPMNeeded < b.NbPMNeeded
+        end)
+		for _, element in ipairs(listCellIdWithDistance) do
+
+            if not IsHandToHandEnemy() and element.NbPMNeeded ~= nil and (fightCharacter:getMP() >= element.NbPMNeeded) and element.IsInLineOfSight then
+                local currentCellId = fightCharacter:getCellId()
+				fightAction:moveTowardCell(element.CellId)
+				if currentCellId == fightCharacter:getCellId() then
+					fightAction:moveTowardCell(cellId)
+				end
+				break
+			end
+		end
+	end
 end
 
 function Cac(cellid)
@@ -710,7 +714,15 @@ function DeplacementProcheSlave()
     local enemy = fightAction:getNearestEnemy()
     local myCellId = fightSlave:cellId()
     local entities = fightAction:getAllEntities()
-    local path = fightAction:getShortestPath(myCellId, enemy, entities)
+
+    local cellIdEntities = {}
+    for _, entity in ipairs(entities) do
+        if entity.Team and entity.CellId then
+            table.insert(cellIdEntities, entity.CellId)
+        end
+    end
+
+    local path = fightAction:GetShortestPath(myCellId, enemy, cellIdEntities)
 
     if path and #path > 0 then
         DeplacementSlave()
@@ -719,8 +731,8 @@ function DeplacementProcheSlave()
         table.sort(cellProches, function(a, b)
             local distA = fightAction:getDistance(enemy, a)
             local distB = fightAction:getDistance(enemy, b)
-            local pathA = #fightAction:getShortestPath(myCellId, a, entities)
-            local pathB = #fightAction:getShortestPath(myCellId, b, entities)
+            local pathA = #fightAction:GetShortestPath(myCellId, a, cellIdEntities)
+            local pathB = #fightAction:GetShortestPath(myCellId, b, cellIdEntities)
         
             if distA < distB or (distA == distB and pathA < pathB) then
                 return true
@@ -729,7 +741,7 @@ function DeplacementProcheSlave()
             end
         end)
         for _, element in ipairs(cellProches) do
-            local newPath = fightAction:getShortestPath(myCellId, element, entities)
+            local newPath = fightAction:GetShortestPath(myCellId, element, cellIdEntities)
             if newPath and #newPath > 0 then
                 fightSlave:moveToWardCell(element)
                 global:delay(math.random(400, 700))
@@ -746,7 +758,15 @@ function MoveInLineOfForSlave(cellId, max) -- uniquement pour Mot Concussifs
 	local listCellId = fightAction:getCells_cross(cellId, 1, max)
 	local listCellIdWithDistance = {}
     local entities = fightAction:getAllEntities()
-    local distance = #fightAction:getShortestPath(fightCharacter:getCellId(), cellId, entities)
+
+    local cellIdEntities = {}
+    for _, entity in ipairs(entities) do
+        if entity.Team and entity.CellId then
+            table.insert(cellIdEntities, entity.CellId)
+        end
+    end
+
+    local distance = #fightAction:GetShortestPath(fightCharacter:getCellId(), cellId, cellIdEntities)
 
     if distance <= fightCharacter:getMP() then
         DeplacementSlave()
@@ -758,7 +778,7 @@ function MoveInLineOfForSlave(cellId, max) -- uniquement pour Mot Concussifs
 			if fightAction:isWalkable(cell) and fightAction:isFreeCell(cell) then
 				local element = {
 					CellId = cell,
-					NbPMNeeded = #fightAction:getShortestPath(fightSlave:cellId(), cell, entities),
+					NbPMNeeded = #fightAction:GetShortestPath(fightSlave:cellId(), cell, cellIdEntities),
 					IsInLineOfSight = fightAction:inLineOfSight(cell, cellId)
 				}
 				table.insert(listCellIdWithDistance, element)

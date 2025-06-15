@@ -678,62 +678,22 @@ function _GetMessagePrices(message)
     local messageDeBase = message
     message = message.bid_price_for_seller.minimal_prices
 
-
-    -- local pricesList = {}
-    -- for i = 0, #message - 1 do
-    --     table.insert(pricesList, tonumber(message[i]))
-    -- end    
-    -- printVar(pricesList)
-
-
-    -- local file = io.open("C:\\Users\\Administrator\\Documents\\snowbot-scripts\\PC\\a.txt", "r")
-    -- if not file then
-    --   return nil, "Unable to open file"
-    -- end
-  
-    -- file:write(message, "\n")
-    -- file:close()
-
-
-
-
-
-    -- printVar(pricesList)
-    -- debug(type(pricesList))
-    -- debug(type(pricesList[1]))
-    -- debug(math.floor(pricesList[1]))
-    -- debug(pricesList[1] *2)
-    -- debug(tostring(test(pricesList[1] + 1)) == "0") -- fonctionne
-
-    -- debug(test(pricesList[1] == 1))
-    -- pricesList[1] = pricesList[1] + 1 -- focntionne
-    -- global:printSuccess(pricesList[1] == 0) -- fonctionne pas
-
-    -- a = "ok " .. pricesList[1]
-    -- global:printSuccess(a:find("ok")) -- fonctionne
-    -- global:printSuccess(a:find("p")) -- fonctionne pas
-
-    -- debug(a)
-    -- debug(a:find("p"))
-    -- debug(pricesList[1] == pricesList[1])
-
-
-    -- local AveragePrice = 0
-    -- if pricesList[2] == 0 and pricesList[3] == 0 then
-    --     AveragePrice = pricesList[1]
-    -- elseif pricesList[3] == 0 and pricesList[1] == 0 then
-    --     AveragePrice = pricesList[2] / 10
-    -- elseif pricesList[2] == 0 and pricesList[1] == 0 then
-    --     AveragePrice = pricesList[3] / 100
-    -- elseif pricesList[3] ~= 0 and pricesList[1] ~= 0 and pricesList[2] ~= 0 then
-    --     AveragePrice =(pricesList[3] / 100 + pricesList[2] / 10 + pricesList[1]) / 3
-    -- elseif pricesList[3] == 0 then
-    --     AveragePrice = (pricesList[2] / 10 + pricesList[1]) / 2
-    -- elseif pricesList[2] == 0 then
-    --     AveragePrice = (pricesList[3] / 100 + pricesList[1]) / 2
-    -- elseif pricesList[1] == 0 then
-    --     AveragePrice = (pricesList[3] / 100 + pricesList[2] / 10) / 2
-    -- end
+    local AveragePrice = 0
+    if message[1] == 0 and message[2] == 0 then
+        AveragePrice = message[0]
+    elseif message[2] == 0 and message[0] == 0 then
+        AveragePrice = message[1] / 10
+    elseif message[1] == 0 and message[0] == 0 then
+        AveragePrice = message[2] / 100
+    elseif message[2] ~= 0 and message[0] ~= 0 and message[1] ~= 0 then
+        AveragePrice = (message[2] / 100 + message[1] / 10 + message[0]) / 3
+    elseif message[2] == 0 then
+        AveragePrice = (message[1] / 10 + message[0]) / 2
+    elseif message[1] == 0 then
+        AveragePrice = (message[2] / 100 + message[0]) / 2
+    elseif message[0] == 0 then
+        AveragePrice = (message[2] / 100 + message[1] / 10) / 2
+    end
 
     Prices = {
         Id = messageDeBase.object_gid,
@@ -741,7 +701,7 @@ function _GetMessagePrices(message)
         Price10 = message[1],
         Price100 = message[2],
         AveragePrice = messageDeBase.average_price,
-        -- TrueAveragePrice = math.floor(AveragePrice)
+        TrueAveragePrice = math.floor(AveragePrice)
     }
 end
 

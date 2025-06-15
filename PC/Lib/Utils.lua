@@ -28,8 +28,8 @@ function customReconnect(minutes)
     local currentTime = os.time()
     local reconnectTime = currentTime + (minutes * 60)
 
-    global:printMessage("Le script sera en pause jusqu'à " .. os.date("%H:%M:%S", reconnectTime) .. ". Déconnexion du compte.")
-    global:editAlias(global:thisAccountController():getAlias() .. "Reconnect at " .. os.date("%H:%M:%S", reconnectTime), false)
+    global:printMessage("Le script sera en pause jusqu'à " .. os.date("%Y-%m-%d %H:%M:%S", reconnectTime) .. ". Déconnexion du compte.")
+    global:editAlias(global:thisAccountController():getAlias() .. "Reconnect at " .. os.date("%Y-%m-%d %H:%M:%S", reconnectTime), false)
     global:disconnect()
 end
 
@@ -834,32 +834,6 @@ end
 ipproxy = "193.252.210.41"
 
 function connectAccountsWithFailleProxy()
-    local connexionFile = openFile(global:getCurrentScriptDirectory() .. "\\connexion.json")
-
-
-    if not connexionFile or #connexionFile == 0 or not connexionFile[1].inUse then
-        connexionFile[1] = {
-                inUse = true,
-                by = global:thisAccountController():getAlias(),
-                date = os.date("%Y-%m-%d %H:%M:%S")
-            }
-
-        writeToJsonFile(global:getCurrentScriptDirectory() .. "\\connexion.json", connexionFile)
-    elseif connexionFile[1].inUse and compareDateTime(os.date("%Y-%m-%d %H:%M:%S"), connexionFile[1].date) < 20 * 60 then
-        global:printError("Un autre script est déjà en train de se connecter, on attend 2 minutes")
-        connexionFile:close()
-        global:delay(120000)
-        return connectAccountsWithFailleProxy() -- Retenter la connexion
-    elseif connexionFile[1].inUse and compareDateTime(os.date("%Y-%m-%d %H:%M:%S"), connexionFile[1].date) >= 20 * 60 
-    and json.decode(developer:getRequest("http://" .. ipproxy .. "/status?proxy=p:5001")).status then
-        -- Si le script de connexion a planté, on le relance
-        global:printError("Le script de connexion a planté, on le relance")
-        connexionFile[1].inUse = false
-        connexionFile[1].by = ""
-        connexionFile[1].date = ""
-        writeToJsonFile(global:getCurrentScriptDirectory() .. "\\connexion.json", connexionFile)
-        return connectAccountsWithFailleProxy() -- Retenter la connexion
-    end
 
     local loadedAccounts = snowbotController:getLoadedAccounts()
         local accountsToConnectByServer =  {
@@ -885,7 +859,32 @@ function connectAccountsWithFailleProxy()
     end
 
     global:printSuccess("Il y a " .. nbVagues .. " vagues de connexion à faire")
+    if nbVagues > 0 then
+        local connexionFile = openFile(global:getCurrentScriptDirectory() .. "\\connexion.json")
 
+        if not connexionFile or #connexionFile == 0 or not connexionFile[1].inUse then
+            connexionFile[1] = {
+                    inUse = true,
+                    by = global:thisAccountController():getAlias(),
+                    date = os.date("%Y-%m-%d %H:%M:%S")
+                }
+
+            writeToJsonFile(global:getCurrentScriptDirectory() .. "\\connexion.json", connexionFile)
+        elseif connexionFile[1].inUse and compareDateTime(os.date("%Y-%m-%d %H:%M:%S"), connexionFile[1].date) < 20 * 60 then
+            global:printError("Un autre script est déjà en train de se connecter, on attend 2 minutes")
+            global:delay(120000)
+            return connectAccountsWithFailleProxy() -- Retenter la connexion
+        elseif connexionFile[1].inUse and compareDateTime(os.date("%Y-%m-%d %H:%M:%S"), connexionFile[1].date) >= 20 * 60 
+        and json.decode(developer:getRequest("http://" .. ipproxy .. "/status?proxy=p:5001")).status then
+            -- Si le script de connexion a planté, on le relance
+            global:printError("Le script de connexion a planté, on le relance")
+            connexionFile[1].inUse = false
+            connexionFile[1].by = ""
+            connexionFile[1].date = ""
+            writeToJsonFile(global:getCurrentScriptDirectory() .. "\\connexion.json", connexionFile)
+            return connectAccountsWithFailleProxy() -- Retenter la connexion
+        end
+    end
 
     -- 4. Connexion par vague
     for i = 1, nbVagues do
@@ -913,6 +912,13 @@ function connectAccountsWithFailleProxy()
             global:printMessage("Nouvelle IP : " .. nouvelleIp)
         else
             global:printError("L'IP n'a pas changé, on retente dans 10 secondes")
+
+            local connexionFile = openFile(global:getCurrentScriptDirectory() .. "\\connexion.json")
+            connexionFile[1].inUse = false
+            connexionFile[1].by = ""
+            connexionFile[1].date = ""
+            writeToJsonFile(global:getCurrentScriptDirectory() .. "\\connexion.json", connexionFile)
+
             global:delay(10000) -- Attendre 1 minute avant de retenter
             return connectAccountsWithFailleProxy() -- Retenter la connexion
         end
@@ -938,5 +944,37 @@ end
 --- interaction bot bank ---
 
 
+function getCurrentAreaName()
+    local areaEquivalences = {
+    ["58"] = "Astrub",
+    ["7"] = "Bonta",
+    ["Brâkmar"] = "Brâkmar",
+    ["Sufokia"] = "Sufokia",
+    ["48"] = "Île de Frigost",
+    ["78"] = "Île de Pandala",
+    ["Île de Nowel"] = "Nowel",
+    ["Île de Grobe"] = "Grobe",
+    ["Île des Wabbits"] = "Wabbit",
+    ["Île de Moon"] = "Moon",
+    ["Île de Frigost 3"] = "Frigost 3",
+    ["8"] = "Plaines de Cania",
+    ["28"] = "Montagne des Koalaks",
+    ["12"] = "Landes de Sidimote",
+    ["46"] = "Île d'Otomaï"
+}
 
+    local currentArea = map:currentArea()
+    if not currentArea then
+        return "Inconnu"
+    end
+
+    -- On vérifie si l'ID de la zone est dans les équivalences
+    local areaId = tostring(currentArea)
+    if areaEquivalences[areaId] then
+        return areaEquivalences[areaId]
+    end
+
+    -- Si pas d'équivalence, on retourne le nom de la zone
+    return currentArea.name or "Inconnu"
+end
 
