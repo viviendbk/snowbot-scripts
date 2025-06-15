@@ -35,6 +35,21 @@ local function mapDelay()
 	end
 end
 
+local function conditionTakeKamas()
+
+    if global:thisAccountController():getAlias():find("Mineur")
+    or global:thisAccountController():getAlias():find("Bucheron")
+    or global:thisAccountController():getAlias():find("LvlUp") then
+        if (getRemainingSubscription(true) > 0 and character:kamas() < 500000)
+        or job:level(2) > 5 or job:level(24) > 5 then
+            return true
+        end
+        return false
+    end
+
+    return true
+end
+
 function move()
     mapDelay()
     -- if (getRemainingSubscription(true) >= 0 and not global:thisAccountController():getAlias():find("Draconiros")) 
@@ -45,8 +60,15 @@ function move()
     --         global:loadAndStart("C:\\Users\\Administrator\\Documents\\snowbot-scripts\\PC\\Scripts\\PL&Zaaps\\quete_pandala.lua")
     --     end
     -- end
+    if not global:thisAccountController():getAlias():find("Combat") and not global:thisAccountController():getAlias():find("Craft")
+    and not global:thisAccountController():getAlias():find("Groupe") and not global:remember("firstDecoReco") then
+        global:addInMemory("firstDecoReco", true)
+        global:printSuccess("On se déco reco pour voir si on est abonné")
+        global:disconnect()
+        return
+    end
 
-    if not global:remember("doneTransfert") and getRemainingSubscription(true) < 2 then
+    if not global:remember("doneTransfert") and conditionTakeKamas() then
         local submitKamas = 0
         if character:kamas() < 2000000 then
 

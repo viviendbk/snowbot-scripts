@@ -1113,6 +1113,7 @@ function move()
 			if map:onMap("192415750") then
 				map:moveToCell(409)
 			end
+
 			if not map:onMap("4,-17") then
 				debugMoveTowardMap(4, -17)
 			end
@@ -1127,16 +1128,17 @@ function move()
 			stop()
 		end
 	end
-	
+
+		debug("ok")
 
 	-- craft couteau de chasse
-	if (inventory:itemCount(1934) == 0) and (inventory:itemCount(519) < 3) then
+	if (inventory:itemCount(1934) == 0) and (inventory:itemCount(519) < 3) and character:level() < 50 then
 		MAX_MONSTERS = (character:level() < 8) and 2 or 3
 		return (character:level() > 2) and Champs or RouteDesAmes
-	elseif (inventory:itemCount(1934) == 0) and (inventory:itemCount(16511) < 3) then
+	elseif (inventory:itemCount(1934) == 0) and (inventory:itemCount(16511) < 3) and character:level() < 50 then
 		MAX_MONSTERS = (character:level() < 8) and 2 or 3
 		return Paturages
-	elseif inventory:itemCount(1934) == 0 then
+	elseif inventory:itemCount(1934) == 0 and character:level() < 50 then
 		if not map:onMap(153355264) then
 			debugMoveToward(153355264)
 		else
@@ -1152,7 +1154,8 @@ function move()
 		end
 	end
 	
-	
+		debug("ok")
+
 
 	-- monter chasseur niveau 10
 	if (inventory:itemCount(16663) < 78) and (job:level(41) < 10) then

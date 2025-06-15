@@ -587,7 +587,7 @@ function move()
     elseif global:remember("ETAPE_ZAAP") == 6 then
         GoTo("-1,13", function ()
             increment()
-            map:changeMap("bottom")
+            map:changeMap("right")
         end)
     elseif global:remember("ETAPE_ZAAP") == 7 then
         return {

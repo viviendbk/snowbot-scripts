@@ -1004,6 +1004,8 @@ function debugMoveToward(mapToward)
 end
 
 function debugMoveTowardMap(x, y)
+    		debug("aaaa")
+
 	if not map:moveTowardMap(x, y) then
 		map:changeMap("top|bottom|left|right")
 	end

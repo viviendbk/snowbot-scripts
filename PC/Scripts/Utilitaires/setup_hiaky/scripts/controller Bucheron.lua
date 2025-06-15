@@ -362,7 +362,7 @@ local function ExporterComptes()
     end   
 
 
-    f = io.open("C:\\Users\\Administrator\\Documents\\snowbot-scripts\\PC\\CompteBucheron.txt", "w")
+    f = io.open("C:\\Users\\Administrator\\Documents\\snowbot-scripts\\PC\\ComptesBucheron.txt", "w")
 
 
     f:write(content)
