@@ -741,6 +741,54 @@ function GetPricesItem(Id)
     end
 end
 
+PricesUpdate = {
+    Id = -1,
+    Price1 = -1,
+    Price10 = -1,
+    Price100 = -1
+}
+
+function restPriceUpdate()
+    PricesUpdate = {
+        Id = -1,
+        Price1 = -1,
+        Price10 = -1,
+        Price100 = -1
+    }   
+end
+
+function _updatePrices(message)
+    developer:unRegisterMessage("ExchangeBidHouseBuyResultMessage")
+    local prices = message.prices
+
+    PricesUpdate = {
+        Id = message.objectGID,
+        Price1 = prices[0],
+        Price10 = prices[1],
+        Price100 = prices[2],
+    }
+end
+
+function buy(objectId, quantity, price)
+    sale:buyItem(objectId, quantity, price * 2)
+    -- on arrive sur l'interface ou y'a les infos de la ressource en question
+    -- local message = developer:createMessage("ExchangeBidHouseSearchRequest")
+    -- message.object_uid = objectId
+    -- message.follow = true
+    -- developer:sendMessage(message)
+    -- developer:suspendScriptUntil("ExchangeTypesItemsExchangerDescriptionForUserEvent", 5000, false, nil, 20)
+
+    -- -- on achète
+    -- developer:registerMessage("ExchangeBidHouseBuyResultMessage", _updatePrices)
+    -- message = developer:createMessage("ExchangeBidHouseBuyRequest")
+    -- message.uid = objectId
+    -- message.quantity = quantity
+    -- message.price = price
+    -- developer:sendMessage(message)
+    -- developer:suspendScriptUntil("ExchangeBidHouseBuyResultMessage", 5000, false, nil, 20)
+
+end
+
 function Achat(IdItem, qtt)
     if inventory:itemCount(IdItem) > 20000 then -- protection car un miment ça a acheté 460k d'une ressoruce
         return false
@@ -809,14 +857,21 @@ function Achat(IdItem, qtt)
                 customReconnect(120)
             end
             if ((Prices.Price10 * 1.2 < Prices.Price100 / 10) and Prices.Price10 ~= 0) or Prices.Price100 == 0 then
+
                 for i = 1, 10 do
-                    sale:buyItem(IdItem, 10, Prices.Price10 * 2)
+                    local finalPrice = PricesUpdate.Price10 > 0 and PricesUpdate ~= Prices.Price10 and PricesUpdate.Price10 or Prices.Price10
+                    buy(IdItem, 10, finalPrice)
+                    restPriceUpdate()
                 end
+
                 local nbRessourceManquante = NbDeBdase + Quantite - inventory:itemCount(IdItem) -- 50 de base 50 acheter
                 return Achat(IdItem, nbRessourceManquante)
+
             elseif Prices.Price100 == 0 and Prices.Price10 == 0 then
                 for i = 1, 10 do
-                    sale:buyItem(IdItem, 1, Prices.Price1 * 2)
+                    local finalPrice = PricesUpdate.Price1 > 0 and PricesUpdate ~= Prices.Price1 and PricesUpdate.Price1 or Prices.Price1
+                    buy(IdItem, 1, finalPrice)
+                    restPriceUpdate()
                 end
                 local nbRessourceManquante = NbDeBdase + Quantite - inventory:itemCount(IdItem) -- 50 de base 50 acheter
                 return Achat(IdItem, nbRessourceManquante)
@@ -831,12 +886,16 @@ function Achat(IdItem, qtt)
             end
             if ((Prices.Price1 * 1.2 < Prices.Price10 / 10) and Prices.Price1 ~= 0) or Prices.Price10 == 0 then
                 for i = 1, 10 do
-                    sale:buyItem(IdItem, 1, Prices.Price1 * 2)
+                    local finalPrice = PricesUpdate.Price1 > 0 and PricesUpdate ~= Prices.Price1 and PricesUpdate.Price1 or Prices.Price1
+                    buy(IdItem, 1, finalPrice)
+                    restPriceUpdate()
                 end
                 local nbRessourceManquante = NbDeBdase + Quantite - inventory:itemCount(IdItem) -- 50 de base 50 acheter
                 return Achat(IdItem, nbRessourceManquante)
             else
-                sale:buyItem(IdItem, 10, Prices.Price10 * 2)
+                local finalPrice = PricesUpdate.Price10 > 0 and PricesUpdate ~= Prices.Price10 and PricesUpdate.Price10 or Prices.Price10
+                buy(IdItem, 10, finalPrice)
+                restPriceUpdate()
                 qtt = qtt - 10
             end
         elseif qtt >= 1 and qtt < 10 then
@@ -1380,3 +1439,5 @@ function buyWorthItem(objectId, limit)
 
     -- itemList = {}
 end
+
+

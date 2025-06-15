@@ -552,23 +552,65 @@ function move()
         if map:onMap(70778880) then
             map:moveToCell(443)
         end
-        if map:onMap("-2,-9") or map:onMap("-3,-8") then
-            map:changeMap("left")
-        end
-        GoTo("-2,0", function ()
-            increment()
-            map:changeMap("bottom")
-        end)
+        return {
+            {map = "5,-18", path = "bottom"},
+            {map = "5,-17", path = "bottom"},
+            {map = "5,-16", path = "bottom"},
+            {map = "5,-15", path = "bottom"},
+            {map = "5,-14", path = "bottom"},
+            {map = "5,-13", path = "bottom"},
+            {map = "5,-12", path = "bottom"},
+            {map = "5,-11", path = "bottom"},
+            {map = "5,-10", path = "left"},
+            {map = "4,-10", path = "left"},
+            {map = "3,-10", path = "left"},
+            {map = "2,-10", path = "bottom"},
+            {map = "2,-9", path = "bottom"},
+            {map = "2,-8", path = "left"},
+            {map = "1,-8", path = "bottom"},
+            {map = "1,-7", path = "left"},
+            {map = "0,-6", path = "bottom"},
+            {map = "0,-7", path = "bottom"},
+            {map = "0,-5", path = "bottom"},
+            {map = "0,-4", path = "bottom"},
+            {map = "0,-3", path = "bottom"},
+            {map = "0,-2", path = "bottom"},
+            {map = "0,-1", path = "left"},
+            {map = "-1,0", path = "left"},
+            {map = "-1,-1", path = "bottom"},
+            {map = "-2,0",  custom = function ()
+                increment()
+                map:changeMap("bottom")   
+            end},
+
+        }
     elseif global:remember("ETAPE_ZAAP") == 6 then
         GoTo("-1,13", function ()
             increment()
             map:changeMap("bottom")
         end)
     elseif global:remember("ETAPE_ZAAP") == 7 then
-        GoTo("-1,24", function ()
-            increment()
-            map:changeMap("right")
-        end)
+        return {
+            {map = "-1,13", path = "right"},
+            {map = "0,13", path = "right"},
+            {map = "1,13", path = "bottom"},
+            {map = "1,14", path = "bottom"},
+            {map = "1,15", path = "bottom"},
+            {map = "1,16", path = "bottom"},
+            {map = "1,17", path = "bottom"},
+            {map = "1,18", path = "bottom"},
+            {map = "1,20", path = "bottom"},
+            {map = "1,19", path = "bottom"},
+            {map = "1,21", path = "bottom"},
+            {map = "1,22", path = "bottom"},
+            {map = "1,23", path = "bottom"},
+            {map = "1,24", path = "left"},
+            {map = "0,24", path = "left"},
+            {map = "-1,24", custom = function ()
+                increment()
+                map:changeMap("right")
+            end},
+        }
     elseif global:remember("ETAPE_ZAAP") == 8 then
         GoTo("10,22", function ()
             increment()
@@ -585,46 +627,183 @@ function move()
             map:changeMap("right")
         end)
     elseif global:remember("ETAPE_ZAAP") == 11 then
-        GoTo("12,-6", function ()
+        return {
+            {map = "-1,13", path = "right"},
+            {map = "0,13", path = "right"},
+            {map = "1,13", path = "bottom"},
+            {map = "1,14", path = "bottom"},
+            {map = "1,15", path = "bottom"},
+            {map = "1,16", path = "bottom"},
+            {map = "1,17", path = "bottom"},
+            {map = "1,18", path = "bottom"},
+            {map = "1,20", path = "bottom"},
+            {map = "1,19", path = "bottom"},
+            {map = "1,21", path = "bottom"},
+            {map = "1,22", path = "bottom"},
+            {map = "1,23", path = "bottom"},
+            {map = "1,24", path = "left"},
+            {map = "0,24", path = "left"},
+            {map = "7,-4", path = "bottom"},
+            {map = "7,-3", path = "right"},
+            {map = "10,-5", path = "right"},
+            {map = "11,-6", path = "right"},
+            {map = "8,-3", path = "right"},
+            {map = "9,-3", path = "top"},
+            {map = "9,-4", path = "top"},
+            {map = "9,-5", path = "right"},
+            {map = "11,-5", path = "top"},
+            {map = "12,-6", custom = function ()
             increment()
             npc:npc(3464,3)
             npc:reply(-1)
-        end)
+        end},
+        }
     elseif global:remember("ETAPE_ZAAP") == 12 then
         GoTo("15,-58", function ()
             increment()
             map:changeMap("zaap(191105026)")
         end)
     elseif global:remember("ETAPE_ZAAP") == 13 then
+        if map:onMap("5,-18") or map:onMap("4,-18") or map:onMap("3,-18") then
+            map:changeMap("left")
+        end
         GoTo("-5,-23", function ()
             increment()
             map:changeMap("left")
         end)
     elseif global:remember("ETAPE_ZAAP") == 14 then
-        GoTo("-13,-28", function ()
+        return {
+            		{map = "-1,13", path = "right"},
+		{map = "0,13", path = "right"},
+		{map = "1,13", path = "bottom"},
+		{map = "1,14", path = "bottom"},
+		{map = "1,15", path = "bottom"},
+		{map = "1,16", path = "bottom"},
+		{map = "1,17", path = "bottom"},
+		{map = "1,18", path = "bottom"},
+		{map = "1,20", path = "bottom"},
+		{map = "1,19", path = "bottom"},
+		{map = "1,21", path = "bottom"},
+		{map = "1,22", path = "bottom"},
+		{map = "1,23", path = "bottom"},
+		{map = "1,24", path = "left"},
+		{map = "0,24", path = "left"},
+		{map = "7,-4", path = "bottom"},
+		{map = "7,-3", path = "right"},
+		{map = "10,-5", path = "right"},
+		{map = "11,-6", path = "right"},
+		{map = "8,-3", path = "right"},
+		{map = "9,-3", path = "top"},
+		{map = "9,-4", path = "top"},
+		{map = "9,-5", path = "right"},
+		{map = "11,-5", path = "top"},
+		{map = "12,-6", path = "top"},
+		{map = "-5,-22", path = "bottom"},
+		{map = "-5,-23", path = "bottom"},
+		{map = "-5,-21", path = "bottom"},
+		{map = "-5,-20", path = "left"},
+		{map = "-6,-20", path = "left"},
+		{map = "-7,-20", path = "left"},
+		{map = "-8,-20", path = "left"},
+		{map = "-9,-20", path = "left"},
+		{map = "-10,-20", path = "left"},
+		{map = "-11,-20", path = "left"},
+		{map = "-12,-20", path = "top"},
+		{map = "-13,-21", path = "top"},
+		{map = "-13,-22", path = "top"},
+		{map = "-13,-24", path = "top"},
+		{map = "-13,-25", path = "top"},
+		{map = "-13,-26", path = "top"},
+		{map = "-13,-27", path = "top"},
+		{map = "-13,-23", path = "top"},
+		{map = "-12,-21", path = "left"},
+        {map = "-13,-28", custom = function ()
             increment()
             map:changeMap("top")
-        end)
+        end},
+        }
     elseif global:remember("ETAPE_ZAAP") == 15 then
-        GoTo("-3,-42", function ()
+        return {
+            		{map = "-13,-28", path = "top"},
+		{map = "-13,-29", path = "top"},
+		{map = "-13,-30", path = "top"},
+		{map = "-11,-31", path = "top"},
+		{map = "-11,-32", path = "top"},
+		{map = "-11,-33", path = "top"},
+		{map = "-11,-34", path = "top"},
+		{map = "-3,-41", path = "top"},
+		{map = "-3,-40", path = "top"},
+		{map = "-3,-39", path = "top"},
+		{map = "-3,-38", path = "top"},
+		{map = "-3,-37", path = "top"},
+		{map = "-3,-36", path = "top"},
+		{map = "-13,-31", path = "right"},
+		{map = "-12,-31", path = "right"},
+		{map = "-11,-35", path = "right"},
+		{map = "-10,-35", path = "right"},
+		{map = "-9,-35", path = "right"},
+		{map = "-8,-35", path = "right"},
+		{map = "-7,-35", path = "right"},
+		{map = "-6,-35", path = "right"},
+		{map = "-5,-35", path = "right"},
+		{map = "-4,-35", path = "right"},
+		{map = "-3,-35", path = "top"},
+        {map = "-3,-42", custom = function ()
             increment()
             map:changeMap("top")
-        end)
+        end},
+        }
     elseif global:remember("ETAPE_ZAAP") == 16 then
         GoTo("-9,-43", function ()
             increment()
             map:changeMap("top")
         end)
     elseif global:remember("ETAPE_ZAAP") == 17 then
-        GoTo("0,-56", function ()
-            increment()
-            map:changeMap("bottom")
-        end)
+        return {
+        {map = "-9,-42", path = "top"},
+		{map = "-9,-43", path = "top"},
+		{map = "-9,-44", path = "top"},
+		{map = "-9,-45", path = "top"},
+		{map = "-9,-46", path = "top"},
+		{map = "-9,-47", path = "top"},
+		{map = "-9,-50", path = "top"},
+		{map = "-9,-49", path = "top"},
+		{map = "-9,-51", path = "top"},
+		{map = "-9,-52", path = "top"},
+		{map = "-9,-53", path = "top"},
+		{map = "-9,-54", path = "top"},
+		{map = "-9,-56", path = "top"},
+		{map = "-9,-55", path = "top"},
+		{map = "-9,-57", path = "right"},
+		{map = "-8,-57", path = "right"},
+		{map = "-7,-57", path = "right"},
+		{map = "-6,-57", path = "right"},
+		{map = "-5,-57", path = "right"},
+		{map = "-4,-57", path = "bottom"},
+        {map = "-4,-56", path = "bottom"},
+		{map = "-4,-55", path = "bottom"},
+		{map = "-4,-54", path = "bottom"},
+		{map = "-4,-53", path = "bottom"},
+		{map = "-4,-52", path = "right"},
+		{map = "-3,-52", path = "right"},
+		{map = "-2,-52", path = "top"},
+		{map = "-1,-53", door = "302"},
+		{map = "0,-54", path = "top"},
+		{map = "0,-55", path = "top"},
+		{map = "-2,-54", path = "right"},
+		{map = "-1,-54", path = "right"},
+		{map = "-9,-48", path = "top"},
+            {map = "0,-56", custom = function ()
+                increment()
+                map:changeMap("havenbag")
+            end},
+        }
     elseif global:remember("ETAPE_ZAAP") == 18 then
-        GoTo("-12,-60", function ()
+        if map:onMap("0,0") then
             increment()
-            map:changeMap("left")
-        end)
+            map:changeMap("zaap(156240386)")
+        end
+        map:changeMap("havenbag")
     elseif global:remember("ETAPE_ZAAP") == 19 then
         GoTo("-17,-47", function ()
             increment()
@@ -636,18 +815,79 @@ function move()
             map:changeMap("right")
         end)
     elseif global:remember("ETAPE_ZAAP") == 21 then
-        GoTo("-20,-20", function ()
-            increment()
-            map:changeMap("bottom")
-        end)
+        return {
+            {map = "-27,-36", path = "right"},
+            {map = "-26,-36", path = "right"},
+            {map = "-25,-36", path = "right"},
+            {map = "-24,-36", path = "right"},
+            {map = "-23,-36", path = "right"},
+            {map = "-22,-36", path = "right"},
+            {map = "-21,-36", path = "right"},
+            {map = "-20,-36", path = "right"},
+            {map = "-19,-36", path = "bottom"},
+            {map = "-19,-35", path = "bottom"},
+            {map = "-19,-34", path = "bottom"},
+            {map = "-19,-33", path = "bottom"},
+            {map = "-19,-32", path = "bottom"},
+            {map = "-19,-31", path = "bottom"},
+            {map = "-19,-30", path = "bottom"},
+            {map = "-19,-29", path = "bottom"},
+            {map = "-20,-21", path = "bottom"},
+            {map = "-20,-22", path = "bottom"},
+            {map = "-20,-23", path = "bottom"},
+            {map = "-20,-24", path = "bottom"},
+            {map = "-20,-25", path = "bottom"},
+            {map = "-20,-27", path = "bottom"},
+            {map = "-20,-26", path = "bottom"},
+            {map = "-19,-28", path = "left"},
+            {map = "-20,-28", path = "bottom"},
+            {map = "-20,-20", custom = function ()
+                increment()
+                map:changeMap("bottom")
+            end},
+        }
     elseif global:remember("ETAPE_ZAAP") == 22 then
-        GoTo("-36,-10", function ()
-            increment()
-            npc:npc(770, 3) 
-            npc:reply(-1) 
-            npc:reply(-1) 
-            npc:reply(-1) 
-        end)
+        return {
+            {map = "-20,-20", path = "bottom"},
+            {map = "-20,-19", path = "bottom"},
+            {map = "-20,-17", path = "bottom"},
+            {map = "-20,-18", path = "bottom"},
+            {map = "-20,-16", path = "bottom"},
+            {map = "-20,-14", path = "bottom"},
+            {map = "-20,-15", path = "bottom"},
+            {map = "-20,-13", path = "left"},
+            {map = "-21,-13", path = "left"},
+            {map = "-22,-13", path = "left"},
+            {map = "-23,-13", path = "left"},
+            {map = "-24,-13", path = "left"},
+            {map = "-25,-13", path = "left"},
+            {map = "-26,-13", path = "left"},
+            {map = "-27,-13", path = "left"},
+            {map = "-28,-13", path = "bottom"},
+            {map = "-28,-12", path = "left"},
+            {map = "-29,-12", path = "left"},
+            {map = "-30,-12", path = "left"},
+            {map = "-31,-12", path = "left"},
+            {map = "-32,-10", path = "left"},
+            {map = "-33,-10", path = "left"},
+            {map = "-34,-10", path = "left"},
+            {map = "-35,-10", path = "left"},
+            {map = "-29,-13", path = "bottom"},
+            {map = "-32,-12", path = "bottom"},
+            {map = "-32,-11", path = "bottom"},
+            {
+                map = "-36,-10",
+                custom = function()
+                    GoTo("-36,-10", function()
+                        increment()
+                        npc:npc(770, 3)
+                        npc:reply(-1)
+                        npc:reply(-1)
+                        npc:reply(-1)
+                    end)
+                end
+            }
+        }
     elseif global:remember("ETAPE_ZAAP") == 23 then
         GoTo("152849", function ()
             increment()
@@ -741,16 +981,38 @@ function move()
             end},
         }
     elseif global:remember("ETAPE_ZAAP") == 27 then
-        GoTo("-25,12", function ()
-            increment()
-            map:changeMap("zaap(164364304)")
-        end)
+        return {
+            {map = "-20,-20", path = "bottom"},
+            {map = "-20,-19", path = "bottom"},
+            {map = "-20,-18", path = "bottom"},
+            {map = "-20,-16", path = "bottom"},
+            {map = "-20,-17", path = "bottom"},
+            {map = "-20,-15", path = "bottom"},
+            {map = "-20,-14", path = "right"},
+            {map = "-19,-14", path = "right"},
+            {map = "-18,-14", path = "bottom"},
+            {map = "-18,-13", path = "bottom"},
+            {map = "-18,-12", path = "bottom"},
+            {map = "-18,-11", path = "bottom"},
+            {map = "-18,-10", path = "bottom"},
+            {map = "-18,-9", path = "bottom"},
+            {map = "-17,-8", path = "bottom"},
+            {map = "-17,-7", path = "bottom"},
+            {map = "-17,-6", path = "bottom"},
+            {map = "-17,-5", path = "bottom"},
+            {map = "-17,-4", path = "bottom"},
+            {map = "-17,-3", path = "bottom"},
+            {map = "-17,-2", path = "bottom"},
+            {map = "-17,-1", path = "bottom"},
+            {map = "-17,0", path = "bottom"},
+            {map = "-17,1", path = "right"},
+            {map = "-18,-8", path = "right"},
+            {map = "-16,1", custom = function ()
+                increment()
+                map:changeMap("havenbag")
+            end},
+        }
     elseif global:remember("ETAPE_ZAAP") == 28 then
-        GoTo("-16,1", function ()
-            increment()
-            map:changeMap("zaap(191105026)")
-        end)
-    elseif global:remember("ETAPE_ZAAP") == 29 then
         if global:thisAccountController():getAlias():find("Mineur") or global:thisAccountController():getAlias():find("Bucheron") then
             global:loadAndStart("C:\\Users\\Administrator\\Documents\\snowbot-scripts\\PC\\Scripts\\PL&Zaaps\\quete_pandala.lua")
         elseif global:thisAccountController():getAlias():find("LvlUp") then

@@ -659,12 +659,12 @@ function move()
             for i, Alias in ipairs(AliasNotLoaded) do
                 if IsInTable(serversMono, GetServerByAlias(acc:getAlias())) and Alias:find("Next") and (acc:getAlias():find("Mineur") or acc:getAlias():find("Bucheron")) then
                     global:printSuccess("On remparte le compte " .. acc:getAlias())
-                    snowbotController:deleteAccount(acc:getUsername())
+                    -- snowbotController:deleteAccount(acc:getUsername())
                     launchNewAccounts()
                     break
                 elseif IsInTable(serversMulti, GetServerByAlias(acc:getAlias())) and Alias == "*" and (acc:getAlias():find("Mineur") or acc:getAlias():find("Bucheron")) then
                     global:printSuccess("On remparte le compte " .. acc:getAlias())
-                    snowbotController:deleteAccount(acc:getUsername())
+                    -- snowbotController:deleteAccount(acc:getUsername())
                     launchNewAccounts()
                     break
                 end

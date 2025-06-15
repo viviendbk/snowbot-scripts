@@ -666,12 +666,12 @@ function move()
             for i, Alias in ipairs(AliasNotLoaded) do
                 if IsInTable(serversMono, GetServerByAlias(acc:getAlias())) and Alias:find("Next") and (acc:getAlias():find("Mineur") or acc:getAlias():find("Bucheron")) then
                     global:printSuccess("On remparte le compte " .. acc:getAlias())
-                    snowbotController:deleteAccount(acc:getUsername())
+                    -- snowbotController:deleteAccount(acc:getUsername())
                     launchNewAccounts()
                     break
                 elseif IsInTable(serversMulti, GetServerByAlias(acc:getAlias())) and Alias == "*" and (acc:getAlias():find("Mineur") or acc:getAlias():find("Bucheron")) then
                     global:printSuccess("On remparte le compte " .. acc:getAlias())
-                    snowbotController:deleteAccount(acc:getUsername())
+                    -- snowbotController:deleteAccount(acc:getUsername())
                     launchNewAccounts()
                     break
                 end
@@ -691,7 +691,7 @@ function move()
             local nbZaapsTaken = 0
             for _, ligne in ipairs(lines) do
                 if ligne:find("Identifiant ou mot de passe incorrect !") then
-                    snowbotController:deleteAccount(acc:getUsername())
+                    -- snowbotController:deleteAccount(acc:getUsername())
                     DebutDeScript = true
                 end
                 if ligne:find("Trajet : Dj_Bl_Success lancé !") then
@@ -786,7 +786,7 @@ function move()
                 end
                 if ligne:find("Identifiant ou mot de passe incorrect !") then
 
-                    snowbotController:deleteAccount(acc:getUsername())
+                    -- snowbotController:deleteAccount(acc:getUsername())
                     DebutDeScript = true
                 end
 

@@ -318,8 +318,6 @@ function extractDateTime(text)
 end
 
 function compareDateTime(d1, d2)
-    debug(d1)
-    debug(d2)
 
     local function parseDateTime(datetime, fallbackDate)
         -- Format complet : "YYYY-MM-DD HH:MM:SS"
@@ -481,7 +479,7 @@ function mapDelay()
 	local random = math.random()
     if random < 0.005 then
         global:printMessage("gros délais")
-        global:delay(math.random(30000, 570000))
+        global:delay(math.random(30000, 57000))
     elseif random < 0.05 then
 		global:delay(math.random(7000, 11000))
 	elseif random < 0.25 then
@@ -586,22 +584,18 @@ function forwardKamasBotBankIfNeeded(givingTriggerValue, minKamas, maxWaitingTim
             global:editInMemory("retryTimestamp", 0)
         end
     end
-    debug("oui")
     if character:kamas() >= givingTriggerValue and not global:remember("failed") then
         givingMode = true
     end
 
     if givingMode then
-            debug("oui")
 
         if not connected then
-                debug("oui")
 
             while not isBotBankAvailable() do
                 global:printError("Le bot bank est connecté sur une autre instance, on attend 10 secondes")
                 global:delay(10000)
             end
-                debug("oui")
 
             receiver = connectReceiver(maxWaitingTime)
 
@@ -618,22 +612,24 @@ function forwardKamasBotBankIfNeeded(givingTriggerValue, minKamas, maxWaitingTim
 				connected = true
             end
         end
-            debug("oui")
 
         if not global:remember("failed") then
             if not movingPrinted then
                 global:printMessage("Déplacement jusqu'à la banque d'Astrub")
                 movingPrinted = true
             end
+            debug(getCurrentAreaName())
             if not getCurrentAreaName():find("Astrub") then
+                            debug("ok")
                 if map:currentMapId() == tonumber(bankMaps.idHavenbag) then
                     return map:changeMap(bankMaps.zAstrub)
                 else
                     return map:changeMap("havenbag")
                 end
             else
+                            debug("ok2")
                 if map:currentMapId() ~= tonumber(bankMaps.bankAstrubInt) then
-                    return map:moveToward(tonumber(bankMaps.bankAstrubInt))
+                    return debugMoveToward(tonumber(bankMaps.bankAstrubInt))
                 else
                     launchExchangeAndGive(minKamas, maxWaitingTime)
                 end
@@ -703,12 +699,14 @@ function launchExchangeAndGive(minKamas, maxWaitingTime)
 
 	local safetyCount = 0
 
-    while not exchange:launchExchangeWithPlayer(id) and safetyCount < 120 do
+    while not exchange:launchExchangeWithPlayer(id) and safetyCount < 70 do
         global:printMessage("Attente de l'acceptation de l'échange (5 secondes)")
         global:delay(5000)
+        randomDelay()
 		safetyCount = safetyCount + 5
     end
-	if safetyCount >= 120 then
+
+	if safetyCount >= 70 then
 		global:printError("Bot banque ne répond pas après " .. maxWaitingTime .. " secondes, reprise du trajet")
 		rerollVar()
 		global:editInMemory("retryTimestamp", os.time())
@@ -719,7 +717,9 @@ function launchExchangeAndGive(minKamas, maxWaitingTime)
 
     local toGive = (character:kamas() - minKamas) > 100000 and (character:kamas() - minKamas) or 1
 
+    randomDelay()
     exchange:putKamas(toGive)
+    randomDelay()
     exchange:ready()
 
     global:delay(3000)
@@ -746,7 +746,6 @@ end
 
 function debug(msg)
     global:printSuccess("DEBUG: " .. msg)
-    
 end
 
 function canReconnect(Alias)
@@ -754,7 +753,7 @@ function canReconnect(Alias)
         return true
     end
 
-    local reconnectTime = extract_reconnect_hour(Alias)
+    local reconnectTime = extractDateTime(Alias)
     if not reconnectTime then
         debug("impossible de trouver l'heure de reconnexion dans l'alias: " .. Alias)
         return false
@@ -859,7 +858,7 @@ function connectAccountsWithFailleProxy()
                    ["Imagiro"] = {}, ["Orukam"] = {}, ["Tylezia"] = {}, ["Hell Mina"] = {}, ["Tal Kasha"] = {}, ["Draconiros"] = {},
                         ["Dakal"] = {}, ["Kourial"] = {}, ["Mikhal"] = {}, ["Rafal"] = {}, ["Salar"] = {}, ["Brial"] = {}
     }
-    
+
     for _, server in ipairs(allServers) do
         for _, acc in ipairs(loadedAccounts) do
             if acc:getAlias():find(server) and (acc:getAlias():find("Mineur") or acc:getAlias():find("Bucheron") 
@@ -983,7 +982,7 @@ function getCurrentAreaName()
 }
 
     local currentArea = map:currentArea()
-    if not currentArea then
+    if not currentArea or not areaEquivalences[currentArea] then
         return "Inconnu"
     end
 

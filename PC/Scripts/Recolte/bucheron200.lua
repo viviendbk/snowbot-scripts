@@ -934,7 +934,6 @@ local function ProcessBank() -- done
             end
         end
 
-        debug("ok")
         for _, element in ipairs(Seves) do
 			local QuantiteAPrendre = math.min(math.floor(podsAvailable / inventory:itemWeight(element.Id)), exchange:storageItemQuantity(element.Id))
 			if QuantiteAPrendre > 0 and not hdvFull and element.CanSell then
@@ -1157,7 +1156,6 @@ local function ProcessSell() -- done
 
         global:leaveDialog()
     end
-    debug("ok7")
 
     HdvSell()
 
@@ -1188,7 +1186,6 @@ local function ProcessSell() -- done
 	else
 		CanSellSubstratDeSylve = true
 	end
-    debug("ok8")
 
 	if cptActualiser >= 3 and character:kamas() > 30000 then
 		cptActualiser = 0

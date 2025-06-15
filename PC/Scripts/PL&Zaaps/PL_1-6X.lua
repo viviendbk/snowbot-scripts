@@ -268,6 +268,7 @@ local Foret_Astrub = {
     {map = "101715463", path = "121"},
 	{map = "101715465", path = "278"},
 	{map = "101716489", path = "249"},
+	{map = "192415750", path = "409"},
 
 }
 
@@ -404,6 +405,8 @@ local Souterrain_Astrub1 = {
 	{map = "101713409", path = "493", fight = true},
 	{map = "101713411", custom = function() souterrain2 = true map:moveToCell(183) end, fight = true},
 	--{map = "101712387", path = "474"},
+			{map = "192415750", path = "409"},
+
 }
 
 local Souterrain_Astrub2 = {
@@ -412,9 +415,11 @@ local Souterrain_Astrub2 = {
 	{map = "101713409", door = "160", fight = true},
 	{map = "188484100", door = "155", fight = true},
 	{map = "188483076", custom = function() souterrain2 = false map:door(476) end, fight = true},
+			{map = "192415750", path = "409"},
 }
 
 local Calanques_Astrub = {
+
 	{map = "11,-22", path = "top", fight = true},
 	{map = "11,-23", path = "top", fight = true},
 	{map = "11,-24", path = "top", fight = true},
@@ -448,6 +453,7 @@ local Egouts_Astrub1 = {
 	{map = "101717512", path = "536", fight = true},
 	{map = "101716489", path = "519", fight = true},
 	{map = "101715465", custom = function() egouts2 = true map:moveToCell(213) end, fight = true},
+			{map = "192415750", path = "409"},
 }
 
 local Egouts_Astrub2 = {
@@ -936,22 +942,15 @@ end
 
 
 function move()
-		debug("ok")
 
 	handleDisconnection()
 	if character:level() == 1 and global:thisAccountController():getAlias():find("Requests") and not configLoaded then
 		configLoaded = true
 		global:loadConfigurationWithoutScript("C:\\Users\\Administrator\\Documents\\snowbot-scripts\\PC\\Configs\\Config_PL_1-6X.xml")
 	end
-	debug("ok")
 
 	forwardKamasBotBankIfNeeded(300000, 50000, 120, 4)
-		debug("ok")
 
-	if inventory:podsP() > 50 then
-		return bank()
-	end
-	debug("ok")
 
 	mapDelay()
 	if debugPath then
@@ -1111,6 +1110,9 @@ function move()
 	
 	if character:level() >= global:remember("lvlFinish") then
 		if not LastSell then
+			if map:onMap("192415750") then
+				map:moveToCell(409)
+			end
 			if not map:onMap("4,-17") then
 				debugMoveTowardMap(4, -17)
 			end
@@ -1169,6 +1171,7 @@ function move()
 		end
 	end
 	
+		debug("ok")
 
 	-- monter chaseur niv 20
 	if (inventory:itemCount(17123) < 275) and (job:level(41) < 20) then
@@ -1196,6 +1199,7 @@ function move()
 	-- end
 
 	--
+		debug("ok")
 
 	if character:level() >= 64 then
 		MAX_MONSTERS = 8
@@ -1224,6 +1228,7 @@ function move()
 
 		-- mettre un script tainelia
 	elseif character:level() >= 40 and character:level() < 42 then 
+		debug("aa")
 		MAX_MONSTERS = 5
 		MIN_MONSTERS = 1
 		return treatMaps(Calanques_Astrub)

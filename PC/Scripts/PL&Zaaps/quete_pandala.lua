@@ -8,7 +8,7 @@ PIKDOA = 0
 local CompteurDeath = 0
 
 RESSOURCES = {
-    { id = 2449, quantity = 5 },
+    { id = 885, quantity = 5 },
     { id = 421, quantity = 50 },
 }
 
@@ -96,7 +96,7 @@ end
 local function pandala_6()
     increment()
     map:door(270)
-    craft:putItem(2449,5)
+    craft:putItem(885,5)
     craft:putItem(421,50)
     craft:putItem(23038,1)
     craft:ready()
@@ -187,14 +187,13 @@ function messagesRegistering()
 end
 
 function buy_ressources()
-    npc:npc(-1,6)
-
-    while inventory:itemCount(2449) < 5 do
+    HdvBuy()
+    while inventory:itemCount(885) < 5 do
         for i = 1, 5 do
-            sale:buyItem(2449,1,10000000)
+            Achat(885, 5)
         end
-        if inventory:itemCount(2449) < 50 then
-            sale:buyItem(2449,10,10000000)
+        if inventory:itemCount(885) < 5 then
+            sale:buyItem(885,10,10000000)
         end
     end
 
