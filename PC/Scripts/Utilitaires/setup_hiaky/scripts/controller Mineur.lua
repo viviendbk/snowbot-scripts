@@ -471,73 +471,6 @@ local function launchNewAccounts()
 end
 
 
-function connectAccountsWithFailleProxy()
-    local loadedAccounts = snowbotController:getLoadedAccounts()
-        local accountsToConnectByServer =  {
-                   ["Imagiro"] = {}, ["Orukam"] = {}, ["Tylezia"] = {}, ["Hell Mina"] = {}, ["Tal Kasha"] = {}, ["Draconiros"] = {},
-                        ["Dakal"] = {}, ["Kourial"] = {}, ["Mikhal"] = {}, ["Rafal"] = {}, ["Salar"] = {}, ["Brial"] = {}
-    }
-    
-    for _, server in ipairs(allServers) do
-        for _, acc in ipairs(loadedAccounts) do
-            if acc:getAlias():find(server) and (acc:getAlias():find("Mineur") or acc:getAlias():find("Bucheron") 
-            or acc:getAlias("Combat") or acc:getAlias():find("LvlUp")) and not acc:getAlias():find("BAN")
-            and not acc:isAccountConnected() and canReconnect(acc:getAlias()) then
-                table.insert(accountsToConnectByServer[server], acc)
-            end
-        end
-    end
-
-    local nbVagues = 0
-    for _, accounts in pairs(accountsToConnectByServer) do
-        if #accounts > nbVagues then
-            nbVagues = #accounts
-        end
-    end
-
-    global:printSuccess("Il y a " .. nbVagues .. " vagues de connexion à faire")
-
-    -- 4. Connexion par vague
-    for i = 1, nbVagues do
-        global:printSuccess("----- Vague de connexion " .. i .. " -----")
-
-        local ipDeBase = developer:getRequest("http://api.ipify.org", {}, {}, ipproxy .. ":5001:proxy:proxy123")
-        global:printMessage("IP de base : " .. ipDeBase)
-
-        developer:getRequestWithDelay("http://" .. ipproxy .. "/reset?proxy=p:5001", 15000)
-        global:printMessage("On vient de rotate le proxy")
-
-        local proxyReady = json.decode(developer:getRequest("http://" .. ipproxy .. "/status?proxy=p:5001"))
-
-        while not proxyReady.status do
-            debug("ip pas encore ready, on attend")
-            global:delay(2000)
-            proxyReady = json.decode(developer:getRequest("http://" .. ipproxy .. "/status?proxy=p:5001"))
-        end
-
-        global:delay(3000)
-
-        local nouvelleIp = developer:getRequest("http://api.ipify.org", {}, {}, ipproxy .. ":5001:proxy:proxy123")
-
-        if ipDeBase ~= nouvelleIp then
-            global:printMessage("Nouvelle IP : " .. nouvelleIp)
-        else
-            global:printError("L'IP n'a pas changé, on retente dans 10 secondes")
-            global:delay(10000) -- Attendre 1 minute avant de retenter
-            return connectAccountsWithFailleProxy() -- Retenter la connexion
-        end
-        for server, accountList in pairs(accountsToConnectByServer) do
-            local acc = accountList[i] -- on prend le i-ème compte si dispo
-            if acc then
-                global:printSuccess("Connexion de " .. acc:getAlias() .. " sur " .. server)
-                acc:connect()
-            end
-        end
-
-        global:delay(20000) -- 20000 ms = 20 secondes
-    end
-end
-
 local function RegisterHLAccounts()
     -- Read the file
     local file = io.open("C:\\Users\\Administrator\\Documents\\snowbot-scripts\\PC\\ComptesAVendre.txt", "r")
@@ -748,6 +681,7 @@ function move()
         end
 
 
+
         -- lines = acc.global():consoleLines()
         -- if lines ~= nil then
         --     if not isAccountController(acc:getAlias()) and #lines > 100 and LoopBug(lines) then
@@ -776,7 +710,6 @@ function move()
         --         acc.global():loadAndStart("C:\\Users\\Administrator\\Documents\\snowbot-scripts\\PC\\Scripts\\PL&Zaaps\\quete_pandala.lua")
         --     end
 
-        -- end
 
         if not acc.developer():hasScript() and acc.character():level() < 10 and acc:isAccountFullyConnected() and not acc:getAlias():find("Groupe") then
             acc:loadConfig("C:\\Users\\Administrator\\Documents\\snowbot-scripts\\PC\\Configs\\Config_PL_1-6X.xml")

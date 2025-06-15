@@ -408,59 +408,6 @@ local function launchNewAccounts()
 end
 
 
-function connectAccountsWithFailleProxy()
-    local loadedAccounts = snowbotController:getLoadedAccounts()
-        local accountsToConnectByServer =  {
-                   ["Imagiro"] = {}, ["Orukam"] = {}, ["Tylezia"] = {}, ["Hell Mina"] = {}, ["Tal Kasha"] = {}, ["Draconiros"] = {},
-                        ["Dakal"] = {}, ["Kourial"] = {}, ["Mikhal"] = {}, ["Rafal"] = {}, ["Salar"] = {}, ["Brial"] = {}
-    }
-    
-    for _, server in ipairs(allServers) do
-        for _, acc in ipairs(loadedAccounts) do
-            if acc:getAlias():find(server) and (acc:getAlias():find("Mineur") or acc:getAlias():find("Bucheron") 
-            or acc:getAlias("Combat") or acc:getAlias():find("LvlUp") or acc:getAlias():find("Craft")) and not acc:getAlias():find("BAN")
-            and not acc:isAccountConnected() and canReconnect(acc:getAlias()) then
-                table.insert(accountsToConnectByServer[server], acc)
-            end
-        end
-    end
-
-    local nbVagues = 0
-    for _, accounts in pairs(accountsToConnectByServer) do
-        if #accounts > nbVagues then
-            nbVagues = #accounts
-        end
-    end
-
-    global:printSuccess("Il y a " .. nbVagues .. " vagues de connexion à faire")
-
-    -- 4. Connexion par vague
-    for i = 1, nbVagues do
-        global:printSuccess("----- Vague de connexion " .. i .. " -----")
-        local ipDeBase = developer:getRequest("http://api.ipify.org", {}, {}, ipproxy .. ":5001:proxy:proxy123")
-        global:printMessage("IP de base : " .. ipDeBase)
-        developer:getRequest("http://" .. ipproxy .. "/reset?proxy=p:5001")
-        global:printMessage("On vient de rotate le proxy")
-        local nouvelleIp = developer:getRequest("http://api.ipify.org", {}, {}, ipproxy .. ":5001:proxy:proxy123")
-
-        if ipDeBase ~= nouvelleIp then
-            global:printMessage("Nouvelle IP : " .. nouvelleIp)
-        else
-            global:printError("L'IP n'a pas changé, on retente dans 1 minutes")
-            global:delay(60000) -- Attendre 1 minute avant de retenter
-            return connectAccountsWithFailleProxy() -- Retenter la connexion
-        end
-        for server, accountList in pairs(accountsToConnectByServer) do
-            local acc = accountList[i] -- on prend le i-ème compte si dispo
-            if acc then
-                global:printSuccess("Connexion de " .. acc:getAlias() .. " sur " .. server)
-                acc:connect()
-            end
-        end
-
-        global:delay(20000) -- 20000 ms = 20 secondes
-    end
-end
 
 local function RegisterHLAccounts()
     -- Read the file
@@ -673,38 +620,38 @@ function move()
         end
 
 
-        lines = acc.global():consoleLines()
-        if lines ~= nil then
-            if not isAccountController(acc:getAlias()) and #lines > 100 and LoopBug(lines) then
-                global:printSuccess("On débug le bot " .. acc:getAlias() .. " (loop bug)")
-                acc.global():clearConsole()
-                acc.disconnect()
-            end
+        -- lines = acc.global():consoleLines()
+        -- if lines ~= nil then
+        --     if not isAccountController(acc:getAlias()) and #lines > 100 and LoopBug(lines) then
+        --         global:printSuccess("On débug le bot " .. acc:getAlias() .. " (loop bug)")
+        --         acc.global():clearConsole()
+        --         acc.disconnect()
+        --     end
 
-            local nbDjBlSuccess = 0
-            local nbZaapsTaken = 0
-            for _, ligne in ipairs(lines) do
-                if ligne:find("Identifiant ou mot de passe incorrect !") then
-                    snowbotController:deleteAccount(acc:getUsername())
-                    DebutDeScript = true
-                end
-                if ligne:find("Trajet : Dj_Bl_Success lancé !") then
-                    nbDjBlSuccess = nbDjBlSuccess + 1
-                end
-                if ligne:find("Vous avez perdu") then
-                    nbZaapsTaken = nbZaapsTaken + 1
-                end
-            end
-            if nbZaapsTaken > 20 then
-                acc.global():clearConsole()
-                acc:setScriptVariable("NeedToReturnBank", true)
-            end
-            if nbDjBlSuccess > 10 then
-                acc.global():clearConsole()
-                acc.global():loadAndStart("C:\\Users\\Administrator\\Documents\\snowbot-scripts\\PC\\Scripts\\PL&Zaaps\\quete_pandala.lua")
-            end
+        --     local nbDjBlSuccess = 0
+        --     local nbZaapsTaken = 0
+        --     for _, ligne in ipairs(lines) do
+        --         if ligne:find("Identifiant ou mot de passe incorrect !") then
+        --             snowbotController:deleteAccount(acc:getUsername())
+        --             DebutDeScript = true
+        --         end
+        --         if ligne:find("Trajet : Dj_Bl_Success lancé !") then
+        --             nbDjBlSuccess = nbDjBlSuccess + 1
+        --         end
+        --         if ligne:find("Vous avez perdu") then
+        --             nbZaapsTaken = nbZaapsTaken + 1
+        --         end
+        --     end
+        --     if nbZaapsTaken > 20 then
+        --         acc.global():clearConsole()
+        --         acc:setScriptVariable("NeedToReturnBank", true)
+        --     end
+        --     if nbDjBlSuccess > 10 then
+        --         acc.global():clearConsole()
+        --         acc.global():loadAndStart("C:\\Users\\Administrator\\Documents\\snowbot-scripts\\PC\\Scripts\\PL&Zaaps\\quete_pandala.lua")
+        --     end
 
-        end
+        -- end
 
         if not acc.developer():hasScript() and acc.character():level() < 10 and acc:isAccountFullyConnected() and not acc:getAlias():find("Groupe") then
             acc:loadConfig("C:\\Users\\Administrator\\Documents\\snowbot-scripts\\PC\\Configs\\Config_PL_1-6X.xml")
@@ -747,7 +694,7 @@ function move()
     local LoadedAccounts = snowbotController:getLoadedAccounts()
 
     for _, acc in ipairs(LoadedAccounts) do
-        if acc:isAccountFullyConnected() and not acc:isScriptPlaying() and acc:isTeamLeader() then
+        if acc:isTeamLeader() and acc:isAccountFullyConnected() and not acc:isScriptPlaying() then
             local team = acc:getTeamAccounts()
             local ready = true
             for _, acc in ipairs(team) do
@@ -766,38 +713,38 @@ function move()
                 acc:startScript()
             end
         end
-        lines = acc.global():consoleLines()     
-        if lines and not isAccountController(acc:getAlias()) then
-            local cptTimeOut = 0
-            local cptInactifReco = 0
+        -- lines = acc.global():consoleLines()     
+        -- if lines and not isAccountController(acc:getAlias()) then
+        --     local cptTimeOut = 0
+        --     local cptInactifReco = 0
             
-            for i, ligne in ipairs(lines) do
-                if ligne:find("Reconnexion automatique dans 5 secondes") then
-                    cptInactifReco = cptInactifReco + 1
-                    if cptInactifReco > 3 and acc:getAlias():find("bank") then
-                        acc:disconnect()
-                    end
-                end
-                if ligne:find("Identifiant ou mot de passe incorrect !") then
+        --     for i, ligne in ipairs(lines) do
+        --         if ligne:find("Reconnexion automatique dans 5 secondes") then
+        --             cptInactifReco = cptInactifReco + 1
+        --             if cptInactifReco > 3 and acc:getAlias():find("bank") then
+        --                 acc:disconnect()
+        --             end
+        --         end
+        --         if ligne:find("Identifiant ou mot de passe incorrect !") then
 
-                    snowbotController:deleteAccount(acc:getUsername())
-                    DebutDeScript = true
-                end
+        --             snowbotController:deleteAccount(acc:getUsername())
+        --             DebutDeScript = true
+        --         end
 
-                if ligne:find("TimeOut") and not ligne:find("ExchangeStartedBidSellerMessage") then
-                    cptTimeOut = cptTimeOut + 1
-                    global:printSuccess(cptTimeOut)
-                else
-                    cptTimeOut = 0
-                end
-                if cptTimeOut > 4 then
-                    global:printSuccess("Je debug le compte " .. acc:getAlias() ..  " (TimeOut)")
-                    acc.global():clearConsole()
-                    acc:disconnect()
-                    break
-                end
-            end
-        end   
+        --         if ligne:find("TimeOut") and not ligne:find("ExchangeStartedBidSellerMessage") then
+        --             cptTimeOut = cptTimeOut + 1
+        --             global:printSuccess(cptTimeOut)
+        --         else
+        --             cptTimeOut = 0
+        --         end
+        --         if cptTimeOut > 4 then
+        --             global:printSuccess("Je debug le compte " .. acc:getAlias() ..  " (TimeOut)")
+        --             acc.global():clearConsole()
+        --             acc:disconnect()
+        --             break
+        --         end
+        --     end
+        -- end   
     end
 
 

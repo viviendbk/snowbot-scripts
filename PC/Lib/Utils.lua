@@ -56,7 +56,7 @@ function handleDisconnection()
             minutesDisconnection = math.random(150, 210)   
         end
         global:addInMemory("nextDisconnection", currentTime + minutesDisconnection * 60)
-        global:printMessage("Prochaine déconnexion à " .. os.date("%H:%M:%S", currentTime + minutesDisconnection * 60) .. ".")
+        global:printMessage("Prochaine déconnexion à " .. os.date("%Y-%m-%d %H:%M:%S", currentTime + minutesDisconnection * 60) .. ".")
         return
     end
 
@@ -80,13 +80,13 @@ function handleDisconnection()
         end
 
         global:editInMemory("nextDisconnection", currentTime + minutesDisconnection * 60)
-        global:printMessage("Prochaine déconnexion à " .. os.date("%H:%M:%S", currentTime + minutesDisconnection * 60) .. ".")
+        global:printMessage("Prochaine déconnexion à " .. os.date("%Y-%m-%d %H:%M:%S", currentTime + minutesDisconnection * 60) .. ".")
         return
     end
 
     -- si l'horaire est dépassé de moins de 5 minutes, on se déconnecte
     if currentTime >= nextDisconnection then
-        global:printError("Le script est en pause jusqu'à " .. os.date("%H:%M:%S", nextDisconnection) .. ". Déconnexion du compte.")
+        global:printError("Le script est en pause jusqu'à " .. os.date("%Y-%m-%d %H:%M:%S", nextDisconnection) .. ". Déconnexion du compte.")
         local random = math.random()
         local minutesDisconnection = 0
         if random < 0.05 then
@@ -315,6 +315,95 @@ function extract_reconnect_hour(str)
     return str:match("Reconnect at (%d%d:%d%d:%d%d)$")
 end
 
+function compareDateTime(d1, d2)
+    debug(d1)
+    debug(d2)
+
+    local function parseDateTime(datetime, fallbackDate)
+        -- Format complet : "YYYY-MM-DD HH:MM:SS"
+        local y, m, d, h, min, s = datetime:match("^(%d%d%d%d)%-(%d%d)%-(%d%d) (%d%d):(%d%d):(%d%d)$")
+        if y then
+            return os.time({
+                year = tonumber(y),
+                month = tonumber(m),
+                day = tonumber(d),
+                hour = tonumber(h),
+                min = tonumber(min),
+                sec = tonumber(s)
+            })
+        end
+
+        -- Format heure complète : "HH:MM:SS"
+        h, min, s = datetime:match("^(%d%d):(%d%d):(%d%d)$")
+        if h then
+            return os.time({
+                year = fallbackDate.year,
+                month = fallbackDate.month,
+                day = fallbackDate.day,
+                hour = tonumber(h),
+                min = tonumber(min),
+                sec = tonumber(s)
+            })
+        end
+
+        -- Format heure courte : "HH:MM"
+        h, min = datetime:match("^(%d%d):(%d%d)$")
+        if h then
+            return os.time({
+                year = fallbackDate.year,
+                month = fallbackDate.month,
+                day = fallbackDate.day,
+                hour = tonumber(h),
+                min = tonumber(min),
+                sec = 0
+            })
+        end
+
+        error("Format de date invalide : " .. tostring(datetime))
+    end
+
+    -- On extrait la date de référence à partir du premier format complet disponible
+    local fallbackDate = nil
+    for _, dt in ipairs({d1, d2}) do
+        local y, m, d = dt:match("^(%d%d%d%d)%-(%d%d)%-(%d%d)")
+        if y then
+            fallbackDate = {
+                year = tonumber(y),
+                month = tonumber(m),
+                day = tonumber(d)
+            }
+            break
+        end
+    end
+
+    if not fallbackDate then
+        error("Impossible de déterminer une date de référence parmi d1 et d2")
+    end
+
+    local t1 = parseDateTime(d1, fallbackDate)
+    local t2 = parseDateTime(d2, fallbackDate)
+    return t1 - t2 -- positif : d1 après d2, négatif : d1 avant d2
+end
+
+function addSecondsToDateTime(datetime, secondsToAdd)
+    local year, month, day, hour, min, sec = datetime:match("^(%d%d%d%d)%-(%d%d)%-(%d%d) (%d%d):(%d%d):(%d%d)$")
+    if year and month and day and hour and min and sec then
+        local timestamp = os.time({
+            year = tonumber(year),
+            month = tonumber(month),
+            day = tonumber(day),
+            hour = tonumber(hour),
+            min = tonumber(min),
+            sec = tonumber(sec)
+        })
+
+        local newTimestamp = timestamp + secondsToAdd
+        return os.date("%Y-%m-%d %H:%M:%S", newTimestamp)
+    else
+        error("Format de date invalide : " .. tostring(datetime))
+    end
+end
+
 function comparehHour(h1, h2)
     local function to_seconds(hms)
         local h, m, s = hms:match("^(%d%d):(%d%d):(%d%d)$")
@@ -463,6 +552,16 @@ function resetBotBankAvailability(force)
             end
         end
     end
+end
+
+function writeToJsonFile(path, content)
+    local jsonContent = json.encode(content)
+
+    local file = io.open(path, "w")
+
+    file:write(jsonContent)
+
+    file:close()
 end
 
 function forwardKamasBotBankIfNeeded(givingTriggerValue, minKamas, maxWaitingTime, minRetryHours)
@@ -642,8 +741,8 @@ function canReconnect(Alias)
         return false
     end
     -- Vérification si l'heure actuelle dépasse celle de reconnexion
-    local currentTime = getCurrentTime()
-    if comparehHour(currentTime, reconnectTime) then
+    local currentTime = os.date("%Y-%m-%d %H:%M:%S")
+    if compareDateTime(currentTime, reconnectTime) >= 0 then
         global:printSuccess(Alias .. ": L'heure actuelle " .. currentTime .. " est supérieure ou égale à l'heure de reconnexion " .. reconnectTime)
         return true
     end
@@ -731,6 +830,109 @@ function findMKamas(stringalias)
     return (tonumber(stringKamas) == nil or tonumber(stringKamas) <= 5) and 0 or tonumber(stringKamas) - 5
 end
 
+
+ipproxy = "193.252.210.41"
+
+function connectAccountsWithFailleProxy()
+    local connexionFile = openFile(global:getCurrentScriptDirectory() .. "\\connexion.json")
+
+
+    if not connexionFile or #connexionFile == 0 or not connexionFile[1].inUse then
+        connexionFile[1] = {
+                inUse = true,
+                by = global:thisAccountController():getAlias(),
+                date = os.date("%Y-%m-%d %H:%M:%S")
+            }
+
+        writeToJsonFile(global:getCurrentScriptDirectory() .. "\\connexion.json", connexionFile)
+    elseif connexionFile[1].inUse and compareDateTime(os.date("%Y-%m-%d %H:%M:%S"), connexionFile[1].date) < 20 * 60 then
+        global:printError("Un autre script est déjà en train de se connecter, on attend 2 minutes")
+        connexionFile:close()
+        global:delay(120000)
+        return connectAccountsWithFailleProxy() -- Retenter la connexion
+    elseif connexionFile[1].inUse and compareDateTime(os.date("%Y-%m-%d %H:%M:%S"), connexionFile[1].date) >= 20 * 60 
+    and json.decode(developer:getRequest("http://" .. ipproxy .. "/status?proxy=p:5001")).status then
+        -- Si le script de connexion a planté, on le relance
+        global:printError("Le script de connexion a planté, on le relance")
+        connexionFile[1].inUse = false
+        connexionFile[1].by = ""
+        connexionFile[1].date = ""
+        writeToJsonFile(global:getCurrentScriptDirectory() .. "\\connexion.json", connexionFile)
+        return connectAccountsWithFailleProxy() -- Retenter la connexion
+    end
+
+    local loadedAccounts = snowbotController:getLoadedAccounts()
+        local accountsToConnectByServer =  {
+                   ["Imagiro"] = {}, ["Orukam"] = {}, ["Tylezia"] = {}, ["Hell Mina"] = {}, ["Tal Kasha"] = {}, ["Draconiros"] = {},
+                        ["Dakal"] = {}, ["Kourial"] = {}, ["Mikhal"] = {}, ["Rafal"] = {}, ["Salar"] = {}, ["Brial"] = {}
+    }
+    
+    for _, server in ipairs(allServers) do
+        for _, acc in ipairs(loadedAccounts) do
+            if acc:getAlias():find(server) and (acc:getAlias():find("Mineur") or acc:getAlias():find("Bucheron") 
+            or acc:getAlias("Combat") or acc:getAlias():find("LvlUp")) and not acc:getAlias():find("BAN")
+            and not acc:isAccountConnected() and canReconnect(acc:getAlias()) then
+                table.insert(accountsToConnectByServer[server], acc)
+            end
+        end
+    end
+
+    local nbVagues = 0
+    for _, accounts in pairs(accountsToConnectByServer) do
+        if #accounts > nbVagues then
+            nbVagues = #accounts
+        end
+    end
+
+    global:printSuccess("Il y a " .. nbVagues .. " vagues de connexion à faire")
+
+
+    -- 4. Connexion par vague
+    for i = 1, nbVagues do
+        global:printSuccess("----- Vague de connexion " .. i .. " -----")
+
+        local ipDeBase = developer:getRequest("http://api.ipify.org", {}, {}, ipproxy .. ":5001:proxy:proxy123")
+        global:printMessage("IP de base : " .. ipDeBase)
+
+        developer:getRequestWithDelay("http://" .. ipproxy .. "/reset?proxy=p:5001", 15000)
+        global:printMessage("On vient de rotate le proxy")
+
+        local proxyReady = json.decode(developer:getRequest("http://" .. ipproxy .. "/status?proxy=p:5001"))
+
+        while not proxyReady.status do
+            debug("ip pas encore ready, on attend")
+            global:delay(2000)
+            proxyReady = json.decode(developer:getRequest("http://" .. ipproxy .. "/status?proxy=p:5001"))
+        end
+
+        global:delay(5000)
+
+        local nouvelleIp = developer:getRequest("http://api.ipify.org", {}, {}, ipproxy .. ":5001:proxy:proxy123")
+
+        if ipDeBase ~= nouvelleIp and #nouvelleIp < 20 then
+            global:printMessage("Nouvelle IP : " .. nouvelleIp)
+        else
+            global:printError("L'IP n'a pas changé, on retente dans 10 secondes")
+            global:delay(10000) -- Attendre 1 minute avant de retenter
+            return connectAccountsWithFailleProxy() -- Retenter la connexion
+        end
+        for server, accountList in pairs(accountsToConnectByServer) do
+            local acc = accountList[i] -- on prend le i-ème compte si dispo
+            if acc then
+                global:printSuccess("Connexion de " .. acc:getAlias() .. " sur " .. server)
+                acc:connect()
+            end
+        end
+
+        local connexionFile = openFile(global:getCurrentScriptDirectory() .. "\\connexion.json")
+        connexionFile[1].inUse = false
+        connexionFile[1].by = ""
+        connexionFile[1].date = ""
+        writeToJsonFile(global:getCurrentScriptDirectory() .. "\\connexion.json", connexionFile)
+
+        global:delay(20000) -- 20000 ms = 20 secondes
+    end
+end
 
 
 --- interaction bot bank ---
