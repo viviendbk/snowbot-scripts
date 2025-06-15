@@ -154,7 +154,7 @@ local function ProcessCraft(table, cellId, jobId)
 
                 if ConsoleRead(global:thisAccountController(), "Erreur dans le script : Impossible d'utiliser l'élément interactif") then
                     global:clearConsole()
-                    global:reconnect(0)
+                    global:disconnect()
                 end
     
                 global:delay(math.random(500, 1500))
@@ -1330,7 +1330,7 @@ function move()
     CraftForgeron = {}
 
 
-    if map:currentArea() ~= "Astrub" then
+    if getCurrentAreaName() ~= "Astrub" then
         if not map:onMap("0,0") then
             map:changeMap("havenbag")
         end
@@ -1355,7 +1355,7 @@ function move()
             if job:level(62) < 150 then
                 global:restartScript(true)
             end
-            global:reconnectBis(math.random(100,150))
+            customReconnect(math.random(100, 150))
         end
     end
     --- Final Selling
@@ -1376,6 +1376,6 @@ end
 function stopped()
     local lines = global:consoleLines()
     if lines[#lines - 2]:find("Cette action est impossible car vous êtes occupé.") or lines[#lines - 1]:find("Echec lors de l'utilisation d'un Zaap/Zaapi") then
-        global:reconnect(0)
+        global:disconnect()
     end
 end

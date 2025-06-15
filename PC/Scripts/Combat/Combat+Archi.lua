@@ -1805,16 +1805,7 @@ local function stack_items_informations(message)
     end
 end
 
-local function getRemainingSubscription(inDay, acc)
-    local accDeveloper = acc and acc.developer or developer
 
-    local endDate = developer:historicalMessage("IdentificationSuccessMessage")[1].subscriptionEndDate 
-    local now = os.time(os.date("!*t")) * 1000
-
-    endDate = math.floor((endDate - now) / 3600000)
-
-    return inDay and math.floor(endDate / 24) or endDate
-end
 
 local function CheckEndFight(message)
     local tableAchatEnergie = {
@@ -2323,7 +2314,7 @@ local function treatMaps(maps, errorFn)
             {map = "-17,9", path = "top"},
             {map = "-17,8", path = "top"},
         }
-    elseif map:currentArea() == "Île du Minotoror" then 
+    elseif getCurrentAreaName() == "Île du Minotoror" then 
         return
         {
             {map = "34476296", custom = function() npc:npc(783, 3) npc:reply(-2) npc:reply(-1) end},
@@ -2630,7 +2621,7 @@ function move()
                 {map = "-17,9", path = "top"},
                 {map = "-17,8", path = "top"},
             }
-        elseif map:currentArea() == "Île du Minotoror" then 
+        elseif getCurrentAreaName() == "Île du Minotoror" then 
             return
             {
                 {map = "34476296", custom = function() npc:npc(783, 3) npc:reply(-2) npc:reply(-1) end},

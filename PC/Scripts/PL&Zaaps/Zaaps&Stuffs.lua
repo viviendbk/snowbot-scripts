@@ -375,7 +375,7 @@ local function GoTo(mapToward, action)
     local toward = mapToward:split(",")
     if not map:onMap(mapToward) then
         if #toward == 2 then
-            return map:moveToward(tonumber(toward[1]), tonumber(toward[2]))
+            return map:moveTowardMap(tonumber(toward[1]), tonumber(toward[2]))
         elseif #toward == 1 then
             return map:moveToward(tonumber(toward[1]))
         end
@@ -385,9 +385,7 @@ local function GoTo(mapToward, action)
 end
 
 function move()
-            debug(map:currentArea())
-        debug(getCurrentAreaName())
-        global:finishScript()
+
     -- global:printSuccess("ETAPE_ZAAP : " .. global:remember("ETAPE_ZAAP"))
     if character:level() == 1 then
         global:loadAndStart("C:\\Users\\Administrator\\Documents\\snowbot-scripts\\PC\\Scripts\\PL&Zaaps\\PL_1-6X.lua")
@@ -411,18 +409,16 @@ function move()
     end
     
     if global:remember("ETAPE_ZAAP") == 0 then
-        debug(map:currentArea())
-        debug(getCurrentAreaName())
-        if map:currentArea() ~= "Cité d'Astrub" and not map:onMap("0,0") then
+        if getCurrentAreaName() ~= "Astrub" and not map:onMap("0,0") then
             map:changeMap("havenbag")
-        elseif map:currentArea() ~= "Cité d'Astrub" then
+        elseif getCurrentAreaName() ~= "Astrub" then
             map:changeMap("zaap(191105026)")
         end
-        debug("ok")
+
         if map:onMap(192415750) then
             map:moveToCell(409)
         end
-        debug("ok")
+
         GoTo("3,-19", function() 
             increment() 
             BuyCityPotions() 
@@ -432,7 +428,7 @@ function move()
         if map:onMap(192415750) then
             map:moveToCell(409)
         end
-        if map:currentArea() == "Astrub" then
+        if getCurrentAreaName() == "Astrub" then
             global:editInMemory("ETAPE_ZAAP", 0)
         end
         return {

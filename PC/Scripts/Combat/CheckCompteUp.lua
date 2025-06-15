@@ -144,7 +144,7 @@ local function goAstrubBank(inBankCallback)
         global:printMessage("Déplacement jusqu'à la banque d'Astrub")
         movingPrinted = true
     end
-    if not map:currentArea():find("Astrub") then
+    if not getCurrentAreaName():find("Astrub") then
         if map:currentMapId() == tonumber(bankMaps.idHavenbag) then
             return map:changeMap(bankMaps.zAstrub)
         else

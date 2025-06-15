@@ -325,7 +325,7 @@ function move()
         }
     elseif global:remember("ETAPEDJ") == 5 then
         if not global:remember("isInsideDj") then
-            if map:currentArea() ~= "Plaines de Cania" and map:currentArea() ~= "Foire du Trool" and map:currentArea() ~= "Havres-Sacs" then
+            if getCurrentAreaName() ~= "Plaines de Cania" and getCurrentAreaName() ~= "Foire du Trool" and getCurrentAreaName() ~= "Havres-Sacs" then
                 map:changeMap("havenbag")
             end
             if map:onMap("0,0") then
@@ -360,7 +360,7 @@ function move()
             }
         end
         if global:remember("djFinished") then
-            if map:currentArea() ~= "Astrub" and map:currentArea() ~= "Havres-Sacs" then
+            if getCurrentAreaName() ~= "Astrub" and getCurrentAreaName() ~= "Havres-Sacs" then
                 map:changeMap("havenbag")
             end
             if map:onMap("0,0") then
@@ -390,7 +390,7 @@ function move()
 
         }
     elseif global:remember("ETAPEDJ") == 6 then
-        if map:currentArea() ~= "Havres-Sacs" and not map:onMap(191105026) then
+        if getCurrentAreaName() ~= "Havres-Sacs" and not map:onMap(191105026) then
             map:changeMap("havenbag")
         end
         if map:onMap("0,0") then

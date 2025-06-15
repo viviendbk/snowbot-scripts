@@ -1254,7 +1254,7 @@ local function whichArea()
     if DebutDuScript then
         DebutDuScript = false
         for _, element in ipairs(TableWhichArea) do
-            if not element.Farmer and map:currentArea() == element.AreaString then
+            if not element.Farmer and getCurrentAreaName() == element.AreaString then
                 element.Farmer = true
                 cpt = cpt + 1
                 break

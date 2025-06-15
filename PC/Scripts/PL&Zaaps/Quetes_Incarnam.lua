@@ -169,7 +169,7 @@ function move()
         global:editInMemory("ETAPE", 51)
     end
     if global:remember("BUG") then
-        if map:currentArea() == "Astrub" then
+        if getCurrentAreaName() == "Astrub" then
             global:loadAndStart("C:\\Users\\Administrator\\Documents\\snowbot-scripts\\PC\\Scripts\\PL&Zaaps\\PL_1-6X.lua") 
         end
         global:printSuccess("BUG")
@@ -239,9 +239,9 @@ function move()
 
     if global:remember("ETAPE") == 0 then
         if not map:onMap(153092354) then
-            if map:currentArea() ~= "Incarnam" and not map:onMap(192416776) then
+            if getCurrentAreaName() ~= "Incarnam" and not map:onMap(192416776) then
                 map:moveToward(192416776)
-            elseif map:currentArea() ~= "Incarnam" then
+            elseif getCurrentAreaName() ~= "Incarnam" then
                 map:door(455)
             end
             return {

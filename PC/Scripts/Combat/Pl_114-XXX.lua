@@ -1057,7 +1057,7 @@ local function goAstrubBank(inBankCallback)
         global:printMessage("Déplacement jusqu'à la banque d'Astrub")
         movingPrinted = true
     end
-    if not map:currentArea():find("Astrub") then
+    if not getCurrentAreaName():find("Astrub") then
         if map:currentMapId() == tonumber(bankMaps.idHavenbag) then
             return map:changeMap(bankMaps.zAstrub)
         else
@@ -1921,7 +1921,7 @@ function move()
     end
 
 
-    if (getRemainingSubscription(true) < 0) and (levelToReach == 160) and (character:level() >= 155) and map:currentArea() ~= "Astrub" then
+    if (getRemainingSubscription(true) < 0) and (levelToReach == 160) and (character:level() >= 155) and getCurrentAreaName() ~= "Astrub" then
         global:disconnect()
     end
 

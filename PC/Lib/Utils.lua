@@ -606,7 +606,7 @@ function forwardKamasBotBankIfNeeded(givingTriggerValue, minKamas, maxWaitingTim
                 global:printMessage("Déplacement jusqu'à la banque d'Astrub")
                 movingPrinted = true
             end
-            if not map:currentArea():find("Astrub") then
+            if not getCurrentAreaName():find("Astrub") then
                 if map:currentMapId() == tonumber(bankMaps.idHavenbag) then
                     return map:changeMap(bankMaps.zAstrub)
                 else
@@ -946,7 +946,8 @@ end
 
 function getCurrentAreaName()
     local areaEquivalences = {
-    ["58"] = "Astrub",
+    ["18"] = "Astrub",
+    ["58"] = "Havres-Sac",
     ["7"] = "Bonta",
     ["Brâkmar"] = "Brâkmar",
     ["Sufokia"] = "Sufokia",
@@ -975,6 +976,6 @@ function getCurrentAreaName()
     end
 
     -- Si pas d'équivalence, on retourne le nom de la zone
-    return currentArea.name or "Inconnu"
+    return 0
 end
 

@@ -1057,7 +1057,7 @@ function move()
     CraftForgeron = {}
 
 
-    if map:currentArea() ~= "Astrub" then
+    if getCurrentAreaName() ~= "Astrub" then
         if not map:onMap("0,0") then
             map:changeMap("havenbag")
         end

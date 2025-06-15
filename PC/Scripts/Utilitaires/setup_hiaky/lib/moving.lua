@@ -6,7 +6,7 @@ Moving = {}
 
 
 function Moving:goToBrakmar(mapID, onMapFn)
-    if not map:currentArea():find("Brâkmar") then
+    if not getCurrentAreaName():find("Brâkmar") then
         if map:currentMapId() == tonumber(havenbagID) then
             return map:changeMap(zBrak)
         else
@@ -42,7 +42,7 @@ function Moving:goAstrubBank(inBankCallback)
             {map = "-17,9", path = "top"},
             {map = "-17,8", path = "top"},
         }
-    elseif map:currentArea() == "Île du Minotoror" then 
+    elseif getCurrentAreaName() == "Île du Minotoror" then 
         return
         {
             {map = "34476296", custom = function() npc:npc(783, 3) npc:reply(-2) npc:reply(-1) end},
@@ -70,7 +70,7 @@ function Moving:goAstrubBank(inBankCallback)
         global:printMessage("Déplacement jusqu'à la banque d'Astrub")
         movingPrinted = true
     end
-    if not map:currentArea():find("Astrub") then
+    if not getCurrentAreaName():find("Astrub") then
         if map:currentMapId() == tonumber(bankMaps.idHavenbag) then
             return map:changeMap(bankMaps.zAstrub)
         else

@@ -18,16 +18,6 @@ function messagesRegistering()
 	developer:registerMessage("HaapiConfirmationMessage", _HaapiConfirmationMessage)
 end
 
-function getRemainingSubscription(inDay, acc)
-    local accDeveloper = acc and acc.developer or developer
-
-    local endDate = developer:historicalMessage("IdentificationSuccessMessage")[1].subscriptionEndDate 
-    local now = os.time(os.date("!*t")) * 1000
-
-    endDate = math.floor((endDate - now) / 3600000)
-
-    return inDay and math.floor(endDate / 24) or endDate
-end
 
 
 local function mapDelay()
@@ -50,7 +40,7 @@ function move()
         if map:onMap("0,0") then
             map:changeMap("zaap(191105026)")
         end
-        if map:currentArea() ~= "Astrub" then
+        if getCurrentAreaName() ~= "Astrub" then
             map:changeMap("havenbag")
         end
 

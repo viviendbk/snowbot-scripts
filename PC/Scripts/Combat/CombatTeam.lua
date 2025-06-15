@@ -877,7 +877,7 @@ function UsePortail()
     monMessage.portalId = 9 -- ça varie
     developer:sendMessage(monMessage)
     global:delay(2000)
-    if map:currentArea() ~= "Ecaflipus" then
+    if getCurrentAreaName() ~= "Ecaflipus" then
         failPortail = true
         global:addInMemory("retryPortail", os.time())
 
@@ -1002,7 +1002,7 @@ local function goAstrubBank(inBankCallback)
         movingPrinted = true
     end
 
-    if not map:currentArea():find("Astrub") then
+    if not getCurrentAreaName():find("Astrub") then
         if map:currentMapId() == tonumber(bankMaps.idHavenbag) then
             if global:isBoss() then
                 TeamAcount = global:thisAccountController():getTeamAccounts()
@@ -1870,7 +1870,7 @@ local function WhichArea()
                 global:printSuccess(i)
                 local myZone = TableArea[i]
 
-                if myZone.Ecaflipus and not failPortail and (map:currentArea() ~= "Ecaflipus") then
+                if myZone.Ecaflipus and not failPortail and (getCurrentAreaName() ~= "Ecaflipus") then
                     GoToDimension()
                 elseif myZone.Ecaflipus and failPortail then
                     global:printSuccess(i + 1 .. " ème zone")
@@ -2067,7 +2067,7 @@ function move()
     end
 
 
-    if global:isBoss() and (character:kamas() >= givingTriggerValue) and not global:remember("failed") and map:currentArea() ~= "Ecaflipus" then
+    if global:isBoss() and (character:kamas() >= givingTriggerValue) and not global:remember("failed") and getCurrentAreaName() ~= "Ecaflipus" then
         TeamAcount = global:thisAccountController():getTeamAccounts()
         for _, acc in ipairs(TeamAcount) do
             acc.global():deleteMemory("givingMode")
@@ -2120,7 +2120,7 @@ function move()
 
     antiModo()
     
-    if DebutDuScript and map:currentArea() == "Ecaflipus" then
+    if DebutDuScript and getCurrentAreaName() == "Ecaflipus" then
         return treatMaps({
             {map = "161351684", lockedCustom = function() map:useById(503232, -2) end},
             {map = "161220622", path = "top"},
@@ -2171,7 +2171,7 @@ function move()
             {map = "160957953", path = "top"},
         })
     elseif DebutDuScript then
-        if map:currentArea() == "Amakna" then
+        if getCurrentAreaName() == "Amakna" then
             return {
                 {map = map:currentMap(), path = "havenbag"}
             }
@@ -2253,7 +2253,7 @@ function bank()
         end
     end
 
-    if map:currentArea() == "Ecaflipus" then
+    if getCurrentAreaName() == "Ecaflipus" then
         return treatMaps({
             {map = "161351684", lockedCustom = function() map:useById(503232, -2) end},
             {map = "161220622", path = "top"},
@@ -2559,7 +2559,6 @@ end
 
 
 function Ravage(cellid)
-    debug("oui")
 	if fightAction:canCastSpellOnCell(fightCharacter:getCellId(), 12746, cellid) == 0 then 
 		fightAction:castSpellOnCell(12746, cellid)
     else

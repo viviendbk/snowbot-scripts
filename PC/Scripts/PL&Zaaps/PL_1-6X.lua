@@ -928,7 +928,7 @@ function move()
 
     if NeedToSell then
         if not map:onMap("4,-17") then
-            map:moveToward(4, -17)
+            map:moveTowardMap(4, -17)
         else
             Selling()
         end
@@ -1080,7 +1080,7 @@ function move()
 	if character:level() >= global:remember("lvlFinish") then
 		if not LastSell then
 			if not map:onMap("4,-17") then
-				map:moveToward(4, -17)
+				map:moveTowardMap(4, -17)
 			end
 			return
 			{
@@ -1221,7 +1221,7 @@ function bank()
 	
     if NeedToSell then
         if not map:onMap("4,-17") then
-            map:moveToward(4, -17)
+            map:moveTowardMap(4, -17)
         else
             Selling()
         end
@@ -1236,7 +1236,7 @@ function bank()
 	
 
 	if not map:onMap("4,-17") then
-		map:moveToward(4, -17)
+		map:moveTowardMap(4, -17)
 	end
     return
     {

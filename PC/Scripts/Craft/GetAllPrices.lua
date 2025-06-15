@@ -147,7 +147,7 @@ function move()
         global:editAlias("RequestsMono", true)
     end
 
-    if not map:currentArea() == "Bonta" then
+    if not getCurrentAreaName() == "Bonta" then
         local lines = global:consoleLines()
 
         local counterBug = 0

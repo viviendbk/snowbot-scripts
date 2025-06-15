@@ -23,16 +23,7 @@ function messagesRegistering()
 	developer:registerMessage("HaapiConfirmationMessage", _HaapiConfirmationMessage)
 end
 
-local function getRemainingSubscription(inDay, acc)
-    local accDeveloper = acc and acc.developer or developer
 
-    local endDate = developer:historicalMessage("IdentificationSuccessMessage")[1].subscriptionEndDate 
-    local now = os.time(os.date("!*t")) * 1000
-
-    endDate = math.floor((endDate - now) / 3600000)
-
-    return inDay and math.floor(endDate / 24) or endDate
-end
 
 function truncate(nbr, size)
     if not nbr then return 0 end
@@ -60,7 +51,7 @@ function move()
 	if character:server() == "Draconiros" and getRemainingSubscription(true) < 2 then
 		Abonnement()
 	end
-	if map:currentArea() == "Incarnam" then
+	if getCurrentAreaName() == "Incarnam" then
 		return {
 			{map = "190843392", path = "top"},
 			{ map = "153092354", door = 409},
