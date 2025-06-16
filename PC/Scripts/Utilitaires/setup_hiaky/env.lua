@@ -16,7 +16,7 @@ disconnectOnError = true
 
 --- <mapIDs>
 
-bankMaps = {
+BANK_MAPS = {
     zAstrub = "zaap(191105026)",
     idHavenbag = 162791424,
     mapZAstrub = 191105026,

@@ -93,7 +93,7 @@ function bank()
 end
 
 
-function phenix()
+function PHENIX()
 	return {
 	}
 end

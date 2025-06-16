@@ -71,14 +71,14 @@ function Moving:goAstrubBank(inBankCallback)
         movingPrinted = true
     end
     if not getCurrentAreaName():find("Astrub") then
-        if map:currentMapId() == tonumber(bankMaps.idHavenbag) then
-            return map:changeMap(bankMaps.zAstrub)
+        if map:currentMapId() == tonumber(BANK_MAPS.idHavenbag) then
+            return map:changeMap(BANK_MAPS.zAstrub)
         else
             return map:changeMap("havenbag")
         end
     else
-        if map:currentMapId() ~= tonumber(bankMaps.bankAstrubInt) then
-            return map:moveToward(tonumber(bankMaps.bankAstrubInt))
+        if map:currentMapId() ~= tonumber(BANK_MAPS.bankAstrubInt) then
+            return map:moveToward(tonumber(BANK_MAPS.bankAstrubInt))
         else
             if inBankCallback then
                 return inBankCallback()

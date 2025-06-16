@@ -1537,7 +1537,7 @@ function bank()
         }
     end	
 
-    for _, element in ipairs(MapSansHavreSac) do
+    for _, element in ipairs(MAPS_SANS_HAVRESAC) do
         if not element.Door and map:onMap(tostring(element.Id)) then
             if map:currentCell() == tonumber(element.Path) then
                 map:moveToCell(math.random(50, 500))
@@ -1577,6 +1577,6 @@ function banned()
     global:editAlias(phrase .. " [BAN]", true)
 end
 
-function phenix()
-    return Phenix
+function PHENIX()
+    return PHENIX
 end

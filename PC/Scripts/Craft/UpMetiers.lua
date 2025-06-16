@@ -26,7 +26,7 @@ local function ProcessCraft(table, cellId, jobId)
             end
 
             global:delay(500)
-            map:useById(TableOutilAtelier[element.Type].ElementId, TableOutilAtelier[element.Type].Rep)
+            map:useById(TABLE_OUTIL_ATELIER[element.Type].ElementId, TABLE_OUTIL_ATELIER[element.Type].Rep)
             global:delay(500)
 
             for _, item in ipairs(element.ListIdCraft) do
@@ -127,25 +127,6 @@ local CraftTailleur = {
 
 
 
-local TableOutilAtelier = {
-    ["Cape"] = {ElementId = 523886},
-    ["Sac à dos"] = {ElementId = 523886},
-    ["Chapeau"] = {ElementId = 523886},
-    ["Amulette"] = {ElementId = 521672},
-    ["Anneau"] = {ElementId = 521672},
-    ["Bottes"] = {ElementId = 521402},
-    ["Ceinture"] = {ElementId = 521402},
-    ["Dague"] = {ElementId = 524084},
-    ["Marteau"] = {ElementId = 524084},
-    ["Epee"] = {ElementId = 524084},
-    ["Pelle"] = {ElementId = 524084},
-    ["Hache"] = {ElementId = 524084},
-    ["Baton"] = {ElementId = 524090},
-    ["Baguette"] = {ElementId = 524090},
-    ["Arc"] = {ElementId = 524090},
-}
-
-
 local function ProcessCraft(table, cellId, jobId)
     for _, element in ipairs(table) do
         if job:level(jobId) < element.LvlMaxMetier then
@@ -168,7 +149,7 @@ local function ProcessCraft(table, cellId, jobId)
             end
 
             global:delay(500)
-            map:useById(TableOutilAtelier[element.Type].ElementId, -1)
+            map:useById(TABLE_OUTIL_ATELIER[element.Type].ElementId, -1)
             global:delay(500)
 
             for _, item in ipairs(element.ListIdCraft) do

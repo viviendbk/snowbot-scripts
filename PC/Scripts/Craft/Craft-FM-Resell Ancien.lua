@@ -149,7 +149,7 @@ local function ProcessCraft(table, cellId, jobId)
                 global:printSuccess("On va craft " .. CraftQuantity .. " x [" ..  inventory:itemNameId(element.Id) .. "]")
 
                 global:delay(math.random(500, 1500))
-                map:useById(TableOutilAtelier[element.Type].ElementId, -1)
+                map:useById(TABLE_OUTIL_ATELIER[element.Type].ElementId, -1)
                 global:delay(math.random(500, 1500))
     
                 global:printSuccess("ok1")
@@ -1619,7 +1619,7 @@ function move()
             if not map:onMap(217056262) and not item.FMDone and not ItemSatisfyConditions(item).Bool then
                 return treatMaps(goToAtelierFm)
             elseif not item.FMDone and not ItemSatisfyConditions(item).Bool then
-                map:useById(TableOutilAtelier[item.Type].FMElementId, TableOutilAtelier[item.Type].FMRep)
+                map:useById(TABLE_OUTIL_ATELIER[item.Type].FMElementId, TABLE_OUTIL_ATELIER[item.Type].FMRep)
                 local content = inventory:inventoryContent()
 
                 local cantFM = false
@@ -1999,7 +1999,7 @@ function move()
                     item.hdvRunesChecked = false
                     return move()
                 end
-                map:useById(TableOutilAtelier[item.Type].FMElementId, TableOutilAtelier[item.Type].FMRep)
+                map:useById(TABLE_OUTIL_ATELIER[item.Type].FMElementId, TABLE_OUTIL_ATELIER[item.Type].FMRep)
                 local content = inventory:inventoryContent()
 
                 for _, item2 in ipairs(content) do

@@ -18,8 +18,6 @@ local path = {
 
 }
 
-
-
 function move()
     
     mapDelay()
@@ -68,19 +66,8 @@ function move()
     end
 end
 
-function phenix()
-    return {
-        {map = "-3,-13", path = "right"},
-        {map = "-2,-13", path = "right"},
-        {map = "-1,-13", path = "right"},
-        {map = "0,-13", path = "right"},
-        {map = "1,-13", path = "right"},
-        {map = "2,-13", path = "top"},
-        {map = "2,-14", custom = function ()
-			map:door(313)
-			map:changeMap("havenbag")
-        end},
-    }
+function PHENIX()
+    return PHENIX
 end
 
 local function WeakerMonsterAdjacent()

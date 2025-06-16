@@ -4,20 +4,6 @@ json = dofile("C:\\Users\\Administrator\\Documents\\snowbot-scripts\\PC\\Scripts
 
 
 function ItemSatisfyConditions(item, StatNegliger)
-    CoefMiniByCarac = {
-        ["Vitalite"] = 0.95,
-        ["Chance"] = 0.93,
-        ["Intelligence"] = 0.93,
-        ["Force"] = 0.93,
-        ["Agilité"] = 0.93,
-        ["% Resistance Neutre"] = 1,
-        ["% Resistance Terre"] = 1,
-        ["% Resistance Feu"] = 1,
-        ["% Resistance Eau"] = 1,
-        ["% Resistance Air"] = 1,
-        ["% Critique"] = 1,
-        ["Puissance"] = 0.9,
-    }
     --[[
         si l'item est lvl 200 et qu'il a PA ou PM, on rajoute dans CoefMiniByCarac all Dommages = 0.95 et les stats pas dans exeption = 0.85
         si il y a plus de 1 stat de base à satisfaire, on regarde si pour chaque stat, current >= min + (max - min) / 2, si non on ajoute cette stat à la première place de statprbmatiques
@@ -106,7 +92,7 @@ function ItemSatisfyConditions(item, StatNegliger)
         if (CoefMiniByCarac[k] and (v.Current / v.Max) < CoefMiniByCarac[k] and ((k == "Vitalite") and (v.Max - v.Current) > 1 or (k ~= "Vitalite")))
         or (v.Current < v.Min and v.Max > v.Min + 1)
         or k:find("Dommages") and (v.Max - v.Current) > (math.floor(v.Max / 10) > 0 and math.floor(v.Max / 10) or 1)
-        --[[or (inventory:getLevel(item.Id) == 200 and ItemHasBigStat(item.Id) and toAdd < 0.065 and v.Max > 0 and (not IsInTable(StatsToIgnore, k) and (v.Current / v.Max) > (k:find("Dommages ") and 0.92 or 0.85)))]]
+        --[[or (inventory:getLevel(item.Id) == 200 and ItemHasBigStat(item.Id) and toAdd < 0.065 and v.Max > 0 and (not IsInTable(STATS_TO_IGNORE, k) and (v.Current / v.Max) > (k:find("Dommages ") and 0.92 or 0.85)))]]
         then
         tableStatPbmatique[#tableStatPbmatique + 1] = k
         end
@@ -508,7 +494,7 @@ function GetQualityItemWithoutException(ItemStats, Id)
         local found = false
         for _, stat in ipairs(ItemStats) do
             if (tostring(stat) == "SwiftBot.ObjectEffectInteger" or stat.actionId) and stat.actionId == statJP.id and IsActionIdKnown(stat.actionId) and not GetNameCarac(stat.actionId):find("-") 
-            and not IsInTable(StatsToIgnore, GetNameCarac(stat.actionId)) then
+            and not IsInTable(STATS_TO_IGNORE, GetNameCarac(stat.actionId)) then
                 found = true
                 if stat.value > statJP.dice.max and (PoidsByStat[statJP.name].PoidsUnite < 30) and statJP.name == "Vitalite" then
                     PoidsItem = PoidsItem + (statJP.dice.max + (stat.value - statJP.dice.max) * 3) * PoidsByStat[statJP.name].PoidsUnite
@@ -523,7 +509,7 @@ function GetQualityItemWithoutException(ItemStats, Id)
                 break
             end
         end
-        if not found and not IsInTable(StatsToIgnore, statJP.name) then
+        if not found and not IsInTable(STATS_TO_IGNORE, statJP.name) then
             PoidsMaxItem = PoidsMaxItem + statJP.dice.max * PoidsByStat[statJP.name].PoidsUnite
         end
     end
@@ -810,7 +796,7 @@ function MergeRunes()
 end
 
 function GetNameCarac(Id)
-    for _, element in ipairs(IdWithCaracName) do
+    for _, element in ipairs(ID_WITH_CARAC_NAME) do
         if element.Id == Id then
             return element.Name
         end
@@ -818,7 +804,7 @@ function GetNameCarac(Id)
 end
 
 function GetIdCarac(name)
-    for _, element in ipairs(IdWithCaracName) do
+    for _, element in ipairs(ID_WITH_CARAC_NAME) do
         if element.Name == name then
             return element.Id
         end
@@ -826,7 +812,7 @@ function GetIdCarac(name)
 end
 
 function IsActionIdKnown(actionId)
-    for _, element in ipairs(IdWithCaracName) do
+    for _, element in ipairs(ID_WITH_CARAC_NAME) do
         if element.Id == actionId then
             return true
         end
@@ -987,7 +973,7 @@ function AllStatsAreAboveMin(Stats, Id)
     for _, statJP in ipairs(statsJP) do
         for _, stat in ipairs(Stats) do
             if (tostring(stat) == "SwiftBot.ObjectEffectInteger" or stat.actionId) and stat.actionId == statJP.id and IsActionIdKnown(stat.actionId) and not GetNameCarac(stat.actionId):find("-") 
-            and ((stat.value < statJP.dice.min) and not IsInTable(StatsToIgnore, GetNameCarac(stat.actionId))) then
+            and ((stat.value < statJP.dice.min) and not IsInTable(STATS_TO_IGNORE, GetNameCarac(stat.actionId))) then
                 return false
             end
         end

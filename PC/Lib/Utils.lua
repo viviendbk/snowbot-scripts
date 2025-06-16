@@ -500,23 +500,6 @@ function restat(acc)
 end
 
 
---- interaction bot bank ---
-
-bankMaps = {
-    zAstrub = "zaap(191105026)",
-    idHavenbag = 162791424,
-    mapZAstrub = 191105026,
-    bankAstrubExt = 191104002,
-    bankAstrubInt = 192415750,
-}
-
-retryTimestamp = 0
-givingMode = false
-cannotConnect = false
-botFound = false
-connected = false
-
-
 function isBotBankAvailable()
     local json = openFile("C:\\Users\\Administrator\\Documents\\snowbot-scripts\\PC\\Temp\\" .. character:server() .. "\\botBankAvailability.json")
     if not json then
@@ -551,7 +534,7 @@ function setBotBankConnected(server, bool)
 end
 
 function resetBotBankAvailability(force)
-    local servers = merge(ServersMulti, ServersMono)
+    local servers = merge(SERVERS_MULTI, SERVERS_MONO)
     for _, server in ipairs(servers) do
         global:printSuccess(server)
         if force then
@@ -622,15 +605,15 @@ function forwardKamasBotBankIfNeeded(givingTriggerValue, minKamas, maxWaitingTim
             debug(getCurrentAreaName())
             if not getCurrentAreaName():find("Astrub") then
                             debug("ok")
-                if map:currentMapId() == tonumber(bankMaps.idHavenbag) then
-                    return map:changeMap(bankMaps.zAstrub)
+                if map:currentMapId() == tonumber(BANK_MAPS.idHavenbag) then
+                    return map:changeMap(BANK_MAPS.zAstrub)
                 else
                     return map:changeMap("havenbag")
                 end
             else
                             debug("ok2")
-                if map:currentMapId() ~= tonumber(bankMaps.bankAstrubInt) then
-                    return debugMoveToward(tonumber(bankMaps.bankAstrubInt))
+                if map:currentMapId() ~= tonumber(BANK_MAPS.bankAstrubInt) then
+                    return debugMoveToward(tonumber(BANK_MAPS.bankAstrubInt))
                 else
                     launchExchangeAndGive(minKamas, maxWaitingTime)
                 end
@@ -867,7 +850,7 @@ end
 
 function GetServerByAlias(Alias)
     debug("ok")
-    for _, Server in ipairs(AllServers) do
+    for _, Server in ipairs(ALL_SERVERS) do
         if Alias:lower():find(Server:lower()) then
             return Server
         end
@@ -893,8 +876,6 @@ function findMKamas(stringalias)
 end
 
 
-ipproxy = "193.252.210.41"
-
 function connectAccountsWithFailleProxy()
 
     local loadedAccounts = snowbotController:getLoadedAccounts()
@@ -903,7 +884,7 @@ function connectAccountsWithFailleProxy()
                         ["Dakal"] = {}, ["Kourial"] = {}, ["Mikhal"] = {}, ["Rafal"] = {}, ["Salar"] = {}, ["Brial"] = {}
     }
 
-    for _, server in ipairs(AllServers) do
+    for _, server in ipairs(ALL_SERVERS) do
         for _, acc in ipairs(loadedAccounts) do
             if acc:getAlias():find(server) and (acc:getAlias():find("Mineur") or acc:getAlias():find("Bucheron") 
             or acc:getAlias("Combat") or acc:getAlias():find("LvlUp")) and not acc:getAlias():find("BAN")
@@ -936,7 +917,7 @@ function connectAccountsWithFailleProxy()
             global:printError("Un autre script est déjà en train de se connecter, on continue le script")
             return 
         elseif connexionFile[1].inUse and compareDateTime(os.date("%Y-%m-%d %H:%M:%S"), connexionFile[1].date) >= 20 * 60 
-        and json.decode(developer:getRequest("http://" .. ipproxy .. "/status?proxy=p:5001")).status then
+        and json.decode(developer:getRequest("http://" .. IP_PROXY .. "/status?proxy=p:5001")).status then
             -- Si le script de connexion a planté, on le relance
             global:printError("Le script de connexion a planté, on le relance")
             connexionFile[1].inUse = false
@@ -951,23 +932,23 @@ function connectAccountsWithFailleProxy()
     for i = 1, nbVagues do
         global:printSuccess("----- Vague de connexion " .. i .. " -----")
 
-        local ipDeBase = developer:getRequest("http://api.ipify.org", {}, {}, ipproxy .. ":5001:proxy:proxy123")
+        local ipDeBase = developer:getRequest("http://api.ipify.org", {}, {}, IP_PROXY .. ":5001:proxy:proxy123")
         global:printMessage("IP de base : " .. ipDeBase)
 
-        developer:getRequestWithDelay("http://" .. ipproxy .. "/reset?proxy=p:5001", 15000)
+        developer:getRequestWithDelay("http://" .. IP_PROXY .. "/reset?proxy=p:5001", 15000)
         global:printMessage("On vient de rotate le proxy")
 
-        local proxyReady = json.decode(developer:getRequest("http://" .. ipproxy .. "/status?proxy=p:5001"))
+        local proxyReady = json.decode(developer:getRequest("http://" .. IP_PROXY .. "/status?proxy=p:5001"))
 
         while not proxyReady.status do
             debug("ip pas encore ready, on attend")
             global:delay(2000)
-            proxyReady = json.decode(developer:getRequest("http://" .. ipproxy .. "/status?proxy=p:5001"))
+            proxyReady = json.decode(developer:getRequest("http://" .. IP_PROXY .. "/status?proxy=p:5001"))
         end
 
         global:delay(5000)
 
-        local nouvelleIp = developer:getRequest("http://api.ipify.org", {}, {}, ipproxy .. ":5001:proxy:proxy123")
+        local nouvelleIp = developer:getRequest("http://api.ipify.org", {}, {}, IP_PROXY .. ":5001:proxy:proxy123")
 
         if ipDeBase ~= nouvelleIp and #nouvelleIp < 20 then
             global:printMessage("Nouvelle IP : " .. nouvelleIp)
@@ -1056,7 +1037,7 @@ function debugMoveTowardMap(x, y)
 end
 
 
-MapSansHavreSac = {
+MAPS_SANS_HAVRESAC = {
     {Id = 168035328, Door = "458"},
     {Id = 168034312, Door = "215"},
     {Id = 168034310, Door = "215"},
@@ -1095,7 +1076,7 @@ function treatMaps(maps, errorFn)
 
     if map:onMap(206308353) then map:changeMap("left") end
 
-    for _, element in ipairs(MapSansHavreSac) do
+    for _, element in ipairs(MAPS_SANS_HAVRESAC) do
         if not element.Door and map:onMap(tostring(element.Id)) then
             if map:currentCell() == tonumber(element.Path) then
                 map:moveToCell(math.random(50, 500))
@@ -1223,4 +1204,18 @@ print.table = function(self, tab, acc, depth)
             self:table(value, acc, depth + 1)
         end
     end
+end
+
+function rotateTableRandom(t)
+    local len = #t
+    if len <= 1 then return t end
+
+    local shift = math.random(0, len - 1)
+    local result = {}
+
+    for i = 1, len do
+        result[i] = t[(i + shift - 1) % len + 1]
+    end
+
+    return result
 end

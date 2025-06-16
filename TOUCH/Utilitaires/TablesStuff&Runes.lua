@@ -1,4 +1,4 @@
-IdWithCaracName = {
+ID_WITH_CARAC_NAME = {
     {
         Id = 111,
         Name = "PA"

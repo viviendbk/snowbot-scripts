@@ -547,7 +547,7 @@ local function getEffect(data)
         ["table"] = data,
     })
 
-    return find(IdWithCaracName, function(effect)
+    return find(ID_WITH_CARAC_NAME, function(effect)
         return effect.Id == search.id
             or effect.Name == search.name
     end)

@@ -33,7 +33,6 @@ local TableOutilAtelier = {
     ["Baton"] = {ElementId = 455854, Rep = -1},
     ["Baguette"] = {ElementId = 455854, Rep = -2},
     ["Arc"] = {ElementId = 455854, Rep = -3},
-    ["Potion"] = {ElementId = 455659, Rep = -1},
 }
 
 

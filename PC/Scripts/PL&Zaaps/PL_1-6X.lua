@@ -1238,7 +1238,7 @@ function bank()
 end
 
 
-function phenix()
+function PHENIX()
     return {
 	{map = "190843392", custom = function() map:door(313) map:changeMap("top") end},
 	{map = "-3,-13", path = "right"},

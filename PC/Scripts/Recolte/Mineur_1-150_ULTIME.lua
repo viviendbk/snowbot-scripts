@@ -21,7 +21,7 @@ local actualiser = true
 local CraftQuantity = 0
 local hdv_door_id = 218
 
-local MapSansHavreSac = {
+local MAPS_SANS_HAVRESAC = {
     {Id = 168034306, Door = "471"},
     {Id = 168034308, Door = "464"},
     {Id = 168035328, Door = "458"},
@@ -769,7 +769,7 @@ local function ProcessSell()
 end
 
 local function havresac()
-    for _, element in ipairs(MapSansHavreSac) do
+    for _, element in ipairs(MAPS_SANS_HAVRESAC) do
         if not element.Door and map:onMap(tostring(element.Id)) then
             if map:currentCell() == tonumber(element.Path) then
                 map:moveToCell(math.random(50, 500))
@@ -964,7 +964,7 @@ function bank()
         }
     end
 				
-    for _, element in ipairs(MapSansHavreSac) do
+    for _, element in ipairs(MAPS_SANS_HAVRESAC) do
         if not element.Door and map:onMap(tostring(element.Id)) then
             if map:currentCell() == tonumber(element.Path) then
                 map:moveToCell(math.random(50, 500))
@@ -990,8 +990,8 @@ function bank()
     }
 end
 
-function phenix()
-    return Phenix
+function PHENIX()
+    return PHENIX
 end
 
 

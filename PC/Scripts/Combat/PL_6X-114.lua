@@ -844,8 +844,8 @@ function bank()
 end
 
 
-function phenix()
-	return Phenix
+function PHENIX()
+	return PHENIX
 end
 
 function BestChoiceForZone2(cellIdLauncher, spellId, nearestEnnemi, poMax, canHurtAllies)

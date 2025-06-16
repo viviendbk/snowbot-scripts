@@ -5,7 +5,7 @@ NB_COMBAT = 5
 NB_CRAFT = 2
 NB_GROUPE = 3
 
-bankMaps = {
+BANK_MAPS = {
     zAstrub = "zaap(191105026)",
     idHavenbag = 162791424,
     mapZAstrub = 191105026,
@@ -19,19 +19,19 @@ cannotConnect = false
 botFound = false
 connected = false
 
-ipproxy = "193.252.210.41"
+IP_PROXY = "193.252.210.41"
 
-ServersMulti = {
+SERVERS_MULTI = {
     "Imagiro", "Orukam", "Tal Kasha", "Hell Mina", "Tylezia", "Rafal", "Salar", "Brial"
 }
 
-ServersMono = {
+SERVERS_MONO = {
     "Draconiros", "Dakal", "Kourial", "Mikhal"
 }
 
-AllServers = merge(ServersMulti, ServersMono)
+ALL_SERVERS = merge(SERVERS_MULTI, SERVERS_MONO)
 
-MapSansHavreSac = {
+MAPS_SANS_HAVRESAC = {
     {Id = 168035328, Door = "458"},
     {Id = 168034312, Door = "215"},
     {Id = 168034310, Door = "215"},
@@ -65,7 +65,7 @@ ActualPrice = 0
 RunesTransVita = {{Id = 20567, Value = 50, ConditionPoids = 61}, {Id = 20568, Value = 75, ConditionPoids = 41}--[[, {Id = 20569, Value = 100, ConditionPoids = 21}]]}
 
 
-IdWithCaracName = {
+ID_WITH_CARAC_NAME = {
     {
         Id = 111,
         Name = "PA"
@@ -561,7 +561,7 @@ CoefMiniByCarac = {
     ["Puissance"] = 0.9,
 }
 
-StatsToIgnore = {
+STATS_TO_IGNORE = {
     "Resistance Neutre",
     "Resistance Terre",
     "Resistance Feu",
@@ -577,7 +577,7 @@ StatsToIgnore = {
     "Pods"
 }
 
-TableOutilAtelier = {
+TABLE_OUTIL_ATELIER = {
     ["Cape"] = {ElementId = 523886, FMElementId = 521411, FMRep = -1},
     ["Sac à dos"] = {ElementId = 523886, FMElementId = 521411, FMRep = -1},
     ["Chapeau"] = {ElementId = 523886, FMElementId = 521411, FMRep = -1},
@@ -593,7 +593,7 @@ TableOutilAtelier = {
     ["Bâton"] = {ElementId = 521432, FMElementId = 521410, FMRep = -1},
     ["Baguette"] = {ElementId = 521432, FMElementId = 521410, FMRep = -1},
     ["Arc"] = {ElementId = 521432, FMElementId = 521410, FMRep = -1},
-    ["Idole"] = {ElementId = 490231},
+    ["Potion"] = {ElementId = 455659, Rep = -1},
     ["Bouclier"] = {ElementId = 489581},
     ["Trophet"] = {ElementId = 463613},
     ["Prysmaradite"] = {ElementId = 517999},
@@ -602,7 +602,7 @@ TableOutilAtelier = {
 PrixHdvAllRessources = {}
 
 
-Phenix = {
+PHENIX = {
 		{map = "-68,-43", path = "right"},
 		{map = "-67,-43", path = "top"},
 		{map = "-67,-44", custom = function() map:door(219) map:changeMap("havenbag") end},

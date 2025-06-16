@@ -31,7 +31,7 @@ local scriptPath = "C:\\Users\\Administrator\\Documents\\snowbot-scripts\\PC\\Sc
 
 --PLANNING = {3, 8, 13, 18, 23}
 
-local MapSansHavreSac = {
+local MAPS_SANS_HAVRESAC = {
     {Id = 206308353, Path = "left"},
 	{Id = 153621, Path = "left"},
     {Id = 168035328, Door = "458"},
@@ -49,7 +49,7 @@ local MapSansHavreSac = {
 }		
 
 local function GoToHavresac()
-	for _, element in ipairs(MapSansHavreSac) do
+	for _, element in ipairs(MAPS_SANS_HAVRESAC) do
 		if not element.Door and map:onMap(tostring(element.Id)) then
 			return {{map = tostring(element.Id), path = element.Path}}
 		elseif map:onMap(tostring(element.Id)) then
@@ -2096,7 +2096,7 @@ function bank()
     end
 
 
-    for _, element in ipairs(MapSansHavreSac) do
+    for _, element in ipairs(MAPS_SANS_HAVRESAC) do
        if not element.Door and map:onMap(tostring(element.Id)) then
 		if map:currentCell() == tonumber(element.Path) then
 			map:moveToCell(math.random(50, 500))
@@ -2136,6 +2136,6 @@ function banned()
     global:editAlias(phrase .. " [BAN]", true)
 end
 
-function phenix()
-	return Phenix
+function PHENIX()
+	return PHENIX
 end

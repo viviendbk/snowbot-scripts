@@ -7701,7 +7701,7 @@
 13966 - Combinaison thermolact�e grossi�re
 13967 - Combinaison thermolact�e basique
 13968 - Combinaison thermolact�e sup�rieure
-13969 - Combinaison thermolact�StatsToIgnoreonnelle
+13969 - Combinaison thermolact�STATS_TO_IGNOREonnelle
 13970 - Combinaison thermolact�e extraordinaire
 13971 - Maxillaire de Brikoglours
 13973 - Bec de Mansordide
@@ -7932,7 +7932,7 @@
 14204 - Thermolactage grossier
 14205 - Thermolactage basique
 14206 - Thermolactage sup�rieur
-14207 - Thermolactage StatsToIgnorenel
+14207 - Thermolactage STATS_TO_IGNOREnel
 14208 - Thermolactage extraordinaire
 14209 - Sacoche de Messager
 14210 - Chachatte Rousse empaill�e

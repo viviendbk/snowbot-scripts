@@ -136,7 +136,7 @@ local function ProcessCraft(table, cellId, jobId)
                 global:printSuccess("On va craft " .. CraftQuantity .. " x [" ..  inventory:itemNameId(element.Id) .. "]")
 
                 global:delay(math.random(500, 1500))
-                map:useById(TableOutilAtelier[element.Type].ElementId, -1)
+                map:useById(TABLE_OUTIL_ATELIER[element.Type].ElementId, -1)
                 global:delay(math.random(500, 1500))
     
                 global:printSuccess("ok1")
@@ -536,7 +536,7 @@ function move()
 
         -- va hdv runes pour récupérer le prix / poids de chaque item et la répartition hdv
         if not map:onMap(212601859) and not hdvRunesChecked then
-            return TreatMaps(goToHdvRunes)
+            return treatMaps(goToHdvRunes)
         elseif not hdvRunesChecked then
 
             HdvSell()
@@ -566,7 +566,7 @@ function move()
 
         -- --va hdv ressources
         if not map:onMap(212601350) and not hdvRessourceChecked then
-            return TreatMaps(goToHdvRessources)
+            return treatMaps(goToHdvRessources)
         elseif not hdvRessourceChecked then
             --récupère le cout total du craft de chaque item et le met dans la table
             HdvSell()
@@ -663,7 +663,7 @@ function move()
         
         --va chercher les kamas en banque
         if not map:onMap(217059328) and not bankChecked2 then
-            return TreatMaps(goToBankBonta)
+            return treatMaps(goToBankBonta)
         elseif not bankChecked2 then
             npc:npcBank(-1)
             if exchange:storageKamas() > 0 then
@@ -761,7 +761,7 @@ function move()
     global:printSuccess("1")
 
     if not map:onMap(212601350) and HaveToBuyRessources() then
-        return TreatMaps(goToHdvRessources)
+        return treatMaps(goToHdvRessources)
     elseif HaveToBuyRessources() then
         HdvBuy()
         for _, item in ipairs(CraftCordonier) do
@@ -888,7 +888,7 @@ function move()
     for _, item in ipairs(CraftCordonier) do
         if inventory:itemCount(item.Id) < item.NbToCraft then
             if not map:onMap(217055238) then
-                return TreatMaps(goToAtelierCordoBonta)
+                return treatMaps(goToAtelierCordoBonta)
             else
                 ProcessCraft(CraftCordonier, 360, 15)
             end
@@ -897,7 +897,7 @@ function move()
     for _, item in ipairs(CraftBijoutier) do
         if inventory:itemCount(item.Id) < item.NbToCraft then
             if not map:onMap(217058310) then
-                return TreatMaps(goToAtelierBijoutierBonta)
+                return treatMaps(goToAtelierBijoutierBonta)
             else
                 ProcessCraft(CraftBijoutier, 485, 16)
             end
@@ -906,7 +906,7 @@ function move()
     for _, item in ipairs(CraftTailleur) do
         if inventory:itemCount(item.Id) < item.NbToCraft then
             if not map:onMap(217056260) then
-                return TreatMaps(goToAtelierTailleurBonta)
+                return treatMaps(goToAtelierTailleurBonta)
             else
                 ProcessCraft(CraftTailleur, 520, 27)
             end
@@ -915,7 +915,7 @@ function move()
     for _, item in ipairs(CraftForgeron) do
         if inventory:itemCount(item.Id) < item.NbToCraft then
             if not map:onMap(217055236) then
-                return TreatMaps(goToAtelierForgeronBonta)
+                return treatMaps(goToAtelierForgeronBonta)
             else
                 ProcessCraft(CraftForgeron, 526, 11)
             end
@@ -924,7 +924,7 @@ function move()
     for _, item in ipairs(CraftSculpteur) do
         if inventory:itemCount(item.Id) < item.NbToCraft then
             if not map:onMap(217058308) then
-                return TreatMaps(goToAtelierSculpteurBonta)
+                return treatMaps(goToAtelierSculpteurBonta)
             else
                 ProcessCraft(CraftSculpteur, 479, 13)
             end
@@ -1011,7 +1011,7 @@ function move()
 
             --va chercher les runes manquantes en banque
             if not map:onMap(217059328) and not item.bankChecked and (job:level(GetJobMageIdByType(inventory:getTypeName(item.Id))) < inventory:getLevel(item.Id) + 8) then
-                return TreatMaps(goToBankBonta)
+                return treatMaps(goToBankBonta)
             elseif not item.bankChecked and (job:level(GetJobMageIdByType(inventory:getTypeName(item.Id))) < inventory:getLevel(item.Id) + 8) then
                 npc:npcBank(-1)
                 if exchange:storageKamas() > 0 then
@@ -1038,7 +1038,7 @@ function move()
 
             -- va hdv runes pour acheter les runes manquantes
             if not map:onMap(212601859) and not item.hdvRunesChecked and (job:level(GetJobMageIdByType(inventory:getTypeName(item.Id))) < inventory:getLevel(item.Id) + 8) then
-                return TreatMaps(goToHdvRunes)
+                return treatMaps(goToHdvRunes)
             elseif not item.hdvRunesChecked and (job:level(GetJobMageIdByType(inventory:getTypeName(item.Id))) < inventory:getLevel(item.Id) + 8) then
                 for _, rune in ipairs(item.InfoFm.RunesNeeded) do
                     local quantity = math.floor(math.min(100 - inventory:itemCount(rune), (150000 / GetPriceRune(rune)) - inventory:itemCount(rune)))
@@ -1051,9 +1051,9 @@ function move()
             end
 
             if not map:onMap(217056262) and not item.FMDone and (job:level(GetJobMageIdByType(inventory:getTypeName(item.Id))) < inventory:getLevel(item.Id) + 8) then
-                return TreatMaps(goToAtelierFm)
+                return treatMaps(goToAtelierFm)
             elseif not item.FMDone and (job:level(GetJobMageIdByType(inventory:getTypeName(item.Id))) < inventory:getLevel(item.Id) + 8) then
-                map:useById(TableOutilAtelier[item.Type].FMElementId, TableOutilAtelier[item.Type].FMRep)
+                map:useById(TABLE_OUTIL_ATELIER[item.Type].FMElementId, TABLE_OUTIL_ATELIER[item.Type].FMRep)
                 NbRunesUsed = 0
                 local content = inventory:inventoryContent()
 
@@ -1267,7 +1267,7 @@ function move()
     --- Final Selling
 
     if not map:onMap(217056262) and not breakDone then
-        return TreatMaps(goToBrisage)
+        return treatMaps(goToBrisage)
     elseif not breakDone then
             
         local content = inventory:inventoryContent()

@@ -471,7 +471,7 @@ function bank()
     return move()
 end
 
-function phenix()
+function PHENIX()
 	return {
         {map = "-3,-13", path = "right"},
         {map = "-2,-13", path = "right"},

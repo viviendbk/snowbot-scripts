@@ -177,7 +177,7 @@ function _GetBestPrice(message)
 end
 
 function GetNameCarac(Id)
-    for _, element in ipairs(IdWithCaracName) do
+    for _, element in ipairs(ID_WITH_CARAC_NAME) do
         if element.Id == Id then
             return element.Name
         end
@@ -185,7 +185,7 @@ function GetNameCarac(Id)
 end
 
 function IsActionIdKnown(actionId)
-    for _, element in ipairs(IdWithCaracName) do
+    for _, element in ipairs(ID_WITH_CARAC_NAME) do
         if element.Id == actionId then
             return true
         end

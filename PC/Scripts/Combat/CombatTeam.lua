@@ -832,7 +832,7 @@ local toGive = 0
 local retryTimestamp = 0
 local server = character:server():lower()
 
-local bankMaps = {
+local BANK_MAPS = {
     zAstrub = "zaap(191105026)",
     idHavenbag = 162791424,
     mapZAstrub = 191105026,
@@ -1003,13 +1003,13 @@ local function goAstrubBank(inBankCallback)
     end
 
     if not getCurrentAreaName():find("Astrub") then
-        if map:currentMapId() == tonumber(bankMaps.idHavenbag) then
+        if map:currentMapId() == tonumber(BANK_MAPS.idHavenbag) then
             if global:isBoss() then
                 TeamAcount = global:thisAccountController():getTeamAccounts()
                 for _, acc in ipairs(TeamAcount) do
-                    acc.map:changeMap(bankMaps.zAstrub)
+                    acc.map:changeMap(BANK_MAPS.zAstrub)
                 end
-                map:changeMap(bankMaps.zAstrub)
+                map:changeMap(BANK_MAPS.zAstrub)
             end
         else
             if global:isBoss() then
@@ -1021,13 +1021,13 @@ local function goAstrubBank(inBankCallback)
             end
         end
     else
-        if map:currentMapId() ~= tonumber(bankMaps.bankAstrubInt) then
+        if map:currentMapId() ~= tonumber(BANK_MAPS.bankAstrubInt) then
             if global:isBoss() then
                 TeamAcount = global:thisAccountController():getTeamAccounts()
                 for _, acc in ipairs(TeamAcount) do
-                    acc.map:moveToward(tonumber(bankMaps.bankAstrubInt))
+                    acc.map:moveToward(tonumber(BANK_MAPS.bankAstrubInt))
                 end
-                map:moveToward(tonumber(bankMaps.bankAstrubInt))
+                map:moveToward(tonumber(BANK_MAPS.bankAstrubInt))
             end
         else
             if inBankCallback then
@@ -2386,7 +2386,7 @@ function bank()
     })
 end
 
-local function UsePhenix1()
+local function UsePHENIX1()
     if global:isBoss() then
         map:door(354)
         global:delay(500)
@@ -2409,7 +2409,7 @@ local function UsePhenix1()
     end
 end
 
-local function UsePhenix2()
+local function UsePHENIX2()
     if global:isBoss() then
         map:door(306)
         global:delay(500)
@@ -2437,7 +2437,7 @@ function banned()
     global:editAlias(phrase .. " [BAN]", true)
 end
 
-function phenix()
+function PHENIX()
 	return {
 		{map = "-68,-43", path = "right"},
 		{map = "-67,-43", path = "top"},
@@ -2477,7 +2477,7 @@ function phenix()
 		{map = "-58,21", path = "top"},
 		{map = "-58,20", path = "top"},
 		{map = "-58,19", path = "top"},
-		{map = "-58,18", lockedCustom = UsePhenix1},
+		{map = "-58,18", lockedCustom = UsePHENIX1},
 		{map = "-43,0", lockedCustom = function() map:door(259) map:changeMap("havenbag") end},
 
         {map = "37,-43", path = "left"},
@@ -2485,7 +2485,7 @@ function phenix()
         {map = "35,-43", path = "bottom"},
         {map = "35,-42", path = "bottom"},
         {map = "35,-41", path = "bottom"},
-        {map = "35,-40", lockedCustom = UsePhenix2},
+        {map = "35,-40", lockedCustom = UsePHENIX2},
         {map = "-3,-13", path = "right"},
         {map = "-2,-13", path = "right"},
         {map = "-1,-13", path = "right"},

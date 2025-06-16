@@ -1044,7 +1044,7 @@ end
 -- end
 
 
-function phenix()
+function PHENIX()
 	return {
 		{map = "-68,-43", path = "right"},
 		{map = "-67,-43", path = "top"},

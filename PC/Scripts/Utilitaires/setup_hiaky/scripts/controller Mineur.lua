@@ -17,36 +17,35 @@ dofile("C:\\Users\\Administrator\\Documents\\snowbot-scripts\\PC\\Lib\\GlobalVar
 local totalKamas = 0
 local DebutDeScript = true
 local cptExportation = 0
-ipproxy = "193.252.210.41"
 
 
 local proxies = {
     ["1"] = {
-        ips = ipproxy .. "#SOCKS5_" .. ipproxy .. "#",
+        ips = IP_PROXY .. "#SOCKS5_" .. IP_PROXY .. "#",
         port = "5001#5002",
         username = "proxy#proxy",
         password = "proxy123#proxy123"
     },
     ["2"] = {
-        ips = ipproxy .. "#SOCKS5_" .. ipproxy .. "#",
+        ips = IP_PROXY .. "#SOCKS5_" .. IP_PROXY .. "#",
         port = "5001#5003",
         username = "proxy#proxy",
         password = "proxy123#proxy123"
     },  
     ["3"] = {
-        ips = ipproxy .. "#SOCKS5_" .. ipproxy .. "#",
+        ips = IP_PROXY .. "#SOCKS5_" .. IP_PROXY .. "#",
         port = "5001#5004",
         username = "proxy#proxy",
         password = "proxy123#proxy123"
     },
     ["4"] = {
-        ips = ipproxy .. "#SOCKS5_" .. ipproxy .. "#",
+        ips = IP_PROXY .. "#SOCKS5_" .. IP_PROXY .. "#",
         port = "5001#5005",
         username = "proxy#proxy",
         password = "proxy123#proxy123"
     }, 
     ["5"] = {
-        ips = ipproxy .. "#SOCKS5_" .. ipproxy .. "#",
+        ips = IP_PROXY .. "#SOCKS5_" .. IP_PROXY .. "#",
         port = "5001#5006",
         username = "proxy#proxy",
         password = "proxy123#proxy123"
@@ -90,7 +89,7 @@ local function findMKamas(stringalias)
 end
 
 local function GetServerByAlias(Alias)
-    for _, Server in ipairs(AllServers) do
+    for _, Server in ipairs(ALL_SERVERS) do
         if Alias:lower():find(Server:lower()) then
             return Server
         end
@@ -99,7 +98,7 @@ local function GetServerByAlias(Alias)
 end
 
 local function GetServer(account)
-    for _, Server in ipairs(AllServers) do
+    for _, Server in ipairs(ALL_SERVERS) do
         if account:getAlias():find(Server) then
             return Server
         end
@@ -363,7 +362,7 @@ local function launchNewAccounts()
     local AliasAllAccount = merge(snowbotController:getAliasNotLoadedAccounts(), snowbotController:getAliasLoadedAccounts())
 
 
-    for _, server in ipairs(AllServers) do
+    for _, server in ipairs(ALL_SERVERS) do
 
         global:printSuccess(server)
         mineursPresents = {}
@@ -387,7 +386,7 @@ local function launchNewAccounts()
                 local AliasNotLoaded = snowbotController:getAliasNotLoadedAccounts()
                 for i, Alias in ipairs(AliasNotLoaded) do
 
-                    if IsInTable(ServersMono, server) and Alias:find("Next") then
+                    if IsInTable(SERVERS_MONO, server) and Alias:find("Next") then
 
                         local UsernameNotLoaded = snowbotController:getUsernameNotLoadedAccounts()
                         for j, username in ipairs(UsernameNotLoaded) do
@@ -406,7 +405,7 @@ local function launchNewAccounts()
                         end
                         break
 
-                    elseif IsInTable(ServersMulti, server) and  Alias == "*"  then
+                    elseif IsInTable(SERVERS_MULTI, server) and  Alias == "*"  then
                         local UsernameNotLoaded = snowbotController:getUsernameNotLoadedAccounts()
                         for j, username in ipairs(UsernameNotLoaded) do
                             if i == j then
@@ -629,12 +628,12 @@ function move()
             local AliasNotLoaded = snowbotController:getAliasNotLoadedAccounts()
 
             for i, Alias in ipairs(AliasNotLoaded) do
-                if IsInTable(ServersMono, GetServerByAlias(acc:getAlias())) and Alias:find("Next") and (acc:getAlias():find("Mineur") or acc:getAlias():find("Bucheron")) then
+                if IsInTable(SERVERS_MONO, GetServerByAlias(acc:getAlias())) and Alias:find("Next") and (acc:getAlias():find("Mineur") or acc:getAlias():find("Bucheron")) then
                     global:printSuccess("On remparte le compte " .. acc:getAlias())
                     -- snowbotController:deleteAccount(acc:getUsername())
                     launchNewAccounts()
                     break
-                elseif IsInTable(ServersMulti, GetServerByAlias(acc:getAlias())) and Alias == "*" and (acc:getAlias():find("Mineur") or acc:getAlias():find("Bucheron")) then
+                elseif IsInTable(SERVERS_MULTI, GetServerByAlias(acc:getAlias())) and Alias == "*" and (acc:getAlias():find("Mineur") or acc:getAlias():find("Bucheron")) then
                     global:printSuccess("On remparte le compte " .. acc:getAlias())
                     -- snowbotController:deleteAccount(acc:getUsername())
                     launchNewAccounts()

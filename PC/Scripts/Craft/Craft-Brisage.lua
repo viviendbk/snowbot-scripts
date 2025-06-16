@@ -180,7 +180,7 @@ local function ProcessCraft(table, cellId)
                 global:printSuccess("On va craft " .. CraftQuantity .. " x [" ..  inventory:itemNameId(element.Id) .. "]")
 
                 randomDelay()
-                map:useById(TableOutilAtelier[element.Type].ElementId, -1)
+                map:useById(TABLE_OUTIL_ATELIER[element.Type].ElementId, -1)
                 randomDelay()
     
                 global:printSuccess("ok1")

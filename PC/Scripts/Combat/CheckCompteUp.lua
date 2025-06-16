@@ -38,7 +38,7 @@ local toGive = 0
 local retryTimestamp = 0
 local server = character:server():lower()
 
-local bankMaps = {
+local BANK_MAPS = {
     zAstrub = "zaap(191105026)",
     idHavenbag = 162791424,
     mapZAstrub = 191105026,
@@ -145,14 +145,14 @@ local function goAstrubBank(inBankCallback)
         movingPrinted = true
     end
     if not getCurrentAreaName():find("Astrub") then
-        if map:currentMapId() == tonumber(bankMaps.idHavenbag) then
-            return map:changeMap(bankMaps.zAstrub)
+        if map:currentMapId() == tonumber(BANK_MAPS.idHavenbag) then
+            return map:changeMap(BANK_MAPS.zAstrub)
         else
             return map:changeMap("havenbag")
         end
     else
-        if map:currentMapId() ~= tonumber(bankMaps.bankAstrubInt) then
-            return map:moveToward(tonumber(bankMaps.bankAstrubInt))
+        if map:currentMapId() ~= tonumber(BANK_MAPS.bankAstrubInt) then
+            return map:moveToward(tonumber(BANK_MAPS.bankAstrubInt))
         else
             if inBankCallback then
                 return inBankCallback()
