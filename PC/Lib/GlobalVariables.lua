@@ -1,5 +1,3 @@
-minKamas = (getRemainingSubscription(true) == 0) and 1700000 or 300000
-
 bankMaps = {
     zAstrub = "zaap(191105026)",
     idHavenbag = 162791424,

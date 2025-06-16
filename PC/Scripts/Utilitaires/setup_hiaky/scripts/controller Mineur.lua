@@ -17,7 +17,7 @@ dofile("C:\\Users\\Administrator\\Documents\\snowbot-scripts\\PC\\Lib\\GlobalVar
 local totalKamas = 0
 local DebutDeScript = true
 local cptExportation = 0
-ipproxy = "193.252.210.41
+ipproxy = "193.252.210.41"
 
 
 local proxies = {
@@ -59,24 +59,7 @@ local condition = function(acc)
     return acc:isAccountFullyConnected() and not acc:isScriptPlaying() and (acc:isTeamLeader() or not acc:isItATeam())
 end
 
-string.split = function(self, sep, rawSep)
-    local insert, result = table.insert, {}
-    if not sep then
-        sep = "."
-        rawSep = true
-    end
-    if sep == "%s" then
-        rawSep = nil
-    end
 
-    local rawSep = rawSep and sep or "([^" .. sep .. "]+)"
-
-    for match in self:gmatch(rawSep) do
-        insert(result, match)
-    end
-
-    return result
-end
 
 function join(tab, sep)
     local result = ''

@@ -13,17 +13,6 @@ local tableEquip = {
     {Type = "arme", Id = 7254, Emplacement = 1}, 
 }
 
-local function join(tab, sep)
-    local result = ''
-    for k, v in ipairs(tab) do
-        result = sep
-            and result .. v .. sep
-            or result .. v
-    end
-
-    return result
-end
-
 local function LaunchFight()
     FightDone = true
     npc:npc(434, 3)

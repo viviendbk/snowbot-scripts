@@ -2538,6 +2538,7 @@ function move()
         }
     end
 
+    minKamas = (getRemainingSubscription(true) == 0) and 1700000 or 300000
 
     forwardKamasBotBankIfNeeded(2500000, minKamas, 120, 6)
     

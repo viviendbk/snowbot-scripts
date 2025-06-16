@@ -83,38 +83,6 @@ print.sep = function(self, color)
     end
 end
 
-print.table = function(self, tab, acc, depth)
-    if type(tab) ~= "table" then
-        return type(tab) == "nil" and self:error("nil value") or self:error("Not a table")
-    end
-
-    depth = depth or 0
-    
-    for key, value in pairs(tab) do
-        local margin = ""
-
-        for _ = 1, depth do
-            margin = margin .. "  "
-        end
-
-        self(margin .. tostring(key) .. " = " .. tostring(value) .. " (" .. type(value) .. ")", acc)
-
-        if type(value) == "table" then
-            self:table(value, acc, depth + 1)
-        end
-    end
-end
-
-function join(tab, sep)
-    local result = ''
-    for k, v in ipairs(tab) do
-        result = sep
-            and result .. v .. sep
-            or result .. v
-    end
-
-    return result
-end
 
 function GetQualityItem(ItemStats, Id)
     Id = Id or IdToSell

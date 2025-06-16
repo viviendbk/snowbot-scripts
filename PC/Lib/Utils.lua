@@ -866,6 +866,7 @@ end
 
 
 function GetServerByAlias(Alias)
+    debug("ok")
     for _, Server in ipairs(AllServers) do
         if Alias:lower():find(Server:lower()) then
             return Server
@@ -921,7 +922,7 @@ function connectAccountsWithFailleProxy()
 
     global:printSuccess("Il y a " .. nbVagues .. " vagues de connexion à faire")
     if nbVagues > 0 then
-        local connexionFile = openFile(global:getCurrentScriptDirectory() .. "\\connexion.json")
+        local connexionFile = openFile(global:getCurrentScriptDirectory() .. "\\controllerConnexionUse.json")
 
         if not connexionFile or #connexionFile == 0 or not connexionFile[1].inUse then
             connexionFile[1] = {
@@ -930,7 +931,7 @@ function connectAccountsWithFailleProxy()
                     date = os.date("%Y-%m-%d %H:%M:%S")
                 }
 
-            writeToJsonFile(global:getCurrentScriptDirectory() .. "\\connexion.json", connexionFile)
+            writeToJsonFile("C:\\Users\\Administrator\\Documents\\snowbot-scripts\\PC\\Temp\\controllerConnexionUse.json", connexionFile)
         elseif connexionFile[1].inUse and compareDateTime(os.date("%Y-%m-%d %H:%M:%S"), connexionFile[1].date) < 20 * 60 then
             global:printError("Un autre script est déjà en train de se connecter, on continue le script")
             return 
@@ -941,7 +942,7 @@ function connectAccountsWithFailleProxy()
             connexionFile[1].inUse = false
             connexionFile[1].by = ""
             connexionFile[1].date = ""
-            writeToJsonFile(global:getCurrentScriptDirectory() .. "\\connexion.json", connexionFile)
+            writeToJsonFile("C:\\Users\\Administrator\\Documents\\snowbot-scripts\\PC\\Temp\\controllerConnexionUse.json", connexionFile)
             return connectAccountsWithFailleProxy() -- Retenter la connexion
         end
     end
@@ -973,11 +974,11 @@ function connectAccountsWithFailleProxy()
         else
             global:printError("L'IP n'a pas changé, on retente dans 10 secondes")
 
-            local connexionFile = openFile(global:getCurrentScriptDirectory() .. "\\connexion.json")
+            local connexionFile = openFile(global:getCurrentScriptDirectory() .. "\\controllerConnexionUse.json")
             connexionFile[1].inUse = false
             connexionFile[1].by = ""
             connexionFile[1].date = ""
-            writeToJsonFile(global:getCurrentScriptDirectory() .. "\\connexion.json", connexionFile)
+            writeToJsonFile("C:\\Users\\Administrator\\Documents\\snowbot-scripts\\PC\\Temp\\controllerConnexionUse.json", connexionFile)
 
             global:delay(10000) -- Attendre 1 minute avant de retenter
             return connectAccountsWithFailleProxy() -- Retenter la connexion
@@ -990,11 +991,11 @@ function connectAccountsWithFailleProxy()
             end
         end
 
-        local connexionFile = openFile(global:getCurrentScriptDirectory() .. "\\connexion.json")
+        local connexionFile = openFile(global:getCurrentScriptDirectory() .. "\\controllerConnexionUse.json")
         connexionFile[1].inUse = false
         connexionFile[1].by = ""
         connexionFile[1].date = ""
-        writeToJsonFile(global:getCurrentScriptDirectory() .. "\\connexion.json", connexionFile)
+        writeToJsonFile("C:\\Users\\Administrator\\Documents\\snowbot-scripts\\PC\\Temp\\controllerConnexionUse.json", connexionFile)
 
         global:delay(20000) -- 20000 ms = 20 secondes
     end
@@ -1149,4 +1150,77 @@ function treatMaps(maps, errorFn)
     return errorFn
         and errorFn()
         or global:printError(msg)
+end
+
+function join(tab, sep)
+    local result = ''
+    for k, v in ipairs(tab) do
+        result = sep
+            and result .. v .. sep
+            or result .. v
+    end
+
+    return result
+end
+
+function getPrint(message, info)
+    if info then message = "[Info] - " .. message end
+
+    return message
+end
+
+print.__call = function(self, message, info)
+    global:printMessage(getPrint(message, info))
+end
+
+print.success = function(self, message, info)
+    global:printSuccess(getPrint(message, info))
+end
+
+print.error = function(self, message)
+    global:printError(getPrint(message, info))
+end
+
+print.color = function(self, message, color)
+    if not color then color = "#4d8fbe" end
+
+    global:printColor(color, message)
+end
+
+print.void = function(self)
+    self:color("", "#343434")
+end
+
+print.sep = function(self, color)
+    if color == nil then
+        self("--------------------------")
+    else
+        if color == true then
+            self:success("--------------------------")
+        else
+            self:error("--------------------------")
+        end
+    end
+end
+
+print.table = function(self, tab, acc, depth)
+    if type(tab) ~= "table" then
+        return type(tab) == "nil" and self:error("nil value") or self:error("Not a table")
+    end
+
+    depth = depth or 0
+    
+    for key, value in pairs(tab) do
+        local margin = ""
+
+        for _ = 1, depth do
+            margin = margin .. "  "
+        end
+
+        self(margin .. tostring(key) .. " = " .. tostring(value) .. " (" .. type(value) .. ")", acc)
+
+        if type(value) == "table" then
+            self:table(value, acc, depth + 1)
+        end
+    end
 end

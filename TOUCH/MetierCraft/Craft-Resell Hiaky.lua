@@ -535,80 +535,8 @@ local function try(fn, catch)
     end
 end
 
-setmetatable(print, print)
+setmetatable(print, print) 
 
-local function getPrint(message, info)
-    if info then message = "[Info] - " .. message end
-
-    return message
-end
-
-print.__call = function(self, message, info)
-    global:printMessage(getPrint(message, info))
-end
-
-print.success = function(self, message, info)
-    global:printSuccess(getPrint(message, info))
-end
-
-print.error = function(self, message)
-    global:printError(getPrint(message, info))
-end
-
-print.color = function(self, message, color)
-    if not color then color = "#4d8fbe" end
-
-    global:printColor(color, message)
-end
-
-print.void = function(self)
-    self:color("", "#343434")
-end
-
-print.sep = function(self, color)
-    if color == nil then
-        self("--------------------------")
-    else
-        if color == true then
-            self:success("--------------------------")
-        else
-            self:error("--------------------------")
-        end
-    end
-end
-
-print.table = function(self, tab, acc, depth)
-    if type(tab) ~= "table" then
-        return type(tab) == "nil" and self:error("nil value") or self:error("Not a table")
-    end
-
-    depth = depth or 0
-    
-    for key, value in pairs(tab) do
-        local margin = ""
-
-        for _ = 1, depth do
-            margin = margin .. "  "
-        end
-
-        self(margin .. tostring(key) .. " = " .. tostring(value) .. " (" .. type(value) .. ")", acc)
-
-        if type(value) == "table" then
-            self:table(value, acc, depth + 1)
-        end
-    end
-end
-
-function join(tab, sep)
-    local result = ''
-    for k, v in ipairs(tab) do
-        result = sep
-            and result .. v .. sep
-            or result .. v
-    end
-
-    return result
-end
 
 function GetQualityItem(ItemStats, Id)
     Id = Id or IdToSell

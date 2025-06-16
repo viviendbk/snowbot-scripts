@@ -173,35 +173,6 @@ local function echange()
 
 end
 
-string.split = function(self, sep, rawSep)
-    local insert, result = table.insert, {}
-    if not sep then
-        sep = "."
-        rawSep = true
-    end
-    if sep == "%s" then
-        rawSep = nil
-    end
-
-    local rawSep = rawSep and sep or "([^" .. sep .. "]+)"
-
-    for match in self:gmatch(rawSep) do
-        insert(result, match)
-    end
-
-    return result
-end
-
-function join(tab, sep)
-    local result = ''
-    for k, v in ipairs(tab) do
-        result = sep
-            and result .. v .. sep
-            or result .. v
-    end
-
-    return result
-end
 
 function StringTabl()
     stringalias = "Team1 OSHIMO"

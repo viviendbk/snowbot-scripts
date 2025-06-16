@@ -1334,6 +1334,7 @@ function move()
 	end
 
     givingTriggerValue = (job:level(2) < 200) and (getRemainingSubscription(true) > 1) and 1000000 or 2500000
+    minKamas = (getRemainingSubscription(true) == 0) and 1700000 or 300000
 
     forwardKamasBotBankIfNeeded(givingTriggerValue, minKamas, 120, 4)
 
