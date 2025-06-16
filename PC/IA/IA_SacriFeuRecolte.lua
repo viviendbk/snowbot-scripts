@@ -1,5 +1,4 @@
-dofile("C:\\Users\\Administrator\\Documents\\snowbot-scripts\\PC\\IA\\Functions_IA.lua")
-
+dofile("C:\\Users\\Administrator\\Documents\\snowbot-scripts\\PC\\Lib\\IA.lua")
 
 
 function prefightManagement(challengers, defenders)
