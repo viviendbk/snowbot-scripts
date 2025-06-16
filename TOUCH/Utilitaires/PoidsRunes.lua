@@ -36,7 +36,7 @@ PoidsByStat = {
     ["Dommages Pieges"] = {PoidsUnite = 5, Rune1 = {Id = 7446, Poids = 5}, RunePa = {Id = 7447, Poids = 15}},
     ["Dommages Poussee"] = {PoidsUnite = 5, Rune1 = {Id = 11649, Poids = 5}, RunePa = {Id = 11650, Poids = 15}},
     ["Dommages Neutre"] = {PoidsUnite = 5, Rune1 = {Id = 11665, Poids = 5}, RunePa = {Id = 11666, Poids = 15}},
-    ["Puissance pieges"] = {PoidsUnite = 2, Rune1 = {Id = 7447, Poids = 2}, RunePa = {Id = 10615, Poids = 6}, RuneRa = {Id = 10616, Poids = 20}},
+    ["Puissance Pieges"] = {PoidsUnite = 2, Rune1 = {Id = 7447, Poids = 2}, RunePa = {Id = 10615, Poids = 6}, RuneRa = {Id = 10616, Poids = 20}},
     ["Soins"] = {PoidsUnite = 30, Rune1 = {Id = 7434, Poids = 30}},
     ["Critique"] = {PoidsUnite = 30, Rune1 = {Id = 7433, Poids = 30}},
     ["Renvoie dommages"] = {PoidsUnite = 30, Rune1 = {Id = 7437, Poids = 30}},

@@ -1,5 +1,3 @@
-LvlDD = nil
-
 function ManageXpMount()
     local myMount = mount:myMount()
     if myMount ~= nil then
@@ -22,6 +20,7 @@ function _AnalyseDD(message)
 end
 
 function GetDDInfLvl100()
+
     local toReturn = {}
     local content = inventory:inventoryContent()
     printVar(content)
@@ -102,7 +101,6 @@ function GetDDLvl100()
     end
     return toReturn
 end
-
 
 function GetAllDD()
     local toReturn = {}

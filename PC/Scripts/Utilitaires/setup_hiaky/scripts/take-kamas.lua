@@ -10,7 +10,7 @@ dofile("C:\\Users\\Administrator\\Documents\\snowbot-scripts\\PC\\Scripts\\Utili
 
 configPath = "C:\\Users\\Administrator\\Documents\\snowbot-scripts\\PC\\Configs\\configBank.xml"
 scriptPath = "C:\\Users\\Administrator\\Documents\\snowbot-scripts\\PC\\Scripts\\Utilitaires\\setup_hiaky\\scripts\\give-kamas.lua"
-local serversMono = {
+local ServersMono = {
     "Draconiros", "Dakal", "Kourial", "Mikhal"
 }
 
@@ -74,11 +74,11 @@ function move()
 
             if global:thisAccountController():getAlias():find("Groupe") then
                 global:printSuccess("on demande 3500000")
-                Exch:submitKamasOrder(IsInTable(serversMono, character:server()) and 4500000 or 4000000)
+                Exch:submitKamasOrder(IsInTable(ServersMono, character:server()) and 4500000 or 4000000)
             elseif global:thisAccountController():getAlias():find("Combat") or global:thisAccountController():getAlias():find("Craft") then
                 global:printSuccess("on demande 10000000")
                 Exch:submitKamasOrder(10000000)
-            elseif IsInTable(serversMono, character:server()) then
+            elseif IsInTable(ServersMono, character:server()) then
                 Exch:submitKamasOrder(800000)
                 submitKamas = 800000
             elseif global:thisAccountController():getAlias():find("LvlUp") then
@@ -90,7 +90,7 @@ function move()
             end
         else
             global:addInMemory("doneTransfert", true)
-            if not IsInTable(serversMono, character:server()) and getRemainingSubscription(true) <= 0 then 
+            if not IsInTable(ServersMono, character:server()) and getRemainingSubscription(true) <= 0 then 
 				Abonnement() 
 			end
             global:disconnect()

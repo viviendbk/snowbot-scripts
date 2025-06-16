@@ -321,7 +321,7 @@ IdWithCaracName = {
     },
     {
         Id = 226,
-        Name = "Puissance pieges"
+        Name = "Puissance Pieges"
     },
     {
         Id = 420,
@@ -461,7 +461,7 @@ PoidsByStat = {
     ["Dommages Poussee"] = {PoidsUnite = 5, Runes = {{Id = 11649, Poids = 5}, {Id = 11650, Poids = 15}}},
     ["Dommages Neutre"] = {PoidsUnite = 5, Runes = {{Id = 11665, Poids = 5}, {Id = 11666, Poids = 15}}},
 
-    --["Puissance pieges"] = {PoidsUnite = 2, Runes = {{Id = 7447, Poids = 2}, {Id = 10615, Poids = 6}, {Id = 10616, Poids = 20}}},
+    --["Puissance Pieges"] = {PoidsUnite = 2, Runes = {{Id = 7447, Poids = 2}, {Id = 10615, Poids = 6}, {Id = 10616, Poids = 20}}},
     ["Soins"] = {PoidsUnite = 10, Runes = {{Id = 7434, Poids = 10}}},
     ["Critique"] = {PoidsUnite = 10, Runes = {{Id = 7433, Poids = 10}}},
     --["Renvoie dommages"] = {PoidsUnite = 10, Runes = {{Id = 7437, Poids = 10}}},

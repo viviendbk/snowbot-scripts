@@ -17,8 +17,6 @@ string.split = function(self, sep, rawSep)
     return result
 end
 
-minKamas = (getRemainingSubscription(true) == 0) and 1700000 or 300000
-
 
 function merge(t1, t2)
     local result = {}
@@ -553,7 +551,7 @@ function setBotBankConnected(server, bool)
 end
 
 function resetBotBankAvailability(force)
-    local servers = merge(serversMulti, serversMono)
+    local servers = merge(ServersMulti, ServersMono)
     for _, server in ipairs(servers) do
         global:printSuccess(server)
         if force then
@@ -865,19 +863,10 @@ function calculCharacteristicsPointsToSet(nbPoints)
     return nbPoints - remaining
 end
 
-serversMulti = {
-    "Imagiro", "Orukam", "Tal Kasha", "Hell Mina", "Tylezia", "Rafal", "Salar", "Brial"
-}
-
-serversMono = {
-    "Draconiros", "Dakal", "Kourial", "Mikhal"
-}
-
-allServers = merge(serversMulti, serversMono)
 
 
 function GetServerByAlias(Alias)
-    for _, Server in ipairs(allServers) do
+    for _, Server in ipairs(AllServers) do
         if Alias:lower():find(Server:lower()) then
             return Server
         end
@@ -913,7 +902,7 @@ function connectAccountsWithFailleProxy()
                         ["Dakal"] = {}, ["Kourial"] = {}, ["Mikhal"] = {}, ["Rafal"] = {}, ["Salar"] = {}, ["Brial"] = {}
     }
 
-    for _, server in ipairs(allServers) do
+    for _, server in ipairs(AllServers) do
         for _, acc in ipairs(loadedAccounts) do
             if acc:getAlias():find(server) and (acc:getAlias():find("Mineur") or acc:getAlias():find("Bucheron") 
             or acc:getAlias("Combat") or acc:getAlias():find("LvlUp")) and not acc:getAlias():find("BAN")
