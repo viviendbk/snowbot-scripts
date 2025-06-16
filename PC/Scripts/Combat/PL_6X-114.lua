@@ -30,8 +30,6 @@ local cptActualiser = 0
 --     PLANNING = {9, 10, 11, 12, 13, 14, 15}
 -- end
 
-
-
 local tableEquip = {
 	{name = "gelocoiffe", id = 2447, emplacement = 6, equipe = false},
 	{name = "amulette blop griotte", id = 9149, emplacement = 0, equipe = false},
@@ -558,38 +556,39 @@ local function ProcessSell()
 	for i, element in ipairs(tableVente) do
 		if inventory:itemCount(element.id) == 0 then global:printSuccess("on a plus rien à vendre") break end
 
-		cpt = get_quantity(element.id).quantity["100"]
 		local itemSold = false
 
-		local Priceitem1 = sale:getPriceItem(element.id, 3)
-		Priceitem1 = (Priceitem1 == nil or Priceitem1 == 0 or Priceitem1 == 1) and sale:getAveragePriceItem(element.id, 3) * 1.5 or Priceitem1
-    	while (inventory:itemCount(element.id) >= 100) and (sale:AvailableSpace() > 0) and (Priceitem1 > 2000) and (cpt < element.maxHdv100) and (sale:AvailableSpace() > 50 or (Priceitem1 > 10000)) do 
-            sale:SellItem(element.id, 100, Priceitem1 - 1) 
-            global:printSuccess("1 lot de " .. 100 .. " x " .. element.Name .. " à " .. Priceitem1 - 1 .. "kamas")
+		cpt = get_quantity(element.id).quantity["100"]
+		local priceItem = GetPricesItem(element.id)
+		priceItem.Price100 = (priceItem.Price100 == nil or priceItem.Price100 == 0 or priceItem.Price100 == 1) and priceItem.AveragePrice * 150 or priceItem.Price100
+
+		while (inventory:itemCount(element.id) >= 100) and (sale:AvailableSpace() > 0) and (priceItem.Price100 > 2000) and (cpt < element.maxHdv100) and (sale:AvailableSpace() > 50 or (priceItem.Price100 > 10000)) do 
+            sale:SellItem(element.id, 100, priceItem.Price100 - 1) 
+            global:printSuccess("1 lot de " .. 100 .. " x " .. element.Name .. " à " .. priceItem.Price100 - 1 .. "kamas")
             cpt = cpt + 1
 			itemSold = true
         end
-		element.maxHdv100 = ((sale:AvailableSpace() > 50) or (Priceitem1 > 10000)) and tableValeurVente[i].maxHdv100 or 0
+
+		element.maxHdv100 = ((sale:AvailableSpace() > 50) or (priceItem.Price100 > 10000)) and tableValeurVente[i].maxHdv100 or 0
 
 		cpt = get_quantity(element.id).quantity["10"]
+		priceItem.Price10 = (priceItem.Price10 == nil or priceItem.Price10 == 0 or priceItem.Price10 == 1) and priceItem.AveragePrice * 15 or priceItem.Price10
 
-		local Priceitem2 = sale:getPriceItem(element.id, 2)
-		Priceitem2 = (Priceitem2 == nil or Priceitem2 == 0 or Priceitem2 == 1) and sale:getAveragePriceItem(element.id, 2) * 1.5 or Priceitem2
-        while (inventory:itemCount(element.id) >= 10) and (sale:AvailableSpace() > 0) and (Priceitem2 > 500) and (cpt < element.maxHdv10) and (sale:AvailableSpace() > 50 or (Priceitem2 > 4000)) do 
-            sale:SellItem(element.id, 10, Priceitem2 - 1) 
-            global:printSuccess("1 lot de " .. 10 .. " x " .. element.Name .. " à " .. Priceitem2 - 1 .. "kamas")
-            cpt = cpt + 1
+		while (inventory:itemCount(element.id) >= 10) and (sale:AvailableSpace() > 0) and (priceItem.Price10 > 500) and (cpt < element.maxHdv10) and (sale:AvailableSpace() > 50 or (priceItem.Price10 > 4000)) do 
+			sale:SellItem(element.id, 10, priceItem.Price10 - 1) 
+			global:printSuccess("1 lot de " .. 10 .. " x " .. element.Name .. " à " .. priceItem.Price10 - 1 .. "kamas")
+			cpt = cpt + 1
 			itemSold = true
 		end
+
 		element.maxHdv10 = ((sale:AvailableSpace() > 50) or (Priceitem2 > 4000)) and tableValeurVente[i].maxHdv10 or 0
 
         cpt = get_quantity(element.id).quantity["1"]
+		priceItem.Price1 = (priceItem.Price1 == nil or priceItem.Price1 == 0 or priceItem.Price1 == 1) and priceItem.AveragePrice * 1.5 or priceItem.Price1
 
-		local Priceitem3 = sale:getPriceItem(element.id, 1)
-		Priceitem3 = (Priceitem3 == nil or Priceitem3 == 0 or Priceitem3 == 1) and sale:getAveragePriceItem(element.id, 1) * 1.5 or Priceitem3
-        while (inventory:itemCount(element.id) >= 1) and (sale:AvailableSpace() > 0) and (Priceitem3 > 100) and (cpt < element.maxHdv1) and (sale:AvailableSpace() > 50 or (Priceitem3 > 500)) do 
-            sale:SellItem(element.id, 1, Priceitem3 - 1) 
-            global:printSuccess("1 lot de " .. 1 .. " x " .. element.Name .. " à " .. Priceitem3 - 1 .. "kamas")
+        while (inventory:itemCount(element.id) >= 1) and (sale:AvailableSpace() > 0) and (priceItem.Price1 > 100) and (cpt < element.maxHdv1) and (sale:AvailableSpace() > 50 or (priceItem.Price1 > 500)) do 
+            sale:SellItem(element.id, 1, priceItem.Price1 - 1) 
+            global:printSuccess("1 lot de " .. 1 .. " x " .. element.Name .. " à " .. priceItem.Price1 - 1 .. "kamas")
             cpt = cpt + 1
 			itemSold = true
         end

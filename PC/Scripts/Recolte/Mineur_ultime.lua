@@ -1430,8 +1430,6 @@ function move()
 
     editAlias("[" .. job:level(24) .. "] " .. getRemainingSubscription(true))
 
-    
-
     if DebutDuScript then ChoosePath() end
 
 
@@ -1559,10 +1557,10 @@ function bank()
     end
     
     return { 
-			{map="0,0",path="zaap(212600323)"},
-			{map="-31,-56",path="top"},
-			{map="212600322", door = "468"},
-			{map = "217059328", custom = ProcessBank},
+        {map="0,0",path="zaap(212600323)"},
+        {map="-31,-56",path="top"},
+        {map="212600322", door = "468"},
+        {map = "217059328", custom = ProcessBank},
     }
 end
 

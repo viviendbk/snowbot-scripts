@@ -1932,52 +1932,8 @@ local function ProcessSell()
     end
 
     if mount:hasMount() and not StopAchatGoujon then
-        local myMount = mount:myMount()
-        if (myMount.energyMax - myMount.energy) > 1000 then
-            local index = 0
-            local minPrice = 500000000
-            local TableAchat = {
-                {Name = "Poisson Pané", Id = 1750},
-                {Name = "Crabe Sourimi", Id = 1757},
-                {Name = "Goujon", Id = 1782},
-                {Name = "Brochet", Id = 1847},
-                {Name = "Sardine Brillante", Id = 1805},
-                {Name = "Cuisse de Boufton", Id = 1911},
-                {Name = "Cuisse de Bouftou **", Id = 1912},
-                {Name = "Poisson-Chaton", Id = 603},
-                {Name = "Bar Rikain", Id = 1779},
-            }
-        
-            npc:npc(333, 5)
-        
-            global:printSuccess("Check du meilleur prix")
-        
-            for i, element in ipairs(TableAchat) do
-                local Price = sale:getPriceItem(element.Id, 3)
-                if Price ~= nil and Price ~= 0 and Price < minPrice then
-                    minPrice = Price
-                    index = i
-                end
-            end
-        
-            global:leaveDialog()
-        
-            global:delay(500)
-        
-            if  minPrice < 6000 then
-                local myMount1 = mount:myMount()
-                while (myMount1.energyMax - myMount1.energy) > 1000 and character:kamas() > 10000 and (inventory:podsMax() - inventory:pods()) > 200 do
-                    npc:npc(333, 6)
-                    sale:buyItem(TableAchat[index].Id, 100, 10000)
-                    global:leaveDialog()
-                    mount:feedMount(TableAchat[index].Id, 100)
-                    myMount1 = mount:myMount()
-                end
-                    global:printSuccess("DD nourrie")
-            else
-                global:printSuccess("les prix sont trop cher, on a pas pu acheter")
-            end
-        end	
+        buyAndfeedDD()
+
         if not mount:isRiding() then
             mount:toggleRiding()
         end
