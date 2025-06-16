@@ -45,20 +45,6 @@ else
 end
 
 
-local MapSansHavreSac = {
-    {Id = 168035328, Door = "458"},
-    {Id = 168034312, Door = "215"},
-    {Id = 168034310, Door = "215"},
-    {Id = 104859139, Path = "444"},
-    {Id = 168167424, Door = "289"},
-    {Id = 104861191, Path = "457"},
-    {Id = 57017859, Path = "395"},
-    {Id = 168036352, Door = "458"},
-    {Id = 104860167, Path = "478"},
-    {Id = 104862215, Path = "472"},
-    {Id = 104859143, Path = "543"},
-}	
-
 local function RegenEnergie()
     local tableAchatEnergie = {
         {name = "Pain des champs", id = 1737},
@@ -1208,31 +1194,7 @@ local function ProcessSell() -- done
 	map:changeMap("top")
 end
 
-local function treatMaps(maps)
 
-    for _, element in ipairs(maps) do
-        local condition = map:onMap(element.map)
-
-        if condition then
-            return maps
-        end
-    end
-
-    if map:onMap(206308353) then map:changeMap("left") end
-
-    for _, element in ipairs(MapSansHavreSac) do
-        if not element.Door and map:onMap(tostring(element.Id)) then
-            if map:currentCell() == tonumber(element.Path) then
-                map:moveToCell(math.random(50, 500))
-            end
-            map:moveToCell(tonumber(element.Path))
-        elseif map:onMap(tostring(element.Id)) then
-            map:door(tonumber(element.Door))
-        end
-    end
-
-    map:changeMap("havenbag")
-end
 
 local function defineGather()
     local insert = table.insert
@@ -1371,8 +1333,7 @@ function move()
 		global:loadAndStart("C:\\Users\\Administrator\\Documents\\snowbot-scripts\\PC\\Recolte\\Bucheron_1_200.lua")
 	end
 
-    minKamas = (getRemainingSubscription(true) == 0) and 1000000 or 300000
-    givingTriggerValue = (job:level(2) < 200) and (getRemainingSubscription(true) > 1) and 1000000 or 1800000
+    givingTriggerValue = (job:level(2) < 200) and (getRemainingSubscription(true) > 1) and 1000000 or 2500000
 
     forwardKamasBotBankIfNeeded(givingTriggerValue, minKamas, 120, 4)
 

@@ -1526,22 +1526,6 @@ local function equiper()
 	end
 end
 
-local function treatMaps(maps, errorFn)
-    local msg = "[Erreur] - Aucune action à réaliser sur la map"
-
-    for _, element in ipairs(maps) do
-        local condition = element.map == map:currentMap() 
-            or tostring(element.map) == tostring(map:currentMapId())
-            
-        if condition then
-            return maps
-        end
-    end
-
-    return errorFn
-        and errorFn()
-        or global:printError(msg)
-end
 
 local function ProcessBank()
 	NeedToReturnBank = false
@@ -1880,7 +1864,7 @@ function move()
 	elseif global:thisAccountController():getAlias():find("LvlUp4") then
 		stringalias = "LvlUp4 "
 	elseif global:thisAccountController():getAlias():find("LvlUp") then
-		stringalias = "LvlUp "
+		stringalias = "LvlUp1"
 	end
 	
 	global:editAlias(stringalias .. " " .. character:server() .. "  / lvl " .. character:level(), true)
@@ -1925,42 +1909,7 @@ function move()
         global:disconnect()
     end
 
-	if global:remember("failed") then
-		if not global:remember("retryTimestamp") then global:addInMemory("retryTimestamp", os.time()) end
-
-		if secondsToHours(os.time() - global:remember("retryTimestamp")) >= minRetryHours then
-			rerollVar()
-			global:editInMemory("retryTimestamp", 0)
-		end
-	end
-
-	if not global:remember("failed") and ((character:kamas() > givingTriggerValue) or (character:level() >= levelToReach) or ((getRemainingSubscription(true) < 0) and (levelToReach == 160) and (character:level() >= 155))) then
-		givingMode = true
-	end
-
-	if givingMode then
-		if not connected then
-			while not isBotBankAvailable() do
-                global:printError("Le bot bank est connecté sur une autre instance, on attend 10 secondes")
-                global:delay(10000)
-            end
-			receiver = connectReceiver()
-
-			if cannotConnect then
-				rerollVar()
-				receiver:disconnect()
-				global:editInMemory("retryTimestamp", os.time())
-				global:addInMemory("failed", true)
-				cannotConnect = false
-			else
-				connected = true
-			end
-		end
-
-		if not global:remember("failed") then
-			return goAstrubBank(launchExchangeAndGive)
-		end
-	end
+	forwardKamasBotBankIfNeeded(givingTriggerValue, minKamas, 120, 4)
 
 	antiModo()
 

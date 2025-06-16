@@ -2286,60 +2286,6 @@ local function ProcessBank()
 	return map:door(518)
 end
 
-local function treatMaps(maps, errorFn)
-    local msg = "[Erreur] - Aucune action à réaliser sur la map"
-
-    for _, element in ipairs(maps) do
-        local condition = map:onMap(element.map) 
-
-        if condition then
-            return maps
-        end
-    end
-    if map:currentSubArea() == "Canyon sauvage" then
-        return
-        {
-            {map = "-16,11", path = "top"},
-            {map = "-16,10", path = "left"},
-            {map = "-17,10", path = "bottom"},
-            {map = "-17,11", path = "left"},
-            {map = "-18,11", path = "bottom"},
-            {map = "-18,12", path = "left"},
-            {map = "-19,12", path = "top(6)"},
-            {map = "-19,11", path = "top"},
-            {map = "-19,10", path = "right"},
-            {map = "-18,10", path = "top"},
-            {map = "-18,9", path = "right"},
-            {map = "-19,9", path = "right"},
-            {map = "-17,9", path = "top"},
-            {map = "-17,8", path = "top"},
-        }
-    elseif getCurrentAreaName() == "Île du Minotoror" then 
-        return
-        {
-            {map = "34476296", custom = function() npc:npc(783, 3) npc:reply(-2) npc:reply(-1) end},
-            {map = "-43,-17", path = "bottom"},
-            {map = "-43,-18", path = "bottom"},
-            {map = "-43,-19", path = "bottom"},
-            {map = "-40,-19", path = "bottom"},
-            {map = "-40,-18", path = "bottom"},
-            {map = "-40,-17", path = "bottom"},
-            {map = "-40,-16", path = "left"},
-            {map = "-41,-16", path = "left"},
-            {map = "-42,-16", path = "left"},
-            {map = "-41,-17", path = "left"},
-            {map = "-41,-18", path = "left"},
-            {map = "-42,-18", path = "left"},
-            {map = "-42,-17", path = "top"},
-            {map = "-41,-19", path = "left"},
-            {map = "-42,-19", path = "left"},
-            {map = "-43,-16", custom = function() npc:npc(770, 3) npc:reply(-1) npc:reply(-1) end}
-        } 
-    end
-    return errorFn
-        and errorFn()
-        or global:printError(msg)
-end
 
 local function WhichArea()
     hdvActualise = false
@@ -2592,7 +2538,6 @@ function move()
         }
     end
 
-    minKamas = (getRemainingSubscription(true) == 0) and 1000000 or 300000
 
     forwardKamasBotBankIfNeeded(2500000, minKamas, 120, 6)
     

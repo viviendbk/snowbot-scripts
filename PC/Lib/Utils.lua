@@ -17,6 +17,9 @@ string.split = function(self, sep, rawSep)
     return result
 end
 
+minKamas = (getRemainingSubscription(true) == 0) and 1700000 or 300000
+
+
 function merge(t1, t2)
     local result = {}
     for i = 1, #t1 do table.insert(result, t1[i]) end
@@ -682,6 +685,57 @@ function connectReceiver(maxWaitingTime)
     botFound = false
 end
 
+function connectGiver(maxWaitingTime)
+    global:printSuccess("Connexion du bot banque")
+
+    for _, acc in ipairs(snowbotController:getLoadedAccounts()) do
+		if acc:getAlias():find("bank_" .. character:server():lower()) then
+            botFound = true
+            if not acc:isAccountFullyConnected() then
+
+                setBotBankConnected(character:server(), true)
+                acc:connect()
+
+
+                local safetyCount = 0
+                while not acc:isAccountFullyConnected() do
+                    safetyCount = safetyCount + 1
+
+
+                    if safetyCount == 1 then
+                        global:printMessage("Attente de la connexion du bot banque (" .. maxWaitingTime .. " secondes max)")
+                    end
+
+                    global:delay(1000)
+
+                    if safetyCount >= maxWaitingTime then
+                        global:printError("Bot banque non-connecté après " .. maxWaitingTime .. " secondes, reprise du trajet")
+                        setBotBankConnected(character:server(), false)
+                        cannotConnect = true
+	
+                        return acc
+                    end
+                end
+
+				acc:loadConfig("C:\\Users\\Administrator\\Documents\\snowbot-scripts\\PC\\Configs\\configBank.xml")
+                if global:thisAccountController():getAlias():find("LvlUp") then
+                    giver:loadScript("C:\\Users\\Administrator\\Documents\\snowbot-scripts\\PC\\Scripts\\Utilitaires\\setup_hiaky\\scripts\\give-kamas-and-stuff.lua")
+                else
+                    acc:loadScript("C:\\Users\\Administrator\\Documents\\snowbot-scripts\\PC\\Scripts\\Utilitaires\\setup_hiaky\\scripts\\give-kamas.lua")				
+                end
+
+                acc:exchangeListen(true)
+                acc.global():setPrivate(false)
+                acc:startScript()
+                return acc
+            else
+                return acc
+            end
+        end
+    end
+    botFound = false
+end
+
 function rerollVar()
     if global:remember("failed") then
         global:deleteMemory("failed")
@@ -1009,4 +1063,101 @@ function debugMoveTowardMap(x, y)
 	if not map:moveTowardMap(x, y) then
 		map:changeMap("top|bottom|left|right")
 	end
+end
+
+
+MapSansHavreSac = {
+    {Id = 168035328, Door = "458"},
+    {Id = 168034312, Door = "215"},
+    {Id = 168034310, Door = "215"},
+    {Id = 104859139, Path = "444"},
+    {Id = 168167424, Door = "289"},
+    {Id = 104861191, Path = "457"},
+    {Id = 57017859, Path = "395"},
+    {Id = 168036352, Door = "458"},
+    {Id = 104860167, Path = "478"},
+    {Id = 104862215, Path = "472"},
+    {Id = 104859143, Path = "543"},
+    {Id = 168034306, Door = "471"},
+    {Id = 168034308, Door = "464"},
+    {Id = 168034310, Door = "493"},
+    {Id = 57017861, Path = "270"},
+    {Id = 104860169, Path = "379"},
+    {Id = 104858121, Path = "507"},
+    {Id = 168034304, Door = "390"},
+    {Id = 104862217, Path = "369"},
+    {Id = 104861193, Path = "454"},
+    {Id = 104859145, Path = "457"},
+}
+
+function treatMaps(maps, errorFn)
+    errorFn = errorFn or function() map:changeMap("havenbag") end
+
+    local msg = "[Erreur] - Aucune action à réaliser sur la map, on va dans le havre-sac"
+
+    for _, element in ipairs(maps) do
+        local condition = map:onMap(element.map) 
+
+        if condition then
+            return maps
+        end
+    end
+
+    if map:onMap(206308353) then map:changeMap("left") end
+
+    for _, element in ipairs(MapSansHavreSac) do
+        if not element.Door and map:onMap(tostring(element.Id)) then
+            if map:currentCell() == tonumber(element.Path) then
+                map:moveToCell(math.random(50, 500))
+            end
+            map:moveToCell(tonumber(element.Path))
+        elseif map:onMap(tostring(element.Id)) then
+            map:door(tonumber(element.Door))
+        end
+    end
+
+    if map:currentSubArea() == "Canyon sauvage" then
+        return
+        {
+            {map = "-16,11", path = "top"},
+            {map = "-16,10", path = "left"},
+            {map = "-17,10", path = "bottom"},
+            {map = "-17,11", path = "left"},
+            {map = "-18,11", path = "bottom"},
+            {map = "-18,12", path = "left"},
+            {map = "-19,12", path = "top(6)"},
+            {map = "-19,11", path = "top"},
+            {map = "-19,10", path = "right"},
+            {map = "-18,10", path = "top"},
+            {map = "-18,9", path = "right"},
+            {map = "-19,9", path = "right"},
+            {map = "-17,9", path = "top"},
+            {map = "-17,8", path = "top"},
+        }
+    elseif getCurrentAreaName() == "Île du Minotoror" then 
+        return
+        {
+            {map = "34476296", custom = function() npc:npc(783, 3) npc:reply(-2) npc:reply(-1) end},
+            {map = "-43,-17", path = "bottom"},
+            {map = "-43,-18", path = "bottom"},
+            {map = "-43,-19", path = "bottom"},
+            {map = "-40,-19", path = "bottom"},
+            {map = "-40,-18", path = "bottom"},
+            {map = "-40,-17", path = "bottom"},
+            {map = "-40,-16", path = "left"},
+            {map = "-41,-16", path = "left"},
+            {map = "-42,-16", path = "left"},
+            {map = "-41,-17", path = "left"},
+            {map = "-41,-18", path = "left"},
+            {map = "-42,-18", path = "left"},
+            {map = "-42,-17", path = "top"},
+            {map = "-41,-19", path = "left"},
+            {map = "-42,-19", path = "left"},
+            {map = "-43,-16", custom = function() npc:npc(770, 3) npc:reply(-1) npc:reply(-1) end}
+        } 
+    end
+
+    return errorFn
+        and errorFn()
+        or global:printError(msg)
 end

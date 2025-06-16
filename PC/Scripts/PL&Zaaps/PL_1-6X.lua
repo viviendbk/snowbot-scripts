@@ -921,7 +921,7 @@ function stop()
 	global:loadAndStart("C:\\Users\\Administrator\\Documents\\snowbot-scripts\\PC\\Scripts\\Utilitaires\\setup_hiaky\\scripts\\take-kamas.lua")
 end
 
-local function treatMaps(maps)
+local function treatMapsAstrub(maps)
     for _, element in ipairs(maps) do
         local condition = map:onMap(element.map) 
 
@@ -942,6 +942,9 @@ end
 
 
 function move()
+	if job:level(24) > 5 or job:level(2) > 5 then
+		global:loadAndStart("C:\\Users\\Administrator\\Documents\\snowbot-scripts\\PC\\Scripts\\Utilitaires\\setup_hiaky\\scripts\\take-kamas.lua")
+    end
 
 	handleDisconnection()
 	if character:level() == 1 and global:thisAccountController():getAlias():find("Requests") and not configLoaded then
@@ -1207,47 +1210,46 @@ function move()
 	if character:level() >= 64 then
 		MAX_MONSTERS = 8
 		MIN_MONSTERS = 2
-		return treatMaps(PrairiesAstrub)
+		return treatMapsAstrub(PrairiesAstrub)
 	elseif character:level() >= 63 then 
 		MAX_MONSTERS = 8
 		MIN_MONSTERS = 2
-		return treatMaps(Piou)
+		return treatMapsAstrub(Piou)
 	elseif character:level() >= 62 then
 		MAX_MONSTERS = 6
 		MIN_MONSTERS = 1
-		return egouts2 and treatMaps(Egouts_Asftrub2) or treatMaps(Egouts_Astrub1)
+		return egouts2 and treatMapsAstrub(Egouts_Astrub2) or treatMapsAstrub(Egouts_Astrub1)
 	elseif character:level() >= 61 and character:level() < 62 then 
 		MAX_MONSTERS = 4
 		MIN_MONSTERS = 1
-		return treatMaps(Foret_Astrub)
+		return treatMapsAstrub(Foret_Astrub)
 	elseif character:level() >= 60 and character:level() < 61 then 
 		MAX_MONSTERS = 6
 		MIN_MONSTERS = 1
-		return egouts2 and treatMaps(Egouts_Astrub2) or treatMaps(Egouts_Astrub1)
+		return egouts2 and treatMapsAstrub(Egouts_Astrub2) or treatMapsAstrub(Egouts_Astrub1)
 	elseif character:level() >= 42 and character:level() < 60 then 
 		MAX_MONSTERS = (character:level() < 40) and 6 or 8
 		MIN_MONSTERS = 2
-		return treatMaps(PrairiesAstrub)
+		return treatMapsAstrub(PrairiesAstrub)
 
 		-- mettre un script tainelia
 	elseif character:level() >= 40 and character:level() < 42 then 
-		debug("aa")
 		MAX_MONSTERS = 5
 		MIN_MONSTERS = 1
-		return treatMaps(Calanques_Astrub)
+		return treatMapsAstrub(Calanques_Astrub)
 	elseif character:level() >= 38 and character:level() < 40 then 
 		MAX_MONSTERS = 5
 		MIN_MONSTERS = 1
-		return treatMaps(Champs_Astrub)
+		return treatMapsAstrub(Champs_Astrub)
 	elseif character:level() >= 30 and character:level() < 38 then 
 		MAX_MONSTERS = 8
 		MIN_MONSTERS = 1
-		return souterrain2 and treatMaps(Souterrain_Astrub2) or treatMaps(Souterrain_Astrub1)
+		return souterrain2 and treatMapsAstrub(Souterrain_Astrub2) or treatMapsAstrub(Souterrain_Astrub1)
 	elseif character:level() < 30 then
 		
 		MAX_MONSTERS = (character:level() < 10) and 1 or (character:level() < 18) and 3 or 5
 		MIN_MONSTERS = (character:level() >= 18) and 2 or 1
-		return treatMaps(Piou)
+		return treatMapsAstrub(Piou)
 	end
 end
 

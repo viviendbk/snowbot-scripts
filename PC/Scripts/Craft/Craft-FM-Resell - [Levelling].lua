@@ -425,15 +425,6 @@ function _AnalyseResultsFM(message)
     -- end
 end
 
-local function TreatMaps(maps)
-    for _, element in ipairs(maps) do
-        if map:onMap(element.map) then
-            return maps
-        end
-    end
-    map:changeMap("havenbag")
-end
-
 local function HaveToBuyRessources()
     local toReturn = false
     for _, item in ipairs(CraftCordonier) do

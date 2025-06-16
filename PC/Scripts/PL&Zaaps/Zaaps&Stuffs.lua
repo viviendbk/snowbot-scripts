@@ -191,14 +191,11 @@ local function BuyStuff()
 		end
 	end
 
-    global:printSuccess("o")
     for _, element in ipairs(tableEquip) do
         if (inventory:itemCount(element.Id) == 0) then
             buyWorthItem(element.Id, 200000)
         end
     end
-	Buyer:many(items)
-    global:printSuccess("oss")
 
     global:leaveDialog()
 
@@ -311,38 +308,40 @@ function achatDD()
         7838, 7837, 7836, 7835, 7834, 7833, 7832, 7831, 7830, 7829, 7828, 7827, 7826, 7825, 7824, 7823, 7822, 7821, 7820, 7819, 7818, 7817, 7816, 7815, 7814, 7813, 7812, 7811, 7810
     
     }
-        local minPrice = 100000000
-        local bestIndex = 1
-        for i, Id in ipairs(Ids) do
+    if not mount:hasMount() then
+            local minPrice = 100000000
+            local bestIndex = 1
+            for i, Id in ipairs(Ids) do
+                HdvBuy()
+                local message = developer:createMessage("ExchangeBidHouseSearchMessage")
+                message.objectGID = Id
+                message.follow = true
+                debug("oui")
+                developer:registerMessage("ExchangeTypesItemsExchangerDescriptionForUserMessage", _GetBestPriceDDLvl1And100)
+                developer:sendMessage(message)
+                developer:suspendScriptUntil("ExchangeTypesItemsExchangerDescriptionForUserMessage", 2000, true)
+
+                global:leaveDialog()
+
+                if BestPrice1 < minPrice and BestPrice1 > 0 then
+                    global:printSuccess("la dd la moins chère coute " .. BestPrice1 .. " kamas")
+                    bestIndex = i
+                    minPrice = BestPrice1
+                end
+            end
+        
+            global:printSuccess("On passe à l'achat")
+        
             HdvBuy()
             local message = developer:createMessage("ExchangeBidHouseSearchMessage")
-            message.objectGID = Id
+            message.objectGID = Ids[bestIndex]
             message.follow = true
-            debug("oui")
-            developer:registerMessage("ExchangeTypesItemsExchangerDescriptionForUserMessage", _GetBestPriceDDLvl1And100)
+            developer:registerMessage("ExchangeTypesItemsExchangerDescriptionForUserMessage", _BuyCheapestDD)
             developer:sendMessage(message)
             developer:suspendScriptUntil("ExchangeTypesItemsExchangerDescriptionForUserMessage", 2000, true)
-
+        
             global:leaveDialog()
-
-            if BestPrice1 < minPrice and BestPrice1 > 0 then
-                global:printSuccess("la dd la moins chère coute " .. BestPrice1 .. " kamas")
-                bestIndex = i
-                minPrice = BestPrice1
-            end
         end
-    
-        global:printSuccess("On passe à l'achat")
-    
-        HdvBuy()
-        local message = developer:createMessage("ExchangeBidHouseSearchMessage")
-        message.objectGID = Ids[bestIndex]
-        message.follow = true
-        developer:registerMessage("ExchangeTypesItemsExchangerDescriptionForUserMessage", _BuyCheapestDD)
-        developer:sendMessage(message)
-        developer:suspendScriptUntil("ExchangeTypesItemsExchangerDescriptionForUserMessage", 2000, true)
-    
-        global:leaveDialog()
     end
 
     map:changeMap("bottom")
@@ -644,6 +643,7 @@ function move()
             {map = "1,24", path = "left"},
             {map = "0,24", path = "left"},
             {map = "7,-4", path = "bottom"},
+            {map = "8,-4", path = "bottom"},
             {map = "7,-3", path = "right"},
             {map = "10,-5", path = "right"},
             {map = "11,-6", path = "right"},
@@ -669,11 +669,11 @@ function move()
         end
         GoTo("-5,-23", function ()
             increment()
-            map:changeMap("left")
+            map:changeMap("bottom")
         end)
     elseif global:remember("ETAPE_ZAAP") == 14 then
         return {
-            		{map = "-1,13", path = "right"},
+        {map = "-1,13", path = "right"},
 		{map = "0,13", path = "right"},
 		{map = "1,13", path = "bottom"},
 		{map = "1,14", path = "bottom"},

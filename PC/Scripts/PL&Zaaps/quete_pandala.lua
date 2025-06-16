@@ -216,19 +216,6 @@ function buy_ressources()
 	end
 end
 
-local function treatMaps(maps)
-    local msg = "[Erreur] - Aucune action à réaliser sur la map"
-
-    for _, element in ipairs(maps) do
-        local condition = map:onMap(element.map) 
-
-        if condition then
-            return maps
-        end
-    end
-    map:changeMap("havenbag")
-end
-
 
 function move()
     mapDelay()

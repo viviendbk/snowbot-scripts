@@ -71,6 +71,18 @@ function Exch:whitelistOrderers(updateOrders)
     end
 end
 
+function _handleTradeRequest(message)
+    global:printSuccess("echange reçu")
+    if IsInTable(self.whitelist, message.source) then
+        global:printSuccess("echange accepté")
+        developer:sendMessage(developer:createMessage("ExchangeAcceptMessage"))
+    else
+        global:printError("echange refusé")
+        global:leaveDialog()
+    end
+    enEchange = true
+end
+
 function Exch:giveKamas()
     local thisOrder = nil
 
@@ -79,7 +91,13 @@ function Exch:giveKamas()
     global:printSuccess("dac1")
 
     local counter = 0
-    while not self.inTrade and counter < 30 do
+
+    developer:registerMessage("ExchangeRequestedTradeMessage", _handleTradeRequest)
+    developer:suspendScriptUntil("ExchangeRequestedTradeMessage", 20000, false)
+
+    while not enEchange and counter < 30 do
+        debug("a")
+
         developer:suspendScriptUntil("ExchangeRequestedTradeMessage", 1000, false)
         counter = counter + 1
     end
@@ -90,11 +108,11 @@ function Exch:giveKamas()
     
     global:printSuccess("dac2")
 
-    if not self.inTrade then return self:giveKamas() end
+    if not enEchange then return self:giveKamas() end
     global:printSuccess("dac3")
 
     for _, order in ipairs(self.orders) do
-        if self.inTrade == order.id then thisOrder = order break end
+        if enEchange == order.id then thisOrder = order break end
     end
     global:printSuccess(thisOrder.kAmount)
 

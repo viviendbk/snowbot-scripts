@@ -191,14 +191,6 @@ local function ProcessCraft(table, cellId, jobId)
 end
 
 
-local function TreatMaps(maps)
-    for _, element in ipairs(maps) do
-        if map:onMap(element.map) then
-            return maps
-        end
-    end
-    map:changeMap("havenbag")
-end
 
 function move()
     mapDelay()
@@ -215,19 +207,19 @@ function move()
 
     if job:level(15) < 40 then -- cordonier
         if not map:onMap(217055238) then
-            return TreatMaps(goToAtelierCordoBonta)
+            return treatMaps(goToAtelierCordoBonta)
         else
             ProcessCraft(CraftCordonier, 360, 15)
         end
     elseif job:level(16) < 40 then
         if not map:onMap(217058310) then
-            return TreatMaps(goToAtelierBijoutierBonta)
+            return treatMaps(goToAtelierBijoutierBonta)
         else
             ProcessCraft(CraftBijoutier, 485, 16)
         end
     elseif job:level(27) < 40 then
         if not map:onMap(217056260) then
-            return TreatMaps(goToAtelierTailleurBonta)
+            return treatMaps(goToAtelierTailleurBonta)
         else
             ProcessCraft(CraftTailleur, 520, 27)
         end

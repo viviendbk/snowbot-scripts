@@ -1899,22 +1899,6 @@ local function ProcessSell() -- done
 	map:changeMap("top")
 end
 
-local function treatMaps(maps, errorFn)
-    local msg = "[Erreur] - Aucune action à réaliser sur la map"
-
-    for _, element in ipairs(maps) do
-        local condition = element.map == map:currentMap() 
-            or tostring(element.map) == tostring(map:currentMapId())
-            
-        if condition then
-            return maps
-        end
-    end
-
-    return errorFn
-        and errorFn()
-        or global:printError(msg)
-end
 
 local function whichArea()
     for _, element in ipairs(TableWichArea) do

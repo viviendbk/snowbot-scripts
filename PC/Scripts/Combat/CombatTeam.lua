@@ -1733,7 +1733,7 @@ local function ProcessBank()
 	return map:door(518)
 end
 
-local function treatMaps(maps)
+local function treatMapsGroup(maps)
     local msg = "[Erreur] - Aucune action à réaliser sur la map"
 
     for _, element in ipairs(maps) do
@@ -1832,7 +1832,7 @@ local function WhichArea()
                 MIN_MONSTERS = TableArea[i].MinMonster
                 Zone[j][3] = false
                 Zone[j + 1][3] = true
-                return treatMaps(Zone[j + 1][1])
+                return treatMapsGroup(Zone[j + 1][1])
 
             elseif map:onMap(Zone[j][2]) and Zone[j][3] and TableArea[i].Farmer and (j + 1) > #Zone then
 
@@ -1857,14 +1857,14 @@ local function WhichArea()
 
                         ZoneSuivante.Farmer = true
                         ZoneSuivante.Zone[1][3] = true
-                        return treatMaps(ZoneSuivante.Zone[1][1])
+                        return treatMapsGroup(ZoneSuivante.Zone[1][1])
 
                     end
 
                 end
                 -- si on a pas trouvé d'autre zone, on refarm la même
 
-                return treatMaps(Zone[1][1])
+                return treatMapsGroup(Zone[1][1])
 
             elseif Zone[j][3] and TableArea[i].Farmer then
                 global:printSuccess(i)
@@ -1893,7 +1893,7 @@ local function WhichArea()
     
                             ZoneSuivante.Farmer = true
                             ZoneSuivante.Zone[1][3] = true
-                            return treatMaps(ZoneSuivante.Zone[1][1])
+                            return treatMapsGroup(ZoneSuivante.Zone[1][1])
     
                         end
     
@@ -1902,7 +1902,7 @@ local function WhichArea()
                     MAX_MONSTERS = myZone.MaxMonster
                     MIN_MONSTERS = myZone.MinMonster
 
-                    return treatMaps(myZone.Zone[j][1])
+                    return treatMapsGroup(myZone.Zone[j][1])
                 end
             end
         end 
@@ -2121,7 +2121,7 @@ function move()
     antiModo()
     
     if DebutDuScript and getCurrentAreaName() == "Ecaflipus" then
-        return treatMaps({
+        return treatMapsGroup({
             {map = "161351684", lockedCustom = function() map:useById(503232, -2) end},
             {map = "161220622", path = "top"},
             {map = "161220620", path = "right"},
@@ -2176,7 +2176,7 @@ function move()
                 {map = map:currentMap(), path = "havenbag"}
             }
         end
-        return treatMaps({
+        return treatMapsGroup({
             {map = "212600323", path = "bottom"},
             {map = "212600837", path = "bottom"},
             {map = "212600838", path = "right"},
@@ -2204,7 +2204,7 @@ function move()
     GoSellParcho = global:remember("GoSellParcho")
 
     if GoSellParcho then
-		return treatMaps(AreaEnergieAndSellParcho)
+		return treatMapsGroup(AreaEnergieAndSellParcho)
     end
 
     return WhichArea()
@@ -2254,7 +2254,7 @@ function bank()
     end
 
     if getCurrentAreaName() == "Ecaflipus" then
-        return treatMaps({
+        return treatMapsGroup({
             {map = "161351684", lockedCustom = function() map:useById(503232, -2) end},
             {map = "161220622", path = "top"},
             {map = "161220620", path = "right"},
@@ -2329,7 +2329,7 @@ function bank()
 
 	if map:currentMap() == "11,10" then map:changeMap("right") end
 	
-    return treatMaps({
+    return treatMapsGroup({
         {map = "161351684", lockedCustom = function() map:useById(503232, -2) end},
         {map = "161220622", path = "top"},
         {map = "161220620", path = "right"},

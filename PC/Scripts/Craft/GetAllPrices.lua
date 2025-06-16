@@ -95,15 +95,6 @@ local goToHdvRessources = {
     -- map : 212601350
 }
 
-local function TreatMaps(maps)
-    for _, element in ipairs(maps) do
-        if map:onMap(element.map) then
-            return maps
-        end
-    end
-    map:changeMap("havenbag")
-end
-
 local function GetCraftCost(ListIdCraft)
     local PrixHdvAllRessources = {}
 

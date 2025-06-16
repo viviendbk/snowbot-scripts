@@ -24,11 +24,11 @@ function truncKamas(amount)
     return truncate(amount, 0)
 end
 
-function messagesRegistering()
-    for _, message in ipairs(developerMessages) do
-        developer:registerMessage(message, messageHandler)
-    end
-end
+-- function messagesRegistering()
+--     for _, message in ipairs(developerMessages) do
+--         developer:registerMessage(message, messageHandler)
+--     end
+-- end
 
 --- </init>
 

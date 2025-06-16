@@ -25,19 +25,6 @@ local trajet = {
     end}
 }
 
-local function treatMaps(maps)
-
-    for _, element in ipairs(maps) do
-        local condition = map:onMap(element.map)
-
-        if condition then
-            return maps
-        end
-    end
-
-    map:changeMap("havenbag")
-end
-
 function move()
     return treatMaps(trajet)
 

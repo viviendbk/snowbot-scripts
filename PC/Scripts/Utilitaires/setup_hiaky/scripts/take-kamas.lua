@@ -41,7 +41,7 @@ local function conditionTakeKamas()
     or global:thisAccountController():getAlias():find("Bucheron")
     or global:thisAccountController():getAlias():find("LvlUp") then
         if (getRemainingSubscription(true) > 0 and character:kamas() < 500000)
-        or job:level(2) > 5 or job:level(24) > 5 then
+        and job:level(2) < 5 and job:level(24) < 5 then
             return true
         end
         return false
@@ -61,7 +61,7 @@ function move()
     --     end
     -- end
     if not global:thisAccountController():getAlias():find("Combat") and not global:thisAccountController():getAlias():find("Craft")
-    and not global:thisAccountController():getAlias():find("Groupe") and not global:remember("firstDecoReco") then
+    and not global:thisAccountController():getAlias():find("Groupe") and not global:remember("firstDecoReco") and getRemainingSubscription(true) <= 0 then
         global:addInMemory("firstDecoReco", true)
         global:printSuccess("On se déco reco pour voir si on est abonné")
         global:disconnect()
@@ -95,15 +95,17 @@ function move()
 			end
             global:disconnect()
         end
+            debug(submitKamas)
 
-        global:delay(500)
+
 
         if not giver then
             while not isBotBankAvailable() do
                 global:printError("Le bot bank est connecté sur une autre instance, on attend 10 secondes")
                 global:delay(10000)
             end
-            giver = Ctrl:connect2(giverAlias, true)
+
+            giver = connectGiver(120)
 
             if not giver then
                 print:errorInfo("Impossible de connecter le bot banque, nouvelle tentative dans " .. timeToRetry .. " heures.")
@@ -123,18 +125,7 @@ function move()
                 global:loadAndStart("C:\\Users\\Administrator\\Documents\\snowbot-scripts\\PC\\Scripts\\PL&Zaaps\\PL_1-6X.lua")
             end
 
-            giver:exchangeListen(true)
-            giver.global():setPrivate(false)
-            myController:exchangeListen(false)
-            global:setPrivate(false)
 
-            giver:loadConfig(configPath)
-			if global:thisAccountController():getAlias():find("LvlUp") then
-				giver:loadScript("C:\\Users\\Administrator\\Documents\\snowbot-scripts\\PC\\Scripts\\Utilitaires\\setup_hiaky\\scripts\\give-kamas-and-stuff.lua")
-			else
-				giver:loadScript(scriptPath)
-            end
-			giver:startScript()
         end
 
         return Moving:goAstrubBank(function()

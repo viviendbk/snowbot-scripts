@@ -217,15 +217,6 @@ local tableCraft = {
 }
 
 
-local function TreatMaps(maps)
-    for _, element in ipairs(maps) do
-        if map:onMap(element.map) then
-            return maps
-        end
-    end
-    map:changeMap("havenbag")
-end
-
 local function HaveToBuyRessources()
     local toReturn = false
     for _, item in ipairs(CraftFaconneur) do
@@ -342,7 +333,7 @@ function move()
 
         --va chercher les kamas en banque
         if not map:onMap(217059328) and not bankChecked then
-            return TreatMaps(goToBankBonta)
+            return treatMaps(goToBankBonta)
         elseif not bankChecked then
             npc:npcBank(-1)
             if exchange:storageKamas() > 0 then
@@ -401,7 +392,7 @@ function move()
 
         -- va hdv runes pour récupérer le prix / poids de chaque item et la répartition hdv
         if not map:onMap(212601859) and not hdvRunesChecked then
-            return TreatMaps(goToHdvRunes)
+            return treatMaps(goToHdvRunes)
         elseif not hdvRunesChecked then
 
             if goBreak then
@@ -479,7 +470,7 @@ function move()
         end
 
         if not map:onMap(217056262) and goBreak then
-            return TreatMaps(goToBrisage)
+            return treatMaps(goToBrisage)
         elseif goBreak then
                 
             for k, v in pairs(dicoItems) do
@@ -619,7 +610,7 @@ function move()
 
         -- --va hdv ressources
         if not map:onMap(212601350) and not hdvRessourceChecked then
-            return TreatMaps(goToHdvRessources)
+            return treatMaps(goToHdvRessources)
         elseif not hdvRessourceChecked then
             --récupère le cout total du craft de chaque item et le met dans la table
             
@@ -700,7 +691,7 @@ function move()
 
         -- va hdv equipement
         if not map:onMap(212600837) and not hdvEquipChecked then
-            return TreatMaps(goToHdvEquip)
+            return treatMaps(goToHdvEquip)
         elseif not hdvEquipChecked then
 
             global:printSuccess("Vente terminée!")
@@ -857,7 +848,7 @@ function move()
         
         -- --va hdv ressources
         if not map:onMap(212601350) and not hdvRessourceChecked2 then
-            return TreatMaps(goToHdvRessources)
+            return treatMaps(goToHdvRessources)
         elseif not hdvRessourceChecked2 then
             --récupère le cout total du craft de chaque item et le met dans la table
             
@@ -962,7 +953,7 @@ function move()
 
         --va chercher les kamas en banque
         if not map:onMap(217059328) and not bankChecked2 then
-            return TreatMaps(goToBankBonta)
+            return treatMaps(goToBankBonta)
         elseif not bankChecked2 then
             npc:npcBank(-1)
             if exchange:storageKamas() > 0 then
@@ -1042,7 +1033,7 @@ function move()
     global:printSuccess("1")
 
     if not map:onMap(212601350) and HaveToBuyRessources() then
-        return TreatMaps(goToHdvRessources)
+        return treatMaps(goToHdvRessources)
     elseif HaveToBuyRessources() then
         HdvBuy()
         for _, item in ipairs(CraftFaconneur) do
@@ -1156,7 +1147,7 @@ function move()
     for _, item in ipairs(CraftFaconneur) do
         if inventory:itemCount(item.Id) < item.NbToCraft then
             if not map:onMap(81788930) then
-                return TreatMaps(goToAtelierFaconneur)
+                return treatMaps(goToAtelierFaconneur)
             else
                 ProcessCraft(CraftFaconneur, 443, 60)
             end
@@ -1165,7 +1156,7 @@ function move()
     for _, item in ipairs(CraftCordonier) do
         if inventory:itemCount(item.Id) < item.NbToCraft then
             if not map:onMap(217055238) then
-                return TreatMaps(goToAtelierCordoBonta)
+                return treatMaps(goToAtelierCordoBonta)
             else
                 ProcessCraft(CraftCordonier, 360, 15)
             end
@@ -1174,7 +1165,7 @@ function move()
     for _, item in ipairs(CraftBijoutier) do
         if inventory:itemCount(item.Id) < item.NbToCraft then
             if not map:onMap(217058310) then
-                return TreatMaps(goToAtelierBijoutierBonta)
+                return treatMaps(goToAtelierBijoutierBonta)
             else
                 ProcessCraft(CraftBijoutier, 485, 16)
             end
@@ -1183,7 +1174,7 @@ function move()
     for _, item in ipairs(CraftTailleur) do
         if inventory:itemCount(item.Id) < item.NbToCraft then
             if not map:onMap(217056260) then
-                return TreatMaps(goToAtelierTailleurBonta)
+                return treatMaps(goToAtelierTailleurBonta)
             else
                 ProcessCraft(CraftTailleur, 520, 27)
             end
@@ -1192,7 +1183,7 @@ function move()
     for _, item in ipairs(CraftForgeron) do
         if inventory:itemCount(item.Id) < item.NbToCraft then
             if not map:onMap(217055236) then
-                return TreatMaps(goToAtelierForgeronBonta)
+                return treatMaps(goToAtelierForgeronBonta)
             else
                 ProcessCraft(CraftForgeron, 526, 11)
             end
@@ -1201,7 +1192,7 @@ function move()
     for _, item in ipairs(CraftSculpteur) do
         if inventory:itemCount(item.Id) < item.NbToCraft then
             if not map:onMap(217058308) then
-                return TreatMaps(goToAtelierSculpteurBonta)
+                return treatMaps(goToAtelierSculpteurBonta)
             else
                 ProcessCraft(CraftSculpteur, 479, 13)
             end
@@ -1215,7 +1206,7 @@ function move()
     --- Final Selling
 
     if not map:onMap(212600837) and not ItemSold then
-        return TreatMaps(goToHdvEquip)
+        return treatMaps(goToHdvEquip)
     elseif not ItemSold then
         local content = inventory:inventoryContent()
         for _, item in ipairs(content) do
@@ -1238,7 +1229,7 @@ function move()
     end
 
     if not map:onMap(212601350) and GoSellIdole then
-        return TreatMaps(goToHdvRessources)
+        return treatMaps(goToHdvRessources)
     elseif GoSellIdole then
         HdvSell()
         local content = inventory:inventoryContent()

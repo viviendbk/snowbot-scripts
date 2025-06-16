@@ -64,19 +64,6 @@ local tableCraft = {
     }, PodsNeededToCraft = 6},
 }
 
-local function treatMaps(maps)
-
-    for _, element in ipairs(maps) do
-        local condition = map:onMap(element.map)
-
-        if condition then
-            return maps
-        end
-    end
-
-    map:changeMap("havenbag")
-end
-
 local function Vidage_Banque()
     npc:npcBank(-1)
 

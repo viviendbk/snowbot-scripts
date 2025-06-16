@@ -607,12 +607,12 @@ function move()
             for i, Alias in ipairs(AliasNotLoaded) do
                 if IsInTable(serversMono, GetServerByAlias(acc:getAlias())) and Alias:find("Next") and (acc:getAlias():find("Mineur") or acc:getAlias():find("Bucheron")) then
                     global:printSuccess("On remparte le compte " .. acc:getAlias())
-                    snowbotController:deleteAccount(acc:getUsername())
+                    -- snowbotController:deleteAccount(acc:getUsername())
                     launchNewAccounts()
                     break
                 elseif IsInTable(serversMulti, GetServerByAlias(acc:getAlias())) and Alias == "*" and (acc:getAlias():find("Mineur") or acc:getAlias():find("Bucheron")) then
                     global:printSuccess("On remparte le compte " .. acc:getAlias())
-                    snowbotController:deleteAccount(acc:getUsername())
+                    -- snowbotController:deleteAccount(acc:getUsername())
                     launchNewAccounts()
                     break
                 end
@@ -653,7 +653,8 @@ function move()
 
         -- end
 
-        if not acc.developer():hasScript() and acc.character():level() < 10 and acc:isAccountFullyConnected() and not acc:getAlias():find("Groupe") then
+        if not acc.developer():hasScript() and acc:isAccountFullyConnected() and not acc:getAlias():find("Groupe") and not acc:getAlias():find("bank")
+        and (job:level(2) > 5 or job:level(24) > 5 or character:level() < 60) then
             acc:loadConfig("C:\\Users\\Administrator\\Documents\\snowbot-scripts\\PC\\Configs\\Config_PL_1-6X.xml")
             acc:loadScript("C:\\Users\\Administrator\\Documents\\snowbot-scripts\\PC\\Scripts\\PL&Zaaps\\PL_1-6X.lua")
             acc:disconnect()

@@ -46,30 +46,6 @@ local CraftQuantity = 0
 
 local hdv_door_id = 218
 
-local MapSansHavreSac = {
-    {Id = 168034306, Door = "471"},
-    {Id = 168034308, Door = "464"},
-    {Id = 168035328, Door = "458"},
-    {Id = 168034312, Door = "215"},
-    {Id = 168034310, Door = "493"},
-    {Id = 104859139, Path = "444"},
-    {Id = 168167424, Door = "289"},
-    {Id = 168167424, Door = "289"},
-    {Id = 104861191, Path = "457"},
-    {Id = 57017859, Path = "395"},
-    {Id = 57017861, Path = "270"},
-    {Id = 168036352, Door = "458"},
-    {Id = 104860167, Path = "478"},
-    {Id = 104862215, Path = "472"},
-    {Id = 104859143, Path = "543"},
-    {Id = 104860169, Path = "379"},
-    {Id = 104858121, Path = "507"},
-    {Id = 168034304, Door = "390"},
-    {Id = 104862217, Path = "369"},
-    {Id = 104861193, Path = "454"},
-    {Id = 104859145, Path = "457"},
-}
-
 local function RegenEnergie()
     npc:npc(385,6)
     global:delay(1500)
@@ -1431,30 +1407,6 @@ local function ProcessSell()
     map:changeMap("top")
 end
 
-local function treatMaps(maps)
-
-    for _, element in ipairs(maps) do
-        local condition = map:onMap(element.map)
-
-        if condition then
-            return maps
-        end
-    end
-    global:printSuccess("havresac")
-    for _, element in ipairs(MapSansHavreSac) do
-        if not element.Door and map:onMap(tostring(element.Id)) then
-            if map:currentCell() == tonumber(element.Path) then
-                map:moveToCell(math.random(50, 500))
-            end
-            map:moveToCell(tonumber(element.Path))
-        elseif map:onMap(tostring(element.Id)) then
-            map:door(tonumber(element.Door))
-        end
-    end
-
-    map:changeMap("havenbag")
-
-end
 
 local function WhichArea()
     hdvActualise = false
@@ -1595,7 +1547,6 @@ function move()
     if compteurZone >= MaxCompteurZone or CompteurChangement >= 25 then return bank() end
 
 
-    minKamas = (getRemainingSubscription(true) == 0) and 1200000 or 250000
     givingTriggerValue = (job:level(24) < 200) and (getRemainingSubscription(true) > 1) and 1000000 or 2000000
 
     forwardKamasBotBankIfNeeded(givingTriggerValue, minKamas, 120, 4)
