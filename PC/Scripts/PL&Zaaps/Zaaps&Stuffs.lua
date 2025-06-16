@@ -759,6 +759,7 @@ function move()
             map:changeMap("top")
         end)
     elseif global:remember("ETAPE_ZAAP") == 17 then
+        global:printSuccess(map:currentMap())
         return {
         {map = "-9,-42", path = "top"},
 		{map = "-9,-43", path = "top"},

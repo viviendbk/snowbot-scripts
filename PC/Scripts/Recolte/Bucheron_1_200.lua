@@ -1603,7 +1603,28 @@ local function ProcessBank() -- done
 		global:delay(500)
 		global:printError("il n'y a pas de kamas dans la banque")
 	end	
-    
+	
+	    -- on prends les poissons en banque
+    if not DDNourrie and mount:hasMount() then
+        local tablePoisson = {
+            {Name = "Poisson Pané", Id = 1750},
+            {Name = "Crabe Sourimi", Id = 1757},
+            {Name = "Goujon", Id = 1782},
+            {Name = "Brochet", Id = 1847},
+            {Name = "Sardine Brillante", Id = 1805},
+            {Name = "Cuisse de Boufton", Id = 1911},
+            {Name = "Cuisse de Bouftou **", Id = 1912},
+            {Name = "Poisson-Chaton", Id = 603},
+            {Name = "Bar Rikain", Id = 1779},
+        }
+        for _, element in ipairs(tablePoisson) do
+            if exchange:storageItemQuantity(element.Id) > 0 then
+                exchange:getItem(element.Id, math.min(exchange:storageItemQuantity(element.Id), 200))
+                break
+            end
+        end
+    end
+
     for _, element in ipairs(Bois) do
         global:printSuccess("[Banque] : " .. exchange:storageItemQuantity(element.Id) .. " [" .. element.Name .. "]")
     end
@@ -2122,51 +2143,5 @@ function banned()
 end
 
 function phenix()
-	return
-	{
-		{map = "-68,-43", path = "right"},
-		{map = "-67,-43", path = "top"},
-		{map = "-67,-44", custom = function() map:door(219) map:changeMap("havenbag") end},
-		{map = "22,22", custom = function() map:door(387) map:changeMap("havenbag") end},
-		{map = "9,16", path = "right"},
-		{map = "10,16", path = "right"},
-		{map = "11,16", path = "right"},
-		{map = "12,16", path = "right"},
-		{map = "13,16", path = "top"},
-		{map = "13,15", path = "top"},
-		{map = "13,14", path = "top"},
-		{map = "13,13", path = "top"},
-		{map = "13,12", path = "left"},
-		{map = "12,12", custom = function() map:door(184) map:changeMap("havenbag") end},
-		{map = "-68,-43", path = "right"},
-		{map = "-67,-43", path = "top"},
-		{map = "-67,-44", custom = function() map:door(219) map:changeMap("havenbag") end},
-
-        {map = "35,-42", path = "bottom"},
-        {map = "35,-41", path = "bottom"},
-        {map = "35,-40", custom = function() map:door(306) map:changeMap("havenbag") end},
-		{map = "-9,-54", path = "left"},
-		{map = "-10,-54", custom = function() map:door(342) map:changeMap("top") end},
-		{map = "23330816", path = "bottom"},
-		{map = "23331073", path = "bottom"},
-		{map = "159769", path = "left"},
-		{map = "-57,25", path = "left"},
-		{map = "-58,24", path = "top"},
-		{map = "-58,25", path = "top"},
-		{map = "-58,23", path = "top"},
-		{map = "-58,22", path = "top"},
-		{map = "-58,21", path = "top"},
-		{map = "-58,20", path = "top"},
-		{map = "-58,19", path = "top"},
-		{map = "-58,18", custom = function() map:door(354) map:changeMap("havenbag") end},
-		{map = "-3,-13", path = "right"},
-        {map = "-2,-13", path = "right"},
-        {map = "-1,-13", path = "right"},
-        {map = "0,-13", path = "right"},
-        {map = "1,-13", path = "right"},
-        {map = "2,-13", path = "top"},
-		{map = "2,-14", custom = function() map:door(313) map:changeMap("havenbag") end},
-
-		{map = "146800640", custom = function() map:door(200) map:door(333) end}
-	}
+	return Phenix
 end

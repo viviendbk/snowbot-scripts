@@ -855,36 +855,7 @@ end
 
 
 function phenix()
-	return {
-		{map = "-68,-43", path = "right"},
-		{map = "-67,-43", path = "top"},
-		{map = "-67,-44", custom = function() map:door(219) map:changeMap("havenbag") end},
-		{map = "22,22", custom = function() map:door(387) map:changeMap("havenbag") end},
-		{map = "9,16", path = "right"},
-		{map = "10,16", path = "right"},
-		{map = "11,16", path = "right"},
-		{map = "12,16", path = "right"},
-		{map = "13,16", path = "top"},
-		{map = "13,15", path = "top"},
-		{map = "13,14", path = "top"},
-		{map = "13,13", path = "top"},
-		{map = "13,12", path = "left"},
-		{map = "12,12", custom = function() map:door(184) map:changeMap("havenbag") end},
-		{map = "-68,-43", path = "right"},
-		{map = "-67,-43", path = "top"},
-		{map = "-67,-44", custom = function() map:door(219) map:changeMap("havenbag") end},
-
-		{map = "-3,-13", path = "right"},
-        {map = "-2,-13", path = "right"},
-        {map = "-1,-13", path = "right"},
-        {map = "0,-13", path = "right"},
-        {map = "1,-13", path = "right"},
-        {map = "2,-13", path = "top"},
-        {map = "2,-14", custom = function ()
-			map:door(313)
-			map:changeMap("havenbag")
-        end},
-	}
+	return Phenix
 end
 
 function BestChoiceForZone2(cellIdLauncher, spellId, nearestEnnemi, poMax, canHurtAllies)

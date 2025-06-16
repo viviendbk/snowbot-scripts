@@ -922,7 +922,7 @@ function connectAccountsWithFailleProxy()
 
     global:printSuccess("Il y a " .. nbVagues .. " vagues de connexion à faire")
     if nbVagues > 0 then
-        local connexionFile = openFile(global:getCurrentScriptDirectory() .. "\\controllerConnexionUse.json")
+        local connexionFile = openFile("C:\\Users\\Administrator\\Documents\\snowbot-scripts\\PC\\Temp\\controllerConnexion.json")
 
         if not connexionFile or #connexionFile == 0 or not connexionFile[1].inUse then
             connexionFile[1] = {
@@ -931,7 +931,7 @@ function connectAccountsWithFailleProxy()
                     date = os.date("%Y-%m-%d %H:%M:%S")
                 }
 
-            writeToJsonFile("C:\\Users\\Administrator\\Documents\\snowbot-scripts\\PC\\Temp\\controllerConnexionUse.json", connexionFile)
+            writeToJsonFile("C:\\Users\\Administrator\\Documents\\snowbot-scripts\\PC\\Temp\\controllerConnexion.json", connexionFile)
         elseif connexionFile[1].inUse and compareDateTime(os.date("%Y-%m-%d %H:%M:%S"), connexionFile[1].date) < 20 * 60 then
             global:printError("Un autre script est déjà en train de se connecter, on continue le script")
             return 
@@ -942,7 +942,7 @@ function connectAccountsWithFailleProxy()
             connexionFile[1].inUse = false
             connexionFile[1].by = ""
             connexionFile[1].date = ""
-            writeToJsonFile("C:\\Users\\Administrator\\Documents\\snowbot-scripts\\PC\\Temp\\controllerConnexionUse.json", connexionFile)
+            writeToJsonFile("C:\\Users\\Administrator\\Documents\\snowbot-scripts\\PC\\Temp\\controllerConnexion.json", connexionFile)
             return connectAccountsWithFailleProxy() -- Retenter la connexion
         end
     end
@@ -974,11 +974,11 @@ function connectAccountsWithFailleProxy()
         else
             global:printError("L'IP n'a pas changé, on retente dans 10 secondes")
 
-            local connexionFile = openFile(global:getCurrentScriptDirectory() .. "\\controllerConnexionUse.json")
+            local connexionFile = openFile("C:\\Users\\Administrator\\Documents\\snowbot-scripts\\PC\\Temp\\controllerConnexion.json")
             connexionFile[1].inUse = false
             connexionFile[1].by = ""
             connexionFile[1].date = ""
-            writeToJsonFile("C:\\Users\\Administrator\\Documents\\snowbot-scripts\\PC\\Temp\\controllerConnexionUse.json", connexionFile)
+            writeToJsonFile("C:\\Users\\Administrator\\Documents\\snowbot-scripts\\PC\\Temp\\controllerConnexion.json", connexionFile)
 
             global:delay(10000) -- Attendre 1 minute avant de retenter
             return connectAccountsWithFailleProxy() -- Retenter la connexion
@@ -991,11 +991,11 @@ function connectAccountsWithFailleProxy()
             end
         end
 
-        local connexionFile = openFile(global:getCurrentScriptDirectory() .. "\\controllerConnexionUse.json")
+        local connexionFile = openFile("C:\\Users\\Administrator\\Documents\\snowbot-scripts\\PC\\Temp\\controllerConnexion.json")
         connexionFile[1].inUse = false
         connexionFile[1].by = ""
         connexionFile[1].date = ""
-        writeToJsonFile("C:\\Users\\Administrator\\Documents\\snowbot-scripts\\PC\\Temp\\controllerConnexionUse.json", connexionFile)
+        writeToJsonFile("C:\\Users\\Administrator\\Documents\\snowbot-scripts\\PC\\Temp\\controllerConnexion.json", connexionFile)
 
         global:delay(20000) -- 20000 ms = 20 secondes
     end

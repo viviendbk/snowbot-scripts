@@ -6,56 +6,6 @@ AUTO_DELETE = {16821, 2467, 881, 2574, 2453, 393, 16824, 8680, 13487, 13494, 641
 GATHER = {}
 
 
-FORBIDDEN_MONSTERS = {463, 1247, 460 }
-local debugPath = false
-local EquipementFini = false
-local lancable = 0		
-local incrementation = 1
-AMOUNT_MONSTERS = {{103, 0, 2}, {1247, 0, 2}}
-
-if not global:remember("lvlFinish") then
-	if global:thisAccountController():getAlias():find("Requests") then
-		global:addInMemory("lvlFinish", 35)
-	else
-		global:addInMemory("lvlFinish", 60)
-	end
-end
-if not global:remember("lvlWait11H") then
-	global:addInMemory("lvlWait11H", math.random(22, 28))
-end
-
-
-
--- 8247  coiffe piou jaune
--- 8223 anneau piou jaune
--- 8229 bottes piou jaune
--- 8217  amulette piou jaune
--- 8236  cape piou jaune
--- 8241  ceinture piou jaune
-
-string.split = function(self, sep, rawSep)
-    local insert, result = table.insert, {}
-    if not sep then
-        sep = "."
-        rawSep = true
-    end
-    if sep == "%s" then
-        rawSep = nil
-    end
-
-    local rawSep = rawSep and sep or "([^" .. sep .. "]+)"
-
-    for match in self:gmatch(rawSep) do
-        insert(result, match)
-    end
-
-    return result
-end
-
-local phrase = global:thisAccountController():getAlias()
-local botType = global:thisAccountController():getAlias():split(" ")[1]
-local server = global:thisAccountController():getAlias():split(" ")[2]
-
 if server == "Tal" then
 	server = "Tal Kasha"
 elseif server == "Hell" then

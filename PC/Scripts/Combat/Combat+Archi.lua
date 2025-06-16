@@ -2749,58 +2749,7 @@ function banned()
 end
 
 function phenix()
-	return {
-		{map = "-68,-43", path = "right"},
-		{map = "-67,-43", path = "top"},
-		{map = "-67,-44", custom = function() map:door(219) map:changeMap("havenbag") end},
-		{map = "22,22", custom = function() map:door(387) map:changeMap("havenbag") end},
-		{map = "9,16", path = "right"},
-		{map = "10,16", path = "right"},
-		{map = "11,16", path = "right"},
-		{map = "12,16", path = "right"},
-		{map = "13,16", path = "top"},
-		{map = "13,15", path = "top"},
-		{map = "13,14", path = "top"},
-		{map = "13,13", path = "top"},
-		{map = "13,12", path = "left"},
-		{map = "12,12", custom = function() map:door(184) map:changeMap("havenbag") end},
-		{map = "-68,-43", path = "right"},
-		{map = "-67,-43", path = "top"},
-		{map = "-67,-44", custom = function() map:door(219) map:changeMap("havenbag") end},
-		{map = "-16,41", path = "top"},
-		{map = "-16,40", path = "top"},
-		{map = "-16,39", path = "top"},
-		{map = "-16,38", path = "top"},
-		{map = "-16,37", path = "top"},
-		{map = "-13,28", path = "right"},
-		{map = "-17,41", path = "right"},
-		{map = "-16,36", custom = function() map:door(135) map:changeMap("havenbag") end},
-		{map = "-9,-54", path = "left"},
-		{map = "-10,-54", custom = function() map:door(342) map:changeMap("havenbag") end},
-		{map = "23330816", path = "bottom"},
-		{map = "159769", path = "left"},
-		{map = "-57,25", path = "left"},
-		{map = "-58,24", path = "top"},
-		{map = "-58,25", path = "top"},
-		{map = "-58,23", path = "top"},
-		{map = "-58,22", path = "top"},
-		{map = "-58,21", path = "top"},
-		{map = "-58,20", path = "top"},
-		{map = "-58,19", path = "top"},
-		{map = "-58,18", custom = function() map:door(354) map:changeMap("right") end},
-		{map = "-43,0", custom = function() map:door(259) map:changeMap("bottom") end},
-
-		{map = "-3,-13", path = "right"},
-        {map = "-2,-13", path = "right"},
-        {map = "-1,-13", path = "right"},
-        {map = "0,-13", path = "right"},
-        {map = "1,-13", path = "right"},
-        {map = "2,-13", path = "top"},
-        {map = "2,-14", custom = function ()
-			map:door(313)
-			map:changeMap("havenbag")
-        end},
-	}
+	return Phenix
 end
 
 function stopped()

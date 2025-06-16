@@ -1126,6 +1126,27 @@ local function ProcessBank()
 
     ChoosePath()
 
+    -- on prends les poissons en banque
+    if not DDNourrie and mount:hasMount() then
+        local tablePoisson = {
+            {Name = "Poisson Pané", Id = 1750},
+            {Name = "Crabe Sourimi", Id = 1757},
+            {Name = "Goujon", Id = 1782},
+            {Name = "Brochet", Id = 1847},
+            {Name = "Sardine Brillante", Id = 1805},
+            {Name = "Cuisse de Boufton", Id = 1911},
+            {Name = "Cuisse de Bouftou **", Id = 1912},
+            {Name = "Poisson-Chaton", Id = 603},
+            {Name = "Bar Rikain", Id = 1779},
+        }
+        for _, element in ipairs(tablePoisson) do
+            if exchange:storageItemQuantity(element.Id) > 0 then
+                exchange:getItem(element.Id, math.min(exchange:storageItemQuantity(element.Id), 200))
+                break
+            end
+        end
+    end
+
     for _, element in ipairs(Minerai) do
         global:printSuccess("[Banque] : " .. exchange:storageItemQuantity(element.Id) .. " [" .. element.Name .. "]")
     end
@@ -1650,4 +1671,8 @@ end
 
 function banned()
     global:editAlias(phrase .. " [BAN]", true)
+end
+
+function phenix()
+    return Phenix
 end

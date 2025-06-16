@@ -179,6 +179,16 @@ function buyAndfeedDD()
         {Name = "Poisson-Chaton", Id = 603},
         {Name = "Bar Rikain", Id = 1779},
     }
+    
+    for _, element in ipairs(TableAchat) do
+        if inventory:itemCount(element.Id) > 0 then
+            global:printSuccess("On a déjà de la nourriture pour la DD : " .. element.Name .. "on la nourri")
+            mount:feedMount(element.Id, inventory:itemCount(element.Id))
+            if inventory:itemCount(element.Id) > 0 then
+                return
+            end 
+        end
+    end
     debug("ok")
     HdvSell()
 
