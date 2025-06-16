@@ -224,38 +224,6 @@ local function concat(first, second)
 	return first
 end
 
-local function split(str, sep, rawSep)
-    local result = {}
-
-    if not sep then
-        sep = "."
-        rawSep = true
-    end
-    if sep == "%s" then
-        rawSep = nil
-    end
-    
-    local rawSep = rawSep
-        and sep
-        or "([^" .. sep .. "]+)"
-    
-    for match in str:gmatch(rawSep) do
-        insert(result, match)
-    end
-
-    return result
-end
-
-local function join(self, sep)
-    local result = ''
-    for k, v in ipairs(self) do
-        result = sep 
-            and result .. v .. sep 
-            or result .. v
-    end
-
-    return result or ''
-end
 
 local function thsd(value)
     local s = string.format("%d", math.floor(value))
@@ -1093,7 +1061,7 @@ function Buyer:process()
 end
 
 -- static
-function Buyer:many(...)
+function buyWorthItem(...)
     local results = {}
     local items = type(...) == "table"
         and ...

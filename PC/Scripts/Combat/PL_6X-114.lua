@@ -48,12 +48,6 @@ local tableEquip = {
 	--{Type = "compagnon", id = 14966, equipe = false, emplacement = 28}
 }
 
-local list_idole = {
-    {name = "dynamo", id_banque = 16987, id_message = 32, equipe = false, niveau = 41},
-    {name = "kyoub", id_banque = 16998, id_message = 98, equipe = false, niveau = 62},
-    {name = "leukide", id_banque = 16881, id_message = 46, equipe = false, niveau = 90},
-}
-
 local tableVente = {
 	{Name = "armée de tique", id = 2449, maxHdv100 = 0, maxHdv10 = 10, maxHdv1 = 15, canSell = true, delete = false},
 	{Name = "oeil de boufton", id = 2460, maxHdv100 = 0, maxHdv10 = 10, maxHdv1 = 15, canSell = true, delete = false},
@@ -748,15 +742,12 @@ function move()
 		global:delay(1555)
 	end
 
-	if global:thisAccountController():getAlias():find("LvlUp2") then
-		global:editAlias("LvlUp2 " .. character:server() .. "  / lvl " .. character:level(), true)
-	elseif global:thisAccountController():getAlias():find("LvlUp3") then
-		global:editAlias("LvlUp3 " .. character:server() .. "  / lvl " .. character:level(), true)
-	elseif global:thisAccountController():getAlias():find("LvlUp4") then
-		global:editAlias("LvlUp4 " .. character:server() .. "  / lvl " .. character:level(), true)
-	elseif global:thisAccountController():getAlias():find("LvlUp ") then
-		global:editAlias("LvlUp " .. character:server() .. "  / lvl " .. character:level(), true)
-	end
+	for i = 1, NB_LVLUP do
+        if global:thisAccountController():getAlias():find("LvlUP" .. i) then
+            global:editAlias("LvlUp" .. i .. " " .. character:server() .. " level : [" .. character:level() .. "]" .. " " .. getRemainingSubscription(true), true)
+            break
+        end
+    end
 
 	if NeedToSell then
 		return {

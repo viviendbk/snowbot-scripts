@@ -358,7 +358,7 @@ local function launchNewAccounts()
         global:printSuccess(server)
         mineursPresents = {}
 
-        for i = 1, 5 do
+        for i = 1, NB_BUCHERON do
             for _, Alias in ipairs(AliasAllAccount) do
                 if Alias:find("Bucheron" .. i) and GetServerByAlias(Alias):find(server) then
                     global:printSuccess("On a trouvé un compte Bucheron " .. i .. " sur " .. server)

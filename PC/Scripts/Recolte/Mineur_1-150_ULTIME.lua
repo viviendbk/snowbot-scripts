@@ -470,18 +470,12 @@ local tableVenteRestePL = {
 
 scriptPath = "C:\\Users\\Administrator\\Documents\\snowbot-scripts\\PC\\Scripts\\Recolte\\Mineur_ultime.lua"
 local phrase = nil
-if global:thisAccountController():getAlias():find("Mineur2") then
-    phrase = "Mineur2 " .. character:server()
-    -- PLANNING = {17, 18 , 19, 20, 21, 22, 23}
-elseif global:thisAccountController():getAlias():find("Mineur3") then
-    phrase = "Mineur3 " .. character:server()
-    -- PLANNING = {17, 18 , 19, 20, 21, 22, 23}
-elseif global:thisAccountController():getAlias():find("Mineur4") then
-    phrase = "Mineur4 " .. character:server()
-    -- PLANNING = {9, 10, 11, 12, 13, 14, 15}
-else
-    phrase = "Mineur " .. character:server()
-    -- PLANNING = {17, 18 , 19, 20, 21, 22, 23}
+
+for i = 1, NB_MINEUR do
+    if global:thisAccountController():getAlias():find("Mineur" .. i) then
+        phrase = "Mineur" .. i .. " " .. character:server()
+        break
+    end
 end
 
 local function IncrementTable(i, Taille)
@@ -489,13 +483,6 @@ local function IncrementTable(i, Taille)
     return (toReturn > 0) and toReturn or (toReturn == 0) and 1
 end
 
-local function GetLength(Table)
-    local cpt = 0
-    for _, element in ipairs(Table) do
-        cpt = cpt + 1
-    end
-    return cpt
-end
 
 local function CheckEndFight(message)
     if not message.results[1].alive then
@@ -798,13 +785,13 @@ local function havresac()
 end
 
 local function whichArea()
-    for i = 1, GetLength(TableWhichArea) do
+    for i = 1, #TableWhichArea do
         if map:onMap(TableWhichArea[i].MapIdSwitch) and TableWhichArea[i].Farmer then
             TableWhichArea[i].Farmer = false
-            local NextPath = TableWhichArea[IncrementTable(i, GetLength(TableWhichArea))]
+            local NextPath = TableWhichArea[IncrementTable(i, #TableWhichArea)]
             if NextPath.LvlMin ~= nil and job:level(24) < NextPath.LvlMin then
                 for index, value in ipairs(TableWhichArea) do
-                    local PathToReturn = TableWhichArea[IncrementTable(index + i - 1, GetLength(TableWhichArea))]
+                    local PathToReturn = TableWhichArea[IncrementTable(index + i - 1, #TableWhichArea)]
                     if PathToReturn.LvlMin ~= nil and job:level(24) > PathToReturn.LvlMin then
                         PathToReturn.Farmer = true
                         return PathToReturn.Path
@@ -842,15 +829,14 @@ function move()
         global:thisAccountController():forceServer("Draconiros")
         global:disconnect()
     end
-    if global:thisAccountController():getAlias():find("Mineur2") then
-        global:editAlias("Mineur2 " .. character:server() .. " [" .. job:level(24) .. "]", true)
-    elseif global:thisAccountController():getAlias():find("Mineur3") then
-        global:editAlias("Mineur3 " .. character:server() .. " [" .. job:level(24) .. "]", true)
-    elseif global:thisAccountController():getAlias():find("Mineur4") then
-        global:editAlias("Mineur4 " .. character:server() .. " [" .. job:level(24) .. "]", true)
-    else
-        global:editAlias("Mineur " .. character:server() .. " [" .. job:level(24) .. "]", true)
-    end  
+
+    for i = 1, NB_MINEUR do
+        if global:thisAccountController():getAlias():find("Mineur" .. i) then
+            global:editAlias("Mineur" .. i .. " " .. character:server() .. " [" .. job:level(24) .. "]" .. " " .. getRemainingSubscription(true), true)
+            break
+        end
+    end
+
     while character:kamas() == 0 and map:onMap("4,-18") do
         npc:npcBank(-1)
         global:delay(500)
@@ -924,15 +910,13 @@ end
 
 function bank()
     mapDelay()
-    if global:thisAccountController():getAlias():find("Mineur2") then
-        global:editAlias("Mineur2 " .. character:server() .. " [" .. job:level(24) .. "]", true)
-    elseif global:thisAccountController():getAlias():find("Mineur3") then
-        global:editAlias("Mineur3 " .. character:server() .. " [" .. job:level(24) .. "]", true)
-    elseif global:thisAccountController():getAlias():find("Mineur4") then
-        global:editAlias("Mineur4 " .. character:server() .. " [" .. job:level(24) .. "]", true)
-    else
-        global:editAlias("Mineur " .. character:server() .. " [" .. job:level(24) .. "]", true)
-    end 
+
+    for i = 1, NB_MINEUR do
+        if global:thisAccountController():getAlias():find("Mineur" .. i) then
+            global:editAlias("Mineur" .. i .. " " .. character:server() .. " [" .. job:level(24) .. "]" .. " " .. getRemainingSubscription(true), true)
+            break
+        end
+    end
     
     for _, element in ipairs(TableWhichArea) do
 		element.Farmer = false

@@ -64,7 +64,12 @@ local function achatStuff()
         table.insert(items, 18690)
     end
 
-	Buyer:many(items)
+    for _, element in ipairs(items) do
+        if inventory:itemCount(element) == 0 then
+            buyWorthItem(element, 1000000)
+        end
+    end
+	buyWorthItem(items)
 
     global:leaveDialog()
 

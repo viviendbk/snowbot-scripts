@@ -145,7 +145,7 @@ local function BuyStuff114()
 		end
 	end
 
-	Buyer:many(items)
+	buyWorthItem(items)
 
 	global:leaveDialog()
 

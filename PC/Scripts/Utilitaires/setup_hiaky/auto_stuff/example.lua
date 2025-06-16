@@ -133,7 +133,7 @@ function example()
 
         -- processus d'achat de plusieurs items
         --  /!\ méthode statique (ne pas appeler via instance) /!\
-        return Buyer:many(items)
+        return buyWorthItem(items)
         --  => retourne une table ipairs :
             --[[
                 {

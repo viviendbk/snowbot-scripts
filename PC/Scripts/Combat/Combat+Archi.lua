@@ -35,16 +35,17 @@ AMOUNT_MONSTERS = {{3620, 0, 2}, {4619, 0, 2}, {4605 , 0, 1}, {836, 0, 2}, {4539
 --     PLANNING = {13, 14, 15, 16, 17}
 -- end
 
+
+
+
 local phrase = nil
-if global:thisAccountController():getAlias():find("Combat") then
-    phrase = "Combat " .. character:server()
-elseif global:thisAccountController():getAlias():find("Combat2") then
-    phrase = "Combat2 " .. character:server()
-elseif global:thisAccountController():getAlias():find("Combat3") then
-    phrase = "Combat3 " .. character:server()
-elseif global:thisAccountController():getAlias():find("Combat4") then
-    phrase = "Combat4 " .. character:server()
+for i = 1, NB_COMBAT do
+    if global:thisAccountController():getAlias():find("Combat" .. i) then
+        phrase = "Combat" .. i .. " " .. character:server()
+        break
+    end
 end
+
 
 local lancable = 0
 local incrementation = 0
@@ -1873,26 +1874,26 @@ function messagesRegistering()
 end
 
 local function antiModo()
-    if global:isModeratorPresent(30) then
-		timerdisconnect = math.random(30000, 36000) 
-        if not map:onMap("0,0") then
-            map:changeMap("havenbag")
-        end
-        global:printError("Modérateur présent. On attend " .. timerdisconnect / 1000 .. " secondes")
+    -- if global:isModeratorPresent(30) then
+	-- 	timerdisconnect = math.random(30000, 36000) 
+    --     if not map:onMap("0,0") then
+    --         map:changeMap("havenbag")
+    --     end
+    --     global:printError("Modérateur présent. On attend " .. timerdisconnect / 1000 .. " secondes")
 
-        if global:thisAccountController():getAlias():find("Combat2") then
-            global:editAlias("Combat2 " .. character:server() .. " [MODO]", true)
-        elseif global:thisAccountController():getAlias():find("Combat3") then
-            global:editAlias("Combat3 " .. character:server() .. " [MODO]", true)
-        elseif global:thisAccountController():getAlias():find("Combat4") then
-            global:editAlias("Combat4 " .. character:server() .. " [MODO]", true)
-        else
-            global:editAlias("Combat " .. character:server() .. " [MODO]", true)
-        end
+    --     if global:thisAccountController():getAlias():find("Combat2") then
+    --         global:editAlias("Combat2 " .. character:server() .. " [MODO]", true)
+    --     elseif global:thisAccountController():getAlias():find("Combat3") then
+    --         global:editAlias("Combat3 " .. character:server() .. " [MODO]", true)
+    --     elseif global:thisAccountController():getAlias():find("Combat4") then
+    --         global:editAlias("Combat4 " .. character:server() .. " [MODO]", true)
+    --     else
+    --         global:editAlias("Combat " .. character:server() .. " [MODO]", true)
+    --     end
 
-        global:delay(timerdisconnect)
-        customReconnect(timerdisconnect / 1000)
-	end
+    --     global:delay(timerdisconnect)
+    --     customReconnect(timerdisconnect / 1000)
+	-- end
 end
 
 local function settOrnament(ornamentID)
@@ -2186,7 +2187,7 @@ local function ProcessSell()
             table.remove(TableArea, moitie + 1)
         end
         table.sort(TableArea, function(a1, a2) return a1.PourcentageHdv < a2.PourcentageHdv end)
-    elseif global:thisAccountController():getAlias():find("Combat ") or global:thisAccountController():getAlias():find("Combat2") or global:thisAccountController():getAlias():find("Combat4") then
+    elseif global:thisAccountController():getAlias():find("Combat1") or global:thisAccountController():getAlias():find("Combat2") or global:thisAccountController():getAlias():find("Combat4") then
         table.sort(TableArea, function(a1, a2) return a1.PourcentageHdv < a2.PourcentageHdv end)
     end
 
@@ -2499,16 +2500,12 @@ function move()
         end
     end
 
-
-    if global:thisAccountController():getAlias():find("Combat2") then
-        global:editAlias("Combat2 " .. character:server() .. " " .. getRemainingSubscription(true), true)
-    elseif global:thisAccountController():getAlias():find("Combat3") then
-        global:editAlias("Combat3 " .. character:server() .. " " .. getRemainingSubscription(true), true)
-    elseif global:thisAccountController():getAlias():find("Combat4") then
-        global:editAlias("Combat4 " .. character:server() .. " " .. getRemainingSubscription(true), true)
-    else
-        global:editAlias("Combat " .. character:server() .. " " .. getRemainingSubscription(true), true)
+    for i = 1, NB_COMBAT do
+        if not global:thisAccountController():getAlias():find("Combat" .. i) then
+            global:editAlias("Combat" .. i .. " " .. character:server() .. " " .. getRemainingSubscription(true), true)
+        end
     end
+
     if getRemainingSubscription(true) <= 0 and (character:kamas() > ((character:server() == "Draconiros") and 600000 or 1100000)) then
         Abonnement()
     elseif getRemainingHoursSubscription() < 4 and character:server() == "Draconiros" then

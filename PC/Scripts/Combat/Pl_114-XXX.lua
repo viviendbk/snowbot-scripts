@@ -1207,80 +1207,80 @@ end
 
 local function CreateOtherAccount()
 	
-	if not (character:server() == "Draconiros") then
-		global:printMessage("tentative de connexion du prochain bot...")
-		for i, Alias in ipairs(snowbotController:getAliasNotLoadedAccounts()) do
-			if Alias:find("*") then
-				global:printSuccess("Succès!")
-				for j, Username in ipairs(snowbotController:getUsernameNotLoadedAccounts()) do
-					if i == j then
-						snowbotController:createCharacter(Username, character:server(), 11, false, 0, {"#f2c07d", "#000000", "#000000", "#ffffff", "#400000"})
-						if stringalias:find("LvlUp ") or stringalias:find("LvlUp2") then
-							snowbotController:assignProxyToAnAccount(Username, GetProxy(6).proxy, tonumber(GetProxy(6).port), GetProxy(6).username, GetProxy(6).password, false, true)
-						else
-							snowbotController:assignProxyToAnAccount(Username, GetProxy(10).proxy, tonumber(GetProxy(10).port), GetProxy(10).username, GetProxy(10).password, false, true)
-						end
-						acc = snowbotController:loadAnAccount(Username, true)
-						acc.global():editAlias(stringalias .. " " .. character:server(), true)
-						break
-					end
-				end
-				break
-			end
-		end
-	elseif character:server() == "Draconiros" then
-		global:printMessage("tentative de connexion du prochain bot...")
-		for i, Alias in ipairs(snowbotController:getAliasNotLoadedAccounts()) do
-			if Alias:find("Next") then
-				for _, acc in ipairs(snowbotController:getLoadedAccounts()) do
-					if findMKamas(acc:getAlias()) > 2 and not acc:getAlias():find("Draconiros") and not acc:getAlias():find("Controller") then
-						global:printSuccess("on tente de connecter : " .. acc:getAlias())
-						acc:connect()
-						local cannotConnect = false
-						local safetyCount = 0
-						while not acc:isAccountFullyConnected() and not cannotConnect do
-							safetyCount = safetyCount + 1
+	-- if not (character:server() == "Draconiros") then
+	-- 	global:printMessage("tentative de connexion du prochain bot...")
+	-- 	for i, Alias in ipairs(snowbotController:getAliasNotLoadedAccounts()) do
+	-- 		if Alias:find("*") then
+	-- 			global:printSuccess("Succès!")
+	-- 			for j, Username in ipairs(snowbotController:getUsernameNotLoadedAccounts()) do
+	-- 				if i == j then
+	-- 					snowbotController:createCharacter(Username, character:server(), 11, false, 0, {"#f2c07d", "#000000", "#000000", "#ffffff", "#400000"})
+	-- 					if stringalias:find("LvlUp ") or stringalias:find("LvlUp2") then
+	-- 						snowbotController:assignProxyToAnAccount(Username, GetProxy(6).proxy, tonumber(GetProxy(6).port), GetProxy(6).username, GetProxy(6).password, false, true)
+	-- 					else
+	-- 						snowbotController:assignProxyToAnAccount(Username, GetProxy(10).proxy, tonumber(GetProxy(10).port), GetProxy(10).username, GetProxy(10).password, false, true)
+	-- 					end
+	-- 					acc = snowbotController:loadAnAccount(Username, true)
+	-- 					acc.global():editAlias(stringalias .. " " .. character:server(), true)
+	-- 					break
+	-- 				end
+	-- 			end
+	-- 			break
+	-- 		end
+	-- 	end
+	-- elseif character:server() == "Draconiros" then
+	-- 	global:printMessage("tentative de connexion du prochain bot...")
+	-- 	for i, Alias in ipairs(snowbotController:getAliasNotLoadedAccounts()) do
+	-- 		if Alias:find("Next") then
+	-- 			for _, acc in ipairs(snowbotController:getLoadedAccounts()) do
+	-- 				if findMKamas(acc:getAlias()) > 2 and not acc:getAlias():find("Draconiros") and not acc:getAlias():find("Controller") then
+	-- 					global:printSuccess("on tente de connecter : " .. acc:getAlias())
+	-- 					acc:connect()
+	-- 					local cannotConnect = false
+	-- 					local safetyCount = 0
+	-- 					while not acc:isAccountFullyConnected() and not cannotConnect do
+	-- 						safetyCount = safetyCount + 1
 		
-							if safetyCount == 1 then
-								global:printMessage("Attente de la connexion du bot banque (" .. 120 .. " secondes max)")
-							end
+	-- 						if safetyCount == 1 then
+	-- 							global:printMessage("Attente de la connexion du bot banque (" .. 120 .. " secondes max)")
+	-- 						end
 		
-							global:delay(1000)
+	-- 						global:delay(1000)
 		
-							if safetyCount >= 120 then
-								global:printError("Bot banque non-connecté après " .. 120 .. " secondes, on tente le suivant")
-								cannotConnect = true
-							end
-						end
-						if cannotConnect then
-							acc:disconnect()
-						else
-							acc:disconnect()
-							server = GetServer(acc)
-							break
-						end
-					end
-				end
+	-- 						if safetyCount >= 120 then
+	-- 							global:printError("Bot banque non-connecté après " .. 120 .. " secondes, on tente le suivant")
+	-- 							cannotConnect = true
+	-- 						end
+	-- 					end
+	-- 					if cannotConnect then
+	-- 						acc:disconnect()
+	-- 					else
+	-- 						acc:disconnect()
+	-- 						server = GetServer(acc)
+	-- 						break
+	-- 					end
+	-- 				end
+	-- 			end
 
-				global:printSuccess("Succès!")
+	-- 			global:printSuccess("Succès!")
 
-				for j, Username in ipairs(snowbotController:getUsernameNotLoadedAccounts()) do
-					if i == j then
-						snowbotController:createCharacter(Username, server, 11, false)
-						if stringalias:find("LvlUp ") or stringalias:find("LvlUp2") then
-							snowbotController:assignProxyToAnAccount(Username, GetProxy(6).proxy, tonumber(GetProxy(6).port), GetProxy(6).username, GetProxy(6).password, false, true)
-						else
-							snowbotController:assignProxyToAnAccount(Username, GetProxy(10).proxy, tonumber(GetProxy(10).port), GetProxy(10).username, GetProxy(10).password, false, true)
-						end
-						acc = snowbotController:loadAnAccount(Username, true)
-						acc.global():editAlias(stringalias .. " " .. character:server(), true)
-						break
-					end
-				end
-				break
-			end
-		end
-	end
+	-- 			for j, Username in ipairs(snowbotController:getUsernameNotLoadedAccounts()) do
+	-- 				if i == j then
+	-- 					snowbotController:createCharacter(Username, server, 11, false)
+	-- 					if stringalias:find("LvlUp ") or stringalias:find("LvlUp2") then
+	-- 						snowbotController:assignProxyToAnAccount(Username, GetProxy(6).proxy, tonumber(GetProxy(6).port), GetProxy(6).username, GetProxy(6).password, false, true)
+	-- 					else
+	-- 						snowbotController:assignProxyToAnAccount(Username, GetProxy(10).proxy, tonumber(GetProxy(10).port), GetProxy(10).username, GetProxy(10).password, false, true)
+	-- 					end
+	-- 					acc = snowbotController:loadAnAccount(Username, true)
+	-- 					acc.global():editAlias(stringalias .. " " .. character:server(), true)
+	-- 					break
+	-- 				end
+	-- 			end
+	-- 			break
+	-- 		end
+	-- 	end
+	-- end
 end
 
 local function launchExchangeAndGive()
@@ -1465,27 +1465,27 @@ local function send_equip(ID_idole)
 end
 
 local function antiModo()
-    if global:isModeratorPresent(30) then
-		timerdisconnect = math.random(30000, 36000) 
-        if not map:onMap("0,0") then
-            map:changeMap("havenbag")
-        end
-        global:printError("Modérateur présent. On attend " .. timerdisconnect / 1000 .. "secondes")
+    -- if global:isModeratorPresent(30) then
+	-- 	timerdisconnect = math.random(30000, 36000) 
+    --     if not map:onMap("0,0") then
+    --         map:changeMap("havenbag")
+    --     end
+    --     global:printError("Modérateur présent. On attend " .. timerdisconnect / 1000 .. "secondes")
 
-		if global:thisAccountController():getAlias():find("LvlUp ") then
-			global:editAlias("LvlUp " .. character:server() .. " [" .. character:level() .. "]  [MODO]", true)
-		elseif global:thisAccountController():getAlias():find("LvlUp2") then
-			global:editAlias("LvlUp2 " .. character:server() .. " [" .. character:level() .. "]  [MODO]", true)
-		elseif global:thisAccountController():getAlias():find("LvlUp3") then
-			global:editAlias("LvlUp3 " .. character:server() .. " [" .. character:level() .. "]  [MODO]", true)
-		elseif global:thisAccountController():getAlias():find("LvlUp4") then
-			global:editAlias("LvlUp4 " .. character:server() .. " [" .. character:level() .. "]  [MODO]", true)
-		end
+	-- 	if global:thisAccountController():getAlias():find("LvlUp ") then
+	-- 		global:editAlias("LvlUp " .. character:server() .. " [" .. character:level() .. "]  [MODO]", true)
+	-- 	elseif global:thisAccountController():getAlias():find("LvlUp2") then
+	-- 		global:editAlias("LvlUp2 " .. character:server() .. " [" .. character:level() .. "]  [MODO]", true)
+	-- 	elseif global:thisAccountController():getAlias():find("LvlUp3") then
+	-- 		global:editAlias("LvlUp3 " .. character:server() .. " [" .. character:level() .. "]  [MODO]", true)
+	-- 	elseif global:thisAccountController():getAlias():find("LvlUp4") then
+	-- 		global:editAlias("LvlUp4 " .. character:server() .. " [" .. character:level() .. "]  [MODO]", true)
+	-- 	end
 
-        global:delay(timerdisconnect)
-		customReconnect(timerdisconnect / 1000)
-        map:changeMap("havenbag")
-	end
+    --     global:delay(timerdisconnect)
+	-- 	customReconnect(timerdisconnect / 1000)
+    --     map:changeMap("havenbag")
+	-- end
 end
 
 local function equiper()
@@ -1828,17 +1828,12 @@ function move()
 
 	if character:kamas() < 5000 then global:disconnect() end
 
-	if global:thisAccountController():getAlias():find("LvlUp2") then
-		stringalias = "LvlUp2 "
-	elseif global:thisAccountController():getAlias():find("LvlUp3") then
-		stringalias = "LvlUp3 "
-	elseif global:thisAccountController():getAlias():find("LvlUp4") then
-		stringalias = "LvlUp4 "
-	elseif global:thisAccountController():getAlias():find("LvlUp") then
-		stringalias = "LvlUp1"
-	end
-	
-	global:editAlias(stringalias .. " " .. character:server() .. "  / lvl " .. character:level(), true)
+	for i = 1, NB_LVLUP do
+        if global:thisAccountController():getAlias():find("LvlUP" .. i) then
+            global:editAlias("LvlUp" .. i .. " " .. character:server() .. " level : [" .. character:level() .. "]" .. " " .. getRemainingSubscription(true), true)
+            break
+        end
+    end
 
 	if (character:level() == (levelToReach - 5)) or (levelToReach <= 160) and (character:level() >= 140) then
 		local nbAccountInSameServ = 0

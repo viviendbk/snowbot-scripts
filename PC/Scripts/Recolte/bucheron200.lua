@@ -17,33 +17,24 @@ local NeedToReturnBank = false
 local NeedToSell = false
 local cpt = 0
 local cptActualiser = 0
-local hdvActualise = false
 
-local maxEnergy = 6200
-local gid = 1782 
 local hdvFull = false
-local hdv_door_id = 218
 STOP = false
 
 
 local substrat_de_sylve = 16460
 local CanSellSubstratDeSylve = true
---PLANNING = {3, 8, 13, 18, 23}
 
 
 ------------------------
 
 local phrase = nil
-if global:thisAccountController():getAlias():find("Bucheron2") then
-    phrase = "Bucheron2 " .. character:server()
-	-- PLANNING = {17, 18 , 19, 20, 21, 22}
-elseif global:thisAccountController():getAlias():find("Bucheron3") then
-    phrase = "Bucheron3 " .. character:server()
-else
-	-- PLANNING = {9, 10, 11, 12, 13, 14}
-    -- phrase = "Bucheron " .. character:server()
+for i = 1, NB_BUCHERON do
+    if global:thisAccountController():getAlias():find("Bucheron" .. i) then
+        phrase = "Bucheron" .. i .. " " .. character:server()
+        break
+    end
 end
-
 
 local function RegenEnergie()
     local tableAchatEnergie = {
@@ -120,10 +111,9 @@ local AreaEnergie = {
 }
 
 local function achatSacStaca()
-    Buyer:many({1704})
-    global:leaveDialog()
+    buyWorthItem(1704) 
     inventory:equipItem(1704, 7)
-    global:restartScript(true)
+    ChoosePath()
     map:changeMap("right")
 end
 
@@ -639,20 +629,9 @@ local TableWhichArea = {
 	{MapSwitch = "-26,-5", Area = Sidimote, AreaString = "Landes de Sidimote", Farmer = false},
 }
 
-if global:thisAccountController():getAlias():find("Bucheron2") then
-    TableWhichArea = {
-        {MapSwitch = "-10,-45", Area = ForetCania, AreaString = "Plaines de Cania", Farmer = false},
-        {MapSwitch = "-53,21", Area = Otomai, AreaString = "Île d'Otomaï", Farmer = false},
-        {MapSwitch = "-67,-48", Area = Frigost, AreaString = "Île de Frigost", Farmer = false},
-        {MapSwitch = "-21,-4", Area = Koalak, AreaString = "Montagne des Koalaks", Farmer = false},
-        {MapSwitch = "-12,-8", Area = Koalak2, AreaString = "Montagne des Koalaks", Farmer = false},
-        {MapSwitch = "21,-37", Area = Pandala, AreaString = "Île de Pandala", Farmer = false},
-        {MapSwitch = "24,-34", Area = Pandala2, AreaString = "Île de Pandala", Farmer = false},
-        {MapSwitch = "22,-29", Area = Pandala3, AreaString = "Île de Pandala", Farmer = false},
-        {MapSwitch = "-26,-5", Area = Sidimote, AreaString = "Landes de Sidimote", Farmer = false},
-    }
+if global:thisAccountController():getAlias():find("Bucheron1") then
+    TableWhichArea = rotateTableRandom(TableWhichArea)
 end
-
 
 
 local Planches = {
@@ -736,29 +715,11 @@ local Seves = {
 --- </init>
 
 
-
-if global:thisAccountController():getAlias():find("Bucheron2") then
-    phrase = "Bucheron2 " .. character:server()
-elseif global:thisAccountController():getAlias():find("Bucheron3") then
-    phrase = "Bucheron3 " .. character:server()
-else
-    phrase = "Bucheron " .. character:server()
-end
-
-
-
 local function IncrementTable(i, Taille)
     local toReturn = (i + 1) % (Taille + 1)
     return (toReturn > 0) and toReturn or (toReturn == 0 and job:level(2) < 200) and 2 or (toReturn == 0 and job:level(2) == 200) and 1
 end
 
-local function GetLength(Table)
-    local cpt = 0
-    for _, element in ipairs(Table) do
-        cpt = cpt + 1
-    end
-    return cpt
-end
 
 local function antiModo()
     -- if global:isModeratorPresent(30) then
@@ -919,7 +880,7 @@ local function ProcessBank() -- done
         if element.CanSell and element.CanCraft and not NeedToCraft and job:level(2) < element.lvlMax and not hdvFull then
             NeedToSell = false
             NeedToCraft = true
-            CraftQuantity = math.floor(podsAvailable / (GetLength(element.ListIdCraft) * 50))
+            CraftQuantity = math.floor(podsAvailable / (#element.ListIdCraft * 50))
             for _, element2 in ipairs(element.ListIdCraft) do 
                 CraftQuantity = math.min(CraftQuantity, math.floor(exchange:storageItemQuantity(element2.Id) / element2.Nb))
             end
@@ -1216,8 +1177,6 @@ local function ProcessSell() -- done
 	map:changeMap("top")
 end
 
-
-
 local function defineGather()
     local insert = table.insert
     local result = {}
@@ -1257,11 +1216,11 @@ local function whichArea()
         return treatMaps(AreaEnergie)
     end
 
-    for i = 1, GetLength(TableWhichArea) do
+    for i = 1, #TableWhichArea do
         if map:onMap(TableWhichArea[i].MapSwitch) and TableWhichArea[i].Farmer then
             TableWhichArea[i].Farmer = false
-            TableWhichArea[IncrementTable(i, GetLength(TableWhichArea))].Farmer = true
-            return treatMaps(TableWhichArea[IncrementTable(i, GetLength(TableWhichArea))].Area)
+            TableWhichArea[IncrementTable(i, #TableWhichArea)].Farmer = true
+            return treatMaps(TableWhichArea[IncrementTable(i, #TableWhichArea)].Area)
         elseif TableWhichArea[i].Farmer then
             return treatMaps(TableWhichArea[i].Area)
         end 
@@ -1294,12 +1253,12 @@ function move()
     if character:kamas() < 3000 then
         return treatMaps(GoTakeKamas)
     end
-	if global:thisAccountController():getAlias():find("Bucheron2") then
-        global:editAlias("Bucheron2 " .. character:server() .. " [" .. job:level(2) .. "] " .. getRemainingSubscription(true), true)
-	elseif global:thisAccountController():getAlias():find("Bucheron3") then
-		global:editAlias("Bucheron3 " .. character:server() .. " [" .. job:level(2) .. "] " .. getRemainingSubscription(true), true)
-    else
-        global:editAlias("Bucheron " .. character:server() .. " [" .. job:level(2) .. "] " .. getRemainingSubscription(true), true)
+
+    for i = 1, NB_BUCHERON do
+        if global:thisAccountController():getAlias():find("Bucheron" .. i) then
+            global:editAlias("Bucheron" .. i .. " " .. character:server() .. " [" .. job:level(2) .. "] " .. getRemainingSubscription(true), true)
+            break
+        end
     end
 
     if getRemainingSubscription(true) <= 0 and (character:kamas() > ((character:server() == "Draconiros") and 600000 or 1100000)) then
@@ -1369,13 +1328,14 @@ end
 
 function bank()
     mapDelay()
-	if global:thisAccountController():getAlias():find("Bucheron2") then
-        global:editAlias("Bucheron2 " .. character:server() .. " [" .. job:level(2) .. "] " .. getRemainingSubscription(true), true)
-	elseif global:thisAccountController():getAlias():find("Bucheron3") then
-		global:editAlias("Bucheron3 " .. character:server() .. " [" .. job:level(2) .. "] " .. getRemainingSubscription(true), true)
-    else
-        global:editAlias("Bucheron " .. character:server() .. " [" .. job:level(2) .. "] " .. getRemainingSubscription(true), true)
+
+    for i = 1, NB_BUCHERON do
+        if global:thisAccountController():getAlias():find("Bucheron" .. i) then
+            global:editAlias("Bucheron" .. i .. " " .. character:server() .. " [" .. job:level(2) .. "] " .. getRemainingSubscription(true), true)
+            break
+        end
     end
+
 	for _, element in ipairs(TableWhichArea) do
 		element.Farmer = false
 	end

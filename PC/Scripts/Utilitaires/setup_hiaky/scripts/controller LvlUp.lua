@@ -307,7 +307,7 @@ local function launchNewAccounts()
         global:printSuccess(server)
         lvlupPresents = {}
 
-        for i = 1, 4 do
+        for i = 1, NB_LVLUP do
             for _, Alias in ipairs(AliasAllAccount) do
                 if Alias:find("LvlUp" .. i) and GetServerByAlias(Alias):find(server) then
                     global:printSuccess("On a trouvé un compte LvlUp " .. i .. " sur " .. server)

@@ -1,3 +1,10 @@
+NB_BUCHERON = 5
+NB_MINEUR = 5
+NB_LVLUP = 5
+NB_COMBAT = 5
+NB_CRAFT = 2
+NB_GROUPE = 3
+
 bankMaps = {
     zAstrub = "zaap(191105026)",
     idHavenbag = 162791424,

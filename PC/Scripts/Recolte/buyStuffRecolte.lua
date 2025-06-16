@@ -76,7 +76,7 @@ local function achatStuff()
 	-- 		table.insert(items, element.Id)
 	-- 	end
 	-- end
-	-- Buyer:many(items)
+	-- buyWorthItem(items)
 
     global:leaveDialog()
     equiper()

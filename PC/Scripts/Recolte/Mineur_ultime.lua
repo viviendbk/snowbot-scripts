@@ -733,12 +733,6 @@ local Aliage = {
     {Name = "Alumite", Id = 747, MaxHdv10 = 10, MaxHdv1 = 10, CanCraft = false, ListIdCraft = {{Id = 312, Nb = 10}, {Id = 441, Nb = 10}}, lvlMax = 40, CanSell = true},
 }
 
-
-local tableVente = {
-	{Name = "Ardonite", Id = 12728, MaxHdv100 = 10, MaxHdv10 = 10, MaxHdv1 = 15},
-	{Name = "Pyrute", Id = 7035, MaxHdv100 = 10, MaxHdv10 = 10, MaxHdv1 = 15},
-	{Name = "Rutile", Id = 7036, MaxHdv100 = 10, MaxHdv10 = 10, MaxHdv1 = 15},
-}
           
 local Minerai = {
     {Name = "Obsidienne", Id = 11110, MaxHdv100 = 3, MaxHdv10 = 3, CanSell = true, LvlMinToSell = 160},
@@ -844,80 +838,8 @@ local TableArea = {
 
 }
 
-if global:thisAccountController():getAlias():find("Mineur2") or global:thisAccountController():getAlias():find("Mineur4") then
-    TableArea = {
-        {Zone = {
-            {Craqueleur1, "97261071", false}, 
-            {Craqueleur2, "97259023", false}, 
-            {Craqueleur3, "185862148", false}, 
-            {Craqueleur4, "4460544", false}
-        }, Gath = {17, 53, 55, 37, 54, 24, 26}, Farmer = false, LvlMin = 120},
-        {Zone = {
-            {Rivage1, "97260035", false}, 
-            {Rivage2, "117442562", false}
-        }, Gath = {17, 53, 55, 37, 54, 25}, Farmer = false, LvlMin = 120}, -- mine rivage
-        {Zone = {
-            {mine26, "178782220", false},
-            {mine27, "178782208", false},
-            {mine28, "178783234", false},
-            {mine28Fin, "173018629", false}
-        }, Gath = {54, 37}, Farmer = false, LvlMin = 120},
-        {Zone = {
-            {Sidimote1, "178783242", false}, 
-            {Sidimote2, "178783240", false}
-        }, Gath = {24, 26}, Farmer = false, LvlMin = 120},
-        {Zone = {
-            {Sidimote3, "178785288", false}, 
-            {Sidimote4, "178784264", false}, 
-            {Sidimote5, "171707908", false}
-        }, Gath = {52, 54}, Farmer = false, LvlMin = 120},
-        {Zone = {
-            {MineMontagne_20_20, "164102664", false},
-        }, Gath = {53, 55, 24, 26}, Farmer = false, LvlMin = 120 },
-        {Zone = {
-            {MineDopeul1, "123470339", false},
-            {MineDopeul2, "123471363", false},
-            {MineDopeul3, "100141313", false}
-        }, Gath = {53, 55, 37, 54}, Farmer = false, LvlMin = 120 },
-        {Zone = {
-            {LacCania, "133433344", false}
-        }, Gath = {17, 53, 55, 37, 54}, Farmer = false, LvlMin = 120},
-        {Zone = {
-            {Pandala, "209456132", false}
-        }, Gath = {114, 113}, Farmer = false, LvlMin = 120}, -- pandala
-        {Zone = {
-            {Saharach, "173539332", false}
-        }, Gath = {24, 26, 25}, Farmer = false, LvlMin = 120}, -- saharach [Géchar]
-        {Zone = {
-            {Koalak1, "130810369", false}, 
-            {Koalak2, "149949440", false},
-            {Koalak3, "147852290", false}
-        }, Gath = {52, 53, 55, 37, 54}, Farmer = false, LvlMin = 120}, -- koalak [Chill]
-        {Zone = {
-            {Frigost1, "57017861", false}, 
-            {Frigost2, "56886787", false}, 
-            {Frigost3, "57016837", false},
-            {Frigost4, "57017859", false}
-        }, Gath = {135, 25, 52, 26}, Farmer = false, LvlMin = 140}, -- frigost [Géchar]
-        {Zone = {
-            {BordBwork1, "97261067", false},
-            {BordBwork2, "97259017", false},
-            {BordBwork3, "97260041", false},
-            {BordBwork4, "97256969", false}, 
-            {BordBwork5, "97261061", false}, 
-            {BordBwork6, "88213774", false}
-        }, Gath = {17, 53, 55, 37, 54, 24}, Farmer = false, LvlMin = 120},
-        {Zone = {
-            {Bwork1, "104861191", false}, 
-            {Bwork2, "104862215", false}, 
-            {Bwork3, "104862213", false}, 
-            {Bwork4, "104859139", false}, 
-            {Bwork5, "104862217", false}, 
-            {Bwork6, "104859145", false}, 
-            {Bwork7, "104072452", false}
-        }, Gath = {55, 54, 52, 24, 26, 25}, Farmer = false, LvlMin = 120}, -- [Géchar]
-    
-    }
+if not global:thisAccountController():getAlias():find("Mineur1") then
+    TableArea = rotateTableRandom(TableArea)
 end
 
 local function ChoosePath()
@@ -964,11 +886,7 @@ local function ChoosePath()
 end
 
 local function achatSacStaca()
-    buyBestItem(1704) 
-
-    global:finishScript()
-    Buyer:many({1704})
-    global:leaveDialog()
+    buyWorthItem(1704) 
     inventory:equipItem(1704, 7)
     ChoosePath()
     map:changeMap("right")
@@ -984,18 +902,11 @@ local AreaAchatSacStaca = {
 
 
 local phrase = nil
-if global:thisAccountController():getAlias():find("Mineur2") then
-    phrase = "Mineur2 " .. character:server()
-    -- PLANNING = {17, 18 , 19, 20, 21, 22}
-elseif global:thisAccountController():getAlias():find("Mineur3") then
-    phrase = "Mineur3 " .. character:server()
-    -- PLANNING = {17, 18, 19, 20, 21, 22}
-elseif global:thisAccountController():getAlias():find("Mineur4") then
-    phrase = "Mineur4 " .. character:server()
-    -- PLANNING = {9, 10, 11, 12, 13, 14}
-else
-    phrase = "Mineur " .. character:server()
-    -- PLANNING = {17, 18, 19, 20, 21, 22}
+for i = 1, NB_MINEUR do
+    if global:thisAccountController():getAlias():find("Mineur" .. i) then
+        phrase = "Mineur" .. i .. " " .. character:server()
+        break
+    end
 end
 
 
@@ -1026,16 +937,11 @@ function messagesRegistering()
 end
 
 local function editAlias(toAdd)
-    if global:thisAccountController():getAlias():find("Mineur2") then
-        global:editAlias("Mineur2 " .. character:server() .. " " .. toAdd, true)
-    elseif global:thisAccountController():getAlias():find("Mineur3") then
-        global:editAlias("Mineur3 " .. character:server() .. " " .. toAdd, true)
-    elseif global:thisAccountController():getAlias():find("Mineur4") then
-        global:editAlias("Mineur4 " .. character:server() .. " " .. toAdd, true)
-    elseif global:thisAccountController():getAlias():find("Mineur5") then
-        global:editAlias("Mineur5 " .. character:server() .. " " .. toAdd, true)
-    else
-        global:editAlias("Mineur1 " .. character:server() .. " " .. toAdd, true)
+    for i = 1, NB_MINEUR do
+        if global:thisAccountController():getAlias():find("Mineur" .. i) then
+            global:editAlias("Mineur" .. i .. " " .. character:server() .. " " .. toAdd, true)
+            break
+        end
     end
 end
 

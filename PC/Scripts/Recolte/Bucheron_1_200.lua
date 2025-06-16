@@ -20,15 +20,13 @@ local hdv_door_id = 218
 
 local phrase = nil
 
-if global:thisAccountController():getAlias():find("Bucheron2") then
-    phrase = "Bucheron2 " .. character:server()
-	-- PLANNING = {17, 18 , 19, 20, 21, 22, 23}
-elseif global:thisAccountController():getAlias():find("Bucheron3") then
-    phrase = "Bucheron3 " .. character:server()
-else
-	-- PLANNING = {9, 10, 11, 12, 13, 14, 15}
-    phrase = "Bucheron " .. character:server()
+for i = 1, NB_BUCHERON do
+    if global:thisAccountController():getAlias():find("Bucheron" .. i) then
+        phrase = "Bucheron" .. i .. " " .. character:server()
+        break
+    end
 end
+
 local scriptPath = "C:\\Users\\Administrator\\Documents\\snowbot-scripts\\PC\\Scripts\\Recolte\\bucheron200.lua"
 
 --PLANNING = {3, 8, 13, 18, 23}
@@ -1560,13 +1558,6 @@ local TableWichArea = {
 }
 
 
-local function GetLength(Table)
-    local cpt = 0
-    for _, element in ipairs(Table) do
-        cpt = cpt + 1
-    end
-    return cpt
-end
 
 local function antiModo()
     -- if global:isModeratorPresent(30) and job:level(2) > 5 then
@@ -1655,7 +1646,7 @@ local function ProcessBank() -- done
         if element.CanCraft and not NeedToCraft and job:level(2) < element.lvlMax then
             NeedToSell = false
             NeedToCraft = true
-            CraftQuantity = math.floor(podsAvailable/ (GetLength(element.ListIdCraft) * 50))
+            CraftQuantity = math.floor(podsAvailable/ (#element.ListIdCraft * 50))
             for _, element2 in ipairs(element.ListIdCraft) do 
                 CraftQuantity = math.min(CraftQuantity, math.floor(exchange:storageItemQuantity(element2.Id) / element2.Nb))
             end
@@ -1985,10 +1976,12 @@ function move()
 		map:moveToward(192415750)
 	end
 	antiModo()
-    if global:thisAccountController():getAlias():find("Bucheron2") then
-        global:editAlias("Bucheron2 " .. character:server() .. " [" .. job:level(2) .. "]", true)
-    else
-        global:editAlias("Bucheron " .. character:server() .. " [" .. job:level(2) .. "]", true)
+
+    for i = 1, NB_BUCHERON do
+        if global:thisAccountController():getAlias():find("Bucheron" .. i) then
+            global:editAlias("Bucheron" .. i .. " " .. character:server() .. " [" .. job:level(2) .. "] " .. getRemainingSubscription(true), true)
+            break
+        end
     end
 
 	if job:level(2) >= 180 then	
@@ -2054,13 +2047,14 @@ end
 function bank()
 	mapDelay()
     ZoneBis = false
-	if global:thisAccountController():getAlias():find("Bucheron2") then
-        global:editAlias("Bucheron2 " .. character:server() .. " [" .. job:level(2) .. "]", true)
-	elseif global:thisAccountController():getAlias():find("Bucheron3") then
-		global:editAlias("Bucheron3 " .. character:server() .. " [" .. job:level(2) .. "]", true)
-    else
-        global:editAlias("Bucheron " .. character:server() .. " [" .. job:level(2) .. "]", true)
+
+    for i = 1, NB_BUCHERON do
+        if global:thisAccountController():getAlias():find("Bucheron" .. i) then
+            global:editAlias("Bucheron" .. i .. " " .. character:server() .. " [" .. job:level(2) .. "] " .. getRemainingSubscription(true), true)
+            break
+        end
     end
+
     if NeedToCraft then
         return {
             {map = "212600322", path = "havenbag"}, -- Map extérieure de la banque d'bonta
