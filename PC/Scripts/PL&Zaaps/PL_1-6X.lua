@@ -563,7 +563,7 @@ local TableArea = {
     {Zone = {Piou}, MaxMonster = 8, MinMonster = 3, ListeVenteId = {6900, 6902, 6899, 6897, 6898, 6903}, Farmer = false, PourcentageHdv = 0, Stop = false},
 }
 
-local tableVente = {
+local TABLE_VENTE_PL = {
 	{Name = "Plume de Piou Rouge", Id = 6900, CanSell = false, MaxHdv100 = 2, MaxHdv10 = 2},
 	{Name = "Plume de Piou Jaune", Id = 6902, CanSell = false, MaxHdv100 = 2, MaxHdv10 = 2},
 	{Name = "Plume de Piou Vert", Id = 6899, CanSell = false, MaxHdv100 = 2, MaxHdv10 = 2},
@@ -630,11 +630,11 @@ local function Selling()
     NeedToSell = false
 	NeedToReturnBank = true
 
-	table.sort(tableVente, function(a, b) return inventory:itemCount(a.Id) > inventory:itemCount(b.Id) end)
+	table.sort(TABLE_VENTE_PL, function(a, b) return inventory:itemCount(a.Id) > inventory:itemCount(b.Id) end)
 
 	HdvSell()
 	-- vente par 100, 10 des récoles alchimiste
-	for i, element in ipairs(tableVente) do
+	for i, element in ipairs(TABLE_VENTE_PL) do
 		if inventory:itemCount(element.Id) == 0 then global:printSuccess("on a plus rien à vendre") break end
 
 		cpt = get_quantity(element.Id).quantity["100"]
@@ -676,7 +676,7 @@ local function Selling()
 		sale:updateAllItems()
 	end
 	-- check de l'hdv pour voir si le maximum de cette ressource a été atteinte
-	for _, element in ipairs(tableVente) do
+	for _, element in ipairs(TABLE_VENTE_PL) do
 		if (get_quantity(element.Id).quantity["100"] >= element.MaxHdv100) and (get_quantity(element.Id).quantity["10"] >= element.MaxHdv10) then
 			element.CanSell = false
 		else
@@ -701,14 +701,14 @@ local function ProcessBank()
 		global:delay(500)
 	end	
 
-	for _, element in ipairs(tableVente) do
+	for _, element in ipairs(TABLE_VENTE_PL) do
 		if inventory:itemCount(element.Id) > 0 then
 			exchange:putItem(element.Id, inventory:itemCount(element.Id))
 		end
 	end
 	if not hdvFull then
         local cpt = 0
-        for _, element in ipairs(tableVente) do
+        for _, element in ipairs(TABLE_VENTE_PL) do
             local podsAvailable = inventory:podsMax() - inventory:pods()
             local TotalMax = element.MaxHdv100 * 100 + element.MaxHdv10 * 10
             local QuantiteAPrendre = math.min(exchange:storageItemQuantity(element.Id), TotalMax, math.floor(podsAvailable / inventory:itemWeight(element.Id)))
@@ -852,10 +852,12 @@ function stop()
 		global:loadConfigurationWithoutScript("C:\\Users\\Administrator\\Documents\\snowbot-scripts\\PC\\Configs\\ConfigRecolte.xml")
 	end
 
-	global:editAlias(botType .. " " .. server .. " [PRÊT]", true)	
-	for _, element in ipairs(tableVente) do
+	global:editAlias(botType .. " " .. server .. " [PRÊT]", true)
+	
+	for _, element in ipairs(TABLE_VENTE_PL) do
 		inventory:deleteItem(element.Id,inventory:itemCount(element.Id))
 	end
+	
 	inventory:deleteItem(287, inventory:itemCount(287))
 	global:delay(500)
 	settOrnament(34)

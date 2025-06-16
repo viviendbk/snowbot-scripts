@@ -109,11 +109,11 @@ end
 local function GetProxy(lineToRead)
     local cpt = 0
     local i = 1
-    local f = io.open("C:\\Users\\Administrator\\Documents\\snowbot-scripts\\PC\\proxy.txt", "r")
+    local f = io.open("C:\\Users\\Administrator\\Documents\\snowbot-scripts\\PC\\Assets\\proxy.txt", "r")
 
     local toReturn = {proxy = {}, port = {}, username = {}, password = {}}
 
-    for line in io.lines("C:\\Users\\Administrator\\Documents\\snowbot-scripts\\PC\\proxy.txt") do 
+    for line in io.lines("C:\\Users\\Administrator\\Documents\\snowbot-scripts\\PC\\Assets\\proxy.txt") do 
         if i == lineToRead then
             tabline = line:split()
             for index, element in ipairs(tabline) do
@@ -334,7 +334,7 @@ local function ExporterComptes()
     end   
 
 
-    f = io.open("C:\\Users\\Administrator\\Documents\\snowbot-scripts\\PC\\ComptesMineur.txt", "w")
+    f = io.open("C:\\Users\\Administrator\\Documents\\snowbot-scripts\\PCAssets\\ComptesMineur.txt", "w")
 
 
     f:write(content)
@@ -435,7 +435,7 @@ end
 
 local function RegisterHLAccounts()
     -- Read the file
-    local file = io.open("C:\\Users\\Administrator\\Documents\\snowbot-scripts\\PC\\ComptesAVendre.txt", "r")
+    local file = io.open("C:\\Users\\Administrator\\Documents\\snowbot-scripts\\PCAssets\\ComptesAVendre.txt", "r")
     if not file then
       return nil, "Unable to open file"
     end
@@ -498,7 +498,7 @@ local function RegisterHLAccounts()
     end
   
     -- Write the modified content back to the file
-    file = io.open("C:\\Users\\Administrator\\Documents\\snowbot-scripts\\PC\\ComptesAVendre.txt", "w")
+    file = io.open("C:\\Users\\Administrator\\Documents\\snowbot-scripts\\PCAssets\\ComptesAVendre.txt", "w")
     if not file then
       return nil, "Unable to open file for writing"
     end

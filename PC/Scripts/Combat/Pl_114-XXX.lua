@@ -1172,11 +1172,11 @@ end
 local function GetProxy(lineToRead)
     local cpt = 0
     local i = 1
-    local f = io.open("C:\\Users\\Administrator\\Documents\\snowbot-scripts\\PC\\proxy.txt", "r")
+    local f = io.open("C:\\Users\\Administrator\\Documents\\snowbot-scripts\\PC\\Assets\\proxy.txt", "r")
 
     local toReturn = {proxy = {}, port = {}, username = {}, password = {}}
 
-    for line in io.lines("C:\\Users\\Administrator\\Documents\\snowbot-scripts\\PC\\proxy.txt") do
+    for line in io.lines("C:\\Users\\Administrator\\Documents\\snowbot-scripts\\PC\\Assets\\proxy.txt") do
         if i == lineToRead then
             tabline = line:split()
             for index, element in ipairs(tabline) do
@@ -1384,7 +1384,7 @@ local function launchExchangeAndGive()
 
 		local TriParServeur = {"", "", "", "", "", ""}
 
-		for line in io.lines("C:\\Users\\Administrator\\Documents\\snowbot-scripts\\PC\\ComptesAVendre.txt") do
+		for line in io.lines("C:\\Users\\Administrator\\Documents\\snowbot-scripts\\PCAssets\\ComptesAVendre.txt") do
 			if line ~= "" then
 				local tabline = line:split(":")
 				if tabline[3]:find("Imagiro") then TriParServeur[1] = TriParServeur[1] .. line .. "\r"
@@ -1408,7 +1408,7 @@ local function launchExchangeAndGive()
 		--
 		-- Write it out
 		--
-		local f = io.open("C:\\Users\\Administrator\\Documents\\snowbot-scripts\\PC\\ComptesAVendre.txt", "w")
+		local f = io.open("C:\\Users\\Administrator\\Documents\\snowbot-scripts\\PCAssets\\ComptesAVendre.txt", "w")
 		f:write(content)
 		f:close()
 
@@ -1784,7 +1784,7 @@ function move()
         debutDeScript = falses
         local ComptesPrets = {}
         local nbComptesPrets = 0
-        for line in io.lines("C:\\Users\\Administrator\\Documents\\snowbot-scripts\\PC\\ComptesAVendre.txt") do
+        for line in io.lines("C:\\Users\\Administrator\\Documents\\snowbot-scripts\\PCAssets\\ComptesAVendre.txt") do
             if line ~= "" then
                 if line:find(character:server()) then 
                     local level = line:split(" ")[#line:split(" ")]

@@ -1,43 +1,55 @@
 <?xml version="1.0" encoding="utf-8"?>
-<Configform xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xmlns:xsd="http://www.w3.org/2001/XMLSchema">
-  <Script>C:\Users\Administrator\Documents\ovh snowbot\ConfigMineur\bot_banque.lua</Script>
-  <Placement>0</Placement>
-  <SpeedFight>1500</SpeedFight>
-  <Regen>80</Regen>
+<Configform xmlns:xsd="http://www.w3.org/2001/XMLSchema" xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance">
+  <Script>C:\Users\Administrator\Documents\snowbot-scripts\PC\Scripts\Utilitaires\bot_banque.lua</Script>
+  <SpellAuto>-1</SpellAuto>
+  <CaractAuto>0</CaractAuto>
+  <Placement>1</Placement>
+  <SpeedFight>0</SpeedFight>
+  <Regen>0</Regen>
   <RegenTeam>false</RegenTeam>
   <Flood />
   <FloodActivate>false</FloodActivate>
   <Commerce>false</Commerce>
   <Recrutement>false</Recrutement>
-  <ConnexionAuto>true</ConnexionAuto>
-  <takeMerchant>false</takeMerchant>
-  <notifyArchi>true</notifyArchi>
-  <shortestPath>false</shortestPath>
-  <customPlanning>false</customPlanning>
-  <Sucess>true</Sucess>
+  <Communaute>false</Communaute>
+  <Guild>true</Guild>
+  <ConnexionAuto>false</ConnexionAuto>
+  <Sucess>false</Sucess>
   <StatuPrivate>false</StatuPrivate>
   <AntiAgro>false</AntiAgro>
-  <BankReturn>80</BankReturn>
+  <BankReturn>90</BankReturn>
   <ExchangeHost />
-  <ExchangeActivate>true</ExchangeActivate>
-  <TimeWait>200</TimeWait>
+  <ExchangeActivate>false</ExchangeActivate>
+  <TimeWait>0</TimeWait>
+  <TimeWait2>2000</TimeWait2>
   <RegenAutoIDActivate>false</RegenAutoIDActivate>
   <ToggleActivate>false</ToggleActivate>
   <LogsActivate>false</LogsActivate>
   <FloodSameCharacter>false</FloodSameCharacter>
   <FloodMapEnter>false</FloodMapEnter>
+  <passTurnMin>300</passTurnMin>
+  <passTurnMax>600</passTurnMax>
+  <turnDurationMin>1000</turnDurationMin>
+  <turnDurationMax>2000</turnDurationMax>
+  <speedDurationMin>0</speedDurationMin>
+  <speedDurationMax>0</speedDurationMax>
+  <positionDelayMin>500</positionDelayMin>
+  <positionDelayMax>2000</positionDelayMax>
+  <muleJoinDelayMin>500</muleJoinDelayMin>
+  <muleJoinDelayMax>2000</muleJoinDelayMax>
+  <readyDelayMin>1000</readyDelayMin>
+  <readyDelayMax>3000</readyDelayMax>
+  <moveSpeedPercent>100</moveSpeedPercent>
+  <playTurnAfterMin>0</playTurnAfterMin>
+  <playTurnAfterMax>0</playTurnAfterMax>
   <SpellConfig />
-  <statsConfig />
-  <planning>
-    <ArrayOfInt />
-    <ArrayOfInt />
-    <ArrayOfInt />
-    <ArrayOfInt />
-    <ArrayOfInt />
-    <ArrayOfInt />
-    <ArrayOfInt />
-  </planning>
-  <Tactic>NoAction</Tactic>
+  <statsConfig>
+    <ArrayOfInt>
+      <int>12</int>
+      <int>0</int>
+    </ArrayOfInt>
+  </statsConfig>
+  <QuickActionsConfig />
+  <Tactic>Advanced</Tactic>
   <FarCells>8</FarCells>
-  <ReadyDelay>2000</ReadyDelay>
 </Configform>

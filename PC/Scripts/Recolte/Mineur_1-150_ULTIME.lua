@@ -425,48 +425,11 @@ local Minerai = {
     {Name = "Fer", Id = 312, MaxHdv100 = 3, MaxHdv10 = 3, CanSell = true, LvlMinToSell = 80},
 }
 
-local tableVenteRestePL = {
-	{Name = "Plume de Piou Rouge", Id = 6900, CanSell = true, MaxHdv100 = 1, MaxHdv10 = 1},
-	{Name = "Plume de Piou Jaune", Id = 6902, CanSell = true, MaxHdv100 = 1, MaxHdv10 = 1},
-	{Name = "Plume de Piou Vert", Id = 6899, CanSell = true, MaxHdv100 = 1, MaxHdv10 = 1},
-	{Name = "Plume de Piou Bleu", Id = 6897, CanSell = true, MaxHdv100 = 1, MaxHdv10 = 1},
-	{Name = "Plume de Piou Violet", Id = 6898, CanSell = true, MaxHdv100 = 1, MaxHdv10 = 1},
-	{Name = "Plume de Piou Rose", Id = 6903, CanSell = true, MaxHdv100 = 1, MaxHdv10 = 1},
+for _, element in ipairs(TABLE_VENTE_PL) do
+	element.MaxHdv100 = 1
+	element.MaxHdv10 = 1
+end
 
-	{Name = "Œil d'Arakmuté", Id = 2491, CanSell = true, MaxHdv100 = 1, MaxHdv10 = 1},
-	{Name = "Poils d'Arakne Malade", Id = 388, CanSell = true, MaxHdv100 = 1, MaxHdv10 = 1},
-	{Name = "Intestin d'Araknosé", Id = 373, CanSell = true, MaxHdv100 = 1, MaxHdv10 = 1},
-	{Name = "Bec du Tofu", Id = 366, CanSell = true, MaxHdv100 = 1, MaxHdv10 = 1},
-
-	{Name = "Conque Marine", Id = 13726, CanSell = true, MaxHdv100 = 1, MaxHdv10 = 1},
-	{Name = "Crème à bronzer", Id = 13727, CanSell = true, MaxHdv100 = 1, MaxHdv10 = 1},
-
-
-	{Name = "Peau de Larve Bleue", Id = 362, CanSell = true, MaxHdv100 = 1, MaxHdv10 = 1},
-	{Name = "Peau de Larve Orange", Id = 363, CanSell = true, MaxHdv100 = 1, MaxHdv10 = 1},
-	{Name = "Peau de Larve Verte", Id = 364, CanSell = true, MaxHdv100 = 1, MaxHdv10 = 1},
-	{Name = "Peau de Larve Jaune", Id = 2563, CanSell = true, MaxHdv100 = 1, MaxHdv10 = 1},
-
-	{Name = "Crocs de Rats", Id = 2322, CanSell = true, MaxHdv100 = 1, MaxHdv10 = 1},
-	{Name = "Cuir de Scélérat Strubien", Id = 304, CanSell = true, MaxHdv100 = 1, MaxHdv10 = 1},
-
-	{Name = "Noisette", Id = 394, CanSell = true, MaxHdv100 = 1, MaxHdv10 = 1},
-	{Name = "Étoffe d'Écurouille", Id = 653, CanSell = true, MaxHdv100 = 1, MaxHdv10 = 1},
-	{Name = "Poils du Milimulou", Id = 1690, CanSell = true, MaxHdv100 = 1, MaxHdv10 = 1},
-	{Name = "Scalp de Milimulou", Id = 2576, CanSell = true, MaxHdv100 = 1, MaxHdv10 = 1},
-	{Name = "Pic du Prespic", Id = 407, CanSell = true, MaxHdv100 = 1, MaxHdv10 = 1},
-	{Name = "Queue de Prespic", Id = 2573, CanSell = true, MaxHdv100 = 1, MaxHdv10 = 1},
-	{Name = "Poils Darits", Id = 1672, CanSell = true, MaxHdv100 = 1, MaxHdv10 = 1},
-	{Name = "Groin de Sanglier", Id = 386, CanSell = true, MaxHdv100 = 1, MaxHdv10 = 1},
-	{Name = "Défense du Sanglier", Id = 387, CanSell = true, MaxHdv100 = 1, MaxHdv10 = 1},
-	{Name = "Étoffe du Sanglier", Id = 652, CanSell = true, MaxHdv100 = 1, MaxHdv10 = 1},
-
-	{Name = "Viande Intangible", Id = 16663, CanSell = true, MaxHdv100 = 2, MaxHdv10 = 1},
-	{Name = "Viande Hachée", Id = 17123, CanSell = true, MaxHdv100 = 2, MaxHdv10 = 1},
-	{Name = "Viande faisandée", Id = 17124, CanSell = true, MaxHdv100 = 2, MaxHdv10 = 1},
-	{Name = "Viande Frelatée", Id = 17126, CanSell = true, MaxHdv100 = 2, MaxHdv10 = 1},
-
-}
 
 scriptPath = "C:\\Users\\Administrator\\Documents\\snowbot-scripts\\PC\\Scripts\\Recolte\\Mineur_ultime.lua"
 local phrase = nil
@@ -604,7 +567,7 @@ local function ProcessBank()
             end
         end
         local cpt = 0
-        for _, element in ipairs(tableVenteRestePL) do
+        for _, element in ipairs(TABLE_VENTE_PL) do
             local podsAvailable = inventory:podsMax() - inventory:pods()
             local TotalMax = element.MaxHdv100 * 100 + element.MaxHdv10 * 10
             local QuantiteAPrendre = math.min(exchange:storageItemQuantity(element.Id), TotalMax, math.floor(podsAvailable / inventory:itemWeight(element.Id)))
@@ -692,11 +655,11 @@ local function ProcessSell()
 
 	global:leaveDialog()
 
-    table.sort(tableVenteRestePL, function(a, b) return inventory:itemCount(a.Id) > inventory:itemCount(b.Id) end)
+    table.sort(TABLE_VENTE_PL, function(a, b) return inventory:itemCount(a.Id) > inventory:itemCount(b.Id) end)
 
 	HdvSell()
 	-- vente par 100, 10 des récoles alchimiste
-	for i, element in ipairs(tableVenteRestePL) do
+	for i, element in ipairs(TABLE_VENTE_PL) do
 		if inventory:itemCount(element.Id) == 0 then global:printSuccess("on a plus rien à vendre") break end
 
         local priceItem = GetPricesItem(element.Id)
@@ -741,7 +704,7 @@ local function ProcessSell()
         end
     end
 
-    for _, element in ipairs(tableVenteRestePL) do
+    for _, element in ipairs(TABLE_VENTE_PL) do
         if get_quantity(element.Id).quantity["100"] >= element.MaxHdv100 and get_quantity(element.Id).quantity["10"] >= element.MaxHdv10 then
             element.CanSell = false
         else
