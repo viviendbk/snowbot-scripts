@@ -142,6 +142,7 @@ function move()
 
     -- account loading
     resetBotBankAvailability(false)
+    global:printMessage("[INFO] : Checkup des bots")
 
     if cptExportation == 20 then
         cptExportation = 0
@@ -149,7 +150,8 @@ function move()
         -- RegisterHLAccounts()
         resetBotBankAvailability(false)
     end
-    
+        global:printMessage("[INFO] : Checkup des bots")
+
     if DebutDeScript then
         global:printSuccess("Lancement des comptes")
 

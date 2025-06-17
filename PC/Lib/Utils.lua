@@ -668,7 +668,7 @@ function connectAccountsWithFailleProxy()
     for i = 1, nbVagues do
         global:printSuccess("----- Vague de connexion " .. i .. " -----")
 
-        local ipDeBase = developer:getRequest("http://api.ipify.org", {}, {}, IP_PROXY .. ":5001:proxy:proxy123")
+        local ipDeBase = developer:getRequest("http://api.ipify.org", {}, {}, IP_PROXY .. ":5001:" .. USERNAME_PROXY .. ":" .. PASSWORD_PROXY)
         global:printMessage("IP de base : " .. ipDeBase)
 
         developer:getRequestWithDelay("http://" .. IP_PROXY .. "/reset?proxy=p:5001", 15000)
@@ -684,7 +684,7 @@ function connectAccountsWithFailleProxy()
 
         global:delay(5000)
 
-        local nouvelleIp = developer:getRequest("http://api.ipify.org", {}, {}, IP_PROXY .. ":5001:proxy:proxy123")
+        local nouvelleIp = developer:getRequest("http://api.ipify.org", {}, {}, IP_PROXY .. ":5001:" .. USERNAME_PROXY .. ":" .. PASSWORD_PROXY)
 
         if ipDeBase ~= nouvelleIp and #nouvelleIp < 20 then
             global:printMessage("Nouvelle IP : " .. nouvelleIp)

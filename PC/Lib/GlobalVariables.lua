@@ -6,9 +6,43 @@ NB_CRAFT = 2
 NB_GROUPE = 3
 
 IP_PROXY = "193.252.210.41"
+USERNAME_PROXY = "proxy"
+PASSWORD_PROXY = "1937Shield1234Abcd"
 
 TYPE_PROXY = "socks5"
 
+PROXIES = {
+    ["1"] = {
+        ips = IP_PROXY .. "#SOCKS5_" .. IP_PROXY .. "#",
+        port = "5001#5002",
+        username = USERNAME_PROXY .. "#" .. USERNAME_PROXY,
+        password =  PASSWORD_PROXY .. "#" .. PASSWORD_PROXY
+    },
+    ["2"] = {
+        ips = IP_PROXY .. "#SOCKS5_" .. IP_PROXY .. "#",
+        port = "5001#5003",
+        username = USERNAME_PROXY .. "#" .. USERNAME_PROXY,
+        password =  PASSWORD_PROXY .. "#" .. PASSWORD_PROXY
+    },  
+    ["3"] = {
+        ips = IP_PROXY .. "#SOCKS5_" .. IP_PROXY .. "#",
+        port = "5001#5004",
+        username = USERNAME_PROXY .. "#" .. USERNAME_PROXY,
+        password =  PASSWORD_PROXY .. "#" .. PASSWORD_PROXY
+    },
+    ["4"] = {
+        ips = IP_PROXY .. "#SOCKS5_" .. IP_PROXY .. "#",
+        port = "5001#5005",
+        username = USERNAME_PROXY .. "#" .. USERNAME_PROXY,
+        password =  PASSWORD_PROXY .. "#" .. PASSWORD_PROXY
+    }, 
+    ["5"] = {
+        ips = IP_PROXY .. "#SOCKS5_" .. IP_PROXY .. "#",
+        port = "5001#5006",
+        username = USERNAME_PROXY .. "#" .. USERNAME_PROXY,
+        password =  PASSWORD_PROXY .. "#" .. PASSWORD_PROXY
+    },
+}
 
 BANK_MAPS = {
     zAstrub = "zaap(191105026)",
@@ -33,7 +67,10 @@ SERVERS_MONO = {
     "Draconiros", "Dakal", "Kourial", "Mikhal"
 }
 
-ALL_SERVERS = merge(SERVERS_MULTI, SERVERS_MONO)
+ALL_SERVERS = {
+    "Draconiros", "Dakal", "Kourial", "Mikhal", "Imagiro", "Orukam", "Tal Kasha", "Hell Mina", "Tylezia", "Rafal", "Salar", "Brial"
+}
+
 
 MAPS_SANS_HAVRESAC = {
     {Id = 168035328, Door = "458"},
@@ -715,40 +752,182 @@ TABLE_VENTE_PL = {
 }
 
 
-PROXIES = {
-    ["1"] = {
-        ips = IP_PROXY .. "#SOCKS5_" .. IP_PROXY .. "#",
-        port = "5001#5002",
-        username = "proxy#proxy",
-        password = "1937Shield!1234Abcd#1937Shield!1234Abcd"
-    },
-    ["2"] = {
-        ips = IP_PROXY .. "#SOCKS5_" .. IP_PROXY .. "#",
-        port = "5001#5003",
-        username = "proxy#proxy",
-        password = "1937Shield!1234Abcd#1937Shield!1234Abcd"
-    },  
-    ["3"] = {
-        ips = IP_PROXY .. "#SOCKS5_" .. IP_PROXY .. "#",
-        port = "5001#5004",
-        username = "proxy#proxy",
-        password = "1937Shield!1234Abcd#1937Shield!1234Abcd"
-    },
-    ["4"] = {
-        ips = IP_PROXY .. "#SOCKS5_" .. IP_PROXY .. "#",
-        port = "5001#5005",
-        username = "proxy#proxy",
-        password = "1937Shield!1234Abcd#1937Shield!1234Abcd"
-    }, 
-    ["5"] = {
-        ips = IP_PROXY .. "#SOCKS5_" .. IP_PROXY .. "#",
-        port = "5001#5006",
-        username = "proxy#proxy",
-        password = "1937Shield!1234Abcd#1937Shield!1234Abcd"
-    },
-}
-
 
 GO_BANK_ASTRUB = {
-
+    {map = "0,0", path = "zaap(191105026)"},
+    {map = "-5,-27", path = "right"},
+    {map = "-5,-26", path = "right"},
+    {map = "-5,-25", path = "right"},
+    {map = "-5,-24", path = "right"},
+    {map = "-5,-23", path = "right"},
+    {map = "-5,-22", path = "right"},
+    {map = "-5,-21", path = "right"},
+    {map = "-5,-20", path = "right"},
+    {map = "-5,-19", path = "right"},
+    {map = "-5,-18", path = "right"},
+    {map = "-5,-17", path = "right"},
+    {map = "-5,-16", path = "right"},
+    {map = "-4,-16", path = "right"},
+    {map = "-4,-17", path = "right"},
+    {map = "-4,-18", path = "right"},
+    {map = "-4,-19", path = "right"},
+    {map = "-4,-20", path = "right"},
+    {map = "-4,-21", path = "right"},
+    {map = "-4,-22", path = "right"},
+    {map = "-4,-23", path = "right"},
+    {map = "-4,-24", path = "right"},
+    {map = "-4,-25", path = "right"},
+    {map = "-4,-26", path = "right"},
+    {map = "-4,-27", path = "right"},
+    {map = "-3,-27", path = "right"},
+    {map = "-3,-26", path = "right"},
+    {map = "-3,-25", path = "right"},
+    {map = "-3,-24", path = "right"},
+    {map = "-3,-23", path = "right"},
+    {map = "-3,-22", path = "right"},
+    {map = "-3,-21", path = "right"},
+    {map = "-3,-20", path = "right"},
+    {map = "-3,-19", path = "right"},
+    {map = "-3,-18", path = "right"},
+    {map = "-3,-16", path = "right"},
+    {map = "-3,-17", path = "right"},
+    {map = "-2,-16", path = "right"},
+    {map = "-2,-17", path = "right"},
+    {map = "-2,-18", path = "right"},
+    {map = "-2,-19", path = "right"},
+    {map = "-2,-20", path = "right"},
+    {map = "-2,-21", path = "right"},
+    {map = "-2,-22", path = "right"},
+    {map = "-2,-23", path = "right"},
+    {map = "-2,-24", path = "right"},
+    {map = "-2,-25", path = "right"},
+    {map = "-2,-26", path = "right"},
+    {map = "-2,-27", path = "right"},
+    {map = "-1,-27", path = "right"},
+    {map = "-1,-26", path = "right"},
+    {map = "-1,-25", path = "right"},
+    {map = "-1,-23", path = "right"},
+    {map = "-1,-24", path = "right"},
+    {map = "-1,-22", path = "right"},
+    {map = "-1,-21", path = "right"},
+    {map = "-1,-20", path = "right"},
+    {map = "-1,-19", path = "right"},
+    {map = "-1,-18", path = "right"},
+    {map = "-1,-17", path = "right"},
+    {map = "-1,-16", path = "right"},
+    {map = "0,-16", path = "right"},
+    {map = "0,-17", path = "right"},
+    {map = "0,-18", path = "right"},
+    {map = "-3,-15", path = "right"},
+    {map = "-2,-15", path = "right"},
+    {map = "-1,-15", path = "right"},
+    {map = "0,-15", path = "right"},
+    {map = "-3,-14", path = "right"},
+    {map = "-2,-14", path = "right"},
+    {map = "-1,-14", path = "right"},
+    {map = "0,-14", path = "right"},
+    {map = "0,-19", path = "right"},
+    {map = "0,-20", path = "right"},
+    {map = "0,-21", path = "right"},
+    {map = "0,-22", path = "right"},
+    {map = "0,-23", path = "right"},
+    {map = "0,-24", path = "right"},
+    {map = "0,-25", path = "right"},
+    {map = "0,-26", path = "right"},
+    {map = "0,-27", path = "right"},
+    {map = "1,-27", path = "right"},
+    {map = "1,-26", path = "right"},
+    {map = "1,-25", path = "right"},
+    {map = "1,-24", path = "right"},
+    {map = "1,-23", path = "right"},
+    {map = "1,-22", path = "right"},
+    {map = "1,-14", path = "right"},
+    {map = "1,-15", path = "right"},
+    {map = "1,-16", path = "right"},
+    {map = "1,-17", path = "right"},
+    {map = "1,-18", path = "right"},
+    {map = "1,-19", path = "right"},
+    {map = "1,-20", path = "right"},
+    {map = "1,-21", path = "right"},
+    {map = "2,-24", path = "right"},
+    {map = "2,-23", path = "right"},
+    {map = "2,-22", path = "right"},
+    {map = "3,-22", path = "right"},
+    {map = "3,-23", path = "right"},
+    {map = "3,-24", path = "right"},
+    {map = "3,-21", path = "right"},
+    {map = "3,-20", path = "right"},
+    {map = "4,-27", path = "bottom"},
+    {map = "4,-26", path = "bottom"},
+    {map = "4,-25", path = "bottom"},
+    {map = "4,-24", path = "bottom"},
+    {map = "4,-23", path = "bottom"},
+    {map = "4,-22", path = "bottom"},
+    {map = "4,-21", path = "bottom"},
+    {map = "4,-20", path = "bottom"},
+    {map = "4,-19", path = "bottom"},
+    {map = "3,-25", path = "bottom"},
+    {map = "3,-26", path = "bottom"},
+    {map = "3,-27", path = "bottom"},
+    {map = "2,-27", path = "bottom"},
+    {map = "2,-26", path = "bottom"},
+    {map = "2,-25", path = "bottom"},
+    {map = "2,-20", path = "bottom"},
+    {map = "2,-21", path = "right"},
+    {map = "2,-19", path = "bottom"},
+    {map = "2,-14", path = "right"},
+    {map = "3,-14", path = "right"},
+    {map = "2,-15", path = "right"},
+    {map = "3,-15", path = "right"},
+    {map = "2,-16", path = "right"},
+    {map = "3,-16", path = "right"},
+    {map = "2,-18", path = "right"},
+    {map = "3,-18", path = "right"},
+    {map = "3,-17", path = "right"},
+    {map = "3,-19", path = "right"},
+    {map = "4,-14", path = "right"},
+    {map = "4,-15", path = "right"},
+    {map = "4,-16", path = "right"},
+    {map = "5,-14", path = "top"},
+    {map = "5,-15", path = "top"},
+    {map = "5,-16", path = "top"},
+    {map = "6,-14", path = "top"},
+    {map = "7,-14", path = "top"},
+    {map = "7,-15", path = "top"},
+    {map = "7,-16", path = "top"},
+    {map = "7,-17", path = "top"},
+    {map = "5,-27", path = "left"},
+    {map = "5,-26", path = "left"},
+    {map = "5,-25", path = "left"},
+    {map = "5,-24", path = "left"},
+    {map = "5,-23", path = "left"},
+    {map = "5,-22", path = "left"},
+    {map = "6,-22", path = "left"},
+    {map = "6,-23", path = "left"},
+    {map = "6,-24", path = "left"},
+    {map = "6,-26", path = "left"},
+    {map = "6,-27", path = "left"},
+    {map = "6,-25", path = "left"},
+    {map = "7,-27", path = "left"},
+    {map = "7,-26", path = "left"},
+    {map = "7,-25", path = "left"},
+    {map = "7,-24", path = "left"},
+    {map = "7,-23", path = "left"},
+    {map = "7,-22", path = "left"},
+    {map = "7,-21", path = "left"},
+    {map = "6,-21", path = "left"},
+    {map = "5,-21", path = "left"},
+    {map = "7,-20", path = "left"},
+    {map = "6,-20", path = "left"},
+    {map = "5,-20", path = "left"},
+    {map = "7,-18", path = "left"},
+    {map = "6,-18", path = "left"},
+    {map = "6,-15", path = "left"},
+    {map = "6,-16", path = "left"},
+    {map = "6,-17", path = "left"},
+    {map = "6,-19", path = "left"},
+    {map = "5,-18", path = "left"},
+    {map = "5,-19", path = "left"},
+    {map = "4,-17", path = "top"},
+    {map = "7,-19", path = "top"},
 }
