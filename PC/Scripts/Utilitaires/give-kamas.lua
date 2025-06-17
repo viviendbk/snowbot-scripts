@@ -17,8 +17,8 @@ MIN_MONSTERS = 1
 FORBIDDEN_MONSTERS = {}
 FORCE_MONSTERS = {}
 --- </init>
-local resourceToGive = {}
 local enEchange = false
+local resourceToGive = {}
 
 
 function messagesRegistering()
@@ -27,35 +27,10 @@ function messagesRegistering()
 end
 
 
-local function takeRandomRessources()
-	npc:npcBank(-1)
-	local content = exchange:storageItems()
-	local nbResourcesToTake = math.random(1, math.min(8, #content))
-
-	for i = 1, nbResourcesToTake do
-
-		local random = math.random(1, #content)
-		for i, id in ipairs(content) do
-			if i == random then
-				local randomQuantity = math.random(1, exchange:storageItemQuantity(id))
-				exchange:getItem(id, randomQuantity)
-				table.insert(resourceToGive, {id = id, quantity = randomQuantity})
-				global:printSuccess("") -- mettre ici un print des ressources
-			end
-		end
-	end
-end
-
-local function giveResourcesKamasAndValidate()
+local function giveKamasAndValidate()
 	global:printMessage("Je vais mettre les ressources dans l'échange")
-	for _, element in ipairs(resourceToGive) do
-		local quantityInInventory = inventory:itemCount(element.id)
-		if quantityInInventory > 0 then
-			exchange:putItem(element.id, math.min(element.quantity, quantityInInventory))
-			global:printSuccess(element.quantity .. " x " .. inventory:itemNameId(element.id))
-		end
-	end
-	
+
+    openFile()
 	local quantityKamas = math.random(1, 5000)
 	if character:kamas() > quantityKamas then
 		global:printSuccess("Je mets " .. quantityKamas .. " kamas")
@@ -78,19 +53,15 @@ function _handleExchange(message)
 end
 
 local function fini()
-	global:printMessage("On prend des ressources random ")
-	takeRandomRessources()
 	developer:registerMessage("ExchangeRequestedTradeMessage", _handleExchange)
-
-
-    global:printSuccess("prêt à recevoir les kamas")
+    global:printSuccess("prêt à donner les kamas")
 end
 
 function move()
 	global:editAlias("bank_" .. character:server():lower() .. " : [" .. truncKamas() .. "m]", true)
 
 	if enEchange then
-		giveResourcesKamasAndValidate()
+		giveKamasAndValidate()
 	end
 
 	if IsInTable(SERVERS_MONO, character:server()) and getRemainingSubscription(true) < 2 then

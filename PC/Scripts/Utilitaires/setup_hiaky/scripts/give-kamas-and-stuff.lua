@@ -5,7 +5,7 @@ scriptName = "give-kamas.lua"
 dofile(PATH .. "template.lua")
 local insert = table.insert
 
-dofile("C:\\Users\\Administrator\\Documents\\snowbot-scripts\\PC\\Scripts\\Lib\\IMPORT_LIBRARIES.lua")
+dofile("C:\\Users\\Administrator\\Documents\\snowbot-scripts\\PC\\Lib\\IMPORT_LIBRARIES.lua")
 
 
 function truncate(nbr, size)

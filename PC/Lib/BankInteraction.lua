@@ -271,6 +271,26 @@ function launchExchangeAndGive(minKamas, maxWaitingTime)
 
     local toGive = (character:kamas() - minKamas) > 100000 and (character:kamas() - minKamas) or 1
 
+
+    -- on donne des ressources random
+    local giveRessources = math.random()
+    if giveRessources < 0.5 then
+        local content = inventory:inventoryContent()
+        local nbResourcesToGive = math.random(0, math.min(3, #content))
+        if nbResourcesToGive > 0 then
+            global:printMessage("On va donner " .. nbResourcesToGive .. " ressources")
+            for i = 1, nbResourcesToGive do
+                local random = math.random(1, #content)
+                local id = content[random].id
+                local quantity = math.random(1, math.min(inventory:itemCount(id), 3))
+                exchange:putItem(id, quantity)
+                global:printSuccess("Ressource donnée : " .. inventory:itemNameId(id) .. " x" .. quantity)
+            end
+        else
+            global:printMessage("Aucune ressource à donner")
+        end
+    end
+
     randomDelay()
     exchange:putKamas(toGive)
     global:delay(math.random(7500, 15000))
@@ -292,7 +312,7 @@ function launchExchangeAndGive(minKamas, maxWaitingTime)
 end
 
 function isAccountKnown(id)
-    local accounts = snowbotcontroller:getLoadedAccounts()
+    local accounts = snowbotController:getLoadedAccounts()
     for _, account in ipairs(accounts) do
         if account.character():id() == id then
             return true
