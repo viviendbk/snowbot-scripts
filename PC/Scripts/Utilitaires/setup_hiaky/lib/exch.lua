@@ -71,17 +71,7 @@ function Exch:whitelistOrderers(updateOrders)
     end
 end
 
-function _handleTradeRequest(message)
-    global:printSuccess("echange reçu")
-    if IsInTable(self.whitelist, message.source) then
-        global:printSuccess("echange accepté")
-        developer:sendMessage(developer:createMessage("ExchangeAcceptMessage"))
-    else
-        global:printError("echange refusé")
-        global:leaveDialog()
-    end
-    enEchange = true
-end
+
 
 function Exch:giveKamas()
     local thisOrder = nil

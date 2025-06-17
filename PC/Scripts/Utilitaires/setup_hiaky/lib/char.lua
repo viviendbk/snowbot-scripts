@@ -34,7 +34,7 @@ function Char:getRemainingSubscription(inDay, acc)
 
     endDate = math.floor((endDate - now) / 3600000)
 
-    if verbose then print:info("Temps d'abonnement restant : " .. endDate) end
+    if verbose then global:printMessage("[INFO] : Temps d'abonnement restant : " .. endDate) end
     return inDay and math.floor(endDate / 24) or endDate
 end
 

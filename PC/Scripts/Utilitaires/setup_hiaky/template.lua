@@ -65,7 +65,7 @@ end
 
 import.__call = function(self)
     if myController:isTeamLeader() then
-        if verbose then print:successInfo("Import de la librairie...") end
+        if verbose then global:printuccess("[SUCCESS] : Import de la librairie...") end
     end
     for _, element in pairs(self) do
         if element ~= self.__call and element ~= self.setVerbose then
@@ -73,7 +73,7 @@ import.__call = function(self)
         end
     end
     if myController:isTeamLeader() then
-        if verbose then print:successInfo("Librairie importée.") print:void() end
+        if verbose then global:printuccess("[SUCCESS] : Librairie importée.") print:void() end
     end
 end
 

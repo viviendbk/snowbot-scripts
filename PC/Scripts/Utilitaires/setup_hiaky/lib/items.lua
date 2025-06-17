@@ -153,7 +153,7 @@ function Items:equipItem(itemID, acc)
 
     if verbose then
         if result then
-            print:successInfo("Equipement de " .. inventory:itemNameId(itemID) .. " réussi")
+            global:printuccess("[SUCCESS] : Equipement de " .. inventory:itemNameId(itemID) .. " réussi")
         else
             print:errorInfo("Impossible d'équiper " .. inventory:itemNameId(itemID))
         end

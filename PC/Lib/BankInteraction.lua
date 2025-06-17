@@ -34,7 +34,6 @@ end
 function resetBotBankAvailability(force)
     local servers = merge(SERVERS_MULTI, SERVERS_MONO)
     for _, server in ipairs(servers) do
-        global:printSuccess(server)
         if force then
             setBotBankConnected(server, false)
         else

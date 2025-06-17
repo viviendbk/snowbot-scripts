@@ -20,39 +20,6 @@ local cptExportation = 0
 
 
 
-local proxies = {
-    ["1"] = {
-        ips = IP_PROXY .. "#SOCKS5_" .. IP_PROXY .. "#",
-        port = "5001#5002",
-        username = "proxy#proxy",
-        password = "proxy123#proxy123"
-    },
-    ["2"] = {
-        ips = IP_PROXY .. "#SOCKS5_" .. IP_PROXY .. "#",
-        port = "5001#5003",
-        username = "proxy#proxy",
-        password = "proxy123#proxy123"
-    },  
-    ["3"] = {
-        ips = IP_PROXY .. "#SOCKS5_" .. IP_PROXY .. "#",
-        port = "5001#5004",
-        username = "proxy#proxy",
-        password = "proxy123#proxy123"
-    },
-    ["4"] = {
-        ips = IP_PROXY .. "#SOCKS5_" .. IP_PROXY .. "#",
-        port = "5001#5005",
-        username = "proxy#proxy",
-        password = "proxy123#proxy123"
-    }, 
-    ["5"] = {
-        ips = IP_PROXY .. "#SOCKS5_" .. IP_PROXY .. "#",
-        port = "5001#5006",
-        username = "proxy#proxy",
-        password = "proxy123#proxy123"
-    },
-}
-
 
 local condition = function(acc)
     return acc:isAccountFullyConnected() and not acc:isScriptPlaying() and (acc:isTeamLeader() or not acc:isItATeam())
@@ -386,7 +353,7 @@ local function launchNewAccounts()
                                 local acc = snowbotController:getAccount(username)
                                 acc:forceServer(server)
                                 acc:forceCreate(11, false, 0, {"#f2c07d", "#000000", "#000000", "#ffffff", "#400000", "#400000"})
-                                snowbotController:assignProxyToAnAccount(username, proxies["1"].ips,  proxies["1"].port,  proxies["1"].username,  proxies["1"].password, (typeProxy ~= "socks5"), true)
+                                snowbotController:assignProxyToAnAccount(username, PROXIES["1"].ips,  PROXIES["1"].port,  PROXIES["1"].username,  PROXIES["1"].password, (typeProxy ~= "socks5"), true)
                                 
                                 acc.global():editAlias("LvlUp" .. _ .. " " .. server, true)
                                 break
@@ -406,7 +373,7 @@ local function launchNewAccounts()
                                 acc:forceServer(server)
                                 acc:forceCreate(11, false, 0, {"#f2c07d", "#000000", "#000000", "#ffffff", "#400000", "#400000"})
 
-                                snowbotController:assignProxyToAnAccount(username, proxies["1"].ips,  proxies["1"].port,  proxies["1"].username,  proxies["1"].password, (typeProxy ~= "socks5"), true)
+                                snowbotController:assignProxyToAnAccount(username, PROXIES["1"].ips,  PROXIES["1"].port,  PROXIES["1"].username,  PROXIES["1"].password, (typeProxy ~= "socks5"), true)
 
                                 acc.global():editAlias("Bucheron" .. _ .. " " .. server, true)
                                 break
@@ -545,31 +512,31 @@ local function loadAccounts()
 
         snowbotController:loadAnAccount("/", false) -- délimitateur bank
         for _, acc in ipairs(AccountToLoad.bank) do
-            snowbotController:assignProxyToAnAccount(acc, proxies["5"].ips,  proxies["5"].port,  proxies["5"].username,  proxies["5"].password, (typeProxy ~= "socks5"), true)
+            snowbotController:assignProxyToAnAccount(acc, PROXIES["5"].ips,  PROXIES["5"].port,  PROXIES["5"].username,  PROXIES["5"].password, (typeProxy ~= "socks5"), true)
             snowbotController:loadAnAccount(acc, false)
         end
 
         snowbotController:loadAnAccount("//", false) -- délimitateur Combat
         
         for _, acc in ipairs(AccountToLoad.Combat) do
-            snowbotController:assignProxyToAnAccount(acc, proxies["2"].ips,  proxies["2"].port,  proxies["2"].username,  proxies["2"].password, (typeProxy ~= "socks5"), true)
+            snowbotController:assignProxyToAnAccount(acc, PROXIES["2"].ips,  PROXIES["2"].port,  PROXIES["2"].username,  PROXIES["2"].password, (typeProxy ~= "socks5"), true)
             snowbotController:loadAnAccount(acc, false)
         end
 
         for _, acc in ipairs(AccountToLoad.LvlUp) do
-            snowbotController:assignProxyToAnAccount(acc, proxies["2"].ips,  proxies["2"].port,  proxies["2"].username,  proxies["2"].password, (typeProxy ~= "socks5"), true)
+            snowbotController:assignProxyToAnAccount(acc, PROXIES["2"].ips,  PROXIES["2"].port,  PROXIES["2"].username,  PROXIES["2"].password, (typeProxy ~= "socks5"), true)
             snowbotController:loadAnAccount(acc, false)
         end
 
         snowbotController:loadAnAccount("///", false) -- délimitateur Bucheron / LvlUp
         for _, acc in ipairs(AccountToLoad.Bucheron) do
-            snowbotController:assignProxyToAnAccount(acc, proxies["1"].ips,  proxies["1"].port,  proxies["1"].username,  proxies["1"].password, (typeProxy ~= "socks5"), true)
+            snowbotController:assignProxyToAnAccount(acc, PROXIES["1"].ips,  PROXIES["1"].port,  PROXIES["1"].username,  PROXIES["1"].password, (typeProxy ~= "socks5"), true)
             snowbotController:loadAnAccount(acc, false)
         end
 
         snowbotController:loadAnAccount("////", false) -- délimitateur Mineur
         for _, acc in ipairs(AccountToLoad.Mineur) do
-            snowbotController:assignProxyToAnAccount(acc, proxies["1"].ips,  proxies["1"].port,  proxies["1"].username,  proxies["1"].password, (typeProxy ~= "socks5"), true)
+            snowbotController:assignProxyToAnAccount(acc, PROXIES["1"].ips,  PROXIES["1"].port,  PROXIES["1"].username,  PROXIES["1"].password, (typeProxy ~= "socks5"), true)
             snowbotController:loadAnAccount(acc, false)
         end    
 
@@ -579,7 +546,7 @@ end
 function move()
 
     totalKamas = 0
-    print:info("Checkup des bots")
+    global:printMessage("[INFO] : Checkup des bots")
 
     -- account loading
     resetBotBankAvailability(false)
@@ -771,7 +738,7 @@ function move()
     global:editAlias("Controller : [" .. totalKamas .. "m]", true)
 
     local waitingTime = math.random(15, 25)
-    print:successInfo("Checkup terminé, attente de " .. waitingTime .. " secondes.")
+    global:printuccess("[SUCCESS] : Checkup terminé, attente de " .. waitingTime .. " secondes.")
     global:delay(waitingTime * 1000)
     cptExportation = cptExportation + 1
 

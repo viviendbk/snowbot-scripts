@@ -659,3 +659,87 @@ PHENIX = {
         {map = "146800640", custom = function() map:door(200) map:door(333) end}
 
 	}
+
+
+TABLE_VENTE_PL = {
+	{Name = "Plume de Piou Rouge", Id = 6900, CanSell = false, MaxHdv100 = 2, MaxHdv10 = 2},
+	{Name = "Plume de Piou Jaune", Id = 6902, CanSell = false, MaxHdv100 = 2, MaxHdv10 = 2},
+	{Name = "Plume de Piou Vert", Id = 6899, CanSell = false, MaxHdv100 = 2, MaxHdv10 = 2},
+	{Name = "Plume de Piou Bleu", Id = 6897, CanSell = false, MaxHdv100 = 2, MaxHdv10 = 2},
+	{Name = "Plume de Piou Violet", Id = 6898, CanSell = false, MaxHdv100 = 2, MaxHdv10 = 2},
+	{Name = "Plume de Piou Rose", Id = 6903, CanSell = false, MaxHdv100 = 2, MaxHdv10 = 2},
+
+	{Name = "Œil d'Arakmuté", Id = 2491, CanSell = false, MaxHdv100 = 2, MaxHdv10 = 2},
+	{Name = "Poils d'Arakne Malade", Id = 388, CanSell = false, MaxHdv100 = 2, MaxHdv10 = 2},
+	{Name = "Intestin d'Araknosé", Id = 373, CanSell = false, MaxHdv100 = 2, MaxHdv10 = 2},
+	{Name = "Bec du Tofu", Id = 366, CanSell = false, MaxHdv100 = 2, MaxHdv10 = 2},
+
+	{Name = "Conque Marine", Id = 13726, CanSell = false, MaxHdv100 = 2, MaxHdv10 = 2},
+	{Name = "Crème à bronzer", Id = 13727, CanSell = false, MaxHdv100 = 2, MaxHdv10 = 2},
+
+
+	{Name = "Peau de Larve Bleue", Id = 362, CanSell = false, MaxHdv100 = 3, MaxHdv10 = 3},
+	{Name = "Peau de Larve Orange", Id = 363, CanSell = false, MaxHdv100 = 3, MaxHdv10 = 3},
+	{Name = "Peau de Larve Verte", Id = 364, CanSell = false, MaxHdv100 = 3, MaxHdv10 = 3},
+	{Name = "Peau de Larve Jaune", Id = 2563, CanSell = false, MaxHdv100 = 3, MaxHdv10 = 3},
+
+	{Name = "Crocs de Rats", Id = 2322, CanSell = false, MaxHdv100 = 3, MaxHdv10 = 3},
+	{Name = "Cuir de Scélérat Strubien", Id = 304, CanSell = false, MaxHdv100 = 3, MaxHdv10 = 3},
+
+	{Name = "Noisette", Id = 394, CanSell = false, MaxHdv100 = 2, MaxHdv10 = 2},
+	{Name = "Étoffe d'Écurouille", Id = 653, CanSell = false, MaxHdv100 = 2, MaxHdv10 = 2},
+	{Name = "Poils du Milimulou", Id = 1690, CanSell = false, MaxHdv100 = 2, MaxHdv10 = 2},
+	{Name = "Scalp de Milimulou", Id = 2576, CanSell = false, MaxHdv100 = 2, MaxHdv10 = 2},
+	{Name = "Pic du Prespic", Id = 407, CanSell = false, MaxHdv100 = 2, MaxHdv10 = 2},
+	{Name = "Queue de Prespic", Id = 2573, CanSell = false, MaxHdv100 = 2, MaxHdv10 = 2},
+	{Name = "Poils Darits", Id = 1672, CanSell = false, MaxHdv100 = 1, MaxHdv10 = 2},
+	{Name = "Groin de Sanglier", Id = 386, CanSell = false, MaxHdv100 = 2, MaxHdv10 = 2},
+	{Name = "Défense du Sanglier", Id = 387, CanSell = false, MaxHdv100 = 2, MaxHdv10 = 2},
+	{Name = "Étoffe du Sanglier", Id = 652, CanSell = false, MaxHdv100 = 2, MaxHdv10 = 2},
+
+	{Name = "Viande Intangible", Id = 16663, CanSell = false, MaxHdv100 = 5, MaxHdv10 = 3},
+	{Name = "Viande Hachée", Id = 17123, CanSell = false, MaxHdv100 = 5, MaxHdv10 = 3},
+	{Name = "Viande faisandée", Id = 17124, CanSell = false, MaxHdv100 = 5, MaxHdv10 = 3},
+	{Name = "Viande Frelatée", Id = 17126, CanSell = false, MaxHdv100 = 5, MaxHdv10 = 3},
+
+	{Name = "Eklame Inférieur", Id = 31518, CanSell = false, MaxHdv100 = 2, MaxHdv10 = 2},
+
+	{Name = "Petale de rose demoniaque", Id = 309, CanSell = false, MaxHdv100 = 2, MaxHdv10 = 2},
+	{Name = "Oeuf de larve dorée", Id = 7423, CanSell = false, MaxHdv100 = 2, MaxHdv10 = 2},
+	{Name = "Fil de soie", Id = 643, CanSell = false, MaxHdv100 = 2, MaxHdv10 = 2},
+
+}
+
+
+PROXIES = {
+    ["1"] = {
+        ips = IP_PROXY .. "#SOCKS5_" .. IP_PROXY .. "#",
+        port = "5001#5002",
+        username = "proxy#proxy",
+        password = "1937Shield!1234Abcd#1937Shield!1234Abcd"
+    },
+    ["2"] = {
+        ips = IP_PROXY .. "#SOCKS5_" .. IP_PROXY .. "#",
+        port = "5001#5003",
+        username = "proxy#proxy",
+        password = "1937Shield!1234Abcd#1937Shield!1234Abcd"
+    },  
+    ["3"] = {
+        ips = IP_PROXY .. "#SOCKS5_" .. IP_PROXY .. "#",
+        port = "5001#5004",
+        username = "proxy#proxy",
+        password = "1937Shield!1234Abcd#1937Shield!1234Abcd"
+    },
+    ["4"] = {
+        ips = IP_PROXY .. "#SOCKS5_" .. IP_PROXY .. "#",
+        port = "5001#5005",
+        username = "proxy#proxy",
+        password = "1937Shield!1234Abcd#1937Shield!1234Abcd"
+    }, 
+    ["5"] = {
+        ips = IP_PROXY .. "#SOCKS5_" .. IP_PROXY .. "#",
+        port = "5001#5006",
+        username = "proxy#proxy",
+        password = "1937Shield!1234Abcd#1937Shield!1234Abcd"
+    },
+}
