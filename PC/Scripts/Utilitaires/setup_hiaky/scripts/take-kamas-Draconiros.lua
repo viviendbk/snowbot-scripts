@@ -5,7 +5,7 @@ PATH =  "C:\\Users\\Administrator\\Documents\\snowbot-scripts\\PC\\Scripts\\Util
 scriptName = "take-kamas.lua"
 dofile(PATH .. "template.lua")
 
-dofile("C:\\Users\\Administrator\\Documents\\snowbot-scripts\\PC\\Scripts\\Utilitaires\\IMPORT_LIBRARIES.lua")
+dofile("C:\\Users\\Administrator\\Documents\\snowbot-scripts\\PC\\Scripts\\Lib\\IMPORT_LIBRARIES.lua")
 
 
 local insert = table.insert
@@ -39,7 +39,7 @@ function move()
     end
     if not global:remember("doneTransfert") then
 
-        Exch:submitKamasOrder(1400000)
+        submitKamasOrder(1400000)
         global:printSuccess("on demande " .. 1400000)
         global:delay(500)
 
@@ -47,7 +47,7 @@ function move()
             giver = Ctrl:connect2(giverAlias, true)
 
             if not giver then
-                print:errorInfo("Impossible de connecter le bot banque, nouvelle tentative dans " .. timeToRetry .. " heures.")
+                global:printError("[ERROR] Impossible de connecter le bot banque, nouvelle tentative dans " .. timeToRetry .. " heures.")
                 global:reconnect(timeToRetry)
             end
 
@@ -75,7 +75,7 @@ function move()
            
             developer:suspendScriptUntil("ExchangeLeaveMessage", 5000, false)
            
-            Exch:deleteKamasOrder(function(order)
+            deleteKamasOrder(function(order)
             return order.id == character:id()
             end)
             

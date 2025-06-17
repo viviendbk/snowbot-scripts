@@ -25,8 +25,8 @@ function Ctrl:connect(aliasTag, disconnectOnError)
                         if disconnectOnError then
                             if notifications then
                                 Network:notify("Impossible de connecter le giver bot " .. aliasTag .. "\n\nNouvelle tentative dans " .. timeToRetry .. " heures.\nDéconnexion.")
-                                print:errorInfo("Impossible de connecter le bot d'alias " .. aliasTag .. ".")
-                                print:errorInfo("Nouvelle tentative dans " .. timeToRetry .. " heures.")
+                                global:printError("[ERROR] Impossible de connecter le bot d'alias " .. aliasTag .. ".")
+                                global:printError("[ERROR] Nouvelle tentative dans " .. timeToRetry .. " heures.")
                             end
 
                             acc:disconnect()
@@ -67,8 +67,8 @@ function Ctrl:connect2(aliasTag, disconnectOnError)
                         if disconnectOnError then
                             if notifications then
                                 Network:notify("Impossible de connecter le giver bot " .. aliasTag .. "\n\nNouvelle tentative dans " .. timeToRetry .. " heures.\nDéconnexion.")
-                                print:errorInfo("Impossible de connecter le bot d'alias " .. aliasTag .. ".")
-                                print:errorInfo("Nouvelle tentative dans " .. timeToRetry .. " heures.")
+                                global:printError("[ERROR] Impossible de connecter le bot d'alias " .. aliasTag .. ".")
+                                global:printError("[ERROR] Nouvelle tentative dans " .. timeToRetry .. " heures.")
                             end
 
                             acc:disconnect()

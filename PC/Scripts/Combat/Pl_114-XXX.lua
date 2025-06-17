@@ -1,5 +1,5 @@
 ---@diagnostic disable: undefined-global, lowercase-global
-dofile("C:\\Users\\Administrator\\Documents\\snowbot-scripts\\PC\\Scripts\\Utilitaires\\IMPORT_LIBRARIES.lua")
+dofile("C:\\Users\\Administrator\\Documents\\snowbot-scripts\\PC\\Scripts\\Lib\\IMPORT_LIBRARIES.lua")
 ---- Options ----
 MAX_MONSTERS = 8
 MIN_MONSTERS = 2
@@ -1136,7 +1136,7 @@ local function takeKamas()
 	global:leaveDialog()
 	if character:kamas() < 1200000 then
 		global:printSuccess("Reco dans 2h")
-		global:loadAndStart("C:\\Users\\Administrator\\Documents\\snowbot-scripts\\PC\\Scripts\\Utilitaires\\setup_hiaky\\scripts\\take-kamas.lua")
+		global:loadAndStart("C:\\Users\\Administrator\\Documents\\snowbot-scripts\\PC\\Scripts\\Utilitaires\\take-kamas.lua")
 		customReconnect(math.random(80, 120))
 	end
 end
@@ -1384,7 +1384,7 @@ local function launchExchangeAndGive()
 
 		local TriParServeur = {"", "", "", "", "", ""}
 
-		for line in io.lines("C:\\Users\\Administrator\\Documents\\snowbot-scripts\\PCAssets\\ComptesAVendre.txt") do
+		for line in io.lines("C:\\Users\\Administrator\\Documents\\snowbot-scripts\\PC\\Assets\\ComptesAVendre.txt") do
 			if line ~= "" then
 				local tabline = line:split(":")
 				if tabline[3]:find("Imagiro") then TriParServeur[1] = TriParServeur[1] .. line .. "\r"
@@ -1408,7 +1408,7 @@ local function launchExchangeAndGive()
 		--
 		-- Write it out
 		--
-		local f = io.open("C:\\Users\\Administrator\\Documents\\snowbot-scripts\\PCAssets\\ComptesAVendre.txt", "w")
+		local f = io.open("C:\\Users\\Administrator\\Documents\\snowbot-scripts\\PC\\Assets\\ComptesAVendre.txt", "w")
 		f:write(content)
 		f:close()
 
@@ -1784,7 +1784,7 @@ function move()
         debutDeScript = falses
         local ComptesPrets = {}
         local nbComptesPrets = 0
-        for line in io.lines("C:\\Users\\Administrator\\Documents\\snowbot-scripts\\PCAssets\\ComptesAVendre.txt") do
+        for line in io.lines("C:\\Users\\Administrator\\Documents\\snowbot-scripts\\PC\\Assets\\ComptesAVendre.txt") do
             if line ~= "" then
                 if line:find(character:server()) then 
                     local level = line:split(" ")[#line:split(" ")]

@@ -4,7 +4,7 @@
 -- Type : 
 -- Version : 1.0
 -- Auteur : 
-dofile("C:\\Users\\Administrator\\Documents\\snowbot-scripts\\PC\\Scripts\\Utilitaires\\IMPORT_LIBRARIES.lua")
+dofile("C:\\Users\\Administrator\\Documents\\snowbot-scripts\\PC\\Scripts\\Lib\\IMPORT_LIBRARIES.lua")
 
 
 GATHER = {}
@@ -17,6 +17,8 @@ MIN_MONSTERS = 1
 FORBIDDEN_MONSTERS = {}
 FORCE_MONSTERS = {}
 --- </init>
+local resourceToGive = {}
+
 
 function messagesRegistering()
 	developer:registerMessage("HaapiShopApiKeyMessage", _HaapiShopApiKeyMessage)
@@ -24,29 +26,71 @@ function messagesRegistering()
 end
 
 
+local function takeRandomRessources()
+	npc:npcBank(-1)
+	local content = exchange:storageItems()
+	local nbResourcesToTake = math.random(1, 8)
 
-function truncate(nbr, size)
-    if not nbr then return 0 end
-    if not size then size = 2 end
-    if size == 0 then size = -1 end
-    
-    nbr = tostring(nbr) 
-    return nbr:sub(1, nbr:find("%p") + size)
+	for i = 1, nbResourcesToTake do
+
+		local random = math.random(1, #content)
+		for i, id in ipairs(content) do
+			if i == random then
+				local randomQuantity = math.random(1, exchange:storageItemQuantity(id))
+				exchange:getItem(id, randomQuantity)
+				table.insert(resourceToGive, {id = id, quantity = randomQuantity})
+				global:printSuccess("") -- mettre ici un print des ressources
+			end
+		end
+	end
 end
 
-function truncKamas(amount)
-    amount = tonumber(amount) or character:kamas()
-    amount = amount / 1000000
+local function giveResourcesKamasAndValidate()
+	global:printMessage("Je vais mettre les ressources dans l'échange")
+	for _, element in ipairs(resourceToGive) do
+		local quantityInInventory = inventory:itemCount(element.id)
+		if quantityInInventory > 0 then
+			exchange:putItem(element.id, math.min(element.quantity, quantityInInventory))
+			global:printSuccess(element.quantity .. " x " .. inventory:itemNameId(element.id))
+		end
+	end
+	
+	local quantityKamas = math.random(1, 5000)
+	if character:kamas() > quantityKamas then
+		global:printSuccess("Je mets " .. quantityKamas .. " kamas")
+		global:delay(math.random(2000, 4000))
+	end
 
-    return truncate(amount, 0)
+	exchange:ready()
 end
 
-function fini()
+function _HandleEchanfge(message)
+    if isAccountKnown(message.source) then
+        global:printSuccess("on connait le personnage, echange accepté")
+        developer:sendMessage(developer:createMessage("ExchangeAcceptMessage"))
+    else
+        global:printError("on ne connait pas le personnage, echange refusé")
+        global:leaveDialog()
+    end
+    enEchange = true
+	global:thisAccountController():startScript()
+end
+
+local function fini()
+	global:printMessage("On prend des ressources random ")
+	takeRandomRessources()
+	developer:registerMessage("ExchangeRequestedTradeMessage", _HandleEchanfge)
+
+
     global:printSuccess("prêt à recevoir les kamas")
 end
 
 function move()
 	global:editAlias("bank_" .. character:server():lower() .. " : [" .. truncKamas() .. "m]", true)
+
+	if enEchange then
+		giveResourcesKamasAndValidate()
+	end
 
 	if character:server() == "Draconiros" and getRemainingSubscription(true) < 2 then
 		Abonnement()

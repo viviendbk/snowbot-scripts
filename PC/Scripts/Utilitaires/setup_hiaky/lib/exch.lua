@@ -11,44 +11,6 @@ function Exch:refuse()
     developer:sendMessage(developer:createMessage("LeaveDialogRequestMessage"))
 end
 
-function Exch:submitKamasOrder(amount)
-    Exch.ordersPath = Exch.ordersPath or TEMP_PATH .. character:server() .. "\\bank-orders.json"
-    local orders = Utils:try(function()
-        return File:openJsonFile(self.ordersPath) 
-    end)
-
-    local thisOrder = {
-        id = character:id(),
-        alias = myAlias,
-        kAmount = amount
-    }
-
-    if not orders then
-
-        File:writeJsonData(self.ordersPath, { thisOrder }, true)
-    else
-        for i = #orders, 1 , -1 do
-            if orders[i].id == character:id() then
-                global:printSuccess("On supprime une ancienne demande")
-                table.remove(orders, i)
-            end
-        end
-        table.insert(orders, thisOrder)
-        File:writeJsonData(self.ordersPath, orders, true)
-    end
-end
-
-function Exch:deleteKamasOrder(searchFn)
-    self.ordersPath = self.ordersPath or TEMP_PATH .. character:server() .. "\\bank-orders.json"
-
-    local orders = File:forceFile(self.ordersPath, 200, true)
-    
-    if not orders then global:delay(10000) return self:deleteBankOrder(param) end
-    for _, order in ipairs(orders) do
-        if searchFn(order) then Utils:removeAtIndex(orders, order) end
-    end
-    File:writeJsonData(self.ordersPath, orders, true)
-end
 
 function Exch:whitelistOrderers(updateOrders)
     self.ordersPath = self.ordersPath or TEMP_PATH .. character:server() .. "\\bank-orders.json"
@@ -231,7 +193,7 @@ function Exch:launchExchange(id)
     RECONNECT_ON_TIMEOUT = false
 
     while not exchange:launchExchangeWithPlayer(id) do
-        print:errorInfo("La cible de l'échange n'est pas disponible, nouvelle tentative dans 5 secondes.")
+        global:printError("[ERROR] La cible de l'échange n'est pas disponible, nouvelle tentative dans 5 secondes.")
         global:delay(5000)
     end
 

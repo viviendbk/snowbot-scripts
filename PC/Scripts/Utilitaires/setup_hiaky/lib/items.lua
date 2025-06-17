@@ -155,7 +155,7 @@ function Items:equipItem(itemID, acc)
         if result then
             global:printuccess("[SUCCESS] : Equipement de " .. inventory:itemNameId(itemID) .. " réussi")
         else
-            print:errorInfo("Impossible d'équiper " .. inventory:itemNameId(itemID))
+            global:printError("[ERROR] Impossible d'équiper " .. inventory:itemNameId(itemID))
         end
     end
 

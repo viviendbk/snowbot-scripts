@@ -1,51 +1,45 @@
+-- Generated On Dofus-Map with Drigtime's SwiftPath Script Maker --
+-- Nom : 
+-- Zone : 
+-- Type : 
+-- Version : 1.0
+-- Auteur : 
+dofile("C:\\Users\\Administrator\\Documents\\snowbot-scripts\\PC\\Scripts\\Lib\\IMPORT_LIBRARIES.lua")
 
---- <init>
 
-PATH =  "C:\\Users\\Administrator\\Documents\\snowbot-scripts\\PC\\Scripts\\Utilitaires\\setup_hiaky\\"
-scriptName = "give-kamas.lua"
-dofile(PATH .. "template.lua")
-dofile("C:\\Users\\Administrator\\Documents\\snowbot-scripts\\PC\\Scripts\\Utilitaires\\IMPORT_LIBRARIES.lua")
-local enEchange = false
+GATHER = {}
+OPEN_BAGS = true
+AUTO_DELETE = {}
 
-function truncate(nbr, size)
-    if not nbr then return 0 end
-    if not size then size = 2 end
-    if size == 0 then size = -1 end
-    
-    nbr = tostring(nbr) 
-    return nbr:sub(1, nbr:find("%p") + size)
-end
+MAX_MONSTERS = 8
+MIN_MONSTERS = 1
 
-function truncKamas(amount)
-    amount = tonumber(amount) or character:kamas()
-    amount = amount / 1000000
-
-    return truncate(amount, 0)
-end
-
--- function messagesRegistering()
---     for _, message in ipairs(developerMessages) do
---         developer:registerMessage(message, messageHandler)
---     end
--- end
-
+FORBIDDEN_MONSTERS = {}
+FORCE_MONSTERS = {}
 --- </init>
+local resourceToGive = {}
 
-createMessageInstance("ExchangeRequestedTradeMessage")
-function ExchangeRequestedTradeMessage:receive(message)
-    global:printSuccess("ok")
-    if Utils:isInTable(Exch.whitelist, message.source) then
-        global:printSuccess("11")
-        global:delay(100, 250)
-        Exch:accept()
-        global:printSuccess("22")
 
-        Exch.inTrade = message.source
-    else Exch:refuse() end
+function messagesRegistering()
+	developer:registerMessage("HaapiShopApiKeyMessage", _HaapiShopApiKeyMessage)
+	developer:registerMessage("HaapiConfirmationMessage", _HaapiConfirmationMessage)
 end
 
-function _handleTradeRequest(message)
-    global:printSuccess("echange reçu")
+
+local function giveKamasAndValidate()
+	global:printMessage("Je vais mettre les ressources dans l'échange")
+
+    openFile()
+	local quantityKamas = math.random(1, 5000)
+	if character:kamas() > quantityKamas then
+		global:printSuccess("Je mets " .. quantityKamas .. " kamas")
+		global:delay(math.random(2000, 4000))
+	end
+
+	exchange:ready()
+end
+
+function _HandleEchanfge(message)
     if isAccountKnown(message.source) then
         global:printSuccess("on connait le personnage, echange accepté")
         developer:sendMessage(developer:createMessage("ExchangeAcceptMessage"))
@@ -54,78 +48,67 @@ function _handleTradeRequest(message)
         global:leaveDialog()
     end
     enEchange = true
+	global:thisAccountController():startScript()
 end
 
-
-function giveKamas()
-    global:printSuccess("dac1")
-
-    local counter = 0
-    local thisOrder = nil
-
-    developer:registerMessage("ExchangeRequestedTradeMessage", _handleTradeRequest)
-    developer:suspendScriptUntil("ExchangeRequestedTradeMessage", 20000, false)
-
-
-    while not enEchange and counter < 30 do
-        debug("a")
-
-        developer:suspendScriptUntil("ExchangeRequestedTradeMessage", 1000, false)
-        counter = counter + 1
-    end
-
-    if counter >= 30 then
-        return
-    end
-    
-    global:printSuccess("dac2")
-
-    if not enEchange then return self:giveKamas() end
-    global:printSuccess("dac3")
-
-    for _, order in ipairs(self.orders) do
-        if enEchange == order.id then thisOrder = order break end
-    end
-    global:printSuccess(thisOrder.kAmount)
-
-    if character:kamas() < thisOrder.kAmount then
-
-        local orderer = Ctrl:getControllerBy(function(acc)
-            return acc.character():id() == thisOrder.id
-        end)
-
-        if orderer then orderer:disconnect() end
-        global:disconnect()
-    end
-    global:printSuccess("dac5")
-
-    global:printSuccess("on envoie " .. thisOrder.kAmount .. " kamas")
-    exchange:putKamas(thisOrder.kAmount)
-
-    global:delay(math.random(2000, 4000))
-
-    exchange:ready()
+local function fini()
+	developer:registerMessage("ExchangeRequestedTradeMessage", _HandleEchanfge)
+    global:printSuccess("prêt à donner les kamas")
 end
-
-function isAccountKnown(id)
-    local accounts = snowbotcontroller:getLoadedAccounts()
-    for _, account in ipairs(accounts) do
-        if account:getId() == id then
-            return true
-        end
-    end
-    return false
-end
-
 
 function move()
-    mapDelay()
-    global:editAlias("bank_" .. character:server():lower() .. " : [" .. truncKamas() .. "m]", true)
-    return Moving:goAstrubBank(function() 
-        setBotBankConnected(character:server(), true)
-        Exch:giveKamas()
-        global:delay(40000)
-        setBotBankConnected(character:server(), false)
-        global:disconnect()
-    end)
+	global:editAlias("bank_" .. character:server():lower() .. " : [" .. truncKamas() .. "m]", true)
+
+	if enEchange then
+		giveKamasAndValidate()
+	end
+
+	if character:server() == "Draconiros" and getRemainingSubscription(true) < 2 then
+		Abonnement()
+	end
+	if getCurrentAreaName() == "Incarnam" then
+		return {
+			{map = "190843392", path = "top"},
+			{ map = "153092354", door = 409},
+		  { map = "152045573", path = "right", gather = false, fight = false }, -- 152045573
+		  { map = "152043521", path = "right", gather = false, fight = false }, -- 152045573
+		  { map = "152046597", path = "right", gather = false, fight = false }, -- 152045573
+		  { map = "-2,-3", path = "right" }, -- 154010883
+		  { map = "-2,-2", path = "top" }, -- 154010882
+		  { map = "-1,-2", path = "top"}, -- 154010370
+		  { map = "0,-2", path = "top"}, -- 153878786
+		  { map = "1,-2", path = "top"}, -- 153879298
+		  { map = "1,-3", path = "right" }, -- 153879299
+		  { map = "0,-3", path = "right"}, -- 153878787
+		  { map = "-1,-3", path = "right"}, -- 154010371
+		  { map = "-1,-4", path = "bottom"}, -- 154010372
+		  { map = "0,-4", path = "bottom" }, -- 153878788
+		  { map = "0,-5", path = "bottom"}, -- 153878789
+		  { map = "-1,-5", path = "right" }, -- 154010373
+		  { map = "-2,-5", path = "right"}, -- 154010885
+		  { map = "-2,-4", path = "bottom"}, -- 154010884
+		  { map = "2,-3", path = "right"}, -- 153879811
+		  { map = "3,-3", path = "right"}, -- 153880323
+		  { map = "4,-3", custom = function()
+			npc:npc(4398,3)
+			npc:reply(-1)
+			npc:reply(-1)
+		  end}, -- 153880323
+		}
+	elseif not map:onMap(192415750) then
+		debugMoveToward(192415750)
+	end
+	return {
+		{map = "192415750", custom = fini},
+	}
+end
+
+function bank()
+	return move()
+end
+
+
+function PHENIX()
+	return {
+	}
 end

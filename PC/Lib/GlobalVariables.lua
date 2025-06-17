@@ -5,6 +5,11 @@ NB_COMBAT = 5
 NB_CRAFT = 2
 NB_GROUPE = 3
 
+IP_PROXY = "193.252.210.41"
+
+TYPE_PROXY = "socks5"
+
+
 BANK_MAPS = {
     zAstrub = "zaap(191105026)",
     idHavenbag = 162791424,
@@ -19,7 +24,6 @@ cannotConnect = false
 botFound = false
 connected = false
 
-IP_PROXY = "193.252.210.41"
 
 SERVERS_MULTI = {
     "Imagiro", "Orukam", "Tal Kasha", "Hell Mina", "Tylezia", "Rafal", "Salar", "Brial"
@@ -742,4 +746,9 @@ PROXIES = {
         username = "proxy#proxy",
         password = "1937Shield!1234Abcd#1937Shield!1234Abcd"
     },
+}
+
+
+GO_BANK_ASTRUB = {
+
 }

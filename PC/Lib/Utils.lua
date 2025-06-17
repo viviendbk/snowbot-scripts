@@ -862,6 +862,37 @@ function treatMaps(maps, errorFn)
             {map = "-42,-19", path = "left"},
             {map = "-43,-16", custom = function() npc:npc(770, 3) npc:reply(-1) npc:reply(-1) end}
         } 
+    elseif getCurrentAreaName() == "Incarnam" then
+		return {
+			{map = "190843392", path = "top"},
+			{ map = "153092354", door = 409},
+		  { map = "152045573", path = "right", gather = false, fight = false }, -- 152045573
+		  { map = "152043521", path = "right", gather = false, fight = false }, -- 152045573
+		  { map = "152046597", path = "right", gather = false, fight = false }, -- 152045573
+		  { map = "-2,-3", path = "right" }, -- 154010883
+		  { map = "-2,-2", path = "top" }, -- 154010882
+		  { map = "-1,-2", path = "top"}, -- 154010370
+		  { map = "0,-2", path = "top"}, -- 153878786
+		  { map = "1,-2", path = "top"}, -- 153879298
+		  { map = "1,-3", path = "right" }, -- 153879299
+		  { map = "0,-3", path = "right"}, -- 153878787
+		  { map = "-1,-3", path = "right"}, -- 154010371
+		  { map = "-1,-4", path = "bottom"}, -- 154010372
+		  { map = "0,-4", path = "bottom" }, -- 153878788
+		  { map = "0,-5", path = "bottom"}, -- 153878789
+		  { map = "-1,-5", path = "right" }, -- 154010373
+		  { map = "-2,-5", path = "right"}, -- 154010885
+		  { map = "-2,-4", path = "bottom"}, -- 154010884
+		  { map = "2,-3", path = "right"}, -- 153879811
+		  { map = "3,-3", path = "right"}, -- 153880323
+		  { map = "4,-3", custom = function()
+			npc:npc(4398,3)
+			npc:reply(-1)
+			npc:reply(-1)
+		  end}, -- 153880323
+		}
+    elseif map:onMap("11,10") then
+        map:changeMap("left")
     end
 
     return errorFn
@@ -955,3 +986,332 @@ function rotateTableRandom(t)
 
     return result
 end
+
+
+function findMKamas(stringalias)
+    local stringKamas = { }
+    local tabstring = stringalias:split()
+
+    for index, element in ipairs(tabstring) do
+        if tabstring[index] == "[" then
+            for i = 1, 3 do
+                if tabstring[i + index] ~= "m" then
+                    stringKamas[i] = tabstring[i + index]
+                end
+            end
+        end
+    end
+    stringKamas = join(stringKamas)
+    return (tonumber(stringKamas) == nil or tonumber(stringKamas) <= 5) and 0 or tonumber(stringKamas) - 5
+end
+
+function GetServerByAlias(Alias)
+    for _, Server in ipairs(ALL_SERVERS) do
+        if Alias:lower():find(Server:lower()) then
+            return Server
+        end
+    end
+    return nil
+end
+
+function GetServer(account)
+    for _, Server in ipairs(ALL_SERVERS) do
+        if account:getAlias():find(Server) then
+            return Server
+        end
+    end
+    return nil
+end
+
+function GetProxy(lineToRead)
+    local cpt = 0
+    local i = 1
+    local f = io.open("C:\\Users\\Administrator\\Documents\\snowbot-scripts\\PC\\Assets\\proxy.txt", "r")
+
+    local toReturn = {proxy = {}, port = {}, username = {}, password = {}}
+
+    for line in io.lines("C:\\Users\\Administrator\\Documents\\snowbot-scripts\\PC\\Assets\\proxy.txt") do 
+        if i == lineToRead then
+            tabline = line:split()
+            for index, element in ipairs(tabline) do
+                if element == ":" then
+                    cpt = cpt + 1
+                end
+                if cpt == 0 then
+                    toReturn.proxy[index] = element
+                elseif cpt == 1 and element ~= ":" then
+                    toReturn.port[index - #toReturn.proxy - 1] = element
+                elseif cpt == 2 and element ~= ":" then
+                    toReturn.username[index - (#toReturn.proxy + #toReturn.port) - 2] = element
+                elseif cpt == 3 and element ~= ":" then
+                    toReturn.password[index - (#toReturn.proxy + #toReturn.port + #toReturn.username) - 3] = element
+                end
+            end
+        end
+        i = i + 1
+    end
+    toReturn.proxy = join(toReturn.proxy)
+    toReturn.port = join(toReturn.port)
+    toReturn.username = join(toReturn.username)
+    toReturn.password = join(toReturn.password)
+
+    return toReturn
+end
+
+
+function WithdrawTime(lines)
+    -- printVar(lines)
+    local toReturn = {}
+    if lines then
+        for _, element in ipairs(lines) do
+            local parts = element:split(" ")  -- faire le split une seule fois
+            local newElement = {}
+            for i = 2, #parts do
+                table.insert(newElement, parts[i])
+            end
+            if #newElement > 0 then
+                table.insert(toReturn, join(newElement))
+            end
+        end
+    end
+    return toReturn
+end
+
+function find_repeated_patterns(strings, x, y)
+    local n = #strings
+    local counts = {}
+    local lastPattern = nil
+    if strings then
+        for i = 1, n - x + 1, x do
+            local pattern = table.concat(strings, "", i, i + x - 1)
+            if lastPattern and pattern ~= lastPattern then
+              counts = {}
+            end
+            counts[pattern] = (counts[pattern] or 0) + 1
+            if counts[pattern] == y then
+                global:printMessage("pattern : " .. pattern .. "\nRépété " .. x .. " fois")
+              return true
+            end
+            lastPattern = pattern
+          end
+    end
+
+    return false
+  end
+
+function LoopBug(lines)
+    if lines then
+        global:printSuccess("loopbug1")
+        lines = WithdrawTime(lines)
+        global:printSuccess("loopbug1.5")
+        for i = 2, 15 do
+            if find_repeated_patterns(lines, i, math.floor(#lines / math.floor(i * 2))) then
+                global:printSuccess("loopbug2")
+                return true
+            end
+        end
+    end
+    global:printSuccess("loopbug3")
+    return false
+end
+
+
+function ExporterComptes(path)
+    global:printSuccess("Exportation des comptes ...")
+
+    AccountToLoad = { bank = {}, Craft = {}, Combat = {}, LvlUp = {}, Bucheron = {}, Mineur = {}, Reste = {}}
+    local all_alias = merge(snowbotController:getAliasNotLoadedAccounts(), snowbotController:getAliasLoadedAccounts())
+    local all_usernames = merge(snowbotController:getUsernameNotLoadedAccounts(), snowbotController:getUsernameLoadedAccounts())
+
+
+    for i, Alias in ipairs(all_alias) do
+        if Alias:find("bank") then
+            for j, Username in ipairs(all_usernames) do
+                if i == j  then
+                    global:printSuccess(Alias .. ":" .. Username)
+                    table.insert(AccountToLoad.bank, Username)
+                end
+            end
+        elseif Alias:find("Combat") then
+            for j, Username in ipairs(all_usernames) do
+                if i == j then
+                    table.insert(AccountToLoad.Combat, Username)
+                end
+            end
+        elseif Alias:find("LvlUp")then
+            for j, Username in ipairs(all_usernames) do
+                if i == j then
+                    table.insert(AccountToLoad.LvlUp, Username)
+                end
+            end
+        elseif Alias:find("Bucheron") then
+            for j, Username in ipairs(all_usernames) do
+                if i == j then
+                    table.insert(AccountToLoad.Bucheron, Username)
+                end
+            end
+        elseif Alias:find("Mineur") then
+            for j, Username in ipairs(all_usernames) do
+                if i == j then
+                    table.insert(AccountToLoad.Mineur, Username)
+                end
+            end
+        elseif Alias:find("Groupe") then
+            for j, Username in ipairs(all_usernames) do
+                if i == j then
+                    table.insert(AccountToLoad.Groupe, Username)
+                end
+            end
+        elseif Alias:find("Craft") then
+            for j, Username in ipairs(all_usernames) do
+                if i == j then
+                    table.insert(AccountToLoad.Craft, Username)
+                end
+            end
+        elseif not Alias:find("-") then
+            for j, Username in ipairs(all_usernames) do
+                if i == j then
+                    table.insert(AccountToLoad.Reste, Username)
+                end
+            end
+        end
+    end
+
+    global:delay(5000)
+
+    content = "/:" .. snowbotController:getPassword("/") .. ":---------- BOT BANQUE ----------" -- délimitateur bank
+
+    for _, Username in ipairs(AccountToLoad.bank) do
+        content = content .. "\n" .. Username .. ":" .. snowbotController:getPassword(Username) .. ":" .. snowbotController:getAlias(Username)
+    end
+
+    if #AccountToLoad.Combat > 0 then
+        content = content .. "\n//:" .. snowbotController:getPassword("//") .. ":---------- COMBAT ----------" -- délimitateur Combat
+    end
+
+    for _, Username in ipairs(AccountToLoad.Combat) do
+        content = content .. "\n" .. Username .. ":" .. snowbotController:getPassword(Username) .. ":" .. snowbotController:getAlias(Username)
+    end
+
+    if #AccountToLoad.Combat > 0 then
+        content = content .. "\n///:" .. snowbotController:getPassword("///") .. ":---------- LVLUP ----------"-- délimitateur LvlUp
+    else
+        content = content .. "\n///:" .. snowbotController:getPassword("///") .. ":---------- BUCHERON ----------"-- délimitateur Bucheron
+    end
+
+    for _, Username in ipairs(AccountToLoad.Bucheron) do
+        content = content .. "\n" .. Username .. ":" .. snowbotController:getPassword(Username) .. ":" .. snowbotController:getAlias(Username)
+    end
+
+    for _, Username in ipairs(AccountToLoad.LvlUp) do
+        content = content .. "\n" .. Username .. ":" .. snowbotController:getPassword(Username) .. ":" .. snowbotController:getAlias(Username)
+    end
+
+    content = content .. "\n////:" .. snowbotController:getPassword("////") .. ":---------- MINEUR ----------" -- délimitateur Mineur
+
+    for _, Username in ipairs(AccountToLoad.Mineur) do
+        content = content .. "\n" .. Username .. ":" .. snowbotController:getPassword(Username) .. ":" .. snowbotController:getAlias(Username)
+    end   
+
+    for _, Username in ipairs(AccountToLoad.Reste) do
+        content = content .. "\n" .. Username .. ":" .. snowbotController:getPassword(Username) .. ":" .. snowbotController:getAlias(Username)
+    end   
+
+
+    f = io.open(path, "w")
+
+    f:write(content)
+    f:close()
+    global:printSuccess("Exportation finie !")
+end
+
+
+function launchNewAccounts(type, max, proxyNumber)
+    proxyNumber = tostring(proxyNumber)
+    -- mettre lancer les comptes HL avant s'il y en a
+    local AliasAllAccount = merge(snowbotController:getAliasNotLoadedAccounts(), snowbotController:getAliasLoadedAccounts())
+
+
+    for _, server in ipairs(ALL_SERVERS) do
+
+        global:printSuccess(server)
+        local accountsPresents = {}
+
+        for i = 1, max do
+            for _, Alias in ipairs(AliasAllAccount) do
+                if Alias:find(type .. i) and GetServerByAlias(Alias):find(server) then
+                    global:printSuccess("On a trouvé un compte " .. type  .. i .. " sur " .. server)
+                    accountsPresents[i] = true
+                    break
+                else
+                    accountsPresents[i] = false
+                end
+            end
+        end
+
+        for _, canLoadNewAccount in ipairs(accountsPresents) do
+            if not canLoadNewAccount then
+
+                global:printSuccess("On peut créer un nouveau compte " .. type .. _ .. " " .. server)
+                local AliasNotLoaded = snowbotController:getAliasNotLoadedAccounts()
+                for i, Alias in ipairs(AliasNotLoaded) do
+
+                    if IsInTable(SERVERS_MONO, server) and Alias:find("Next") then
+
+                        local UsernameNotLoaded = snowbotController:getUsernameNotLoadedAccounts()
+                        for j, username in ipairs(UsernameNotLoaded) do
+                            if i == j then
+                                snowbotController:loadAnAccount(username, false)
+
+                                local acc = snowbotController:getAccount(username)
+                                acc:forceServer(server)
+                                acc:forceCreate(11, false, 0, {"#f2c07d", "#000000", "#000000", "#ffffff", "#400000", "#400000"})
+                                snowbotController:assignProxyToAnAccount(username, PROXIES[proxyNumber].ips,  PROXIES[proxyNumber].port,  PROXIES[proxyNumber].username,  PROXIES[proxyNumber].password, (TYPE_PROXY ~= "socks5"), true)
+                                
+                                acc.global():editAlias(type .. _ .. " " .. server, true)
+                                break
+
+                            end
+                        end
+                        break
+
+                    elseif IsInTable(SERVERS_MULTI, server) and  Alias == "*"  then
+                        local UsernameNotLoaded = snowbotController:getUsernameNotLoadedAccounts()
+                        for j, username in ipairs(UsernameNotLoaded) do
+                            if i == j then
+
+                                snowbotController:loadAnAccount(username, false)
+
+                                local acc = snowbotController:getAccount(username)
+                                acc:forceServer(server)
+                                acc:forceCreate(11, false, 0, {"#f2c07d", "#000000", "#000000", "#ffffff", "#400000", "#400000"})
+
+                                snowbotController:assignProxyToAnAccount(username, PROXIES[proxyNumber].ips,  PROXIES[proxyNumber].port,  PROXIES[proxyNumber].username,  PROXIES[proxyNumber].password, (TYPE_PROXY ~= "socks5"), true)
+
+                                acc.global():editAlias(type .. _ .. " " .. server, true)
+                                break
+
+                            end
+                        end
+                        break
+
+                    end
+                end
+            end
+        end
+    end
+end
+
+function FindInAllAccount(AliasToFind)
+    local AllAlias = merge(snowbotController:getAliasNotLoadedAccounts(), snowbotController:getAliasLoadedAccounts())
+    local AllUsernames = merge(snowbotController:getUsernameLoadedAccounts(), snowbotController:getUsernameNotLoadedAccounts())
+
+    local Accs = {}
+
+    for i, Alias in ipairs(AllAlias) do
+        if Alias:find(AliasToFind) then
+            table.insert(Accs, {Username = AllUsernames[i], Alias = Alias})
+        end
+    end
+    return Accs
+end 

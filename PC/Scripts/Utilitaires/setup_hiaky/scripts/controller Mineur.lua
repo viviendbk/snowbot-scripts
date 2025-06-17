@@ -7,7 +7,7 @@ dofile(PATH .. "parameters.lua")
 dofile(PATH .. "modules//print.lua")
 --- </init>
 
-dofile("C:\\Users\\Administrator\\Documents\\snowbot-scripts\\PC\\Scripts\\Utilitaires\\IMPORT_LIBRARIES.lua")
+dofile("C:\\Users\\Administrator\\Documents\\snowbot-scripts\\PC\\Scripts\\Lib\\IMPORT_LIBRARIES.lua")
 
 
 local totalKamas = 0
@@ -159,7 +159,7 @@ local function LoopBug(lines)
     return false
 end
 
-local typeProxy = "socks5"
+local TYPE_PROXY = "socks5"
 
 local function WhichServer()
     for _, acc in ipairs(snowbotController:getLoadedAccounts()) do
@@ -295,7 +295,7 @@ local function ExporterComptes()
     end   
 
 
-    f = io.open("C:\\Users\\Administrator\\Documents\\snowbot-scripts\\PCAssets\\ComptesMineur.txt", "w")
+    f = io.open("C:\\Users\\Administrator\\Documents\\snowbot-scripts\\PC\\Assets\\ComptesMineur.txt", "w")
 
 
     f:write(content)
@@ -357,7 +357,7 @@ local function launchNewAccounts()
                                 local acc = snowbotController:getAccount(username)
                                 acc:forceServer(server)
                                 acc:forceCreate(11, false, 0, {"#f2c07d", "#000000", "#000000", "#ffffff", "#400000", "#400000"})
-                                snowbotController:assignProxyToAnAccount(username, PROXIES["1"].ips,  PROXIES["1"].port,  PROXIES["1"].username,  PROXIES["1"].password, (typeProxy ~= "socks5"), true)
+                                snowbotController:assignProxyToAnAccount(username, PROXIES["1"].ips,  PROXIES["1"].port,  PROXIES["1"].username,  PROXIES["1"].password, (TYPE_PROXY ~= "socks5"), true)
                                 
                                 acc.global():editAlias("LvlUp" .. _ .. " " .. server, true)
                                 break
@@ -377,7 +377,7 @@ local function launchNewAccounts()
                                 acc:forceServer(server)
                                 acc:forceCreate(11, false, 0, {"#f2c07d", "#000000", "#000000", "#ffffff", "#400000", "#400000"})
 
-                                snowbotController:assignProxyToAnAccount(username, PROXIES["1"].ips,  PROXIES["1"].port,  PROXIES["1"].username,  PROXIES["1"].password, (typeProxy ~= "socks5"), true)
+                                snowbotController:assignProxyToAnAccount(username, PROXIES["1"].ips,  PROXIES["1"].port,  PROXIES["1"].username,  PROXIES["1"].password, (TYPE_PROXY ~= "socks5"), true)
 
                                 acc.global():editAlias("Mineur" .. _ .. " " .. server, true)
                                 break
@@ -396,7 +396,7 @@ end
 
 local function RegisterHLAccounts()
     -- Read the file
-    local file = io.open("C:\\Users\\Administrator\\Documents\\snowbot-scripts\\PCAssets\\ComptesAVendre.txt", "r")
+    local file = io.open("C:\\Users\\Administrator\\Documents\\snowbot-scripts\\PC\\Assets\\ComptesAVendre.txt", "r")
     if not file then
       return nil, "Unable to open file"
     end
@@ -459,7 +459,7 @@ local function RegisterHLAccounts()
     end
   
     -- Write the modified content back to the file
-    file = io.open("C:\\Users\\Administrator\\Documents\\snowbot-scripts\\PCAssets\\ComptesAVendre.txt", "w")
+    file = io.open("C:\\Users\\Administrator\\Documents\\snowbot-scripts\\PC\\Assets\\ComptesAVendre.txt", "w")
     if not file then
       return nil, "Unable to open file for writing"
     end
@@ -516,31 +516,31 @@ local function loadAccounts()
 
         snowbotController:loadAnAccount("/", false) -- délimitateur bank
         for _, acc in ipairs(AccountToLoad.bank) do
-            snowbotController:assignProxyToAnAccount(acc, PROXIES["5"].ips,  PROXIES["5"].port,  PROXIES["5"].username,  PROXIES["5"].password, (typeProxy ~= "socks5"), true)
+            snowbotController:assignProxyToAnAccount(acc, PROXIES["5"].ips,  PROXIES["5"].port,  PROXIES["5"].username,  PROXIES["5"].password, (TYPE_PROXY ~= "socks5"), true)
             snowbotController:loadAnAccount(acc, false)
         end
 
         snowbotController:loadAnAccount("//", false) -- délimitateur Combat
         
         for _, acc in ipairs(AccountToLoad.Combat) do
-            snowbotController:assignProxyToAnAccount(acc, PROXIES["2"].ips,  PROXIES["2"].port,  PROXIES["2"].username,  PROXIES["2"].password, (typeProxy ~= "socks5"), true)
+            snowbotController:assignProxyToAnAccount(acc, PROXIES["2"].ips,  PROXIES["2"].port,  PROXIES["2"].username,  PROXIES["2"].password, (TYPE_PROXY ~= "socks5"), true)
             snowbotController:loadAnAccount(acc, false)
         end
 
         for _, acc in ipairs(AccountToLoad.LvlUp) do
-            snowbotController:assignProxyToAnAccount(acc, PROXIES["2"].ips,  PROXIES["2"].port,  PROXIES["2"].username,  PROXIES["2"].password, (typeProxy ~= "socks5"), true)
+            snowbotController:assignProxyToAnAccount(acc, PROXIES["2"].ips,  PROXIES["2"].port,  PROXIES["2"].username,  PROXIES["2"].password, (TYPE_PROXY ~= "socks5"), true)
             snowbotController:loadAnAccount(acc, false)
         end
 
         snowbotController:loadAnAccount("///", false) -- délimitateur Bucheron / LvlUp
         for _, acc in ipairs(AccountToLoad.Bucheron) do
-            snowbotController:assignProxyToAnAccount(acc, PROXIES["1"].ips,  PROXIES["1"].port,  PROXIES["1"].username,  PROXIES["1"].password, (typeProxy ~= "socks5"), true)
+            snowbotController:assignProxyToAnAccount(acc, PROXIES["1"].ips,  PROXIES["1"].port,  PROXIES["1"].username,  PROXIES["1"].password, (TYPE_PROXY ~= "socks5"), true)
             snowbotController:loadAnAccount(acc, false)
         end
 
         snowbotController:loadAnAccount("////", false) -- délimitateur Mineur
         for _, acc in ipairs(AccountToLoad.Mineur) do
-            snowbotController:assignProxyToAnAccount(acc, PROXIES["1"].ips,  PROXIES["1"].port,  PROXIES["1"].username,  PROXIES["1"].password, (typeProxy ~= "socks5"), true)
+            snowbotController:assignProxyToAnAccount(acc, PROXIES["1"].ips,  PROXIES["1"].port,  PROXIES["1"].username,  PROXIES["1"].password, (TYPE_PROXY ~= "socks5"), true)
             snowbotController:loadAnAccount(acc, false)
         end    
 
@@ -644,7 +644,7 @@ function move()
             acc:connect()
         elseif not acc.developer():hasScript() and acc.character():level() > 140 and acc:isAccountFullyConnected() and not acc:getAlias():find("Groupe") then
             acc:loadConfig("C:\\Users\\Administrator\\Documents\\snowbot-scripts\\PC\\Configs\\ConfigRecolte.xml")
-            acc:loadScript("C:\\Users\\Administrator\\Documents\\snowbot-scripts\\PC\\Scripts\\Utilitaires\\setup_hiaky\\scripts\\take-kamas.lua")
+            acc:loadScript("C:\\Users\\Administrator\\Documents\\snowbot-scripts\\PC\\Scripts\\Utilitaires\\take-kamas.lua")
             acc:disconnect()
             acc:connect()
         end

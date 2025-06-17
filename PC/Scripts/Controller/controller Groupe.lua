@@ -6,28 +6,12 @@ dofile("C:\\Users\\Administrator\\Documents\\snowbot-scripts\\PC\\Scripts\\Lib\\
 local totalKamas = 0
 local DebutDeScript = true
 local cptExportation = 0
-local type = "Bucheron"
-local nbMax = NB_BUCHERON
-
+local type = "Combat"
+local proxyNumber = 2
 
 local condition = function(acc)
     return acc:isAccountFullyConnected() and not acc:isScriptPlaying() and (acc:isTeamLeader() or not acc:isItATeam())
 end
-
-
-local function FindInAllAccount(AliasToFind)
-    local AllAlias = merge(snowbotController:getAliasNotLoadedAccounts(), snowbotController:getAliasLoadedAccounts())
-    local AllUsernames = merge(snowbotController:getUsernameLoadedAccounts(), snowbotController:getUsernameNotLoadedAccounts())
-
-    local Accs = {}
-
-    for i, Alias in ipairs(AllAlias) do
-        if Alias:find(AliasToFind) then
-            table.insert(Accs, {Username = AllUsernames[i], Alias = Alias})
-        end
-    end
-    return Accs
-end 
 
 
 local function RegisterHLAccounts()
@@ -194,7 +178,7 @@ function move()
     if cptExportation == 20 then
         cptExportation = 0
         ExporterComptes("C:\\Users\\Administrator\\Documents\\snowbot-scripts\\PC\\Assets\\Comptes" .. type .. ".txt")
-        RegisterHLAccounts()
+        -- RegisterHLAccounts()
         resetBotBankAvailability(false)
     end
     
@@ -206,7 +190,7 @@ function move()
         launchNewAccounts(type, nbMax, 1)
 
         global:printSuccess("Fin du lancement des comptes")
-        RegisterHLAccounts()
+        -- RegisterHLAccounts()
         global:printSuccess("ok0")
         ExporterComptes("C:\\Users\\Administrator\\Documents\\snowbot-scripts\\PC\\Assets\\Comptes" .. type .. ".txt")
         global:printSuccess("ok1")

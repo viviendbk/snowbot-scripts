@@ -210,6 +210,36 @@ function rerollVar()
     end
 
     toGive, connected, movingPrinted, givingMode = 0, nil, nil, nil
+end 
+
+function waitBotIsOnAstrubBank(botBank, maxWaitingTime)
+    local safetyCount = 0
+    maxWaitingTime = maxWaitingTime or 60
+    global:printMessage("On attends que le bot bank soit arrivé a la banque")
+    while not botBank.map:onMap(BANK_MAPS.bankAstrubInt) and safetyCount < maxWaitingTime do
+        local accounts = snowbotcontroller:getLoadedAccounts()
+        for _, account in ipairs(accounts) do
+            if account.character:id() == botBank.character():id() then
+                botBank = account
+            end
+        end
+        safetyCount = safetyCount + 5
+        global:delay(5000)
+    end
+    return safetyCount < maxWaitingTime
+end
+
+function launchExchangeSafely(id, maxWaitingTime)
+    maxWaitingTime = maxWaitingTime or 60
+    local safetyCount = 0
+
+    while not exchange:launchExchangeWithPlayer(id) and safetyCount < maxWaitingTime do
+        global:printMessage("Attente de l'acceptation de l'échange (5 secondes)")
+        global:delay(5000)
+        randomDelay()
+		safetyCount = safetyCount + 5
+    end
+    return safetyCount < maxWaitingTime
 end
 
 function launchExchangeAndGive(minKamas, maxWaitingTime)
@@ -217,30 +247,33 @@ function launchExchangeAndGive(minKamas, maxWaitingTime)
     receiver:exchangeListen(false)
     receiver:exchangeListen(true)
     
-    global:printSuccess("Lancement de l'échange avec le bot d'ID " .. id)
-
-	local safetyCount = 0
-
-    while not exchange:launchExchangeWithPlayer(id) and safetyCount < 70 do
-        global:printMessage("Attente de l'acceptation de l'échange (5 secondes)")
-        global:delay(5000)
-        randomDelay()
-		safetyCount = safetyCount + 5
+    if not waitBotIsOnAstrubBank(receiver, maxWaitingTime) then
+        global:printError("Bot banque n'est toujours pas à astrub après " .. maxWaitingTime .. " secondes, reprise du trajet")
+		rerollVar()
+		global:editInMemory("retryTimestamp", os.time())
+		global:addInMemory("failed", true)
+        setBotBankConnected(character:server(), false)
+		receiver:disconnect()
+		return
     end
 
-	if safetyCount >= 70 then
-		global:printError("Bot banque ne répond pas après " .. maxWaitingTime .. " secondes, reprise du trajet")
+    global:printSuccess("Lancement de l'échange avec le bot d'ID " .. id)
+
+    if not launchExchangeSafely(id, maxWaitingTime) then
+        global:printError("Bot banque ne répond pas après " .. maxWaitingTime .. " secondes, reprise du trajet")
 		rerollVar()
 		global:editInMemory("retryTimestamp", os.time())
 		global:addInMemory("failed", true)
 		receiver:disconnect()
 		return
-	end
+    end
+
 
     local toGive = (character:kamas() - minKamas) > 100000 and (character:kamas() - minKamas) or 1
 
     randomDelay()
     exchange:putKamas(toGive)
+    global:delay(math.random(7500, 15000))
     randomDelay()
     exchange:ready()
 
@@ -256,4 +289,76 @@ function launchExchangeAndGive(minKamas, maxWaitingTime)
     setBotBankConnected(character:server(), false)
 
     global:restartScript(true)
+end
+
+function isAccountKnown(id)
+    local accounts = snowbotcontroller:getLoadedAccounts()
+    for _, account in ipairs(accounts) do
+        if account.character():id() == id then
+            return true
+        end
+    end
+    return false
+end
+
+
+function submitKamasOrder(amount)
+    local filePath = "C:\\Users\\Administrator\\Documents\\snowbot-scripts\\PC\\Temp\\" .. character:server() .. "\\bank-orders.json"
+    local jsonMemory = openFile(filePath)
+
+    -- Ensure jsonMemory[1] exists and is a table
+    if type(jsonMemory[1]) ~= "table" then
+        jsonMemory[1] = {}
+    end
+
+    -- Remove existing entry with the same id
+    for i = #jsonMemory[1], 1, -1 do
+        if jsonMemory[1][i].id == character:id() then
+            table.remove(jsonMemory[1], i)
+        end
+    end
+
+    -- Insert the new order
+    table.insert(jsonMemory[1], {
+        id = character:id(),
+        alias = myAlias,
+        kAmount = amount
+    })
+
+    writeFile(filePath, jsonMemory)
+end
+
+function deleteKamasOrder(characterId)
+    local filePath = "C:\\Users\\Administrator\\Documents\\snowbot-scripts\\PC\\Temp\\" .. character:server() .. "\\bank-orders.json"
+    local jsonMemory = openFile(filePath)
+
+    -- Ensure jsonMemory[1] exists and is a table
+    if type(jsonMemory[1]) ~= "table" then
+        return -- nothing to delete
+    end
+
+    -- Remove all matching entries
+    for i = #jsonMemory[1], 1, -1 do
+        if jsonMemory[1][i].id == characterId then
+            table.remove(jsonMemory[1], i)
+        end
+    end
+
+    writeFile(filePath, jsonMemory)
+end
+
+
+function goAstrubBank(inBankCallback)
+    if not movingPrinted then
+        global:printMessage("Déplacement jusqu'à la banque d'Astrub")
+        movingPrinted = true
+    end
+
+    if not map:onMap(BANK_MAPS.bankAstrubInt) then
+        treatMaps(GO_BANK_ASTRUB)
+    end
+    global:printSuccess("On est arrivé a la banque d'astrub")
+    if inBankCallback then
+        return inBankCallback()
+    end
 end
