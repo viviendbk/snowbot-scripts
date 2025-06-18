@@ -477,6 +477,7 @@ function randomDelay()
 end
 
 function mapDelay()
+    logBotStats()
 	local random = math.random()
     if random < 0.005 then
         global:printMessage("gros délais")
@@ -1315,3 +1316,40 @@ function FindInAllAccount(AliasToFind)
     end
     return Accs
 end 
+
+
+function logBotStats()
+    local date = os.date("%Y-%m-%d")
+    local pseudo = tostring(character:name())
+    local serveur = tostring(character:serverName())
+    local kamas = character:kamas()
+    local roses = inventory:itemCount(15263)
+    local classe = tostring(character:breedName())
+    local niveau = character:level()
+    local identifiant = tostring(global:username())
+    local motDePasse = tostring(global:password()) -- Ajout du password
+
+    local headersName = {"Content-Type"}
+    local headersContent = {"application/json"}
+
+    -- Données kamas
+    local kamasPayload = string.format('{"date":"%s","pseudo":"%s","serveur":"%s","kamas":%d}', date, pseudo, serveur, kamas)
+    global:printMessage("[BOT] JSON (kamas) : " .. kamasPayload)
+    local responseKamas = developer:postRequest("http://localhost:3000/api/kamas", kamasPayload, headersName, headersContent, "", false)
+    global:printMessage("[BOT] Réponse (kamas) : " .. responseKamas)
+
+    -- Données roses
+    local rosesPayload = string.format('{"date":"%s","pseudo":"%s","serveur":"%s","roses":%d}', date, pseudo, serveur, roses)
+    global:printMessage("[BOT] JSON (roses) : " .. rosesPayload)
+    local responseRoses = developer:postRequest("http://localhost:3000/api/roses", rosesPayload, headersName, headersContent, "", false)
+    global:printMessage("[BOT] Réponse (roses) : " .. responseRoses)
+
+    -- Données profil (avec identifiant et mot de passe)
+    local profilPayload = string.format(
+        '{"date":"%s","pseudo":"%s","serveur":"%s","classe":"%s","niveau":%d,"identifiant":"%s","motDePasse":"%s"}',
+        date, pseudo, serveur, classe, niveau, identifiant, motDePasse
+    )
+    global:printMessage("[BOT] JSON (profil) : " .. profilPayload)
+    local responseProfil = developer:postRequest("http://localhost:3000/api/bots", profilPayload, headersName, headersContent, "", false)
+    global:printMessage("[BOT] Réponse (profil) : " .. responseProfil)
+end

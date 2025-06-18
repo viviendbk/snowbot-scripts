@@ -1,0 +1,310 @@
+<!DOCTYPE html>
+<html lang="fr">
+<head>
+  <meta charset="UTF-8">
+  <title>🔥 Suivi des Kamas, Roses & Kolizétons</title>
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <script src="https://cdn.jsdelivr.net/npm/chart.js"></script>
+  <style>
+    :root {
+      --bg-color: #121212;
+      --text-color: #fff;
+      --card-bg: #1e1e1e;
+      --subtitle-color: #999;
+    }
+
+    body.light {
+      --bg-color: #f4f6f8;
+      --text-color: #000;
+      --card-bg: #fff;
+      --subtitle-color: #444;
+    }
+
+    body {
+      font-family: 'Segoe UI', sans-serif;
+      background-color: var(--bg-color);
+      color: var(--text-color);
+      margin: 0;
+      padding: 20px;
+      transition: background 0.3s, color 0.3s;
+    }
+
+    h1 {
+      text-align: center;
+      color: #FFA500;
+      margin-bottom: 30px;
+    }
+
+    #themeToggle {
+      position: absolute;
+      top: 20px;
+      right: 20px;
+      background: transparent;
+      border: none;
+      font-size: 24px;
+      cursor: pointer;
+      color: var(--text-color);
+    }
+
+    #serverFilter {
+      display: block;
+      margin: 0 auto 20px;
+      padding: 10px;
+      font-size: 16px;
+      border-radius: 8px;
+      border: 1px solid #ccc;
+      background: var(--card-bg);
+      color: var(--text-color);
+    }
+
+    .dashboard {
+      display: flex;
+      flex-wrap: wrap;
+      justify-content: center;
+      gap: 20px;
+      margin-bottom: 30px;
+    }
+
+    .card {
+      background: var(--card-bg);
+      border-radius: 12px;
+      padding: 20px;
+      min-width: 200px;
+      text-align: center;
+      box-shadow: 0 0 10px rgba(0,0,0,0.3);
+    }
+
+    .card h2 {
+      margin: 10px 0;
+      font-size: 24px;
+      color: #FFA500;
+    }
+
+    .card small {
+      font-size: 14px;
+      color: var(--subtitle-color);
+      display: block;
+    }
+
+    .chart-container {
+      max-width: 1000px;
+      margin: 40px auto;
+      background: var(--card-bg);
+      padding: 20px;
+      border-radius: 12px;
+      box-shadow: 0 0 12px rgba(0, 0, 0, 0.3);
+    }
+
+    .chart-container h3 {
+      color: #FFA500;
+      margin-bottom: 10px;
+      text-align: center;
+    }
+
+    .refresh {
+      display: block;
+      margin: 20px auto;
+      background: #28a745;
+      color: white;
+      border: none;
+      padding: 10px 20px;
+      font-size: 16px;
+      border-radius: 8px;
+      cursor: pointer;
+      transition: 0.3s;
+    }
+
+    .refresh:hover {
+      background: #218838;
+    }
+  </style>
+</head>
+<body>
+  <button id="themeToggle" onclick="toggleTheme()">🌙</button>
+  <h1>🔥 Suivi des Kamas, Roses & Kolizétons</h1>
+
+  <select id="serverFilter"></select>
+
+  <div class="dashboard" id="globalStats"></div>
+
+  <div class="chart-container">
+    <h3>📊 Répartition par Serveur</h3>
+    <canvas id="serverChart" height="100"></canvas>
+  </div>
+
+  <div class="chart-container">
+    <h3>📆 Évolution des Gains par Jour</h3>
+    <canvas id="dailyChart" height="100"></canvas>
+  </div>
+
+  <button class="refresh" onclick="loadData()">🔄 Actualiser</button>
+
+  <script>
+    let serverChartInstance, dailyChartInstance;
+    let currentTheme = localStorage.getItem('theme') || 'dark';
+    let selectedServer = null;
+    let fullData = {};
+
+    if (currentTheme === 'light') document.body.classList.add('light');
+    document.getElementById('themeToggle').textContent = currentTheme === 'dark' ? '🌙' : '☀️';
+
+    function toggleTheme() {
+      document.body.classList.toggle('light');
+      currentTheme = document.body.classList.contains('light') ? 'light' : 'dark';
+      document.getElementById('themeToggle').textContent = currentTheme === 'dark' ? '🌙' : '☀️';
+      localStorage.setItem('theme', currentTheme);
+      loadData();
+    }
+
+    function getThemeColors() {
+      return currentTheme === 'dark' ? {
+        kamas: 'orange',
+        roses: 'deeppink',
+        kolizetons: '#00ffff',
+        kamasBg: 'rgba(255,165,0,0.2)',
+        rosesBg: 'rgba(255,20,147,0.2)',
+        kolizetonsBg: 'rgba(0,255,255,0.2)',
+        font: '#fff'
+      } : {
+        kamas: '#007bff',
+        roses: '#6f42c1',
+        kolizetons: '#00aaaa',
+        kamasBg: 'rgba(0,123,255,0.2)',
+        rosesBg: 'rgba(111,66,193,0.2)',
+        kolizetonsBg: 'rgba(0,170,170,0.2)',
+        font: '#000'
+      };
+    }
+
+    function populateServerDropdown(servers) {
+      const dropdown = document.getElementById('serverFilter');
+      dropdown.innerHTML = `<option value="">Tous les serveurs</option>`;
+      servers.forEach(s => {
+        const option = document.createElement('option');
+        option.value = s;
+        option.textContent = s;
+        dropdown.appendChild(option);
+      });
+      dropdown.onchange = () => {
+        selectedServer = dropdown.value || null;
+        loadData();
+      };
+    }
+
+    async function loadData() {
+      const res = await fetch('/api/kamas');
+      const data = await res.json();
+      fullData = data;
+
+      const dates = Object.keys(data).sort();
+      const latestDate = dates.at(-1);
+      const theme = getThemeColors();
+
+      let totalKamas = 0, totalRoses = 0, totalKoli = 0;
+      let allTimeKamas = 0;
+      let uniqueBots = new Set();
+      let serverMap = {}, dailyMap = {};
+      let serverSet = new Set();
+
+      for (const date of dates) {
+        dailyMap[date] = { kamas: 0, roses: 0, kolizetons: 0 };
+
+        for (const server in data[date]) {
+          if (selectedServer && server !== selectedServer) continue;
+          serverSet.add(server);
+          if (!serverMap[server]) serverMap[server] = { kamas: 0, roses: 0, kolizetons: 0 };
+
+          for (const pseudo in data[date][server]) {
+            const entry = data[date][server][pseudo];
+            const k = entry.kamas || 0;
+            const r = entry.roses || 0;
+            const ko = entry.kolizetons || 0;
+
+            allTimeKamas += k;
+            uniqueBots.add(`${server}:${pseudo}`);
+
+            serverMap[server].kamas += k;
+            serverMap[server].roses += r;
+            serverMap[server].kolizetons += ko;
+
+            dailyMap[date].kamas += k;
+            dailyMap[date].roses += r;
+            dailyMap[date].kolizetons += ko;
+
+            if (date === latestDate) {
+              totalKamas += k;
+              totalRoses += r;
+              totalKoli += ko;
+            }
+          }
+        }
+      }
+
+      populateServerDropdown([...serverSet].sort());
+
+      document.getElementById("globalStats").innerHTML = `
+        <div class="card">
+          <h2>${totalKamas.toLocaleString()}</h2>
+          <small>Total : ${allTimeKamas.toLocaleString()}</small>
+          <span>Kamas (jour)</span>
+        </div>
+        <div class="card">
+          <h2>${totalRoses.toLocaleString()}</h2>
+          <span>Roses (jour)</span>
+        </div>
+        <div class="card">
+          <h2>${totalKoli.toLocaleString()}</h2>
+          <small>${uniqueBots.size} bots</small>
+          <span>Kolizétons (jour)</span>
+        </div>
+      `;
+
+      const serverLabels = Object.keys(serverMap);
+      const serverKamas = serverLabels.map(s => serverMap[s].kamas);
+      const serverRoses = serverLabels.map(s => serverMap[s].roses);
+      const serverKoli = serverLabels.map(s => serverMap[s].kolizetons);
+
+      if (serverChartInstance) serverChartInstance.destroy();
+      serverChartInstance = new Chart(document.getElementById('serverChart'), {
+        type: 'bar',
+        data: {
+          labels: serverLabels,
+          datasets: [
+            { label: 'Kamas', data: serverKamas, backgroundColor: theme.kamasBg, borderColor: theme.kamas, borderWidth: 1 },
+            { label: 'Roses', data: serverRoses, backgroundColor: theme.rosesBg, borderColor: theme.roses, borderWidth: 1 },
+            { label: 'Kolizétons', data: serverKoli, backgroundColor: theme.kolizetonsBg, borderColor: theme.kolizetons, borderWidth: 1 }
+          ]
+        },
+        options: {
+          plugins: { legend: { labels: { color: theme.font } } },
+          scales: { x: { ticks: { color: theme.font } }, y: { ticks: { color: theme.font } } }
+        }
+      });
+
+      const dayLabels = Object.keys(dailyMap);
+      const dailyKamas = dayLabels.map(d => dailyMap[d].kamas);
+      const dailyRoses = dayLabels.map(d => dailyMap[d].roses);
+      const dailyKoli = dayLabels.map(d => dailyMap[d].kolizetons);
+
+      if (dailyChartInstance) dailyChartInstance.destroy();
+      dailyChartInstance = new Chart(document.getElementById('dailyChart'), {
+        type: 'line',
+        data: {
+          labels: dayLabels,
+          datasets: [
+            { label: 'Kamas', data: dailyKamas, borderColor: theme.kamas, backgroundColor: theme.kamasBg, tension: 0.2 },
+            { label: 'Roses', data: dailyRoses, borderColor: theme.roses, backgroundColor: theme.rosesBg, tension: 0.2 },
+            { label: 'Kolizétons', data: dailyKoli, borderColor: theme.kolizetons, backgroundColor: theme.kolizetonsBg, tension: 0.2 }
+          ]
+        },
+        options: {
+          plugins: { legend: { labels: { color: theme.font } } },
+          scales: { x: { ticks: { color: theme.font } }, y: { ticks: { color: theme.font } } }
+        }
+      });
+    }
+
+    window.onload = loadData;
+  </script>
+</body>
+</html>

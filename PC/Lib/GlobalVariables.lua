@@ -209,7 +209,7 @@ ID_WITH_CARAC_NAME = {
     },
     {
         Id = 220,
-        Name = "Renvoie dommages"
+        Name = "Renvoie Dommages"
     },
     {
         Id = 410,

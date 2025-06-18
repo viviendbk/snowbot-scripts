@@ -217,7 +217,7 @@ function waitBotIsOnAstrubBank(botBank, maxWaitingTime)
     maxWaitingTime = maxWaitingTime or 60
     global:printMessage("On attends que le bot bank soit arrivé a la banque")
     while not botBank.map:onMap(BANK_MAPS.bankAstrubInt) and safetyCount < maxWaitingTime do
-        local accounts = snowbotcontroller:getLoadedAccounts()
+        local accounts = snowbotController:getLoadedAccounts()
         for _, account in ipairs(accounts) do
             if account.character:id() == botBank.character():id() then
                 botBank = account
