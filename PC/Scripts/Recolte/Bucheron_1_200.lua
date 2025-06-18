@@ -1543,6 +1543,7 @@ local function antiModo()
 end
 
 local function ProcessBank() -- done
+	logBotStats()
     NeedToReturnBank = false
 	npc:npcBank(-1)
 	global:delay(500)

@@ -691,6 +691,7 @@ local function whichArea()
 end
 
 local function ProcessBank()
+	logBotStats()
 	NeedToReturnBank = false
 	npc:npcBank(-1)
     global:delay(500) 

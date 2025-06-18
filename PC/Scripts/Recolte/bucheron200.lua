@@ -763,6 +763,7 @@ local function settOrnament(ornamentID)
 end
 
 local function ProcessBank() -- done
+    logBotStats()
     if character:level() > 160 then
         settOrnament(14)
     end

@@ -477,7 +477,6 @@ function randomDelay()
 end
 
 function mapDelay()
-    logBotStats()
 	local random = math.random()
     if random < 0.005 then
         global:printMessage("gros délais")

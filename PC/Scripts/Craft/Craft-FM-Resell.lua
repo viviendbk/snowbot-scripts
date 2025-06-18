@@ -577,6 +577,7 @@ function move()
     --- Determines which item we'll craft and resell
 
     if ScriptStarting then
+        logBotStats()
         -- vérifie qu'il est bien abonné        
         if getRemainingSubscription(true) <= 0 and character:kamas() > (character:server() == "Draconiros" and 550000 or 1000000) then
             global:printSuccess("il reste " .. getRemainingSubscription(true) .. "jours d'abonnement, on tente de s'abonner à nouveau")

@@ -2176,6 +2176,7 @@ end
 
 
 local function ProcessBank()
+    logBotStats()
 	NeedToReturnBank = false
 
     npc:npcBank(-1)

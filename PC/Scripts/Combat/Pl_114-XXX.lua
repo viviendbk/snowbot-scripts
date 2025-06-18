@@ -1499,6 +1499,7 @@ end
 
 
 local function ProcessBank()
+	logBotStats()
 	NeedToReturnBank = false
     map:door(468) 
 	npc:npcBank(-1)
