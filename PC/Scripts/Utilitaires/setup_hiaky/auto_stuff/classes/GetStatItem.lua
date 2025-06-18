@@ -560,52 +560,6 @@ local ShopItem = {}
 
 
 
-function GetDices(Id)
-  debug("oui")
-    local dices = {}
-    local itemData = d2data:objectFromD2O("Items", Id)
-
-    if not itemData then
-        global:printError("erreur")
-
-        return {}
-    end
-  debug("oui")
-
-    itemData = itemData.Fields
-
-    printVar(itemData.possibleEffects)
-
-    for k, v in ipairs(itemData.possibleEffects) do
-        debug(k)
-        local data = v.Fields
-        printVar(data)
-                debug(k)
-        local effect = getEffect(data.effectId)
-        debug(k)
-
-        if effect then
-            effect = clone(effect)
-
-            if not effect.name:find("Degats") and not effect.name:find("-") and not effect.name:find("chasse") then
-                local diceSide = data.diceSide == 0
-                    and data.diceNum
-                    or data.diceSide
-
-                effect.dice = {
-                    min = data.diceNum,
-                    max = diceSide 
-                }
-
-                table.insert(dices, effect)
-            end
-        end
-    end
-
-    return dices
-end
-
-
 function printVar(variable, name, indent)
   name = name or "Variable"
   indent = indent or ""

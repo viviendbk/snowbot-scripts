@@ -136,9 +136,6 @@ end
 
 
 function move()
-    d2data:exportD2O("ItemsRoot")
-
-    global:finishScript()
 
     totalKamas = 0
     global:printMessage("[INFO] : Checkup des bots")

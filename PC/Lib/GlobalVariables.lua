@@ -105,6 +105,8 @@ ActualPrice = 0
 
 RunesTransVita = {{Id = 20567, Value = 50, ConditionPoids = 61}, {Id = 20568, Value = 75, ConditionPoids = 41}--[[, {Id = 20569, Value = 100, ConditionPoids = 21}]]}
 
+ID_TO_STAT_NAME = openFile("C:\\Users\\Administrator\\Documents\\snowbot-scripts\\PC\\Assets\\idToStatName.json")
+
 
 ID_WITH_CARAC_NAME = {
     {

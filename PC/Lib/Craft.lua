@@ -1,6 +1,5 @@
 dofile("C:\\Users\\Administrator\\Documents\\snowbot-scripts\\PC\\Scripts\\Utilitaires\\setup_hiaky\\modules\\print.lua")
 dofile("C:\\Users\\Administrator\\Documents\\snowbot-scripts\\PC\\Scripts\\Utilitaires\\setup_hiaky\\auto_stuff\\classes\\GetStatItem.lua")
-json = dofile("C:\\Users\\Administrator\\Documents\\snowbot-scripts\\PC\\Scripts\\Utilitaires\\setup_hiaky\\auto_stuff\\lib\\json.lua")
 
 
 function ItemSatisfyConditions(item, StatNegliger)
@@ -979,4 +978,37 @@ function AllStatsAreAboveMin(Stats, Id)
         end
     end
     return true
+end
+
+
+
+function GetDices(Id)
+    local dices = {}
+    local itemData = d2data:objectFromD2O("Items", Id)
+
+    if not itemData then
+        global:printError("not item data")
+
+        return {}
+    end
+
+    itemData = itemData.FieldUseless
+
+    for k, v in ipairs(itemData.possibleEffects) do
+        local data = v.FieldUseless
+        local effectName = ID_TO_STAT_NAME[tostring(data.effectId)]
+
+        if effectName and not effectName:find("Degats") then
+            table.insert(dices, {
+                id = data.effectId,
+                name = ID_TO_STAT_NAME[tostring(data.effectId)],
+                dice = {
+                    min = data.diceNum,
+                    max = data.diceSide,
+                },
+            })
+        end
+    end
+
+    return dices
 end
