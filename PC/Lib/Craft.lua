@@ -1,7 +1,3 @@
-dofile("C:\\Users\\Administrator\\Documents\\snowbot-scripts\\PC\\Scripts\\Utilitaires\\setup_hiaky\\modules\\print.lua")
-dofile("C:\\Users\\Administrator\\Documents\\snowbot-scripts\\PC\\Scripts\\Utilitaires\\setup_hiaky\\auto_stuff\\classes\\GetStatItem.lua")
-
-
 function ItemSatisfyConditions(item, StatNegliger)
     --[[
         si l'item est lvl 200 et qu'il a PA ou PM, on rajoute dans CoefMiniByCarac all Dommages = 0.95 et les stats pas dans exeption = 0.85
@@ -795,28 +791,23 @@ function MergeRunes()
 end
 
 function GetNameCarac(Id)
-    for _, element in ipairs(ID_WITH_CARAC_NAME) do
-        if element.Id == Id then
-            return element.Name
-        end
+    if ID_TO_STAT_NAME[Id] then
+        return ID_TO_STAT_NAME[Id]
     end
 end
 
 function GetIdCarac(name)
-    for _, element in ipairs(ID_WITH_CARAC_NAME) do
-        if element.Name == name then
-            return element.Id
+    for id, value in pairs(ID_TO_STAT_NAME) do
+        if value == name then
+            return id
         end
     end
 end
 
 function IsActionIdKnown(actionId)
-    for _, element in ipairs(ID_WITH_CARAC_NAME) do
-        if element.Id == actionId then
-            return true
-        end
+    if ID_TO_STAT_NAME[actionId] then
+        return true
     end
-    return false
 end
 
 function IsItem(TypeId)
@@ -840,7 +831,6 @@ function getIngredients(id)
     
     if recipe == nil then
     
-        --global:printError("Objet introuvable !")
     else
         local ingredients = recipe.Fields["ingredientIds"]
         local quantities = recipe.Fields["quantities"]
@@ -851,10 +841,6 @@ function getIngredients(id)
             ingredientsTable[i] = { Id = ingredientId, Quantity = ingredientQuantity, Name = ingredientName }
         end
     end
-    
-    -- for i, ingredient in ipairs(ingredientsTable) do
-    --     global:printSuccess("[Ingrédient "..i.." : "..ingredient.Name.."] | [Id : "..ingredient.Id.." ] | [Quantité : "..ingredient.Quantity.."]")
-    -- end
     
     return ingredientsTable
     
@@ -979,8 +965,6 @@ function AllStatsAreAboveMin(Stats, Id)
     end
     return true
 end
-
-
 
 function GetDices(Id)
     local dices = {}

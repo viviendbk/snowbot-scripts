@@ -504,7 +504,7 @@ function move()
         if global:thisAccountController():getAlias():find("bank") then
             global:disconnect()
         end
-        global:loadAndStart("C:\\Users\\Administrator\\Downloads\\Script_Bot_Dofus\\TOUCH\\PL&Zaaps\\PL_Solo.lua")
+        global:loadAndStart("C:\\Users\\Administrator\\Downloads\\Script_Bot_Dofus\\TOUCH\\PLAndZaaps\\PL_Solo.lua")
         increment()
     end
 end

@@ -1,5 +1,4 @@
-dofile("C:\\Users\\Administrator\\Documents\\snowbot-scripts\\PC\\Lib\\IMPORT_LIBRARIES.lua")
-Buyer = dofile("C:\\Users\\Administrator\\Documents\\snowbot-scripts\\PC\\Scripts\\Utilitaires\\setup_hiaky\\auto_stuff\\classes\\buyer.lua")
+dofile("C:\\Users\\Vivien\\Documents\\Snowbot-Scripts-3\\PC\\Lib\\IMPORT_LIBRARIES.lua")
 
 
 local stop = false
@@ -21,11 +20,6 @@ local tableEquip = {
     {Type = "dofus kaliptus", Id = 8072, Emplacement = 11, Equipe = false}
 }
 
-local tableIdole = {
-    {name = "dynamo", id_banque = 16864, id_message = 32, equipe = false},
-    {name = "leukide", id_banque = 16881, id_message = 46, equipe = false},
-    {name = "yoche mineur", id_banque = 16959, id_message = 61, equipe = false},
-}
 
 local function equiper()
 	for _, element in ipairs(tableEquip) do

@@ -1,6 +1,4 @@
-dofile("C:\\Users\\Administrator\\Documents\\snowbot-scripts\\PC\\Lib\\IMPORT_LIBRARIES.lua")
-Buyer = dofile("C:\\Users\\Administrator\\Documents\\snowbot-scripts\\PC\\Scripts\\Utilitaires\\setup_hiaky\\auto_stuff\\classes\\buyer.lua")
-
+dofile("C:\\Users\\Vivien\\Documents\\Snowbot-Scripts-3\\PC\\Lib\\IMPORT_LIBRARIES.lua")
 
 local stop = false
 
@@ -284,7 +282,7 @@ local function achatShushi()
     developer:suspendScriptUntil("ObjectModifiedMessage", 5000, false, nil, 20)
     changement1 = true
 
-    global:loadAndStart("C:\\Users\\Administrator\\Documents\\snowbot-scripts\\PC\\Scripts\\Combat\\dj_kwakwa.lua")
+    global:loadAndStart("C:\\Users\\Vivien\\Documents\\Snowbot-Scripts-3\\PC\\Scripts\\Combat\\dj_kwakwa.lua")
     -- global:finishScript()
 
 end
@@ -320,7 +318,7 @@ end
 
 function move()
     mapDelay()
-    if stop then global:loadAndStart("C:\\Users\\Administrator\\Documents\\snowbot-scripts\\PC\\Scripts\\PL&Zaaps\\Up_Chasseur.lua") end
+    if stop then global:loadAndStart("C:\\Users\\Vivien\\Documents\\Snowbot-Scripts-3\\PC\\Scripts\\PLAndZaaps\\Up_Chasseur.lua") end
     if changement1 then
         return treatMaps(trajet2)
     end

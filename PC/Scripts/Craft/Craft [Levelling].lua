@@ -1,4 +1,4 @@
-dofile("C:\\Users\\Administrator\\Documents\\snowbot-scripts\\PC\\Lib\\IMPORT_LIBRARIES.lua")
+dofile("C:\\Users\\Vivien\\Documents\\Snowbot-Scripts-3\\PC\\Lib\\IMPORT_LIBRARIES.lua")
 
 
 local CraftCordonier = {}
@@ -516,12 +516,7 @@ local function HaveToBuyRessources()
 end
 
 function move()
-    HdvSell()
-    global:printMessage("a")
-    a = GetPricesItem(747)
-    global:printSuccess("Prix de l'item 747 : " .. a.AveragePrice .. " | " .. a.MinPrice .. " | " .. a.MaxPrice)
 
-    global:finishScript()
     mapDelay()
     if ScriptStarting then
         -- vérifie qu'il est bien abonné        
@@ -570,34 +565,34 @@ function move()
 
         end
 
-        -- -- achat du stuff
-        -- if not map:onMap(212600837) and goBuyStuff then
-        --     global:printSuccess("On va hdv équip pour acheter le stuff")
-        --     return treatMaps(goToHdvEquip)
-        -- elseif goBuyStuff then
-        --     global:printSuccess("On achète le stuff")
-        --     HdvBuy()
+        -- achat du stuff
+        if not map:onMap(212600837) and goBuyStuff then
+            global:printSuccess("On va hdv équip pour acheter le stuff")
+            return treatMaps(goToHdvEquip)
+        elseif goBuyStuff then
+            global:printSuccess("On achète le stuff")
+            HdvBuy()
 
-        --     for _, element in ipairs(stuffPods) do
-        --         if inventory:itemCount(element.Id) == 0 then
-        --             sale:buyItem(element.Id, 1, 300000)
-        --         end
-        --     end
+            for _, element in ipairs(stuffPods) do
+                if inventory:itemCount(element.Id) == 0 then
+                    sale:buyItem(element.Id, 1, 300000)
+                end
+            end
 
-        --     global:leaveDialog()
-        --     for _, element in ipairs(stuffPods) do
-        --         inventory:equipItem(element.Id, element.Place)
-        --     end
-        --     goBuyStuff = false
-        --     goBuySushi = true
-        -- end
+            global:leaveDialog()
+            for _, element in ipairs(stuffPods) do
+                inventory:equipItem(element.Id, element.Place)
+            end
+            goBuyStuff = false
+            goBuySushi = true
+        end
 
-        -- if not map:onMap(217064452) and goBuySushi then
-        --     return treatMaps(goToCosmetics)
-        -- elseif goBuySushi then
-        --     achatShushi()
-        --     goBuySushi = false
-        -- end
+        if not map:onMap(217064452) and goBuySushi then
+            return treatMaps(goToCosmetics)
+        elseif goBuySushi then
+            achatShushi()
+            goBuySushi = false
+        end
 
 
         -- --va hdv ressources
@@ -633,16 +628,10 @@ function move()
                     LackRessource = true
                 else
                     for _, Ressource in ipairs(item.ListIdCraft) do
-                        global:printSuccess("Ressource " .. inventory:itemNameId(Ressource.Id) .. " x" .. Ressource.Quantity)
                         if not PrixHdvAllRessources[Ressource.Id] then
                             PrixHdvAllRessources[Ressource.Id] = GetPricesItem(Ressource.Id)
                         end
-                        global:printSuccess(PrixHdvAllRessources[Ressource.Id].Price1)
-                        -- print all conditions for lack of resource
-                        global:printSuccess("TrueAveragePrice : " .. PrixHdvAllRessources[Ressource.Id].TrueAveragePrice)
-                        global:printSuccess("Price100 : " .. PrixHdvAllRessources[Ressource.Id].Price100)
-                        global:printSuccess("Price10 : " .. PrixHdvAllRessources[Ressource.Id].Price10)
-                        global:printSuccess("Price1 : " .. PrixHdvAllRessources[Ressource.Id].Price1)
+
 
                         if not PrixHdvAllRessources[Ressource.Id].TrueAveragePrice or PrixHdvAllRessources[Ressource.Id].TrueAveragePrice == 0 or IsItem(inventory:itemTypeId(Ressource.Id))
                         or (Ressource.Quantity > 29 and PrixHdvAllRessources[Ressource.Id].Price100 == 0 and PrixHdvAllRessources[Ressource.Id].Price10 == 0) then
@@ -651,8 +640,6 @@ function move()
                         end
                         TotalPods = TotalPods + inventory:itemWeight(Ressource.Id) * Ressource.Quantity
                         TotalCost = TotalCost + PrixHdvAllRessources[Ressource.Id].TrueAveragePrice * Ressource.Quantity
-                        global:printSuccess("Cout de la ressource " .. inventory:itemNameId(Ressource.Id) .. " : " .. PrixHdvAllRessources[Ressource.Id].TrueAveragePrice .. " kamas")
-                        global:printSuccess("Poids de la ressource " .. inventory:itemNameId(Ressource.Id) .. " : " .. inventory:itemWeight(Ressource.Id) .. " pods")
                     end
                 end
     
@@ -710,7 +697,7 @@ function move()
             end
             
             if scriptFinished then
-                global:loadAndStart("C:\\Users\\Administrator\\Documents\\snowbot-scripts\\PC\\Scripts\\Craft\\Craft-Brisage.lua")
+                global:loadAndStart("C:\\Users\\Vivien\\Documents\\Snowbot-Scripts-3\\PC\\Scripts\\Craft\\Craft-Brisage.lua")
             end
 
             steep = 0 global:leaveDialog()
@@ -1068,7 +1055,7 @@ function move()
         --global:printSuccess("Total mis en vente : " ..)
         local random = math.random(1, 4)
         if random ~= 1 and character:kamas() > 10000000 then
-            global:loadAndStart("C:\\Users\\Administrator\\Documents\\snowbot-scripts\\PC\\Scripts\\Craft\\Craft-Brisage.lua")
+            global:loadAndStart("C:\\Users\\Vivien\\Documents\\Snowbot-Scripts-3\\PC\\Scripts\\Craft\\Craft-Brisage.lua")
         else
             if job:level(62) < 150 then
                 global:restartScript(true)

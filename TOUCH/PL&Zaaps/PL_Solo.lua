@@ -581,11 +581,11 @@ function move()
     end
 
     if global:thisAccountController():isItATeam() and global:isBoss() then
-        global:loadAndStart("C:\\Users\\Administrator\\Downloads\\Script_Bot_Dofus\\TOUCH\\PL&Zaaps\\PL_Team.lua")
+        global:loadAndStart("C:\\Users\\Administrator\\Downloads\\Script_Bot_Dofus\\TOUCH\\PLAndZaaps\\PL_Team.lua")
     end
 
     if global:thisAccountController():getAlias():find("bank") and character:level() > 80 or not global:thisAccountController():getAlias():find("bank") and character:level() > 69 then
-        global:loadAndStart("C:\\Users\\Administrator\\Downloads\\Script_Bot_Dofus\\TOUCH\\PL&Zaaps\\PL_Team.lua")
+        global:loadAndStart("C:\\Users\\Administrator\\Downloads\\Script_Bot_Dofus\\TOUCH\\PLAndZaaps\\PL_Team.lua")
     end
 
     if (global:thisAccountController():getAlias():find("bank") and character:level() < 81) or character:level() < 70 then

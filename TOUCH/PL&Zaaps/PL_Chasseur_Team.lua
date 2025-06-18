@@ -1419,11 +1419,11 @@ function move()
             team = global:thisAccountController():getTeamAccounts()
             for _, acc in ipairs(team) do
                 acc.global:editAlias(acc:getAlias() .. " Need4", true)
-                acc:loadScriptNextConnection("C:\\Users\\Administrator\\Downloads\\Script_Bot_Dofus\\TOUCH\\PL&Zaaps\\PL_Chasseur_Team.lua", true)
+                acc:loadScriptNextConnection("C:\\Users\\Administrator\\Downloads\\Script_Bot_Dofus\\TOUCH\\PLAndZaaps\\PL_Chasseur_Team.lua", true)
                 acc.global:disconnect()
             end
             global:editAlias(global:thisAccountController():getAlias() .. " Need4 CanGiveToBotBank", true)
-            global:thisAccountController():loadScriptNextConnection("C:\\Users\\Administrator\\Downloads\\Script_Bot_Dofus\\TOUCH\\PL&Zaaps\\PL_Chasseur_Team.lua", true)
+            global:thisAccountController():loadScriptNextConnection("C:\\Users\\Administrator\\Downloads\\Script_Bot_Dofus\\TOUCH\\PLAndZaaps\\PL_Chasseur_Team.lua", true)
             global:disconnect()
         end
     elseif global:remember("JOB_LEVEL_MINI") < 60 then
@@ -1551,11 +1551,11 @@ function bank()
         team = global:thisAccountController():getTeamAccounts()
         for _, acc in ipairs(team) do
             acc.global:editAlias(acc:getAlias() .. " Need1", true)
-            acc:loadScriptNextConnection("C:\\Users\\Administrator\\Downloads\\Script_Bot_Dofus\\TOUCH\\PL&Zaaps\\PL_Chasseur_Team.lua", true)
+            acc:loadScriptNextConnection("C:\\Users\\Administrator\\Downloads\\Script_Bot_Dofus\\TOUCH\\PLAndZaaps\\PL_Chasseur_Team.lua", true)
             acc.global:disconnect()
         end
         global:editAlias(global:thisAccountController():getAlias() .. " Need1 CanGiveToBotBank", true)
-        global:thisAccountController():loadScriptNextConnection("C:\\Users\\Administrator\\Downloads\\Script_Bot_Dofus\\TOUCH\\PL&Zaaps\\PL_Chasseur_Team.lua", true)
+        global:thisAccountController():loadScriptNextConnection("C:\\Users\\Administrator\\Downloads\\Script_Bot_Dofus\\TOUCH\\PLAndZaaps\\PL_Chasseur_Team.lua", true)
         global:disconnect()
     end
 

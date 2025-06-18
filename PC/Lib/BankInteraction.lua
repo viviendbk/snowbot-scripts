@@ -1,5 +1,5 @@
 function isBotBankAvailable()
-    local json = openFile("C:\\Users\\Administrator\\Documents\\snowbot-scripts\\PC\\Temp\\" .. character:server() .. "\\botBankAvailability.json")
+    local json = openFile("C:\\Users\\Vivien\\Documents\\Snowbot-Scripts-3\\PC\\Temp\\" .. character:server() .. "\\botBankAvailability.json")
     if not json then
         global:printError("Le fichier botBankAvailability.json n'existe pas pour le serveur " .. character:server())
         global:finishScript()
@@ -8,7 +8,7 @@ function isBotBankAvailable()
 end
 
 function setBotBankConnected(server, bool)
-    local jsonMemory = openFile("C:\\Users\\Administrator\\Documents\\snowbot-scripts\\PC\\Temp\\" .. server .. "\\botBankAvailability.json")
+    local jsonMemory = openFile("C:\\Users\\Vivien\\Documents\\Snowbot-Scripts-3\\PC\\Temp\\" .. server .. "\\botBankAvailability.json")
 
     if not jsonMemory then
         jsonMemory = {
@@ -25,7 +25,7 @@ function setBotBankConnected(server, bool)
     local new_content = json.encode(jsonMemory)
     -- Écrire les modifications dans le fichier JSON
 
-    local file = io.open("C:\\Users\\Administrator\\Documents\\snowbot-scripts\\PC\\Temp\\" .. server .. "\\botBankAvailability.json", "w")
+    local file = io.open("C:\\Users\\Vivien\\Documents\\Snowbot-Scripts-3\\PC\\Temp\\" .. server .. "\\botBankAvailability.json", "w")
 
     file:write(new_content)
     file:close()
@@ -35,9 +35,10 @@ function resetBotBankAvailability(force)
     local servers = merge(SERVERS_MULTI, SERVERS_MONO)
     for _, server in ipairs(servers) do
         if force then
+                global:printSuccess(server)
             setBotBankConnected(server, false)
         else
-            local jsonMemory = openFile("C:\\Users\\Administrator\\Documents\\snowbot-scripts\\PC\\Temp\\" .. server .. "\\botBankAvailability.json")
+            local jsonMemory = openFile("C:\\Users\\Vivien\\Documents\\Snowbot-Scripts-3\\PC\\Temp\\" .. server .. "\\botBankAvailability.json")
             if isDateExceeded(jsonMemory[1].lastUpdate) and jsonMemory[1].connected then
                 setBotBankConnected(server, false)
             end
@@ -91,14 +92,12 @@ function forwardKamasBotBankIfNeeded(givingTriggerValue, minKamas, maxWaitingTim
             end
             debug(getCurrentAreaName())
             if not getCurrentAreaName():find("Astrub") then
-                            debug("ok")
                 if map:currentMapId() == tonumber(BANK_MAPS.idHavenbag) then
                     return map:changeMap(BANK_MAPS.zAstrub)
                 else
                     return map:changeMap("havenbag")
                 end
             else
-                            debug("ok2")
                 if map:currentMapId() ~= tonumber(BANK_MAPS.bankAstrubInt) then
                     return debugMoveToward(tonumber(BANK_MAPS.bankAstrubInt))
                 else
@@ -141,8 +140,8 @@ function connectReceiver(maxWaitingTime)
                 end
                 global:printSuccess("ok")
 
-				acc:loadConfig("C:\\Users\\Administrator\\Documents\\snowbot-scripts\\PC\\Configs\\configBank.xml")
-                acc:loadScript("C:\\Users\\Administrator\\Documents\\snowbot-scripts\\PC\\Scripts\\Utilitaires\\bot_banque.lua")				
+				acc:loadConfig("C:\\Users\\Vivien\\Documents\\Snowbot-Scripts-3\\PC\\Configs\\configBank.xml")
+                acc:loadScript("C:\\Users\\Vivien\\Documents\\Snowbot-Scripts-3\\PC\\Scripts\\Utilitaires\\bot_banque.lua")				
                 acc:startScript()
                 return acc
             else
@@ -185,18 +184,20 @@ function connectGiver(maxWaitingTime)
                     end
                 end
 
-				acc:loadConfig("C:\\Users\\Administrator\\Documents\\snowbot-scripts\\PC\\Configs\\configBank.xml")
+				acc:loadConfig("C:\\Users\\Vivien\\Documents\\Snowbot-Scripts-3\\PC\\Configs\\configBank.xml")
                 if global:thisAccountController():getAlias():find("LvlUp") then
-                    giver:loadScript("C:\\Users\\Administrator\\Documents\\snowbot-scripts\\PC\\Scripts\\Utilitaires\\setup_hiaky\\scripts\\give-kamas-and-stuff.lua")
+                    giver:loadScript("C:\\Users\\Vivien\\Documents\\Snowbot-Scripts-3\\PC\\Scripts\\Utilitaires\\give-kamas-and-stuff.lua")
                 else
-                    acc:loadScript("C:\\Users\\Administrator\\Documents\\snowbot-scripts\\PC\\Scripts\\Utilitaires\\setup_hiaky\\scripts\\give-kamas.lua")				
+                    acc:loadScript("C:\\Users\\Vivien\\Documents\\Snowbot-Scripts-3\\PC\\Scripts\\Utilitaires\\give-kamas.lua")				
                 end
 
-                acc:exchangeListen(true)
+                acc:exchangeListen(false)
                 acc.global():setPrivate(false)
                 acc:startScript()
                 return acc
             else
+                debug(acc:getAlias() .. " est déjà connecté")
+                debug(acc.character():id())
                 return acc
             end
         end
@@ -216,7 +217,8 @@ function waitBotIsOnAstrubBank(botBank, maxWaitingTime)
     local safetyCount = 0
     maxWaitingTime = maxWaitingTime or 60
     global:printMessage("On attends que le bot bank soit arrivé a la banque")
-    while not botBank.map:onMap(BANK_MAPS.bankAstrubInt) and safetyCount < maxWaitingTime do
+
+    while not botBank.map():onMap(BANK_MAPS.bankAstrubInt) and safetyCount < maxWaitingTime do
         local accounts = snowbotController:getLoadedAccounts()
         for _, account in ipairs(accounts) do
             if account.character:id() == botBank.character():id() then
@@ -226,6 +228,7 @@ function waitBotIsOnAstrubBank(botBank, maxWaitingTime)
         safetyCount = safetyCount + 5
         global:delay(5000)
     end
+    
     return safetyCount < maxWaitingTime
 end
 
@@ -245,7 +248,6 @@ end
 function launchExchangeAndGive(minKamas, maxWaitingTime)
     local id = receiver.character():id()
     receiver:exchangeListen(false)
-    receiver:exchangeListen(true)
     
     if not waitBotIsOnAstrubBank(receiver, maxWaitingTime) then
         global:printError("Bot banque n'est toujours pas à astrub après " .. maxWaitingTime .. " secondes, reprise du trajet")
@@ -268,7 +270,6 @@ function launchExchangeAndGive(minKamas, maxWaitingTime)
 		return
     end
 
-
     local toGive = (character:kamas() - minKamas) > 100000 and (character:kamas() - minKamas) or 1
 
 
@@ -276,34 +277,44 @@ function launchExchangeAndGive(minKamas, maxWaitingTime)
     local giveRessources = math.random()
     if giveRessources < 0.5 then
         local content = inventory:inventoryContent()
-        local nbResourcesToGive = math.random(0, math.min(3, #content))
+
+        -- On filtre les objets qu'on a le droit de donner
+        local eligibleItems = {}
+        for _, item in ipairs(content) do
+            if not IsItem(item.objectGID) then
+                table.insert(eligibleItems, item)
+            end
+        end
+
+        local nbResourcesToGive = math.random(0, math.min(3, #eligibleItems))
         if nbResourcesToGive > 0 then
             global:printMessage("On va donner " .. nbResourcesToGive .. " ressources")
             for i = 1, nbResourcesToGive do
-                local random = math.random(1, #content)
-                local id = content[random].id
+                local random = math.random(1, #eligibleItems)
+                local id = eligibleItems[random].objectGID
                 local quantity = math.random(1, math.min(inventory:itemCount(id), 3))
                 exchange:putItem(id, quantity)
                 global:printSuccess("Ressource donnée : " .. inventory:itemNameId(id) .. " x" .. quantity)
             end
         else
-            global:printMessage("Aucune ressource à donner")
+            global:printMessage("Aucune ressource éligible à donner")
         end
+    else
+        global:printMessage("On ne donne pas de ressources")
     end
 
     randomDelay()
+    global:printSuccess("On donne " .. toGive .. " kamas")
     exchange:putKamas(toGive)
     global:delay(math.random(7500, 15000))
     randomDelay()
+
+    global:printMessage("On confirm l'échange")
     exchange:ready()
 
-    global:delay(3000)
-
     global:printSuccess("Kamas transférés. Reprise du trajet")
-	global:delay(5000)
-	receiver:reloadScript()
-	receiver:startScript()
-	global:delay(10000)
+	global:delay(math.random(5000, 10000))
+    
     rerollVar()
     receiver:disconnect()
     setBotBankConnected(character:server(), false)
@@ -323,33 +334,44 @@ end
 
 
 function submitKamasOrder(amount)
-    local filePath = "C:\\Users\\Administrator\\Documents\\snowbot-scripts\\PC\\Temp\\" .. character:server() .. "\\bank-orders.json"
+    local filePath = "C:\\Users\\Vivien\\Documents\\Snowbot-Scripts-3\\PC\\Temp\\" .. character:server() .. "\\bank-orders.json"
     local jsonMemory = openFile(filePath)
-
-    -- Ensure jsonMemory[1] exists and is a table
-    if type(jsonMemory[1]) ~= "table" then
-        jsonMemory[1] = {}
-    end
-
+  
     -- Remove existing entry with the same id
-    for i = #jsonMemory[1], 1, -1 do
-        if jsonMemory[1][i].id == character:id() then
-            table.remove(jsonMemory[1], i)
+    if #jsonMemory > 0 then
+        for i = #jsonMemory, 1, -1 do
+            if jsonMemory[i].id == character:id() then
+                table.remove(jsonMemory, i)
+            end
         end
     end
 
     -- Insert the new order
-    table.insert(jsonMemory[1], {
+    table.insert(jsonMemory, {
         id = character:id(),
         alias = myAlias,
-        kAmount = amount
+        kamasAmount = amount
     })
 
     writeFile(filePath, jsonMemory)
 end
 
+function fetchKamasOrders()
+    local filePath = "C:\\Users\\Vivien\\Documents\\Snowbot-Scripts-3\\PC\\Temp\\" .. character:server() .. "\\bank-orders.json"
+    local jsonMemory = openFile(filePath)
+
+    -- Ensure jsonMemory[1] exists and is a table
+    if type(jsonMemory[1]) ~= "table" then
+        return {} -- no orders found
+    end
+
+    -- Return the list of orders
+
+    return jsonMemory[1]
+end
+
 function deleteKamasOrder(characterId)
-    local filePath = "C:\\Users\\Administrator\\Documents\\snowbot-scripts\\PC\\Temp\\" .. character:server() .. "\\bank-orders.json"
+    local filePath = "C:\\Users\\Vivien\\Documents\\Snowbot-Scripts-3\\PC\\Temp\\" .. character:server() .. "\\bank-orders.json"
     local jsonMemory = openFile(filePath)
 
     -- Ensure jsonMemory[1] exists and is a table
@@ -375,7 +397,7 @@ function goAstrubBank(inBankCallback)
     end
 
     if not map:onMap(BANK_MAPS.bankAstrubInt) then
-        treatMaps(GO_BANK_ASTRUB)
+        return treatMaps(GO_BANK_ASTRUB)
     end
     global:printSuccess("On est arrivé a la banque d'astrub")
     if inBankCallback then

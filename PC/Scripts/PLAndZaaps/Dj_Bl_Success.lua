@@ -1,4 +1,4 @@
-dofile("C:\\Users\\Administrator\\Documents\\snowbot-scripts\\PC\\Lib\\IMPORT_LIBRARIES.lua")
+dofile("C:\\Users\\Vivien\\Documents\\Snowbot-Scripts-3\\PC\\Lib\\IMPORT_LIBRARIES.lua")
 
 
 if not global:remember("isInsideDj") then
@@ -157,7 +157,7 @@ function move()
     mapDelay()
     global:printSuccess(global:remember("ETAPEDJ"))
     if job:level(24) >= 5 or job:level(2) >= 5 then
-        global:loadAndStart("C:\\Users\\Administrator\\Documents\\snowbot-scripts\\PC\\Scripts\\PL&Zaaps\\quete_pandala.lua")
+        global:loadAndStart("C:\\Users\\Vivien\\Documents\\Snowbot-Scripts-3\\PC\\Scripts\\PLAndZaaps\\quete_pandala.lua")
 	end
 
     if global:remember("ETAPEDJ") == 0 then
@@ -371,7 +371,7 @@ function move()
             inventory:equipItem(15018, 28)
             global:editInMemory("djFinished", false)
             global:editInMemory("isInsideDj", false)
-            global:loadAndStart("C:\\Users\\Administrator\\Documents\\snowbot-scripts\\PC\\Scripts\\PL&Zaaps\\quete_pandala.lua")
+            global:loadAndStart("C:\\Users\\Vivien\\Documents\\Snowbot-Scripts-3\\PC\\Scripts\\PLAndZaaps\\quete_pandala.lua")
         end
         return {
             {map = "139723265", custom = function ()
@@ -401,7 +401,7 @@ function move()
         inventory:equipItem(15018, 28)
         global:editInMemory("djFinished", false)
         global:editInMemory("isInsideDj", false)
-        global:loadAndStart("C:\\Users\\Administrator\\Documents\\snowbot-scripts\\PC\\Scripts\\PL&Zaaps\\quete_pandala.lua")
+        global:loadAndStart("C:\\Users\\Vivien\\Documents\\Snowbot-Scripts-3\\PC\\Scripts\\PLAndZaaps\\quete_pandala.lua")
     end
 
 end

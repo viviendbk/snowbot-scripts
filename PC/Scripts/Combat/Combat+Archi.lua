@@ -1,7 +1,7 @@
 ---@diagnostic disable: undefined-global, lowercase-global
 
-dofile("C:\\Users\\Administrator\\Documents\\snowbot-scripts\\PC\\Lib\\IMPORT_LIBRARIES.lua")
-dofile("C:\\Users\\Administrator\\Documents\\snowbot-scripts\\PC\\Scripts\\Utilitaires\\FonctionsArchiMonstre.lua")
+dofile("C:\\Users\\Vivien\\Documents\\Snowbot-Scripts-3\\PC\\Lib\\IMPORT_LIBRARIES.lua")
+dofile("C:\\Users\\Vivien\\Documents\\Snowbot-Scripts-3\\PC\\Scripts\\Utilitaires\\FonctionsArchiMonstre.lua")
 -- Generated On Dofus-Map with Drigtime's SwiftPath Script Maker --
 -- Nom : 
 -- Zone : 

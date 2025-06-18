@@ -1,10 +1,10 @@
 ---@diagnostic disable: undefined-global, lowercase-global
 
-dofile("C:\\Users\\Administrator\\Documents\\snowbot-scripts\\PC\\Lib\\IMPORT_LIBRARIES.lua")
+dofile("C:\\Users\\Vivien\\Documents\\Snowbot-Scripts-3\\PC\\Lib\\IMPORT_LIBRARIES.lua")
 
-dofile("C:\\Users\\Administrator\\Documents\\snowbot-scripts\\PC\\IA\\IA_SacriFeuRecolte.lua")
+dofile("C:\\Users\\Vivien\\Documents\\Snowbot-Scripts-3\\PC\\IA\\IA_SacriFeuRecolte.lua")
 
-Buyer = dofile("C:\\Users\\Administrator\\Documents\\snowbot-scripts\\PC\\Scripts\\Utilitaires\\setup_hiaky\\auto_stuff\\classes\\buyer.lua")
+Buyer = dofile("C:\\Users\\Vivien\\Documents\\Snowbot-Scripts-3\\PC\\Scripts\\Utilitaires\\setup_hiaky\\auto_stuff\\classes\\buyer.lua")
 
 OPEN_BAGS = true 
 GATHER_NEXT_DELAY_MIN = 0
@@ -1312,7 +1312,7 @@ function move()
 
     if job:level(2) < 180 then	
 		global:printSuccess("changement de script")
-		global:loadAndStart("C:\\Users\\Administrator\\Documents\\snowbot-scripts\\PC\\Recolte\\Bucheron_1_200.lua")
+		global:loadAndStart("C:\\Users\\Vivien\\Documents\\Snowbot-Scripts-3\\PC\\Recolte\\Bucheron_1_200.lua")
 	end
 
     givingTriggerValue = (job:level(2) < 200) and (getRemainingSubscription(true) > 1) and 1000000 or 2500000

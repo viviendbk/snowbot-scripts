@@ -1,4 +1,4 @@
-dofile("C:\\Users\\Administrator\\Documents\\snowbot-scripts\\PC\\Lib\\IMPORT_LIBRARIES.lua")
+dofile("C:\\Users\\Vivien\\Documents\\Snowbot-Scripts-3\\PC\\Lib\\IMPORT_LIBRARIES.lua")
 
 
 RunesInBank = {}
@@ -681,9 +681,9 @@ function move()
         StopNoFocus = totalValue > 120000000
         if totalValue > 200000000 then
             if global:thisAccountController():getAlias():find("FM") then
-                global:loadAndStart("C:\\Users\\Administrator\\Documents\\snowbot-scripts\\PC\\Scripts\\Craft\\Craft-FM-Resell.lua")
+                global:loadAndStart("C:\\Users\\Vivien\\Documents\\Snowbot-Scripts-3\\PC\\Scripts\\Craft\\Craft-FM-Resell.lua")
             else
-                global:loadAndStart("C:\\Users\\Administrator\\Documents\\snowbot-scripts\\PC\\Scripts\\Craft\\Craft-Resell.lua")
+                global:loadAndStart("C:\\Users\\Vivien\\Documents\\Snowbot-Scripts-3\\PC\\Scripts\\Craft\\Craft-Resell.lua")
             end
         end
         if StopNoFocus then
@@ -767,9 +767,9 @@ function move()
                     customReconnect(math.random(100,150))
                 else
                     if global:thisAccountController():getAlias():find("FM") then
-                        global:loadAndStart("C:\\Users\\Administrator\\Documents\\snowbot-scripts\\PC\\Scripts\\Craft\\Craft-FM-Resell.lua")
+                        global:loadAndStart("C:\\Users\\Vivien\\Documents\\Snowbot-Scripts-3\\PC\\Scripts\\Craft\\Craft-FM-Resell.lua")
                     else
-                        global:loadAndStart("C:\\Users\\Administrator\\Documents\\snowbot-scripts\\PC\\Scripts\\Craft\\Craft-Resell.lua")
+                        global:loadAndStart("C:\\Users\\Vivien\\Documents\\Snowbot-Scripts-3\\PC\\Scripts\\Craft\\Craft-Resell.lua")
                     end
                 end          
             end
@@ -1111,9 +1111,9 @@ function move()
         elseif (#TableItemToChoice == 0 and reloadCount > 9) or maxFocus == "" then
             if character:kamas() > 10000000 then
                 if global:thisAccountController():getAlias():find("FM") then
-                    global:loadAndStart("C:\\Users\\Administrator\\Documents\\snowbot-scripts\\PC\\Scripts\\Craft\\Craft-FM-Resell.lua")
+                    global:loadAndStart("C:\\Users\\Vivien\\Documents\\Snowbot-Scripts-3\\PC\\Scripts\\Craft\\Craft-FM-Resell.lua")
                 else
-                    global:loadAndStart("C:\\Users\\Administrator\\Documents\\snowbot-scripts\\PC\\Scripts\\Craft\\Craft-Resell.lua")
+                    global:loadAndStart("C:\\Users\\Vivien\\Documents\\Snowbot-Scripts-3\\PC\\Scripts\\Craft\\Craft-Resell.lua")
                 end
             else
                 customReconnect(math.random(100, 150))
@@ -1767,10 +1767,10 @@ function move()
             if character:kamas() < 10000000 then
                 customReconnect(math.random(100,150))
             else
-                global:loadAndStart("C:\\Users\\Administrator\\Documents\\snowbot-scripts\\PC\\Scripts\\Craft\\Craft-FM-Resell.lua")
+                global:loadAndStart("C:\\Users\\Vivien\\Documents\\Snowbot-Scripts-3\\PC\\Scripts\\Craft\\Craft-FM-Resell.lua")
             end
         else
-            global:loadAndStart("C:\\Users\\Administrator\\Documents\\snowbot-scripts\\PC\\Scripts\\Craft\\Craft-Resell.lua")
+            global:loadAndStart("C:\\Users\\Vivien\\Documents\\Snowbot-Scripts-3\\PC\\Scripts\\Craft\\Craft-Resell.lua")
         end
     end
     --- Final Selling

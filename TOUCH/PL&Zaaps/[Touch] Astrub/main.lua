@@ -30,7 +30,7 @@ function move()
 			global:loadConfigurationWithoutScript(config_path)
 			global:delay(500)
 			if global:thisAccountController():getAlias():find("Next") then
-				global:loadAndStart("C:\\Users\\Administrator\\Downloads\\Script_Bot_Dofus\\TOUCH\\PL&Zaaps\\PL_24-43.lua")
+				global:loadAndStart("C:\\Users\\Administrator\\Downloads\\Script_Bot_Dofus\\TOUCH\\PLAndZaaps\\PL_24-43.lua")
 			end
 			global:loadAndStart(script_path)
 		end

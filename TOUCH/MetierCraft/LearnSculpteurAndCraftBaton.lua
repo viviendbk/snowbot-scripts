@@ -336,7 +336,7 @@ function move()
     if job:level(18) >= 10 and inventory:itemCount(742) == 0 then
         return TreatMapsAstrub(TrajetCraftPelle)
     end
-    global:loadAndStart("C:\\Users\\Administrator\\Downloads\\Script_Bot_Dofus\\TOUCH\\PL&Zaaps\\PL_Chasseur_Team.lua")
+    global:loadAndStart("C:\\Users\\Administrator\\Downloads\\Script_Bot_Dofus\\TOUCH\\PLAndZaaps\\PL_Chasseur_Team.lua")
 end
 
 function bank()

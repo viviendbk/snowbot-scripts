@@ -1,5 +1,5 @@
-pathrecevoirechange = "C:\\Users\\Administrator\\Downloads\\Script_Bot_Dofus\\TOUCH\\PL&Zaaps\\ExchangeReceiver.lua"
-pathpiou = "C:\\Users\\Administrator\\Downloads\\Script_Bot_Dofus\\TOUCH\\PL&Zaaps\\PL_24-43.lua"
+pathrecevoirechange = "C:\\Users\\Administrator\\Downloads\\Script_Bot_Dofus\\TOUCH\\PLAndZaaps\\ExchangeReceiver.lua"
+pathpiou = "C:\\Users\\Administrator\\Downloads\\Script_Bot_Dofus\\TOUCH\\PLAndZaaps\\PL_24-43.lua"
 pathconfig = "C:\\Users\\Administrator\\Downloads\\Script_Bot_Dofus\\TOUCH\\Configs\\Config_Eni.xml"
 
 -- Destinataire (Si vous ne le changez pas, une popup va apparaitre pour insérer le nom manuellement à chaque fois)

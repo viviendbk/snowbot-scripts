@@ -4,7 +4,7 @@
 -- Type : 
 -- Version : 1.0
 -- Auteur : 
-dofile("C:\\Users\\Administrator\\Documents\\snowbot-scripts\\PC\\Lib\\IMPORT_LIBRARIES.lua")
+dofile("C:\\Users\\Vivien\\Documents\\Snowbot-Scripts-3\\PC\\Lib\\IMPORT_LIBRARIES.lua")
 
 
 GATHER = {}
@@ -30,10 +30,11 @@ end
 local function giveKamasAndValidate()
 	global:printMessage("Je vais mettre les ressources dans l'échange")
 
-    openFile()
-	local quantityKamas = math.random(1, 5000)
+    local orderInfos = fetchKamasOrders()
+	local quantityKamas = orderInfos.kamasAmount
 	if character:kamas() > quantityKamas then
 		global:printSuccess("Je mets " .. quantityKamas .. " kamas")
+		exchange:putKamas(quantityKamas)
 		global:delay(math.random(2000, 4000))
 	end
 

@@ -126,7 +126,7 @@ function _StackInfosHdvInJson(message)
         may_add_id = true
     end
 
-    local data = openFile("C:\\Users\\Administrator\\Documents\\snowbot-scripts\\PC\\Craft\\Craft-Resell.json")
+    local data = openFile("C:\\Users\\Vivien\\Documents\\Snowbot-Scripts-3\\PC\\Craft\\Craft-Resell.json")
 
     for _, element in ipairs(data) do
         if element.server == character:server() then

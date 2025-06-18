@@ -1,5 +1,5 @@
 ---@diagnostic disable: undefined-global, lowercase-global
-dofile("C:\\Users\\Administrator\\Documents\\snowbot-scripts\\PC\\Lib\\IMPORT_LIBRARIES.lua")
+dofile("C:\\Users\\Vivien\\Documents\\Snowbot-Scripts-3\\PC\\Lib\\IMPORT_LIBRARIES.lua")
 
 
 -- Generated On Dofus-Map with Drigtime's SwiftPath Script Maker --
@@ -932,8 +932,8 @@ local function connectReceiver()
                             return acc
                         end
                     end
-                    acc:loadConfig("C:\\Users\\Administrator\\Documents\\snowbot-scripts\\PC\\Configs\\configBank.xml")
-                    acc:loadScript("C:\\Users\\Administrator\\Documents\\snowbot-scripts\\PC\\Scripts\\Utilitaires\\bot_banque.lua")
+                    acc:loadConfig("C:\\Users\\Vivien\\Documents\\Snowbot-Scripts-3\\PC\\Configs\\configBank.xml")
+                    acc:loadScript("C:\\Users\\Vivien\\Documents\\Snowbot-Scripts-3\\PC\\Scripts\\Utilitaires\\bot_banque.lua")
                     acc:startScript()
                     givingTriggerValue = givingTriggerValue - 50000
                     return acc

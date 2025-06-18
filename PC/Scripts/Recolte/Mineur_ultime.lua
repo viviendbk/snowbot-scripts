@@ -1,9 +1,7 @@
 ---@diagnostic disable: undefined-global, lowercase-global
-dofile("C:\\Users\\Administrator\\Documents\\snowbot-scripts\\PC\\Lib\\IMPORT_LIBRARIES.lua")
-Buyer = dofile("C:\\Users\\Administrator\\Documents\\snowbot-scripts\\PC\\Scripts\\Utilitaires\\setup_hiaky\\auto_stuff\\classes\\buyer.lua")
+dofile("C:\\Users\\Vivien\\Documents\\Snowbot-Scripts-3\\PC\\Lib\\IMPORT_LIBRARIES.lua")
 
-
-dofile("C:\\Users\\Administrator\\Documents\\snowbot-scripts\\PC\\IA\\IA_SacriFeuRecolte.lua")
+dofile("C:\\Users\\Vivien\\Documents\\Snowbot-Scripts-3\\PC\\IA\\IA_SacriFeuRecolte.lua")
 
 
 MIN_MONSTERS = 1
@@ -1000,6 +998,7 @@ local function settOrnament(ornamentID)
 end
 
 local function ProcessBank()
+    logBotStats()
     if character:level() > 160 then
         settOrnament(14)
     end
@@ -1392,10 +1391,7 @@ function move()
 
     handleDisconnection()
     mapDelay()
-    if global:thisAccountController():getAlias():find("Draconiros") and character:server() ~= "Draconiros" then
-        global:thisAccountController():forceServer("Draconiros")
-        global:disconnect()
-    end
+
     while character:kamas() == 0 and map:onMap("4,-18") do
         npc:npcBank(-1)
         global:delay(500)
@@ -1424,8 +1420,8 @@ function move()
     end
 
 
-    if job:level(24) < 120 and getRemainingSubscription(true) >= 0 then
-        global:loadAndStart("C:\\Users\\Administrator\\Documents\\snowbot-scripts\\PC\\Scripts\\Recolte\\Mineur_1-150_ULTIME.lua")
+    if job:level(24) < 120 and getRemainingSubscription(true) > 0 then
+        global:loadAndStart("C:\\Users\\Vivien\\Documents\\Snowbot-Scripts-3\\PC\\Scripts\\Recolte\\Mineur_1-150_ULTIME.lua")
     end
 
     editAlias("[" .. job:level(24) .. "] " .. getRemainingSubscription(true))

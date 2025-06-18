@@ -120,7 +120,7 @@ end
 function move() 
     if global:remember("deco_reco") then
         global:deleteMemory("deco_reco")
-        global:loadAndStart("C:\\Users\\Administrator\\Downloads\\Script_Bot_Dofus\\TOUCH\\PL&Zaaps\\PL_24-43.lua")
+        global:loadAndStart("C:\\Users\\Administrator\\Downloads\\Script_Bot_Dofus\\TOUCH\\PLAndZaaps\\PL_24-43.lua")
     end
     if map:currentSubArea() ~= "Cité d'Astrub" and map:currentArea() ~= "Incarnam" then
         PopoRappel()

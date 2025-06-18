@@ -1,7 +1,7 @@
 ---@diagnostic disable: undefined-global, lowercase-global
 
-dofile("C:\\Users\\Administrator\\Documents\\snowbot-scripts\\PC\\Lib\\IMPORT_LIBRARIES.lua")
-dofile("C:\\Users\\Administrator\\Documents\\snowbot-scripts\\PC\\IA\\IA_SacriFeuRecolte.lua")
+dofile("C:\\Users\\Vivien\\Documents\\Snowbot-Scripts-3\\PC\\Lib\\IMPORT_LIBRARIES.lua")
+dofile("C:\\Users\\Vivien\\Documents\\Snowbot-Scripts-3\\PC\\IA\\IA_SacriFeuRecolte.lua")
 
 
 GATHER = {17, 53, 55, 37, 54, 52, 114, 24, 26, 25, 135}
@@ -431,7 +431,7 @@ for _, element in ipairs(TABLE_VENTE_PL) do
 end
 
 
-scriptPath = "C:\\Users\\Administrator\\Documents\\snowbot-scripts\\PC\\Scripts\\Recolte\\Mineur_ultime.lua"
+scriptPath = "C:\\Users\\Vivien\\Documents\\Snowbot-Scripts-3\\PC\\Scripts\\Recolte\\Mineur_ultime.lua"
 local phrase = nil
 
 for i = 1, NB_MINEUR do

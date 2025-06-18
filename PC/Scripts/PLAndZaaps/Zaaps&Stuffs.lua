@@ -1,5 +1,4 @@
-dofile("C:\\Users\\Administrator\\Documents\\snowbot-scripts\\PC\\Lib\\IMPORT_LIBRARIES.lua")
-Buyer = dofile("C:\\Users\\Administrator\\Documents\\snowbot-scripts\\PC\\Scripts\\Utilitaires\\setup_hiaky\\auto_stuff\\classes\\buyer.lua")
+dofile("C:\\Users\\Vivien\\Documents\\Snowbot-Scripts-3\\PC\\Lib\\IMPORT_LIBRARIES.lua")
 
 
 
@@ -400,7 +399,7 @@ function move()
 
     global:printSuccess("ETAPE_ZAAP : " .. global:remember("ETAPE_ZAAP"))
     if character:level() == 1 then
-        global:loadAndStart("C:\\Users\\Administrator\\Documents\\snowbot-scripts\\PC\\Scripts\\PL&Zaaps\\PL_1-6X.lua")
+        global:loadAndStart("C:\\Users\\Vivien\\Documents\\Snowbot-Scripts-3\\PC\\Scripts\\PLAndZaaps\\PL_1-6X.lua")
     end
     mapDelay()
     if getRemainingSubscription(true) <= 0 and character:kamas() > (character:server() == "Draconiros"  and 700000 or 1200000) then
@@ -408,16 +407,10 @@ function move()
         Abonnement()
     end
 
-	-- if job:level(24) >= 6 or job:level(2) >= 6 or map:currentSubArea() == "Carrière d'Astrub" then
-    --     global:loadAndStart("C:\\Users\\Administrator\\Documents\\snowbot-scripts\\PC\\Scripts\\PL&Zaaps\\quete_pandala.lua")
-	-- elseif character:level() > 70 and global:thisAccountController():getAlias():find("LvlUp") then
-    --     global:loadAndStart("C:\\Users\\Administrator\\Documents\\snowbot-scripts\\PC\\Scripts\\Combat\\PL_6X-114.lua")
-    -- end
-
-    if global:thisAccountController():getAlias():find("Draconiros") and not character:server():find("Draconiros") then
-        global:thisAccountController():forceDelete(character:name())
-        global:thisAccountController():forceServer("Draconiros")
-        global:disconnect()
+	if job:level(24) >= 6 or job:level(2) >= 6 or map:currentSubArea() == "Carrière d'Astrub" then
+        global:loadAndStart("C:\\Users\\Vivien\\Documents\\Snowbot-Scripts-3\\PC\\Scripts\\PLAndZaaps\\quete_pandala.lua")
+	elseif character:level() > 70 and global:thisAccountController():getAlias():find("LvlUp") then
+        global:loadAndStart("C:\\Users\\Vivien\\Documents\\Snowbot-Scripts-3\\PC\\Scripts\\Combat\\PL_6X-114.lua")
     end
     
     if global:remember("ETAPE_ZAAP") == 0 then
@@ -458,7 +451,7 @@ function move()
                 if global:thisAccountController():getAlias():find("Mineur") or global:thisAccountController():getAlias():find("Bucheron") then
                     BuyStuff()
                 elseif global:thisAccountController():getAlias():find("Requests") then
-                    global:loadAndStart("C:\\Users\\Administrator\\Documents\\snowbot-scripts\\PC\\Scripts\\Craft\\GetAllPrices.lua")
+                    global:loadAndStart("C:\\Users\\Vivien\\Documents\\Snowbot-Scripts-3\\PC\\Scripts\\Craft\\GetAllPrices.lua")
                 else
                     BuyStuff114()
                 end 
@@ -1015,9 +1008,9 @@ function move()
         }
     elseif global:remember("ETAPE_ZAAP") == 28 then
         if global:thisAccountController():getAlias():find("Mineur") or global:thisAccountController():getAlias():find("Bucheron") then
-            global:loadAndStart("C:\\Users\\Administrator\\Documents\\snowbot-scripts\\PC\\Scripts\\PL&Zaaps\\quete_pandala.lua")
+            global:loadAndStart("C:\\Users\\Vivien\\Documents\\Snowbot-Scripts-3\\PC\\Scripts\\PLAndZaaps\\quete_pandala.lua")
         elseif global:thisAccountController():getAlias():find("LvlUp") then
-            global:loadAndStart("C:\\Users\\Administrator\\Documents\\snowbot-scripts\\PC\\Scripts\\PL&Zaaps\\zaap_otomai.lua")
+            global:loadAndStart("C:\\Users\\Vivien\\Documents\\Snowbot-Scripts-3\\PC\\Scripts\\PLAndZaaps\\zaap_otomai.lua")
         end
     end
 end

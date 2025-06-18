@@ -2,7 +2,7 @@
 -- Script d’abonnement : version « getRequest2 » (remplace dofusRequest) ---
 ---------------------------------------------------------------------------
 -- 📦  Dépendances ---------------------------------------------------------
-local JSONFile = "C:\\Users\\Administrator\\Documents\\snowbot-scripts\\PC\\Scripts\\Utilitaires\\JSON.lua"
+local JSONFile = "C:\\Users\\Vivien\\Documents\\Snowbot-Scripts-3\\PC\\Scripts\\Utilitaires\\JSON.lua"
 local JSON     = (loadfile(JSONFile))()
 
 -- 🔧  Paramètres ----------------------------------------------------------

@@ -1,6 +1,6 @@
 ---@diagnostic disable: undefined-global, lowercase-global
 
-dofile("C:\\Users\\Administrator\\Documents\\snowbot-scripts\\PC\\Lib\\IMPORT_LIBRARIES.lua")
+dofile("C:\\Users\\Vivien\\Documents\\Snowbot-Scripts-3\\PC\\Lib\\IMPORT_LIBRARIES.lua")
 
 
 local totalKamas = 0
@@ -19,7 +19,7 @@ end
 
 local function RegisterHLAccounts()
     -- Read the file
-    local file = io.open("C:\\Users\\Administrator\\Documents\\snowbot-scripts\\PC\\Assets\\ComptesAVendre.txt", "r")
+    local file = io.open("C:\\Users\\Vivien\\Documents\\Snowbot-Scripts-3\\PC\\Assets\\ComptesAVendre.txt", "r")
     if not file then
       return nil, "Unable to open file"
     end
@@ -82,7 +82,7 @@ local function RegisterHLAccounts()
     end
   
     -- Write the modified content back to the file
-    file = io.open("C:\\Users\\Administrator\\Documents\\snowbot-scripts\\PC\\Assets\\ComptesAVendre.txt", "w")
+    file = io.open("C:\\Users\\Vivien\\Documents\\Snowbot-Scripts-3\\PC\\Assets\\ComptesAVendre.txt", "w")
     if not file then
       return nil, "Unable to open file for writing"
     end
@@ -146,7 +146,7 @@ function move()
 
     if cptExportation == 20 then
         cptExportation = 0
-        ExporterComptes("C:\\Users\\Administrator\\Documents\\snowbot-scripts\\PC\\Assets\\Comptes" .. type .. ".txt")
+        ExporterComptes("C:\\Users\\Vivien\\Documents\\Snowbot-Scripts-3\\PC\\Assets\\Comptes" .. type .. ".txt")
         -- RegisterHLAccounts()
         resetBotBankAvailability(false)
     end
@@ -162,7 +162,7 @@ function move()
         global:printSuccess("Fin du lancement des comptes")
         -- RegisterHLAccounts()
         global:printSuccess("ok0")
-        ExporterComptes("C:\\Users\\Administrator\\Documents\\snowbot-scripts\\PC\\Assets\\Comptes" .. type .. ".txt")
+        ExporterComptes("C:\\Users\\Vivien\\Documents\\Snowbot-Scripts-3\\PC\\Assets\\Comptes" .. type .. ".txt")
         global:printSuccess("ok1")
         resetBotBankAvailability(true)
         global:printSuccess("ok2")
@@ -225,20 +225,20 @@ function move()
         --     end
         --     if nbDjBlSuccess > 10 then
         --         acc.global():clearConsole()
-        --         acc.global():loadAndStart("C:\\Users\\Administrator\\Documents\\snowbot-scripts\\PC\\Scripts\\PL&Zaaps\\quete_pandala.lua")
+        --         acc.global():loadAndStart("C:\\Users\\Vivien\\Documents\\Snowbot-Scripts-3\\PC\\Scripts\\PLAndZaaps\\quete_pandala.lua")
         --     end
 
         -- end
         -- debug("3")
         if not acc.developer():hasScript() and acc:isAccountFullyConnected() and not acc:getAlias():find("Groupe")
         and (job:level(2) > 5 or job:level(24) > 5 or character:level() < 60) then
-            acc:loadConfig("C:\\Users\\Administrator\\Documents\\snowbot-scripts\\PC\\Configs\\Config_PL_1-6X.xml")
-            acc:loadScript("C:\\Users\\Administrator\\Documents\\snowbot-scripts\\PC\\Scripts\\PL&Zaaps\\PL_1-6X.lua")
+            acc:loadConfig("C:\\Users\\Vivien\\Documents\\Snowbot-Scripts-3\\PC\\Configs\\Config_PL_1-6X.xml")
+            acc:loadScript("C:\\Users\\Vivien\\Documents\\Snowbot-Scripts-3\\PC\\Scripts\\PLAndZaaps\\PL_1-6X.lua")
             acc:disconnect()
             acc:connect()
         elseif not acc.developer():hasScript() and acc.character():level() > 140 and acc:isAccountFullyConnected() and not acc:getAlias():find("Groupe") then
-            acc:loadConfig("C:\\Users\\Administrator\\Documents\\snowbot-scripts\\PC\\Configs\\ConfigRecolte.xml")
-            acc:loadScript("C:\\Users\\Administrator\\Documents\\snowbot-scripts\\PC\\Scripts\\Utilitaires\\take-kamas.lua")
+            acc:loadConfig("C:\\Users\\Vivien\\Documents\\Snowbot-Scripts-3\\PC\\Configs\\ConfigRecolte.xml")
+            acc:loadScript("C:\\Users\\Vivien\\Documents\\Snowbot-Scripts-3\\PC\\Scripts\\Utilitaires\\take-kamas.lua")
             acc:disconnect()
             acc:connect()
         end

@@ -1,4 +1,4 @@
-dofile("C:\\Users\\Administrator\\Documents\\snowbot-scripts\\PC\\Scripts\\Lib\\IMPORT_LIBRARIES.lua")
+dofile("C:\\Users\\Vivien\\Documents\\Snowbot-Scripts-3\\PC\\Scripts\\Lib\\IMPORT_LIBRARIES.lua")
 
 
 local switchServerMulti =  {
@@ -129,7 +129,7 @@ end
 
 function move()
     if character:level() < 35 then
-        global:loadAndStart("C:\\Users\\Administrator\\Documents\\snowbot-scripts\\PC\\Scripts\\PL&Zaaps\\PL_1-6X.lua")
+        global:loadAndStart("C:\\Users\\Vivien\\Documents\\Snowbot-Scripts-3\\PC\\Scripts\\PLAndZaaps\\PL_1-6X.lua")
     end
     mapDelay()
     if global:thisAccountController():getAlias():find("RequestsMulti") then
@@ -150,7 +150,7 @@ function move()
             end
             if counterBug > 3 then
                 global:clearConsole()
-                global:loadAndStart("C:\\Users\\Administrator\\Documents\\snowbot-scripts\\PC\\Scripts\\PL&Zaaps\\Zaaps&Stuffs.lua")
+                global:loadAndStart("C:\\Users\\Vivien\\Documents\\Snowbot-Scripts-3\\PC\\Scripts\\PLAndZaaps\\Zaaps&Stuffs.lua")
             end
         end
     end
@@ -158,10 +158,10 @@ function move()
     if not ScriptStarted then
         if getRemainingSubscription(true) <= 0 then
             global:printSuccess(getRemainingSubscription(true))
-            global:loadAndStart("C:\\Users\\Administrator\\Documents\\snowbot-scripts\\PC\\Scripts\\Utilitaires\\setup_hiaky\\scripts\\take-kamas-for-abo.lua")
+            global:loadAndStart("C:\\Users\\Vivien\\Documents\\Snowbot-Scripts-3\\PC\\Scripts\\Utilitaires\\take-kamas-for-abo.lua")
         end
         if character:kamas() < 10000 then
-            global:loadAndStart("C:\\Users\\Administrator\\Documents\\snowbot-scripts\\PC\\Scripts\\Utilitaires\\setup_hiaky\\scripts\\take-50k.lua")
+            global:loadAndStart("C:\\Users\\Vivien\\Documents\\Snowbot-Scripts-3\\PC\\Scripts\\Utilitaires\\take-50k.lua")
         end
 
         local nbItemsTotal = 0

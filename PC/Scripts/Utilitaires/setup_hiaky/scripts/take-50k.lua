@@ -1,17 +1,17 @@
 
 --- <init>
 
-PATH =  "C:\\Users\\Administrator\\Documents\\snowbot-scripts\\PC\\Scripts\\Utilitaires\\setup_hiaky\\"
+PATH =  "C:\\Users\\Vivien\\Documents\\Snowbot-Scripts-3\\PC\\Scripts\\Utilitaires\\setup_hiaky\\"
 scriptName = "take-kamas.lua"
 dofile(PATH .. "template.lua")
 
-dofile("C:\\Users\\Administrator\\Documents\\snowbot-scripts\\PC\\Lib\\IMPORT_LIBRARIES.lua")
+dofile("C:\\Users\\Vivien\\Documents\\Snowbot-Scripts-3\\PC\\Lib\\IMPORT_LIBRARIES.lua")
 
 
 local insert = table.insert
 
-configPath = "C:\\Users\\Administrator\\Documents\\snowbot-scripts\\PC\\Configs\\configBank.xml"
-scriptPath = "C:\\Users\\Administrator\\Documents\\snowbot-scripts\\PC\\Scripts\\Utilitaires\\setup_hiaky\\scripts\\give-kamas.lua"
+configPath = "C:\\Users\\Vivien\\Documents\\Snowbot-Scripts-3\\PC\\Configs\\configBank.xml"
+scriptPath = "C:\\Users\\Vivien\\Documents\\Snowbot-Scripts-3\\PC\\Scripts\\Utilitaires\\give-kamas.lua"
 
 function messagesRegistering()
     developer:registerMessage("HaapiShopApiKeyMessage", _HaapiShopApiKeyMessage)
@@ -93,7 +93,7 @@ function move()
                 return order.id == character:id()
             end)
 
-			global:loadAndStart("C:\\Users\\Administrator\\Documents\\snowbot-scripts\\PC\\Scripts\\Craft\\GetAllPrices.lua")
+			global:loadAndStart("C:\\Users\\Vivien\\Documents\\Snowbot-Scripts-3\\PC\\Scripts\\Craft\\GetAllPrices.lua")
 
             global:printSuccess("le bot banque n'a pas pu nous donner les kamas, on retente dans 4h")
             global:deleteMemory("doneTransfert")

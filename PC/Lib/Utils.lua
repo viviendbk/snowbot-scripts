@@ -585,7 +585,6 @@ function calculCharacteristicsPointsToSet(nbPoints)
 end
 
 function GetServerByAlias(Alias)
-    debug("ok")
     for _, Server in ipairs(ALL_SERVERS) do
         if Alias:lower():find(Server:lower()) then
             return Server
@@ -623,7 +622,7 @@ function connectAccountsWithFailleProxy()
     for _, server in ipairs(ALL_SERVERS) do
         for _, acc in ipairs(loadedAccounts) do
             if acc:getAlias():find(server) and (acc:getAlias():find("Mineur") or acc:getAlias():find("Bucheron") 
-            or acc:getAlias("Combat") or acc:getAlias():find("LvlUp")) and not acc:getAlias():find("BAN")
+            or acc:getAlias("Combat") or acc:getAlias():find("LvlUp")) and not acc:getAlias():find("BAN") and not acc:getAlias():find("NEED ABO")
             and not acc:isAccountConnected() and canReconnect(acc:getAlias()) then
                 table.insert(accountsToConnectByServer[server], acc)
             end
@@ -639,7 +638,7 @@ function connectAccountsWithFailleProxy()
 
     global:printSuccess("Il y a " .. nbVagues .. " vagues de connexion à faire")
     if nbVagues > 0 then
-        local connexionFile = openFile("C:\\Users\\Administrator\\Documents\\snowbot-scripts\\PC\\Temp\\controllerConnexion.json")
+        local connexionFile = openFile("C:\\Users\\Vivien\\Documents\\Snowbot-Scripts-3\\PC\\Temp\\controllerConnexion.json")
 
         if not connexionFile or #connexionFile == 0 or not connexionFile[1].inUse then
             connexionFile[1] = {
@@ -648,7 +647,7 @@ function connectAccountsWithFailleProxy()
                     date = os.date("%Y-%m-%d %H:%M:%S")
                 }
 
-            writeToJsonFile("C:\\Users\\Administrator\\Documents\\snowbot-scripts\\PC\\Temp\\controllerConnexion.json", connexionFile)
+            writeToJsonFile("C:\\Users\\Vivien\\Documents\\Snowbot-Scripts-3\\PC\\Temp\\controllerConnexion.json", connexionFile)
         elseif connexionFile[1].inUse and compareDateTime(os.date("%Y-%m-%d %H:%M:%S"), connexionFile[1].date) < 20 * 60 then
             global:printError("Un autre script est déjà en train de se connecter, on continue le script")
             return 
@@ -659,7 +658,7 @@ function connectAccountsWithFailleProxy()
             connexionFile[1].inUse = false
             connexionFile[1].by = ""
             connexionFile[1].date = ""
-            writeToJsonFile("C:\\Users\\Administrator\\Documents\\snowbot-scripts\\PC\\Temp\\controllerConnexion.json", connexionFile)
+            writeToJsonFile("C:\\Users\\Vivien\\Documents\\Snowbot-Scripts-3\\PC\\Temp\\controllerConnexion.json", connexionFile)
             return connectAccountsWithFailleProxy() -- Retenter la connexion
         end
     end
@@ -691,11 +690,11 @@ function connectAccountsWithFailleProxy()
         else
             global:printError("L'IP n'a pas changé, on retente dans 10 secondes")
 
-            local connexionFile = openFile("C:\\Users\\Administrator\\Documents\\snowbot-scripts\\PC\\Temp\\controllerConnexion.json")
+            local connexionFile = openFile("C:\\Users\\Vivien\\Documents\\Snowbot-Scripts-3\\PC\\Temp\\controllerConnexion.json")
             connexionFile[1].inUse = false
             connexionFile[1].by = ""
             connexionFile[1].date = ""
-            writeToJsonFile("C:\\Users\\Administrator\\Documents\\snowbot-scripts\\PC\\Temp\\controllerConnexion.json", connexionFile)
+            writeToJsonFile("C:\\Users\\Vivien\\Documents\\Snowbot-Scripts-3\\PC\\Temp\\controllerConnexion.json", connexionFile)
 
             global:delay(10000) -- Attendre 1 minute avant de retenter
             return connectAccountsWithFailleProxy() -- Retenter la connexion
@@ -708,11 +707,11 @@ function connectAccountsWithFailleProxy()
             end
         end
 
-        local connexionFile = openFile("C:\\Users\\Administrator\\Documents\\snowbot-scripts\\PC\\Temp\\controllerConnexion.json")
+        local connexionFile = openFile("C:\\Users\\Vivien\\Documents\\Snowbot-Scripts-3\\PC\\Temp\\controllerConnexion.json")
         connexionFile[1].inUse = false
         connexionFile[1].by = ""
         connexionFile[1].date = ""
-        writeToJsonFile("C:\\Users\\Administrator\\Documents\\snowbot-scripts\\PC\\Temp\\controllerConnexion.json", connexionFile)
+        writeToJsonFile("C:\\Users\\Vivien\\Documents\\Snowbot-Scripts-3\\PC\\Temp\\controllerConnexion.json", connexionFile)
 
         global:delay(20000) -- 20000 ms = 20 secondes
     end
@@ -765,8 +764,6 @@ function debugMoveToward(mapToward)
 end
 
 function debugMoveTowardMap(x, y)
-    		debug("aaaa")
-
 	if not map:moveTowardMap(x, y) then
 		map:changeMap("top|bottom|left|right")
 	end
@@ -917,61 +914,6 @@ function getPrint(message, info)
     return message
 end
 
-print.__call = function(self, message, info)
-    global:printMessage(getPrint(message, info))
-end
-
-print.success = function(self, message, info)
-    global:printSuccess(getPrint(message, info))
-end
-
-print.error = function(self, message)
-    global:printError(getPrint(message, info))
-end
-
-print.color = function(self, message, color)
-    if not color then color = "#4d8fbe" end
-
-    global:printColor(color, message)
-end
-
-print.void = function(self)
-    self:color("", "#343434")
-end
-
-print.sep = function(self, color)
-    if color == nil then
-        self("--------------------------")
-    else
-        if color == true then
-            self:success("--------------------------")
-        else
-            self:error("--------------------------")
-        end
-    end
-end
-
-print.table = function(self, tab, acc, depth)
-    if type(tab) ~= "table" then
-        return type(tab) == "nil" and self:error("nil value") or self:error("Not a table")
-    end
-
-    depth = depth or 0
-    
-    for key, value in pairs(tab) do
-        local margin = ""
-
-        for _ = 1, depth do
-            margin = margin .. "  "
-        end
-
-        self(margin .. tostring(key) .. " = " .. tostring(value) .. " (" .. type(value) .. ")", acc)
-
-        if type(value) == "table" then
-            self:table(value, acc, depth + 1)
-        end
-    end
-end
 
 function rotateTableRandom(t)
     local len = #t
@@ -1026,11 +968,11 @@ end
 function GetProxy(lineToRead)
     local cpt = 0
     local i = 1
-    local f = io.open("C:\\Users\\Administrator\\Documents\\snowbot-scripts\\PC\\Assets\\proxy.txt", "r")
+    local f = io.open("C:\\Users\\Vivien\\Documents\\Snowbot-Scripts-3\\PC\\Assets\\proxy.txt", "r")
 
     local toReturn = {proxy = {}, port = {}, username = {}, password = {}}
 
-    for line in io.lines("C:\\Users\\Administrator\\Documents\\snowbot-scripts\\PC\\Assets\\proxy.txt") do 
+    for line in io.lines("C:\\Users\\Vivien\\Documents\\Snowbot-Scripts-3\\PC\\Assets\\proxy.txt") do 
         if i == lineToRead then
             tabline = line:split()
             for index, element in ipairs(tabline) do
@@ -1351,4 +1293,11 @@ function logBotStats()
     global:printMessage("[BOT] JSON (profil) : " .. profilPayload)
     local responseProfil = developer:postRequest("http://localhost:3000/api/bots", profilPayload, headersName, headersContent, "", false)
     global:printMessage("[BOT] Réponse (profil) : " .. responseProfil)
+end
+
+function writeFile(path, data)
+    local file = io.open(path, "w")
+
+    file:write(path:find(".json") and json.encode(data) or data)
+    file:close()
 end

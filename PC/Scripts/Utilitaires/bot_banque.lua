@@ -4,7 +4,7 @@
 -- Type : 
 -- Version : 1.0
 -- Auteur : 
-dofile("C:\\Users\\Administrator\\Documents\\snowbot-scripts\\PC\\Lib\\IMPORT_LIBRARIES.lua")
+dofile("C:\\Users\\Vivien\\Documents\\Snowbot-Scripts-3\\PC\\Lib\\IMPORT_LIBRARIES.lua")
 
 
 GATHER = {}
@@ -37,10 +37,10 @@ local function takeRandomRessources()
 		local random = math.random(1, #content)
 		for i, id in ipairs(content) do
 			if i == random then
-				local randomQuantity = math.random(1, exchange:storageItemQuantity(id))
+				local randomQuantity = math.random(1, math.min(exchange:storageItemQuantity(id), 5))
 				exchange:getItem(id, randomQuantity)
 				table.insert(resourceToGive, {id = id, quantity = randomQuantity})
-				global:printSuccess("") -- mettre ici un print des ressources
+				global:printSuccess("Je prends " .. randomQuantity .. " x " .. inventory:itemNameId(id))
 			end
 		end
 	end
@@ -59,10 +59,12 @@ local function giveResourcesKamasAndValidate()
 	local quantityKamas = math.random(1, 5000)
 	if character:kamas() > quantityKamas then
 		global:printSuccess("Je mets " .. quantityKamas .. " kamas")
+		exchange:putKamas(quantityKamas)
 		global:delay(math.random(2000, 4000))
 	end
 
 	exchange:ready()
+	global:editAlias("bank_" .. character:server():lower() .. " : [" .. truncKamas() .. "m]", true)
 end
 
 function _handleExchange(message)

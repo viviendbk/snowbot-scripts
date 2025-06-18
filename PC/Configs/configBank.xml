@@ -1,6 +1,6 @@
 <?xml version="1.0" encoding="utf-8"?>
 <Configform xmlns:xsd="http://www.w3.org/2001/XMLSchema" xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance">
-  <Script>C:\Users\Administrator\Documents\snowbot-scripts\PC\Scripts\Utilitaires\bot_banque.lua</Script>
+  <Script>C:\Users\Vivien\Documents\Snowbot-Scripts-3\PC\Scripts\Utilitaires\bot_banque.lua</Script>
   <SpellAuto>-1</SpellAuto>
   <CaractAuto>0</CaractAuto>
   <Placement>1</Placement>

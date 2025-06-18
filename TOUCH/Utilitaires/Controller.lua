@@ -716,13 +716,13 @@ function move()
         end
 
         if not acc:hasScript() and acc.character:level() < 10 and acc:isAccountFullyConnected() and not acc:isItATeam() then
-            acc:loadConfig("C:\\Users\\Administrator\\Downloads\\Script_Bot_Dofus\\TOUCH\\PL&Zaaps\\[Touch] Astrub\\main.xml") -- mettre la config pour la quete
-            acc:loadScript("C:\\Users\\Administrator\\Downloads\\Script_Bot_Dofus\\TOUCH\\PL&Zaaps\\[Touch] Astrub\\main.lua") -- mettre le script quete
+            acc:loadConfig("C:\\Users\\Administrator\\Downloads\\Script_Bot_Dofus\\TOUCH\\PLAndZaaps\\[Touch] Astrub\\main.xml") -- mettre la config pour la quete
+            acc:loadScript("C:\\Users\\Administrator\\Downloads\\Script_Bot_Dofus\\TOUCH\\PLAndZaaps\\[Touch] Astrub\\main.lua") -- mettre le script quete
             acc:disconnect()
             acc:connect()
         end
         if not acc:hasScript() and not acc:isItATeam() and acc:isAccountFullyConnected() and acc:getAlias():find("Chasseur") then
-            acc:loadScript("C:\\Users\\Administrator\\Downloads\\Script_Bot_Dofus\\TOUCH\\PL&Zaaps\\PL_Chasseur_Team.lua")
+            acc:loadScript("C:\\Users\\Administrator\\Downloads\\Script_Bot_Dofus\\TOUCH\\PLAndZaaps\\PL_Chasseur_Team.lua")
             acc:startScript()
         end
         if condition(acc) then

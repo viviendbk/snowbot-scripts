@@ -118,7 +118,7 @@ local function launchExchangeAndTakeStuff()
         inventory:equipItem(item.Id, item.Position)
     end
     
-    global:loadAndStart("C:\\Users\\Administrator\\Downloads\\Script_Bot_Dofus\\TOUCH\\PL&Zaaps\\PL_24-43.lua")
+    global:loadAndStart("C:\\Users\\Administrator\\Downloads\\Script_Bot_Dofus\\TOUCH\\PLAndZaaps\\PL_24-43.lua")
 end
 
 local GoToBankAstrub = {
@@ -313,7 +313,7 @@ function move()
         end
     end
     if global:thisAccountController():getAlias():find("bank") or hasPanneau then
-        global:loadAndStart("C:\\Users\\Administrator\\Downloads\\Script_Bot_Dofus\\TOUCH\\PL&Zaaps\\PL_24-43.lua")
+        global:loadAndStart("C:\\Users\\Administrator\\Downloads\\Script_Bot_Dofus\\TOUCH\\PLAndZaaps\\PL_24-43.lua")
     end
     if not map:onMap("5,7") and not map:onMap("10,22") and map:currentSubArea() ~= "Cité d'Astrub" then
         PopoRappel()

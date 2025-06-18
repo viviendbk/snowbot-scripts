@@ -1,4 +1,4 @@
-dofile("C:\\Users\\Administrator\\Documents\\snowbot-scripts\\PC\\Lib\\IMPORT_LIBRARIES.lua")
+dofile("C:\\Users\\Vivien\\Documents\\Snowbot-Scripts-3\\PC\\Lib\\IMPORT_LIBRARIES.lua")
 
 
 MARTOA = false
@@ -149,11 +149,11 @@ local function pandala_10()
 	global:delay(2000)
     global:deleteAllMemory()
     if global:thisAccountController():getAlias():find("Bucheron") then
-        global:loadAndStart("C:\\Users\\Administrator\\Documents\\snowbot-scripts\\PC\\Scripts\\PL&Zaaps\\zaap_otomai.lua")
+        global:loadAndStart("C:\\Users\\Vivien\\Documents\\Snowbot-Scripts-3\\PC\\Scripts\\PLAndZaaps\\zaap_otomai.lua")
     elseif global:thisAccountController():getAlias():find("Mineur") then
-        global:loadAndStart("C:\\Users\\Administrator\\Documents\\snowbot-scripts\\PC\\Scripts\\Recolte\\Mineur_1-150_ULTIME.lua")
+        global:loadAndStart("C:\\Users\\Vivien\\Documents\\Snowbot-Scripts-3\\PC\\Scripts\\Recolte\\Mineur_1-150_ULTIME.lua")
     elseif global:thisAccountController():getAlias():find("Groupe") then
-        global:loadAndStart("C:\\Users\\Administrator\\Documents\\snowbot-scripts\\PC\\Scripts\\PL&Zaaps\\zaapArbreHakam.lua")
+        global:loadAndStart("C:\\Users\\Vivien\\Documents\\Snowbot-Scripts-3\\PC\\Scripts\\PLAndZaaps\\zaapArbreHakam.lua")
     else
         global:disconnect()
     end
@@ -223,11 +223,11 @@ function move()
         map:moveToCell(409)
     end
     if job:level(24) >= 6 then
-        global:loadAndStart("C:\\Users\\Administrator\\Documents\\snowbot-scripts\\PC\\Scripts\\Recolte\\Mineur_1-150_ULTIME.lua")
+        global:loadAndStart("C:\\Users\\Vivien\\Documents\\Snowbot-Scripts-3\\PC\\Scripts\\Recolte\\Mineur_1-150_ULTIME.lua")
     elseif job:level(2) >= 6 then
-        global:loadAndStart("C:\\Users\\Administrator\\Documents\\snowbot-scripts\\PC\\Scripts\\Recolte\\Bucheron_1_200.lua")
+        global:loadAndStart("C:\\Users\\Vivien\\Documents\\Snowbot-Scripts-3\\PC\\Scripts\\Recolte\\Bucheron_1_200.lua")
     elseif global:thisAccountController():isItATeam() and global:isBoss() then
-        global:loadAndStart("C:\\Users\\Administrator\\Documents\\snowbot-scripts\\PC\\Scripts\\PL&Zaaps\\zaapArbreHakam.lua")
+        global:loadAndStart("C:\\Users\\Vivien\\Documents\\Snowbot-Scripts-3\\PC\\Scripts\\PLAndZaaps\\zaapArbreHakam.lua")
     end
 
     if not getCurrentAreaName():find("Astrub") and not getCurrentAreaName():find("Pandala") then

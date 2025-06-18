@@ -1,4 +1,4 @@
-dofile("C:\\Users\\Administrator\\Documents\\snowbot-scripts\\PC\\Lib\\IMPORT_LIBRARIES.lua")
+dofile("C:\\Users\\Vivien\\Documents\\Snowbot-Scripts-3\\PC\\Lib\\IMPORT_LIBRARIES.lua")
 
 
 local CraftCordonier = {}
@@ -1307,7 +1307,7 @@ function move()
     end
 
     if #TableItemToFM == 0 then
-        global:loadAndStart("C:\\Users\\Administrator\\Documents\\snowbot-scripts\\PC\\Scripts\\Craft\\Craft-FM-Resell.lua")
+        global:loadAndStart("C:\\Users\\Vivien\\Documents\\Snowbot-Scripts-3\\PC\\Scripts\\Craft\\Craft-FM-Resell.lua")
     end
     global:restartScript(true)
 
@@ -1341,7 +1341,7 @@ function move()
         --global:printSuccess("Total mis en vente : " ..)
         local random = math.random(1, 4)
         if random ~= 1 and character:kamas() > 10000000 then
-            global:loadAndStart("C:\\Users\\Administrator\\Documents\\snowbot-scripts\\PC\\Scripts\\Craft\\Craft-Brisage.lua")
+            global:loadAndStart("C:\\Users\\Vivien\\Documents\\Snowbot-Scripts-3\\PC\\Scripts\\Craft\\Craft-Brisage.lua")
         else
             if job:level(62) < 150 then
                 global:restartScript(true)

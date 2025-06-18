@@ -1,15 +1,14 @@
 ---@diagnostic disable: undefined-global, lowercase-global
-dofile("C:\\Users\\Administrator\\Documents\\snowbot-scripts\\PC\\Lib\\IMPORT_LIBRARIES.lua")
+dofile("C:\\Users\\Vivien\\Documents\\Snowbot-Scripts-3\\PC\\Lib\\IMPORT_LIBRARIES.lua")
 
 
-AUTO_DELETE = {16821, 2467, 881, 2574, 2453, 393, 16824, 8680, 13487, 13494, 641, 374, 306, 2663, 2659, 2661, 2662, 16832,16828, 1681, 8537, 8536, 8534, 8533, 8532, 1356, 2587, 16440, 16489, 8538, 312, 303, 421, 289, 16525, 16524, 310, 16834, 2477, 8245, 8248, 10967, 311, 16512, 367, 16515, 1984, 2475, 16518, 16504, 2473, 16522, 16522, 16513, 519, 16503, 2478, 16523, 290, 16511, 385, 16505, 2476, 17168, 16670, 6929, 6928, 6927, 6926, 8221, 8241, 8236, 8217, 8229,  8223, 8247, 16830, 16825,16831, 8219, 19679, 13526, 9679, 351, 8145, 6857, 8246 ,450, 16829 ,643 ,7423,394 , 6909 ,6908 ,6910 ,16823,287, 8213, 8214, 8215, 8216, 8218, 8220, 8222, 8224, 8225, 8226, 8227, 8228, 8230, 8231, 8232, 8233, 8234, 8235, 8237, 8238, 8239, 8240, 8242, 8243, 8244}
+AUTO_DELETE = {31518, 16821, 2467, 881, 2574, 2453, 393, 16824, 8680, 13487, 13494, 641, 374, 306, 2663, 2659, 2661, 2662, 16832,16828, 1681, 8537, 8536, 8534, 8533, 8532, 1356, 2587, 16440, 16489, 8538, 312, 303, 421, 289, 16525, 16524, 310, 16834, 2477, 8245, 8248, 10967, 311, 16512, 367, 16515, 1984, 2475, 16518, 16504, 2473, 16522, 16522, 16513, 519, 16503, 2478, 16523, 290, 16511, 385, 16505, 2476, 17168, 16670, 6929, 6928, 6927, 6926, 8221, 8241, 8236, 8217, 8229,  8223, 8247, 16830, 16825,16831, 8219, 19679, 13526, 9679, 351, 8145, 6857, 8246 ,450, 16829 ,643 ,7423,394 , 6909 ,6908 ,6910 ,16823,287, 8213, 8214, 8215, 8216, 8218, 8220, 8222, 8224, 8225, 8226, 8227, 8228, 8230, 8231, 8232, 8233, 8234, 8235, 8237, 8238, 8239, 8240, 8242, 8243, 8244}
 GATHER = {}
 
 
-if server == "Tal" then
-	server = "Tal Kasha"
-elseif server == "Hell" then
-	server = "Hell Mina"
+local botType = global:thisAccountController():getAlias():split(" ")[1]
+if not global:remember("lvlFinish") then
+	global:addInMemory("lvlFinish", math.random(60, 63))
 end
 
 local pathDebug = {
@@ -460,6 +459,30 @@ function goToAstrub()
 	npc:reply(-1)
 end
 
+local getOutSouterrain = {
+	{map = "153093378", path = "right"},
+	{map = "190843392", path = "top"},
+	{ map = "153092354", door = 409},
+  { map = "152045573", path = "right", gather = false, fight = false }, -- 152045573
+  { map = "152043521", path = "right", gather = false, fight = false }, -- 152045573
+  { map = "152046597", path = "right", gather = false, fight = false }, -- 152045573
+    { map = "192416776", path = "left"}, -- 192416776
+  {map = "192415750", path = "409"},
+  {map = "154011397", path = "top"},
+  	{map = "101716487", path = "266"},
+
+		{map = "101715461", door = "175"},
+	{map = "101715463", path = "121"},
+	{map = "192415750", path = "409"},
+	{map = "188484100", door = "155"},
+	{map = "188483076", door = "476"},
+	{map = "188482052", door = "532"},
+	{map = "101713409", door = "160"},
+	{map = "101713411", path = "138"},
+	{map = "101712387", path = "474"}
+
+}
+
 local Piou = {
 	{map = "153093378", path = "right"},
 	{map = "190843392", path = "top"},
@@ -539,6 +562,8 @@ local Piou = {
 	{map = "7,-15", path = "left", fight = true},
 	{map = "7,-17", path = "top", fight = true},
 	{map = "6,-15", path = "left", fight = true},
+	{map = "101716487", path = "266"},
+
 }
 
 local tableEquip = {
@@ -551,66 +576,6 @@ local tableEquip = {
 	{Type = "anneauDroit", Id = 8221, Emplacement = 4, Equipe = false},  -- anneau du piou violet
 }
 
-local tableauArmes = {
-	{Name = "Dagues Tylo", Id = 1374, Price = 50000},
-	{Name = "Agride", Id = 782, Price = 50000},
-	{Name = "Elagueuse d'Oliviolet", Id = 2593, Price = 50000},
-	{Name = "Pelle Teuze", Id = 484, Price = 50000},
-}
-
-
-local TableArea = {
-    {Zone = {Piou}, MaxMonster = 8, MinMonster = 3, ListeVenteId = {6900, 6902, 6899, 6897, 6898, 6903}, Farmer = false, PourcentageHdv = 0, Stop = false},
-}
-
-local TABLE_VENTE_PL = {
-	{Name = "Plume de Piou Rouge", Id = 6900, CanSell = false, MaxHdv100 = 2, MaxHdv10 = 2},
-	{Name = "Plume de Piou Jaune", Id = 6902, CanSell = false, MaxHdv100 = 2, MaxHdv10 = 2},
-	{Name = "Plume de Piou Vert", Id = 6899, CanSell = false, MaxHdv100 = 2, MaxHdv10 = 2},
-	{Name = "Plume de Piou Bleu", Id = 6897, CanSell = false, MaxHdv100 = 2, MaxHdv10 = 2},
-	{Name = "Plume de Piou Violet", Id = 6898, CanSell = false, MaxHdv100 = 2, MaxHdv10 = 2},
-	{Name = "Plume de Piou Rose", Id = 6903, CanSell = false, MaxHdv100 = 2, MaxHdv10 = 2},
-
-	{Name = "Œil d'Arakmuté", Id = 2491, CanSell = false, MaxHdv100 = 2, MaxHdv10 = 2},
-	{Name = "Poils d'Arakne Malade", Id = 388, CanSell = false, MaxHdv100 = 2, MaxHdv10 = 2},
-	{Name = "Intestin d'Araknosé", Id = 373, CanSell = false, MaxHdv100 = 2, MaxHdv10 = 2},
-	{Name = "Bec du Tofu", Id = 366, CanSell = false, MaxHdv100 = 2, MaxHdv10 = 2},
-
-	{Name = "Conque Marine", Id = 13726, CanSell = false, MaxHdv100 = 2, MaxHdv10 = 2},
-	{Name = "Crème à bronzer", Id = 13727, CanSell = false, MaxHdv100 = 2, MaxHdv10 = 2},
-
-
-	{Name = "Peau de Larve Bleue", Id = 362, CanSell = false, MaxHdv100 = 3, MaxHdv10 = 3},
-	{Name = "Peau de Larve Orange", Id = 363, CanSell = false, MaxHdv100 = 3, MaxHdv10 = 3},
-	{Name = "Peau de Larve Verte", Id = 364, CanSell = false, MaxHdv100 = 3, MaxHdv10 = 3},
-	{Name = "Peau de Larve Jaune", Id = 2563, CanSell = false, MaxHdv100 = 3, MaxHdv10 = 3},
-
-	{Name = "Crocs de Rats", Id = 2322, CanSell = false, MaxHdv100 = 3, MaxHdv10 = 3},
-	{Name = "Cuir de Scélérat Strubien", Id = 304, CanSell = false, MaxHdv100 = 3, MaxHdv10 = 3},
-
-	{Name = "Noisette", Id = 394, CanSell = false, MaxHdv100 = 2, MaxHdv10 = 2},
-	{Name = "Étoffe d'Écurouille", Id = 653, CanSell = false, MaxHdv100 = 2, MaxHdv10 = 2},
-	{Name = "Poils du Milimulou", Id = 1690, CanSell = false, MaxHdv100 = 2, MaxHdv10 = 2},
-	{Name = "Scalp de Milimulou", Id = 2576, CanSell = false, MaxHdv100 = 2, MaxHdv10 = 2},
-	{Name = "Pic du Prespic", Id = 407, CanSell = false, MaxHdv100 = 2, MaxHdv10 = 2},
-	{Name = "Queue de Prespic", Id = 2573, CanSell = false, MaxHdv100 = 2, MaxHdv10 = 2},
-	{Name = "Poils Darits", Id = 1672, CanSell = false, MaxHdv100 = 1, MaxHdv10 = 2},
-	{Name = "Groin de Sanglier", Id = 386, CanSell = false, MaxHdv100 = 2, MaxHdv10 = 2},
-	{Name = "Défense du Sanglier", Id = 387, CanSell = false, MaxHdv100 = 2, MaxHdv10 = 2},
-	{Name = "Étoffe du Sanglier", Id = 652, CanSell = false, MaxHdv100 = 2, MaxHdv10 = 2},
-
-	{Name = "Viande Intangible", Id = 16663, CanSell = false, MaxHdv100 = 5, MaxHdv10 = 3},
-	{Name = "Viande Hachée", Id = 17123, CanSell = false, MaxHdv100 = 5, MaxHdv10 = 3},
-	{Name = "Viande faisandée", Id = 17124, CanSell = false, MaxHdv100 = 5, MaxHdv10 = 3},
-	{Name = "Viande Frelatée", Id = 17126, CanSell = false, MaxHdv100 = 5, MaxHdv10 = 3},
-
-	{Name = "Eklame Inférieur", Id = 31518, CanSell = false, MaxHdv100 = 2, MaxHdv10 = 2},
-
-	{Name = "Petale de rose demoniaque", Id = 309, CanSell = false, MaxHdv100 = 2, MaxHdv10 = 2},
-	{Name = "Oeuf de larve dorée", Id = 7423, CanSell = false, MaxHdv100 = 2, MaxHdv10 = 2},
-	{Name = "Fil de soie", Id = 643, CanSell = false, MaxHdv100 = 2, MaxHdv10 = 2},
-
-}
 
 local function equip()
 	EquipementFini = true
@@ -673,6 +638,7 @@ local function Selling()
 	HdvSell()
 
     if LastSell then
+		global:printSuccess("on actualise tout")
 		sale:updateAllItems()
 	end
 	-- check de l'hdv pour voir si le maximum de cette ressource a été atteinte
@@ -706,6 +672,7 @@ local function ProcessBank()
 			exchange:putItem(element.Id, inventory:itemCount(element.Id))
 		end
 	end
+
 	if not hdvFull then
         local cpt = 0
         for _, element in ipairs(TABLE_VENTE_PL) do
@@ -720,10 +687,6 @@ local function ProcessBank()
 		NeedToSell = (cpt > 5) or (inventory:podsP() > 50)
 	end
 
-	if character:level() >= global:remember("lvlWait11H") and not global:thisAccountController():getAlias():find("FAIT") and not global:thisAccountController():getAlias():find("bank") and not global:thisAccountController():getAlias():find("Requests") and character:level() < 50 then
-		global:editAlias(botType .. " " .. server .. " [FAIT]", true)
-		-- customReconnect(math.random(12 * 60, 14 * 60))
-	end
 
 	hdvFull = false
 
@@ -761,9 +724,9 @@ local function GoTo(mapToward, action)
 end
 
 
-local function isBotBankConnected()
+local function isBotBankLoaded()
 	for _, acc in ipairs(snowbotController:getLoadedAccounts()) do
-		if acc:getAlias():find("bank") and acc:getAlias():find(character:server()) then
+		if acc:getAlias():find("bank") and acc:getAlias():find(character:server():lower()) then
 			return true
 		end
 	end
@@ -774,15 +737,15 @@ function stop()
 
 	if global:thisAccountController():getAlias():find("Requests") and character:level() >= 35 then
 		if getRemainingSubscription(true) <= 0 then
-			global:editAlias(global:thisAccountController():getAlias() .. " [NEED ABONNEMENT]", true)
+			global:editAlias(global:thisAccountController():getAlias() .. " [NEED ABO]", true)
 		else
-			global:loadAndStart("C:\\Users\\Administrator\\Documents\\snowbot-scripts\\PC\\Scripts\\PL&Zaaps\\Zaaps&Stuffs.lua")
+			global:loadAndStart("C:\\Users\\Vivien\\Documents\\Snowbot-Scripts-3\\PC\\Scripts\\PLAndZaaps\\Zaaps&Stuffs.lua")
 		end
 	end
 
 	_ExchangeMoneyMovementInformationMessage = developer:historicalMessage("ExchangeMoneyMovementInformationMessage")
 
-	if not isBotBankConnected() then
+	if not isBotBankLoaded() then
 		global:printMessage("il n'y a pas de bot bank chargé, on continue de farm")
 		global:editInMemory("lvlFinish", global:remember("lvlFinish") + 1)
 		map:moveToCell(409)
@@ -800,7 +763,7 @@ function stop()
 		end
 	end
 
-	if not phrase:find("LvlUp") then
+	if not global:thisAccountController():getAlias():find("LvlUp") then
 		restat()
 		upgradeCharacteristics(character:level() * 5 - 105, 0, 0, 100)
 	end
@@ -822,37 +785,35 @@ function stop()
 		-- 	end
 		-- end
 	elseif global:thisAccountController():getAlias():find("LvlUp2") then
-		for _, acc in ipairs(snowbotController:getLoadedAccounts()) do
-			if acc:getAlias():find("LvlUp2") and acc:getAlias():find(character:server()) and (acc:getUsername() ~= global:thisAccountController():getUsername()) and ((acc:isAccountConnected() or acc:getAlias():find("MODO")) 
-				or (not acc:isAccountConnected() and global:getCurrentScriptDirectory():find("199") and not acc:getAlias():find("199"))
-				or (not acc:isAccountConnected() and global:getCurrentScriptDirectory():find("200") and not acc:getAlias():find("200"))) then
+		-- for _, acc in ipairs(snowbotController:getLoadedAccounts()) do
+			-- if acc:getAlias():find("LvlUp2") and acc:getAlias():find(character:server()) and (acc:getUsername() ~= global:thisAccountController():getUsername()) and ((acc:isAccountConnected() or acc:getAlias():find("MODO")) 
+			-- 	or (not acc:isAccountConnected() and global:getCurrentScriptDirectory():find("199") and not acc:getAlias():find("199"))
+			-- 	or (not acc:isAccountConnected() and global:getCurrentScriptDirectory():find("200") and not acc:getAlias():find("200"))) then
 
-				global:printSuccess("l'autre LvlUp2 n'est pas encore prêt, on attend 2h")
-				customReconnect(120)
-			end
-			if acc:getAlias():find("LvlUp " .. character:server()) and acc.character():level() < 100 then
-				-- global:printSuccess("l'autre LvlUp n'est pas encore lvl 100, on attend 2h")
-				-- customReconnect(120)
-			end
-		end
+			-- 	global:printSuccess("l'autre LvlUp2 n'est pas encore prêt, on attend 2h")
+			-- 	customReconnect(120)
+			-- end
+			-- if acc:getAlias():find("LvlUp " .. character:server()) and acc.character():level() < 100 then
+			-- 	-- global:printSuccess("l'autre LvlUp n'est pas encore lvl 100, on attend 2h")
+			-- 	-- customReconnect(120)
+			-- end
+		-- end
 	elseif global:thisAccountController():getAlias():find("LvlUp ") then
-		for _, acc in ipairs(snowbotController:getLoadedAccounts()) do
-			if acc:getAlias():find("LvlUp ") and acc:getAlias():find(character:server()) and (acc:getUsername() ~= global:thisAccountController():getUsername()) and ((acc:isAccountConnected() or acc:getAlias():find("MODO")) 
-				or (not acc:isAccountConnected() and global:getCurrentScriptDirectory():find("199") and not acc:getAlias():find("199"))
-				or (not acc:isAccountConnected() and global:getCurrentScriptDirectory():find("200") and not acc:getAlias():find("200"))) then
+		-- for _, acc in ipairs(snowbotController:getLoadedAccounts()) do
+		-- 	if acc:getAlias():find("LvlUp ") and acc:getAlias():find(character:server()) and (acc:getUsername() ~= global:thisAccountController():getUsername()) and ((acc:isAccountConnected() or acc:getAlias():find("MODO")) 
+		-- 		or (not acc:isAccountConnected() and global:getCurrentScriptDirectory():find("199") and not acc:getAlias():find("199"))
+		-- 		or (not acc:isAccountConnected() and global:getCurrentScriptDirectory():find("200") and not acc:getAlias():find("200"))) then
 
-				global:printSuccess("l'autre LvlUp n'est pas encore prêt, on attend 2h")
-				customReconnect(120)
-			end
-		end
+		-- 		global:printSuccess("l'autre LvlUp n'est pas encore prêt, on attend 2h")
+		-- 		customReconnect(120)
+		-- 	end
+		-- end
 	end
 	global:printSuccess("4")
 
 	if global:thisAccountController():getAlias():find("Mineur") or global:thisAccountController():getAlias():find("Bucheron") then
-		global:loadConfigurationWithoutScript("C:\\Users\\Administrator\\Documents\\snowbot-scripts\\PC\\Configs\\ConfigRecolte.xml")
+		global:loadConfigurationWithoutScript("C:\\Users\\Vivien\\Documents\\Snowbot-Scripts-3\\PC\\Configs\\ConfigRecolte.xml")
 	end
-
-	global:editAlias(botType .. " " .. server .. " [PRÊT]", true)
 	
 	for _, element in ipairs(TABLE_VENTE_PL) do
 		inventory:deleteItem(element.Id,inventory:itemCount(element.Id))
@@ -862,15 +823,15 @@ function stop()
 	global:delay(500)
 	settOrnament(34)
 	global:delay(500)
-	if phrase:find("bank") then
-		global:editAlias(botType .. " " .. server, true)
+	if global:thisAccountController():getAlias():find("bank") then
+		global:editAlias(botType .. " " .. character:server(), true)
 		global:disconnect()
 	end
 	global:deleteAllMemory()
 	if global:thisAccountController():getAlias():find("Craft") then
 		global:disconnect()
 	end
-	global:loadAndStart("C:\\Users\\Administrator\\Documents\\snowbot-scripts\\PC\\Scripts\\Utilitaires\\take-kamas.lua")
+	global:loadAndStart("C:\\Users\\Vivien\\Documents\\Snowbot-Scripts-3\\PC\\Scripts\\Utilitaires\\take-kamas.lua")
 end
 
 local function treatMapsAstrub(maps)
@@ -895,17 +856,18 @@ end
 
 function move()
 	if job:level(24) > 5 or job:level(2) > 5 then
-		global:loadAndStart("C:\\Users\\Administrator\\Documents\\snowbot-scripts\\PC\\Scripts\\Utilitaires\\take-kamas.lua")
+		global:loadAndStart("C:\\Users\\Vivien\\Documents\\Snowbot-Scripts-3\\PC\\Scripts\\Utilitaires\\take-kamas.lua")
     end
 
 	handleDisconnection()
 	if character:level() == 1 and global:thisAccountController():getAlias():find("Requests") and not configLoaded then
 		configLoaded = true
-		global:loadConfigurationWithoutScript("C:\\Users\\Administrator\\Documents\\snowbot-scripts\\PC\\Configs\\Config_PL_1-6X.xml")
+		global:loadConfigurationWithoutScript("C:\\Users\\Vivien\\Documents\\Snowbot-Scripts-3\\PC\\Configs\\Config_PL_1-6X.xml")
 	end
 
-	forwardKamasBotBankIfNeeded(300000, 50000, 120, 4)
-
+	if global:remember("lvlFinish") > character:level() then
+		forwardKamasBotBankIfNeeded(300000, 50000, 120, 4)
+	end
 
 	mapDelay()
 	if debugPath then
@@ -926,134 +888,9 @@ function move()
             ProcessBank()
         end
     end
-	
-
-	if (string.lower(global:thisAccountController():getAlias()):find("draconiros") and (character:server() ~= "Draconiros")) and character:level() >= 20 then
-		return {
-			{map = "190843392", path = "top"},
-			{ map = "153092354", door = 409},
-		  { map = "152045573", path = "right", gather = false, fight = false }, -- 152045573
-		  { map = "152043521", path = "right", gather = false, fight = false }, -- 152045573
-		  { map = "152046597", path = "right", gather = false, fight = false }, -- 152045573
-		  { map = "-2,-3", path = "right" }, -- 154010883
-		  { map = "-2,-2", path = "top" }, -- 154010882
-		  { map = "-1,-2", path = "top"}, -- 154010370
-		  { map = "0,-2", path = "top"}, -- 153878786
-		  { map = "1,-2", path = "top"}, -- 153879298
-		  { map = "1,-3", path = "right" }, -- 153879299
-		  { map = "0,-3", path = "right"}, -- 153878787
-		  { map = "-1,-3", path = "right"}, -- 154010371
-		  { map = "-1,-4", path = "bottom"}, -- 154010372
-		  { map = "0,-4", path = "bottom" }, -- 153878788
-		  { map = "0,-5", path = "bottom"}, -- 153878789
-		  { map = "-1,-5", path = "right" }, -- 154010373
-		  { map = "-2,-5", path = "right"}, -- 154010885
-		  { map = "-2,-4", path = "bottom"}, -- 154010884
-		  { map = "2,-3", path = "right"}, -- 153879811
-		  { map = "3,-3", path = "right"}, -- 153880323
-		  { map = "4,-3", custom = goToAstrub}, -- 153880323
-		  {map = "3,-21", path = "bottom"},
-		  {map = "3,-30", path = "bottom"},
-		  {map = "3,-20", path = "left"},
-		  {map = "4,-30", path = "bottom"},
-		  {map = "5,-30", path = "bottom"},
-		  {map = "6,-30", path = "bottom"},
-		  {map = "6,-29", path = "bottom"},
-		  {map = "5,-29", path = "bottom"},
-		  {map = "3,-29", path = "bottom"},
-		  {map = "3,-28", path = "bottom"},
-		  {map = "4,-28", path = "bottom"},
-		  {map = "4,-29", path = "bottom"},
-		  {map = "5,-28", path = "bottom"},
-		  {map = "6,-28", path = "bottom"},
-		  {map = "7,-28", path = "bottom"},
-		  {map = "7,-27", path = "bottom"},
-		  {map = "6,-27", path = "bottom"},
-		  {map = "5,-27", path = "bottom"},
-		  {map = "4,-27", path = "bottom"},
-		  {map = "3,-27", path = "bottom"},
-		  {map = "3,-26", path = "bottom"},
-		  {map = "4,-26", path = "bottom"},
-		  {map = "5,-26", path = "bottom"},
-		  {map = "6,-26", path = "bottom"},
-		  {map = "7,-26", path = "bottom"},
-		  {map = "7,-25", path = "bottom"},
-		  {map = "6,-25", path = "bottom"},
-		  {map = "5,-25", path = "bottom"},
-		  {map = "4,-25", path = "bottom"},
-		  {map = "3,-25", path = "bottom"},
-		  {map = "3,-24", path = "bottom"},
-		  {map = "4,-24", path = "bottom"},
-		  {map = "5,-24", path = "bottom"},
-		  {map = "6,-24", path = "bottom"},
-		  {map = "7,-24", path = "bottom"},
-		  {map = "4,-23", path = "bottom"},
-		  {map = "4,-22", path = "bottom"},
-		  {map = "7,-23", path = "left"},
-		  {map = "7,-22", path = "left"},
-		  {map = "6,-22", path = "left"},
-		  {map = "6,-23", path = "left"},
-		  {map = "5,-23", path = "left"},
-		  {map = "5,-22", path = "left"},
-		  {map = "3,-22", path = "right"},
-		  {map = "3,-23", path = "right"},
-		  {map = "8,-22", path = "left"},
-		  {map = "8,-23", path = "left"},
-		  {map = "8,-24", path = "left"},
-		  {map = "9,-24", path = "left"},
-		  {map = "9,-23", path = "left"},
-		  {map = "9,-22", path = "left"},
-		  {map = "2,-21", path = "right"},
-		  {map = "7,-15", path = "left"},
-		  {map = "7,-16", path = "left"},
-		  {map = "7,-18", path = "left"},
-		  {map = "6,-15", path = "left"},
-		  {map = "6,-16", path = "left"},
-		  {map = "6,-17", path = "left"},
-		  {map = "6,-18", path = "left"},
-		  {map = "6,-19", path = "left"},
-		  {map = "7,-20", path = "left"},
-		  {map = "7,-21", path = "left"},
-		  {map = "6,-20", path = "left"},
-		  {map = "6,-21", path = "left"},
-		  {map = "5,-21", path = "left"},
-		  {map = "5,-20", path = "left"},
-		  {map = "4,-21", path = "bottom"},
-		  {map = "5,-15", path = "top"},
-		  {map = "5,-16", path = "top"},
-		  {map = "5,-17", path = "top"},
-		  {map = "4,-20", path = "bottom"},
-		  {map = "4,-19", path = "bottom"},
-		  {map = "5,-18", path = "left"},
-		  {map = "3,-18", path = "right"},
-		  {map = "3,-19", path = "right"},
-		  {map = "3,-17", path = "right"},
-		  {map = "2,-18", path = "right"},
-		  {map = "1,-18", path = "right"},
-		  {map = "1,-19", path = "right"},
-		  {map = "1,-20", path = "right"},
-		  {map = "1,-17", path = "right"},
-		  {map = "1,-16", path = "right(405)"},
-		  {map = "1,-15", path = "right(195)"},
-		  {map = "2,-15", path = "top"},
-		  {map = "2,-16", path = "top"},
-		  {map = "2,-20", path = "bottom"},
-		  {map = "2,-19", path = "bottom"},
-		  {map = "2,-17", path = "top"},
-		  {map = "3,-16", path = "right"},
-		  {map = "3,-15", path = "right"},
-		  {map = "4,-15", path = "right"},
-		  {map = "4,-16", path = "right"},
-		  {map = "4,-17", path = "top"},
-		  {map = "5,-19", path = "left"},
-		  {map = "7,-17", path = "top"},
-		  {map = "7,-19", path = "top"},
-		  {map = "191104002", custom = function() global:deleteAllMemory() global:loadAndStart("C:\\Users\\Administrator\\Documents\\snowbot-scripts\\PC\\Scripts\\Utilitaires\\setup_hiaky\\scripts\\take-kamas-Draconiros.lua") end},
-		}
-	end
 
 	if not global:thisAccountController():getAlias():find("Request") and not global:thisAccountController():getAlias():find("bank") then
-		global:editAlias(botType .. " " .. server .. "  / lvl " .. character:level(), true)
+		global:editAlias(botType .. " " .. character:server() .. "  / lvl " .. character:level(), true)
 	end
 	
 
@@ -1067,6 +904,10 @@ function move()
 		if not LastSell then
 			if map:onMap("192415750") then
 				map:moveToCell(409)
+			end
+
+			if map:currentSubArea() == "Égouts d'Astrub" then
+				return getOutSouterrain
 			end
 
 			if not map:onMap("4,-17") then
@@ -1084,7 +925,6 @@ function move()
 		end
 	end
 
-		debug("ok")
 
 	-- craft couteau de chasse
 	if (inventory:itemCount(1934) == 0) and (inventory:itemCount(519) < 3) and character:level() < 50 then
@@ -1109,7 +949,6 @@ function move()
 		end
 	end
 	
-		debug("ok")
 
 
 	-- monter chasseur niveau 10
@@ -1129,8 +968,6 @@ function move()
 		end
 	end
 	
-		debug("ok")
-
 	-- monter chaseur niv 20
 	if (inventory:itemCount(17123) < 275) and (job:level(41) < 20) then
 		MAX_MONSTERS = (character:level() < 10) and 1 or (character:level() < 18) and 3 or (character:level() < 30) and 5 or 8
@@ -1153,11 +990,11 @@ function move()
 
 	-- if inventory:itemCount(12660) == 0 and not global:remember("BUG") and global:remember("ETAPE") ~= 55 then
 	-- 	inventory:deleteItem(287, inventory:itemCount(287))
-	-- 	global:loadAndStart("C:\\Users\\Administrator\\Documents\\snowbot-scripts\\PC\\PL&Zaaps\\Quetes_Incarnam.lua")
+	-- 	global:loadAndStart("C:\\Users\\Vivien\\Documents\\Snowbot-Scripts-3\\PC\\PLAndZaaps\\Quetes_Incarnam.lua")
 	-- end
 
 	--
-		debug("ok")
+
 
 	if character:level() >= 64 then
 		MAX_MONSTERS = 8
@@ -1269,7 +1106,7 @@ function stopped()
 end
 
 function banned()
-    global:editAlias(phrase .. " [BAN]", true)
+    global:editAlias(global:thisAccountController():getAlias() .. " [BAN]", true)
 end
 
 

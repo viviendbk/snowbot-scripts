@@ -12,7 +12,7 @@ function move()
     
     if character:level() == 43 then
         global:printSuccess("Niveau 43")
-        --global:loadAndStart("C:\\Users\\Administrator\\Downloads\\Script_Bot_Dofus\\TOUCH\\PL&Zaaps\\xxx.lua") -- script pas encore fait
+        --global:loadAndStart("C:\\Users\\Administrator\\Downloads\\Script_Bot_Dofus\\TOUCH\\PLAndZaaps\\xxx.lua") -- script pas encore fait
     end
 
 

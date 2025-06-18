@@ -1,7 +1,7 @@
 ---@diagnostic disable: undefined-global, lowercase-global
 
-dofile("C:\\Users\\Administrator\\Documents\\snowbot-scripts\\PC\\IA\\IA_SacriFeuRecolte.lua")
-dofile("C:\\Users\\Administrator\\Documents\\snowbot-scripts\\PC\\Lib\\IMPORT_LIBRARIES.lua")
+dofile("C:\\Users\\Vivien\\Documents\\Snowbot-Scripts-3\\PC\\IA\\IA_SacriFeuRecolte.lua")
+dofile("C:\\Users\\Vivien\\Documents\\Snowbot-Scripts-3\\PC\\Lib\\IMPORT_LIBRARIES.lua")
 
 OPEN_BAGS = true 
 GATHER_NEXT_DELAY_MIN = 0
@@ -27,7 +27,7 @@ for i = 1, NB_BUCHERON do
     end
 end
 
-local scriptPath = "C:\\Users\\Administrator\\Documents\\snowbot-scripts\\PC\\Scripts\\Recolte\\bucheron200.lua"
+local scriptPath = "C:\\Users\\Vivien\\Documents\\Snowbot-Scripts-3\\PC\\Scripts\\Recolte\\bucheron200.lua"
 
 --PLANNING = {3, 8, 13, 18, 23}
 

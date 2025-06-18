@@ -1,5 +1,5 @@
 ---@diagnostic disable: undefined-global, lowercase-global
-dofile("C:\\Users\\Administrator\\Documents\\snowbot-scripts\\PC\\Lib\\IMPORT_LIBRARIES.lua")
+dofile("C:\\Users\\Vivien\\Documents\\Snowbot-Scripts-3\\PC\\Lib\\IMPORT_LIBRARIES.lua")
 ---- Options ----
 MAX_MONSTERS = 8
 MIN_MONSTERS = 2
@@ -1103,8 +1103,8 @@ local function connectReceiver()
                         return acc
                     end
                 end
-				acc:loadConfig("C:\\Users\\Administrator\\Documents\\snowbot-scripts\\PC\\Configs\\configBank.xml")
-                acc:loadScript("C:\\Users\\Administrator\\Documents\\snowbot-scripts\\PC\\Scripts\\Utilitaires\\bot_banque.lua")
+				acc:loadConfig("C:\\Users\\Vivien\\Documents\\Snowbot-Scripts-3\\PC\\Configs\\configBank.xml")
+                acc:loadScript("C:\\Users\\Vivien\\Documents\\Snowbot-Scripts-3\\PC\\Scripts\\Utilitaires\\bot_banque.lua")
 				acc:startScript()
                 return acc
             else
@@ -1136,7 +1136,7 @@ local function takeKamas()
 	global:leaveDialog()
 	if character:kamas() < 1200000 then
 		global:printSuccess("Reco dans 2h")
-		global:loadAndStart("C:\\Users\\Administrator\\Documents\\snowbot-scripts\\PC\\Scripts\\Utilitaires\\take-kamas.lua")
+		global:loadAndStart("C:\\Users\\Vivien\\Documents\\Snowbot-Scripts-3\\PC\\Scripts\\Utilitaires\\take-kamas.lua")
 		customReconnect(math.random(80, 120))
 	end
 end
@@ -1172,11 +1172,11 @@ end
 local function GetProxy(lineToRead)
     local cpt = 0
     local i = 1
-    local f = io.open("C:\\Users\\Administrator\\Documents\\snowbot-scripts\\PC\\Assets\\proxy.txt", "r")
+    local f = io.open("C:\\Users\\Vivien\\Documents\\Snowbot-Scripts-3\\PC\\Assets\\proxy.txt", "r")
 
     local toReturn = {proxy = {}, port = {}, username = {}, password = {}}
 
-    for line in io.lines("C:\\Users\\Administrator\\Documents\\snowbot-scripts\\PC\\Assets\\proxy.txt") do
+    for line in io.lines("C:\\Users\\Vivien\\Documents\\Snowbot-Scripts-3\\PC\\Assets\\proxy.txt") do
         if i == lineToRead then
             tabline = line:split()
             for index, element in ipairs(tabline) do
@@ -1384,7 +1384,7 @@ local function launchExchangeAndGive()
 
 		local TriParServeur = {"", "", "", "", "", ""}
 
-		for line in io.lines("C:\\Users\\Administrator\\Documents\\snowbot-scripts\\PC\\Assets\\ComptesAVendre.txt") do
+		for line in io.lines("C:\\Users\\Vivien\\Documents\\Snowbot-Scripts-3\\PC\\Assets\\ComptesAVendre.txt") do
 			if line ~= "" then
 				local tabline = line:split(":")
 				if tabline[3]:find("Imagiro") then TriParServeur[1] = TriParServeur[1] .. line .. "\r"
@@ -1408,7 +1408,7 @@ local function launchExchangeAndGive()
 		--
 		-- Write it out
 		--
-		local f = io.open("C:\\Users\\Administrator\\Documents\\snowbot-scripts\\PC\\Assets\\ComptesAVendre.txt", "w")
+		local f = io.open("C:\\Users\\Vivien\\Documents\\Snowbot-Scripts-3\\PC\\Assets\\ComptesAVendre.txt", "w")
 		f:write(content)
 		f:close()
 
@@ -1785,7 +1785,7 @@ function move()
         debutDeScript = falses
         local ComptesPrets = {}
         local nbComptesPrets = 0
-        for line in io.lines("C:\\Users\\Administrator\\Documents\\snowbot-scripts\\PC\\Assets\\ComptesAVendre.txt") do
+        for line in io.lines("C:\\Users\\Vivien\\Documents\\Snowbot-Scripts-3\\PC\\Assets\\ComptesAVendre.txt") do
             if line ~= "" then
                 if line:find(character:server()) then 
                     local level = line:split(" ")[#line:split(" ")]

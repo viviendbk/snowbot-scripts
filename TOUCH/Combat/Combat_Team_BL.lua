@@ -1424,7 +1424,7 @@ end
 function move()
 
     if #global:thisAccountController():getTeamAccounts() == 1 then
-        global:loadAndStart("C:\\Users\\Administrator\\Downloads\\Script_Bot_Dofus\\TOUCH\\PL&Zaaps\\PL_Team.lua")
+        global:loadAndStart("C:\\Users\\Administrator\\Downloads\\Script_Bot_Dofus\\TOUCH\\PLAndZaaps\\PL_Team.lua")
     end
 
     if not global:thisAccountController():isItATeam() and character:kamas() < (character:level() < 85 and 400000 or 650000) then

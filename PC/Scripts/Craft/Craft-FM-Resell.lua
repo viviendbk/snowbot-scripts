@@ -1,4 +1,4 @@
-dofile("C:\\Users\\Administrator\\Documents\\snowbot-scripts\\PC\\Lib\\IMPORT_LIBRARIES.lua")
+dofile("C:\\Users\\Vivien\\Documents\\Snowbot-Scripts-3\\PC\\Lib\\IMPORT_LIBRARIES.lua")
 
 
 local TableItem = {}
@@ -977,7 +977,7 @@ function move()
                 global:printError("l'hdv est plein, on retente dans X heures")
                 local random = math.random(1, 3)
                 if random ~= 1 and character:kamas() > 10000000 then
-                    global:loadAndStart("C:\\Users\\Administrator\\Documents\\snowbot-scripts\\PC\\Scripts\\Craft\\Craft-Brisage.lua")
+                    global:loadAndStart("C:\\Users\\Vivien\\Documents\\Snowbot-Scripts-3\\PC\\Scripts\\Craft\\Craft-Brisage.lua")
                 elseif random == 2 then
                     customReconnect(math.random(100, 150))
                 else
@@ -1068,7 +1068,7 @@ function move()
             local json = openFile(global:getCurrentScriptDirectory() .. "\\" .. character:server() .. "\\FM.json")
             global:printSuccess("2")
 
-            local blackListJson = openFile("C:\\Users\\Administrator\\Documents\\snowbot-scripts\\PC\\Scripts\\Craft\\BlackListFM.json")
+            local blackListJson = openFile("C:\\Users\\Vivien\\Documents\\Snowbot-Scripts-3\\PC\\Scripts\\Craft\\BlackListFM.json")
 
             local function IsBlackList(Id)
                 for _, element in ipairs(blackListJson) do
@@ -1187,7 +1187,7 @@ function move()
                 global:printError("On a trouvé aucune item, on change de script ou reco dans quelques temps")
                 local random = math.random(1, 4)
                 if random ~= 1 and character:kamas() > 5000000 then
-                    global:loadAndStart("C:\\Users\\Administrator\\Documents\\snowbot-scripts\\PC\\Scripts\\Craft\\Craft-Brisage.lua")
+                    global:loadAndStart("C:\\Users\\Vivien\\Documents\\Snowbot-Scripts-3\\PC\\Scripts\\Craft\\Craft-Brisage.lua")
                 else
                     local random2 = math.random(1, 2)
                     if random2 == 1 and job:level(64) > 190 and job:level(63) > 190 and job:level(62) > 190 and job:level(48) > 190 and job:level(44) > 190 then
@@ -1251,7 +1251,7 @@ function move()
                 global:printError("On a trouvé aucune item, on change de script ou reco dans quelques temps")
                 local random = math.random(1, 4)
                 if random ~= 1 and character:kamas() > 10000000 then
-                    global:loadAndStart("C:\\Users\\Administrator\\Documents\\snowbot-scripts\\PC\\Scripts\\Craft\\Craft-Brisage.lua")
+                    global:loadAndStart("C:\\Users\\Vivien\\Documents\\Snowbot-Scripts-3\\PC\\Scripts\\Craft\\Craft-Brisage.lua")
                 else
                     customReconnect(math.random(100, 150))
                 end
@@ -2094,7 +2094,7 @@ function move()
         --global:printSuccess("Total mis en vente : " ..)
         local random = math.random(1, 4)
         if random == 1 and character:kamas() > 10000000 then
-            global:loadAndStart("C:\\Users\\Administrator\\Documents\\snowbot-scripts\\PC\\Scripts\\Craft\\Craft-Brisage.lua")
+            global:loadAndStart("C:\\Users\\Vivien\\Documents\\Snowbot-Scripts-3\\PC\\Scripts\\Craft\\Craft-Brisage.lua")
         else
             global:printSuccess("On retourne crafter")
             for _, item in ipairs(TableItem) do

@@ -1,17 +1,17 @@
 
 --- <init>
 
-PATH =  "C:\\Users\\Administrator\\Documents\\snowbot-scripts\\PC\\Scripts\\Utilitaires\\setup_hiaky\\"
+PATH =  "C:\\Users\\Vivien\\Documents\\Snowbot-Scripts-3\\PC\\Scripts\\Utilitaires\\setup_hiaky\\"
 scriptName = "take-kamas.lua"
 dofile(PATH .. "template.lua")
 
-dofile("C:\\Users\\Administrator\\Documents\\snowbot-scripts\\PC\\Lib\\IMPORT_LIBRARIES.lua")
+dofile("C:\\Users\\Vivien\\Documents\\Snowbot-Scripts-3\\PC\\Lib\\IMPORT_LIBRARIES.lua")
 
 
 local insert = table.insert
 
-configPath = "C:\\Users\\Administrator\\Documents\\snowbot-scripts\\PC\\Configs\\configBank.xml"
-scriptPath = "C:\\Users\\Administrator\\Documents\\snowbot-scripts\\PC\\Scripts\\Utilitaires\\setup_hiaky\\scripts\\give-kamas.lua"
+configPath = "C:\\Users\\Vivien\\Documents\\Snowbot-Scripts-3\\PC\\Configs\\configBank.xml"
+scriptPath = "C:\\Users\\Vivien\\Documents\\Snowbot-Scripts-3\\PC\\Scripts\\Utilitaires\\give-kamas.lua"
 
 function messagesRegistering()
 	developer:registerMessage("HaapiShopApiKeyMessage", _HaapiShopApiKeyMessage)
@@ -85,7 +85,7 @@ function move()
             Abonnement(true)
 
             local id = giver.character():id()
-			giver:loadConfig("C:\\Users\\Administrator\\Documents\\snowbot-scripts\\PC\\Configs\\configBank.xml")
+			giver:loadConfig("C:\\Users\\Vivien\\Documents\\Snowbot-Scripts-3\\PC\\Configs\\configBank.xml")
             giver:startScript()
 
             global:printSuccess("Lancement de l'échange avec le bot d'ID " .. id)
@@ -103,7 +103,7 @@ function move()
             global:thisAccountController():forceDelete(character:name())
             if not global:thisAccountController():getAlias():find("Groupe") then
                 snowbotController:createCharacter(global:thisAccountController():getUsername(), "Draconiros", 11, false, 0, {"#f2c07d", "#000000", "#000000", "#ffffff", "#400000"})
-                global:thisAccountController():loadConfigNextConnection("C:\\Users\\Administrator\\Documents\\snowbot-scripts\\PC\\Configs\\Config_PL_1-6X.xml", true)
+                global:thisAccountController():loadConfigNextConnection("C:\\Users\\Vivien\\Documents\\Snowbot-Scripts-3\\PC\\Configs\\Config_PL_1-6X.xml", true)
             end
 
             global:printSuccess("Kamas transférés. On crée un compte sur Draconiros")
@@ -113,9 +113,9 @@ function move()
         end)
     else
         if not global:thisAccountController():getAlias():find("Groupe") then
-            global:loadAndStart("C:\\Users\\Administrator\\Documents\\snowbot-scripts\\PC\\Scripts\\PL&Zaaps\\Zaaps&Stuffs.lua")
+            global:loadAndStart("C:\\Users\\Vivien\\Documents\\Snowbot-Scripts-3\\PC\\Scripts\\PLAndZaaps\\Zaaps&Stuffs.lua")
         else
-            global:loadAndStart("C:\\Users\\Administrator\\Documents\\snowbot-scripts\\PC\\Scripts\\PL&Zaaps\\quete_pandala.lua")
+            global:loadAndStart("C:\\Users\\Vivien\\Documents\\Snowbot-Scripts-3\\PC\\Scripts\\PLAndZaaps\\quete_pandala.lua")
         end
     end
 end

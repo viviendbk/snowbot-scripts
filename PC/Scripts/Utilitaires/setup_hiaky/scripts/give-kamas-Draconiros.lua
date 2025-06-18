@@ -1,7 +1,7 @@
 
 --- <init>
 
-PATH =  "C:\\Users\\Administrator\\Documents\\snowbot-scripts\\PC\\Scripts\\Utilitaires\\setup_hiaky\\"
+PATH =  "C:\\Users\\Vivien\\Documents\\Snowbot-Scripts-3\\PC\\Scripts\\Utilitaires\\setup_hiaky\\"
 scriptName = "give-kamas.lua"
 dofile(PATH .. "template.lua")
 local insert = table.insert

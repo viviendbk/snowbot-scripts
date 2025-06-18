@@ -453,7 +453,7 @@ function move()
         if not HasAllStuff() and character:level() < 50 then
             global:loadAndStart("C:\\Users\\Administrator\\Downloads\\Script_Bot_Dofus\\TOUCH\\Utilitaires\\Take_Stuff_Akwadala.lua")
         end
-        global:loadAndStart("C:\\Users\\Administrator\\Downloads\\Script_Bot_Dofus\\TOUCH\\PL&Zaaps\\TrajetZaaps.lua") 
+        global:loadAndStart("C:\\Users\\Administrator\\Downloads\\Script_Bot_Dofus\\TOUCH\\PLAndZaaps\\TrajetZaaps.lua") 
     end
 
     MIN_MONSTERS = 2

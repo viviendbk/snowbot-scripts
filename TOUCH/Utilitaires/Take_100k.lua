@@ -281,7 +281,7 @@ end
 
 function move()  
     if character:kamas() > 3000000 then
-        global:loadAndStart("C:\\Users\\Administrator\\Downloads\\Script_Bot_Dofus\\TOUCH\\PL&Zaaps\\PL_Chasseur_Team.lua")
+        global:loadAndStart("C:\\Users\\Administrator\\Downloads\\Script_Bot_Dofus\\TOUCH\\PLAndZaaps\\PL_Chasseur_Team.lua")
     end
     if not map:onMap("5,7") and not map:onMap("147768") and not map:onMap("10,22") and not map:onMap("-16,1") and not map:onMap("-1,13") and not map:onMap("-5,23") and not map:onMap("-23,-19") and not map:onMap("35,12") and map:currentSubArea() ~= "Cité d'Astrub" then
         PopoRappel()
