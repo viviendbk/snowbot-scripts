@@ -368,13 +368,13 @@ local Souterrain_Astrub2 = {
 }
 
 local Calanques_Astrub = {
+	{map = "9,-25", path = "top", fight = true},
 	{map = "11,-22", path = "top", fight = true},
 	{map = "11,-23", path = "top", fight = true},
 	{map = "11,-24", path = "top", fight = true},
 	{map = "11,-25", path = "top", fight = true},
 	{map = "11,-26", path = "top", fight = true},
 	{map = "11,-27", path = "top", fight = true},
-	{map = "9,-25", path = "top", fight = true},
 	{map = "9,-26", path = "top", fight = true},
 	{map = "11,-28", path = "left", fight = true},
 	{map = "10,-28", path = "left", fight = true},
@@ -391,6 +391,7 @@ local Calanques_Astrub = {
 	{map = "9,-27", path = "right", fight = true},
 	{map = "10,-22", path = "right", fight = true},
 	{map = "192415750", path = "409"},
+	{map = "6,-19", path = "bottom"},
 	{map = "10,-19", custom = function ()
 		map:door(232)
 		global:delay(1000)

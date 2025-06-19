@@ -109,12 +109,14 @@ function move()
     or global:thisAccountController():getAlias():find("LvlUp"))
     and job:level(2) < 5 and job:level(24) < 5 and character:level() < 70 then
         global:delay(math.random(0, 10000))
-        local filePath = "C:\\Users\\Vivien\\Documents\\Snowbot-Scripts-3\\PC\\Assets\\NeedAbonnement.txt"
+        local path = "C:\\Users\\Vivien\\Documents\\Snowbot-Scripts-3\\PC\\Assets\\NeedAbonnement.txt"
         local entry = tostring(global:username()) .. ":" .. tostring(global:password())
+        local content = openFile(path):split("\n")
 
+        printVar(content)
         -- Vérifie si la ligne existe déjà
         local alreadyListed = false
-        for line in io.lines(filePath) do
+        for _, line in ipairs(content) do
             if line == entry then
                 alreadyListed = true
                 break
@@ -123,14 +125,18 @@ function move()
 
         -- Écrit si nécessaire
         if not alreadyListed then
-            local file = io.open(filePath, "a") -- "a" = append mode
-            if file then
-                file:write(entry .. "\n")
-                file:close()
-            else
-                global:printError("Impossible d’ouvrir le fichier pour écriture")
-            end
+            table.insert(content, entry)
         end
+        printVar(content)
+        local toWrite = ""
+        for _, line in ipairs(content) do
+            toWrite = toWrite .. line .. "\n"
+        end 
+
+        f = io.open(path, "w")
+        f:write(toWrite)
+        f:close()
+
         global:printMessage("On a besoin d'un abonnement")
         global:editAlias(global:thisAccountController():getAlias() .. " [NEED ABO]", true)
         global:disconnect()

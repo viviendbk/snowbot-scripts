@@ -11,9 +11,6 @@ local nbMax = NB_LVLUP
 local proxyNumber = "2"
 local proxyBank = "5"
 
-local condition = function(acc)
-    return acc:isAccountFullyConnected() and not acc:isScriptPlaying() and (acc:isTeamLeader() or not acc:isItATeam())
-end
 
 
 local function RegisterHLAccounts()
@@ -259,7 +256,7 @@ function move()
             acc:connect()
         end
         -- debug("4")
-        if condition(acc) then
+        if conditionStartScript(acc) then
             acc:reloadScript()
             acc:startScript()
         end

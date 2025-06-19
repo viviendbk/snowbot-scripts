@@ -665,6 +665,13 @@ function connectAccountsWithFailleProxy()
 
     -- 4. Connexion par vague
     for i = 1, nbVagues do
+        for _, acc in ipairs(loadedAccounts) do
+            if conditionStartScript(acc) then
+                acc:reloadScript()
+                acc:startScript()
+            end
+        end
+
         global:printSuccess("----- Vague de connexion " .. i .. " -----")
 
         local ipDeBase = developer:getRequest("http://api.ipify.org", {}, {}, IP_PROXY .. ":5001:" .. USERNAME_PROXY .. ":" .. PASSWORD_PROXY)
@@ -717,6 +724,10 @@ function connectAccountsWithFailleProxy()
     end
 end
 
+
+function conditionStartScript(acc)
+    return acc:isAccountFullyConnected() and not acc:isScriptPlaying() and (acc:isTeamLeader() or not acc:isItATeam())
+end
 
 --- interaction bot bank ---
 
