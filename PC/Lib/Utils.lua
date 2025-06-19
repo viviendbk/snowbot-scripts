@@ -488,7 +488,7 @@ function mapDelay()
 	elseif random < 0.5 then
 		global:delay(math.random(300, 1000))
 	else
-		global:delay(math.random(100, 500))
+		global:delay(math.random(0, 300))
 	end
 end
 

@@ -241,6 +241,7 @@ function launchExchangeSafely(id, maxWaitingTime)
         global:delay(5000)
         randomDelay()
 		safetyCount = safetyCount + 5
+        global:leaveDialog()
     end
     return safetyCount < maxWaitingTime
 end
@@ -248,6 +249,7 @@ end
 function launchExchangeAndGive(minKamas, maxWaitingTime)
     local id = receiver.character():id()
     receiver:exchangeListen(false)
+
     
     if not waitBotIsOnAstrubBank(receiver, maxWaitingTime) then
         global:printError("Bot banque n'est toujours pas à astrub après " .. maxWaitingTime .. " secondes, reprise du trajet")
@@ -258,6 +260,9 @@ function launchExchangeAndGive(minKamas, maxWaitingTime)
 		receiver:disconnect()
 		return
     end
+
+    global:printSuccess("On attend qu'il ait fini son interaction avec la bank")
+    global:delay(math.random(20000, 30000))
 
     global:printSuccess("Lancement de l'échange avec le bot d'ID " .. id)
 
@@ -314,10 +319,15 @@ function launchExchangeAndGive(minKamas, maxWaitingTime)
 
     global:printSuccess("Kamas transférés. Reprise du trajet")
 	global:delay(math.random(5000, 10000))
-    
+
     rerollVar()
     receiver:disconnect()
     setBotBankConnected(character:server(), false)
+    while receiver:isAccountConnected() do
+        global:printError("Le bot banque n'a pas pu se déconnecter, on attend 5 seconde")
+        global:delay(5000)
+        receiver:disconnect()
+    end
 
     global:restartScript(true)
 end

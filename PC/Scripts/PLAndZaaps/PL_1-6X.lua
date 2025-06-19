@@ -368,7 +368,6 @@ local Souterrain_Astrub2 = {
 }
 
 local Calanques_Astrub = {
-
 	{map = "11,-22", path = "top", fight = true},
 	{map = "11,-23", path = "top", fight = true},
 	{map = "11,-24", path = "top", fight = true},
@@ -392,6 +391,11 @@ local Calanques_Astrub = {
 	{map = "9,-27", path = "right", fight = true},
 	{map = "10,-22", path = "right", fight = true},
 	{map = "192415750", path = "409"},
+	{map = "10,-19", custom = function ()
+		map:door(232)
+		global:delay(1000)
+		map:changeMap("top")
+	end}
 }
 
 local Egouts_Astrub1 = {
@@ -479,7 +483,8 @@ local getOutSouterrain = {
 	{map = "188482052", door = "532"},
 	{map = "101713409", door = "160"},
 	{map = "101713411", path = "138"},
-	{map = "101712387", path = "474"}
+	{map = "101712387", path = "474"},
+	{map = "101717512", path = "322"},
 
 }
 
@@ -866,6 +871,13 @@ function move()
 	end
 
 	if global:remember("lvlFinish") > character:level() then
+		if map:onMap("192415750") then
+			map:moveToCell(409)
+		end
+
+		if map:currentSubArea() == "Égouts d'Astrub" then
+			return getOutSouterrain
+		end
 		forwardKamasBotBankIfNeeded(300000, 50000, 120, 4)
 	end
 
@@ -949,7 +961,7 @@ function move()
 		end
 	end
 	
-
+	debug("ok")
 
 	-- monter chasseur niveau 10
 	if (inventory:itemCount(16663) < 78) and (job:level(41) < 10) then
@@ -967,7 +979,8 @@ function move()
 			map:moveToCell(372)
 		end
 	end
-	
+		debug("ok")
+
 	-- monter chaseur niv 20
 	if (inventory:itemCount(17123) < 275) and (job:level(41) < 20) then
 		MAX_MONSTERS = (character:level() < 10) and 1 or (character:level() < 18) and 3 or (character:level() < 30) and 5 or 8
@@ -994,6 +1007,7 @@ function move()
 	-- end
 
 	--
+	debug("ok")
 
 
 	if character:level() >= 64 then
@@ -1046,6 +1060,13 @@ end
 
 function bank()
 	mapDelay()
+	if map:onMap("192415750") then
+		map:moveToCell(409)
+	end
+
+	if map:currentSubArea() == "Égouts d'Astrub" then
+		return getOutSouterrain
+	end
 
 	while inventory:itemCount(8815) > 0 do
 		inventory:useItem(8815)

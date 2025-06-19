@@ -349,7 +349,7 @@ end
 
 
 function equiperDD()
-    if not global:thisAccountController():getAlias():find("LvlUp") then
+    if not global:thisAccountController():getAlias():find("LvlUp") and not mount:hasMount() then
         equipDD(getUIDOfDD())
         ManageXpMount()
         -- local ddEquipables = GetDDInfLvl100()
@@ -776,12 +776,11 @@ function move()
 		{map = "-4,-57", path = "bottom"},
         {map = "-4,-56", path = "bottom"},
 		{map = "-4,-55", path = "bottom"},
-		{map = "-4,-54", path = "bottom"},
-		{map = "-4,-53", path = "bottom"},
-		{map = "-4,-52", path = "right"},
-		{map = "-3,-52", path = "right"},
-		{map = "-2,-52", path = "top"},
-		{map = "-1,-53", door = "302"},
+		{map = "-4,-54", path = "right"},
+        {map = "-3,-54", path = "bottom"},
+		{map = "-3,-53", path = "right"},
+		{map = "-2,-53", door = "302"},
+        {map = "-1,-53", path = "top"},
 		{map = "0,-54", path = "top"},
 		{map = "0,-55", path = "top"},
 		{map = "-2,-54", path = "right"},

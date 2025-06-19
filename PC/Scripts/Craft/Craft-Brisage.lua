@@ -1427,27 +1427,28 @@ function move()
                         global:printSuccess("Ok1")
                         randomDelay()
     
+
                         -- depot de l'item dans le briseur
-                        local message = developer:createMessage("ExchangeObjectMoveMessage")
-                        message.objectUID = element.objectUID
+                        local message = developer:createMessage("ExchangeObjectMoveRequest")
+                        message.object_uid = element.objectUID
                         message.quantity = 1
                         developer:sendMessage(message)  
-                        developer:suspendScriptUntil("ExchangeObjectAddedMessage", 5000, false, nil, 50)
+                        developer:suspendScriptUntil("ExchangeObjectsAddedEvent", 5000, false, nil, 50)
                         global:printSuccess("Ok2")
     
                         randomDelay()
     
                         -- brisage
-                        developer:registerMessage("DecraftResultMessage", _GetResultBreak)
-                        message = developer:createMessage("FocusedExchangeReadyMessage")
+                        developer:registerMessage("DecraftResultEvent", _GetResultBreak)
+                        message = developer:createMessage("ExchangeFocusedReadyRequest")
                         if StatSearched == "No focus" then
-                            message.focusActionId = 0
+                            message.focus_action_id = 0
                         else
-                            message.focusActionId = GetIdCarac(StatSearched)
+                            message.focus_action_id = GetIdCarac(StatSearched)
                         end
     
                         message.ready = true
-                        message.steep = 1
+                        message.step = 1
                         developer:sendMessage(message)
                         randomDelay()
                         developer:suspendScriptUntil("DecraftResultMessage", 5000, false, nil, 20)

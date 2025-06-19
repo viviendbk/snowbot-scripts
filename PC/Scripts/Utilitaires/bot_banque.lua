@@ -63,6 +63,7 @@ local function giveResourcesKamasAndValidate()
 		global:delay(math.random(2000, 4000))
 	end
 
+	global:printSuccess("J'accepte l'échange")
 	exchange:ready()
 	global:editAlias("bank_" .. character:server():lower() .. " : [" .. truncKamas() .. "m]", true)
 end

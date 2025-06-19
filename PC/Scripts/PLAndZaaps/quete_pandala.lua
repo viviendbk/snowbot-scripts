@@ -471,16 +471,8 @@ function bank()
     return move()
 end
 
-function PHENIX()
-	return {
-        {map = "-3,-13", path = "right"},
-        {map = "-2,-13", path = "right"},
-        {map = "-1,-13", path = "right"},
-        {map = "0,-13", path = "right"},
-        {map = "1,-13", path = "right"},
-        {map = "2,-13", path = "top"},
-		{map = "190843392", custom = function() map:door(313) map:changeMap("top") end},
-	}
+function phenix()
+	return PHENIX
 end
 
 function stopped()
