@@ -2437,7 +2437,7 @@ function banned()
     global:editAlias(phrase .. " [BAN]", true)
 end
 
-function PHENIX()
+function phenix()
 	return {
 		{map = "-68,-43", path = "right"},
 		{map = "-67,-43", path = "top"},

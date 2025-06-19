@@ -1573,6 +1573,6 @@ function banned()
     global:editAlias(phrase .. " [BAN]", true)
 end
 
-function PHENIX()
+function phenix()
     return PHENIX
 end

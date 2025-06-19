@@ -4,7 +4,6 @@ dofile("C:\\Users\\Vivien\\Documents\\Snowbot-Scripts-3\\PC\\Lib\\IMPORT_LIBRARI
 
 dofile("C:\\Users\\Vivien\\Documents\\Snowbot-Scripts-3\\PC\\IA\\IA_SacriFeuRecolte.lua")
 
-Buyer = dofile("C:\\Users\\Vivien\\Documents\\Snowbot-Scripts-3\\PC\\Scripts\\Utilitaires\\setup_hiaky\\auto_stuff\\classes\\buyer.lua")
 
 OPEN_BAGS = true 
 GATHER_NEXT_DELAY_MIN = 0
@@ -1411,6 +1410,6 @@ function banned()
     global:editAlias(phrase .. " [BAN]", true)
 end
 
-function PHENIX()
+function phenix()
 	return PHENIX
 end

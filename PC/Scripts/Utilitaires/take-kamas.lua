@@ -80,6 +80,11 @@ local function takeKamas(giver)
         global:printSuccess("le bot banque nous a donné les kamas, on continue")
         giver:disconnect()
         setBotBankConnected(character:server(), false)
+
+        if global:thisAccountController():getAlias():find("NEED ABO") then
+            local alias = global:thisAccountController():getAlias():split(" ")
+            global:editAlias(alias[1] .. " " .. character:server(), true)
+        end
         if global:thisAccountController():getAlias():find("Combat") then
             global:loadAndStart("C:\\Users\\Vivien\\Documents\\Snowbot-Scripts-3\\PC\\Scripts\\Combat\\buyStuffSacri200.lua")
         elseif not global:thisAccountController():getAlias():find("Groupe") then

@@ -954,7 +954,7 @@ function bank()
     }
 end
 
-function PHENIX()
+function phenix()
     return PHENIX
 end
 

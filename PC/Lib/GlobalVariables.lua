@@ -275,7 +275,7 @@ PHENIX = {
         {map = "2,-13", path = "top"},
         {map = "2,-14", custom = function ()
 			map:door(313)
-			map:changeMap("havenbag")
+			map:changeMap("top")
         end},
                 {map = "35,-42", path = "bottom"},
         {map = "35,-41", path = "bottom"},

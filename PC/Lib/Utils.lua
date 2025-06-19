@@ -480,7 +480,7 @@ function mapDelay()
 	local random = math.random()
     if random < 0.005 then
         global:printMessage("gros délais")
-        global:delay(math.random(30000, 57000))
+        -- global:delay(math.random(30000, 57000))
     elseif random < 0.05 then
 		global:delay(math.random(7000, 11000))
 	elseif random < 0.25 then
@@ -814,7 +814,7 @@ function treatMaps(maps, errorFn)
         local condition = map:onMap(element.map) 
 
         if condition then
-            return maps
+            return {element}
         end
     end
 

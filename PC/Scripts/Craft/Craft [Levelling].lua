@@ -552,468 +552,468 @@ end
 function move()
 
     mapDelay()
-    -- if ScriptStarting then
-    --     -- vérifie qu'il est bien abonné        
-    --     if getRemainingHoursSubscription() <= 24 and character:kamas() > (character:server() == "Draconiros" and 550000 or 1000000) then
-    --         global:printSuccess("il reste " .. getRemainingHoursSubscription() .. "jours d'abonnement, on tente de s'abonner à nouveau")
-    --         Abonnement()
-    --     elseif getRemainingHoursSubscription() < 24 then
-    --         Abonnement()
-    --     end
+    if ScriptStarting then
+        -- vérifie qu'il est bien abonné        
+        if getRemainingHoursSubscription() <= 24 and character:kamas() > (character:server() == "Draconiros" and 550000 or 1000000) then
+            global:printSuccess("il reste " .. getRemainingHoursSubscription() .. "jours d'abonnement, on tente de s'abonner à nouveau")
+            Abonnement()
+        elseif getRemainingHoursSubscription() < 24 then
+            Abonnement()
+        end
 
-    --     if #TableItem == 0 then
-    --         -- recupération de la mémoire
-    --         -- local jsonMemory = openFile(global:getCurrentScriptDirectory() .. "\\" .. character:server() .. "\\MemoryFM.json")
-    --         -- local found = false
-    --         -- for _, data in ipairs(jsonMemory) do
-    --         --     if data.Name == character:name() then
-    --         --         TableItemToFM = data.Memory
-    --         --         found = true
-    --         --     end
-    --         -- end
-    --         -- if not found then
-    --         --     table.insert(jsonMemory, {
-    --         --         Name = character:name(),
-    --         --         Memory = {}
-    --         --     })
-    --         -- end
-    --         -- local new_content = json.encode(jsonMemory)
-    --         -- -- Écrire les modifications dans le fichier JSON
-    --         -- local file = io.open(global:getCurrentScriptDirectory() .. "\\" .. character:server() .. "\\MemoryFM.json", "w")
-    --         -- file:write(new_content)
-    --         -- file:close()
+        if #TableItem == 0 then
+            -- recupération de la mémoire
+            -- local jsonMemory = openFile(global:getCurrentScriptDirectory() .. "\\" .. character:server() .. "\\MemoryFM.json")
+            -- local found = false
+            -- for _, data in ipairs(jsonMemory) do
+            --     if data.Name == character:name() then
+            --         TableItemToFM = data.Memory
+            --         found = true
+            --     end
+            -- end
+            -- if not found then
+            --     table.insert(jsonMemory, {
+            --         Name = character:name(),
+            --         Memory = {}
+            --     })
+            -- end
+            -- local new_content = json.encode(jsonMemory)
+            -- -- Écrire les modifications dans le fichier JSON
+            -- local file = io.open(global:getCurrentScriptDirectory() .. "\\" .. character:server() .. "\\MemoryFM.json", "w")
+            -- file:write(new_content)
+            -- file:close()
 
-    --         global:printSuccess("Remplissage de la TableItem...")
-    --         for i = 1, 20000 do
-    --             if IsItem(inventory:itemTypeId(i)) and inventory:getLevel(i) <= job:level(GetJobIdByType(inventory:getTypeName(i)))
-    --              and ((inventory:itemCount(i) > 0 and inventory:itemPosition(i) == 63) or inventory:itemCount(i) == 0) then
-    --                 table.insert(TableItem, {
-    --                     Id = i,
-    --                     ListIdCraft = getIngredients(i),
-    --                     Type = inventory:getTypeName(i),
-    --                     NbToCraft = 1
-    --                 })
-    --             end
-    --         end
-    --         global:printSuccess("Remplissage fini!, il y a " .. #TableItem .. " items craftables")
+            global:printSuccess("Remplissage de la TableItem...")
+            for i = 1, 20000 do
+                if IsItem(inventory:itemTypeId(i)) and inventory:getLevel(i) <= job:level(GetJobIdByType(inventory:getTypeName(i)))
+                 and ((inventory:itemCount(i) > 0 and inventory:itemPosition(i) == 63) or inventory:itemCount(i) == 0) then
+                    table.insert(TableItem, {
+                        Id = i,
+                        ListIdCraft = getIngredients(i),
+                        Type = inventory:getTypeName(i),
+                        NbToCraft = 1
+                    })
+                end
+            end
+            global:printSuccess("Remplissage fini!, il y a " .. #TableItem .. " items craftables")
 
-    --     end
+        end
 
-    --     -- achat du stuff
-    --     if not map:onMap(212600837) and goBuyStuff then
-    --         global:printSuccess("On va hdv équip pour acheter le stuff")
-    --         return treatMaps(goToHdvEquip)
-    --     elseif goBuyStuff then
-    --         global:printSuccess("On achète le stuff")
-    --         HdvBuy()
+        -- achat du stuff
+        if not map:onMap(212600837) and goBuyStuff then
+            global:printSuccess("On va hdv équip pour acheter le stuff")
+            return treatMaps(goToHdvEquip)
+        elseif goBuyStuff then
+            global:printSuccess("On achète le stuff")
+            HdvBuy()
 
-    --         for _, element in ipairs(stuffPods) do
-    --             if inventory:itemCount(element.Id) == 0 then
-    --                 sale:buyItem(element.Id, 1, 300000)
-    --             end
-    --         end
+            for _, element in ipairs(stuffPods) do
+                if inventory:itemCount(element.Id) == 0 then
+                    sale:buyItem(element.Id, 1, 300000)
+                end
+            end
 
-    --         global:leaveDialog()
-    --         for _, element in ipairs(stuffPods) do
-    --             inventory:equipItem(element.Id, element.Place)
-    --         end
-    --         goBuyStuff = false
-    --         goBuySushi = true
-    --     end
+            global:leaveDialog()
+            for _, element in ipairs(stuffPods) do
+                inventory:equipItem(element.Id, element.Place)
+            end
+            goBuyStuff = false
+            goBuySushi = true
+        end
 
-    --     if not map:onMap(217064452) and goBuySushi then
-    --         return treatMaps(goToCosmetics)
-    --     elseif goBuySushi then
-    --         achatShushi()
-    --         goBuySushi = false
-    --     end
+        if not map:onMap(217064452) and goBuySushi then
+            return treatMaps(goToCosmetics)
+        elseif goBuySushi then
+            achatShushi()
+            goBuySushi = false
+        end
 
 
-    --     -- --va hdv ressources
-    --     if not map:onMap(212601350) and not hdvRessourceChecked then
-    --         return treatMaps(goToHdvRessources)
-    --     elseif not hdvRessourceChecked then
-    --         --récupère le cout total du craft de chaque item et le met dans la table
-    --         HdvSell()
-    --         steep = 0 global:leaveDialog()
+        -- --va hdv ressources
+        if not map:onMap(212601350) and not hdvRessourceChecked then
+            return treatMaps(goToHdvRessources)
+        elseif not hdvRessourceChecked then
+            --récupère le cout total du craft de chaque item et le met dans la table
+            HdvSell()
+            steep = 0 global:leaveDialog()
 
-    --         global:printMessage("")
-    --         global:printMessage("--------------------------------------")
-    --         global:printMessage("Analyse des coût de craft des items...")
+            global:printMessage("")
+            global:printMessage("--------------------------------------")
+            global:printMessage("Analyse des coût de craft des items...")
 
-    --         HdvSell()
-    --         for _, item in ipairs(TableItem) do
+            HdvSell()
+            for _, item in ipairs(TableItem) do
                 
-    --             if _ == math.floor(#TableItem / 4) then
-    --                 global:printMessage("25% effectué...")
-    --             elseif _ == math.floor(#TableItem / 2) then
-    --                 global:printMessage("50% effectué...")
-    --             elseif _ == math.floor(#TableItem * 0.75) then
-    --                 global:printMessage("75% effectué...")
-    --             end
+                if _ == math.floor(#TableItem / 4) then
+                    global:printMessage("25% effectué...")
+                elseif _ == math.floor(#TableItem / 2) then
+                    global:printMessage("50% effectué...")
+                elseif _ == math.floor(#TableItem * 0.75) then
+                    global:printMessage("75% effectué...")
+                end
 
-    --             local TotalCost = 0
-    --             local TotalPods = 0
-    --             local LackRessource = false
+                local TotalCost = 0
+                local TotalPods = 0
+                local LackRessource = false
                 
-    --             if not item.ListIdCraft then
-    --                 global:printError("L'item " .. inventory:itemNameId(item.Id) .. " n'a pas de ressources de craft, on le supprime")
-    --                 LackRessource = true
-    --             else
-    --                 for _, Ressource in ipairs(item.ListIdCraft) do
-    --                     if not PrixHdvAllRessources[Ressource.Id] then
-    --                         PrixHdvAllRessources[Ressource.Id] = GetPricesItem(Ressource.Id)
-    --                     end
+                if not item.ListIdCraft then
+                    global:printError("L'item " .. inventory:itemNameId(item.Id) .. " n'a pas de ressources de craft, on le supprime")
+                    LackRessource = true
+                else
+                    for _, Ressource in ipairs(item.ListIdCraft) do
+                        if not PrixHdvAllRessources[Ressource.Id] then
+                            PrixHdvAllRessources[Ressource.Id] = GetPricesItem(Ressource.Id)
+                        end
 
 
-    --                     if not PrixHdvAllRessources[Ressource.Id].TrueAveragePrice or PrixHdvAllRessources[Ressource.Id].TrueAveragePrice == 0 or IsItem(inventory:itemTypeId(Ressource.Id))
-    --                     or (Ressource.Quantity > 29 and PrixHdvAllRessources[Ressource.Id].Price100 == 0 and PrixHdvAllRessources[Ressource.Id].Price10 == 0) then
-    --                         LackRessource = true
-    --                         break
-    --                     end
-    --                     TotalPods = TotalPods + inventory:itemWeight(Ressource.Id) * Ressource.Quantity
-    --                     TotalCost = TotalCost + PrixHdvAllRessources[Ressource.Id].TrueAveragePrice * Ressource.Quantity
-    --                 end
-    --             end
+                        if not PrixHdvAllRessources[Ressource.Id].TrueAveragePrice or PrixHdvAllRessources[Ressource.Id].TrueAveragePrice == 0 or IsItem(inventory:itemTypeId(Ressource.Id))
+                        or (Ressource.Quantity > 29 and PrixHdvAllRessources[Ressource.Id].Price100 == 0 and PrixHdvAllRessources[Ressource.Id].Price10 == 0) then
+                            LackRessource = true
+                            break
+                        end
+                        TotalPods = TotalPods + inventory:itemWeight(Ressource.Id) * Ressource.Quantity
+                        TotalCost = TotalCost + PrixHdvAllRessources[Ressource.Id].TrueAveragePrice * Ressource.Quantity
+                    end
+                end
     
-    --             if LackRessource then
-    --                 --global:printError("Des ressources sont manquantes en hdv pour le craft " .. inventory:itemNameId(item.Id))
-    --                 item.TotalCost = 0
-    --             else
-    --                 --global:printMessage("Total des couts pour craft " .. inventory:itemNameId(item.Id) .. " : " .. TotalCost)
-    --                 item.TotalCost = TotalCost
-    --             end 
+                if LackRessource then
+                    --global:printError("Des ressources sont manquantes en hdv pour le craft " .. inventory:itemNameId(item.Id))
+                    item.TotalCost = 0
+                else
+                    --global:printMessage("Total des couts pour craft " .. inventory:itemNameId(item.Id) .. " : " .. TotalCost)
+                    item.TotalCost = TotalCost
+                end 
 
-    --             item.PodsNeededToCraft = TotalPods
+                item.PodsNeededToCraft = TotalPods
     
-    --         end
+            end
 
-    --         global:printSuccess("Analyse finie!")
-    --         global:printMessage("--------------------------------------")
-    --         global:printMessage("")
+            global:printSuccess("Analyse finie!")
+            global:printMessage("--------------------------------------")
+            global:printMessage("")
 
-    --         local ItemsToCraft = {}
+            local ItemsToCraft = {}
 
-    --         local metiers = {
-    --             {Id = 11, Table = CraftForgeron, Type = {"Épée", "Hache", "Marteau", "Dague", "Pelle"}},
-    --             {Id = 13, Table = CraftSculpteur, Type = {"Bâton", "Baguette", "Arc"}},
-    --             {Id = 15, Table = CraftCordonier, Type = {"Ceinture", "Bottes"}},
-    --             {Id = 16, Table = CraftBijoutier, Type = {"Anneau", "Amulette"}},
-    --             {Id = 27, Table = CraftTailleur, Type = {"Cape", "Coiffe"}},
-    --         }
+            local metiers = {
+                {Id = 11, Table = CraftForgeron, Type = {"Épée", "Hache", "Marteau", "Dague", "Pelle"}},
+                {Id = 13, Table = CraftSculpteur, Type = {"Bâton", "Baguette", "Arc"}},
+                {Id = 15, Table = CraftCordonier, Type = {"Ceinture", "Bottes"}},
+                {Id = 16, Table = CraftBijoutier, Type = {"Anneau", "Amulette"}},
+                {Id = 27, Table = CraftTailleur, Type = {"Cape", "Coiffe"}},
+            }
 
-    --         local scriptFinished = true
-    --         for _, element in ipairs(metiers) do
-    --             global:printMessage("On va craft pour le métier " .. job:name(element.Id) .. " [" .. element.Type[1] .. ", " .. element.Type[2] .. "]")
-    --             if job:level(element.Id) < 55 then
-    --                 scriptFinished = false
-    --                 hasToCraft = true
-    --                 global:printSuccess("a")
-    --                 local podsAvailable = inventory:podsMax() - inventory:pods()
-    --                 for _, item in ipairs(TableItem) do
-    --                     if #item.ListIdCraft > 0 and item.TotalCost > 0 and ((inventory:getLevel(item.Id)) > (job:level(element.Id) - 4)) and IsInTable(element.Type, item.Type) and ((item.PodsNeededToCraft * 100) < podsAvailable) then
-    --                         global:printError("AAAA" .. item.TotalCost)
-    --                         table.insert(ItemsToCraft, {Id = item.Id, TotalCost = item.TotalCost, Type = item.Type, PodsNeededToCraft = item.PodsNeededToCraft, ListIdCraft = getIngredients(item.Id), NbToCraft = 100})
-    --                     end
-    --                 end
+            local scriptFinished = true
+            for _, element in ipairs(metiers) do
+                global:printMessage("On va craft pour le métier " .. job:name(element.Id) .. " [" .. element.Type[1] .. ", " .. element.Type[2] .. "]")
+                if job:level(element.Id) < 55 then
+                    scriptFinished = false
+                    hasToCraft = true
+                    global:printSuccess("a")
+                    local podsAvailable = inventory:podsMax() - inventory:pods()
+                    for _, item in ipairs(TableItem) do
+                        if #item.ListIdCraft > 0 and item.TotalCost > 0 and ((inventory:getLevel(item.Id)) > (job:level(element.Id) - 4)) and IsInTable(element.Type, item.Type) and ((item.PodsNeededToCraft * 100) < podsAvailable) then
+                            global:printError("AAAA" .. item.TotalCost)
+                            table.insert(ItemsToCraft, {Id = item.Id, TotalCost = item.TotalCost, Type = item.Type, PodsNeededToCraft = item.PodsNeededToCraft, ListIdCraft = getIngredients(item.Id), NbToCraft = 100})
+                        end
+                    end
 
-    --                 global:printSuccess("b")
-    --                 table.sort(ItemsToCraft, function (a, b)
-    --                     return a.TotalCost < b.TotalCost
-    --                 end)
-    --                 global:printSuccess("On va craft  " .. inventory:itemNameId(ItemsToCraft[1].Id) .. " [lvl " .. inventory:getLevel(ItemsToCraft[1].Id) .. "]")
+                    global:printSuccess("b")
+                    table.sort(ItemsToCraft, function (a, b)
+                        return a.TotalCost < b.TotalCost
+                    end)
+                    global:printSuccess("On va craft  " .. inventory:itemNameId(ItemsToCraft[1].Id) .. " [lvl " .. inventory:getLevel(ItemsToCraft[1].Id) .. "]")
 
-    --                 table.insert(element.Table, ItemsToCraft[1])
-    --                 break
-    --             end
-    --         end
+                    table.insert(element.Table, ItemsToCraft[1])
+                    break
+                end
+            end
             
-    --         if scriptFinished then
-    --             global:loadAndStart("C:\\Users\\Vivien\\Documents\\Snowbot-Scripts-3\\PC\\Scripts\\Craft\\Craft-Brisage.lua")
-    --         end
+            if scriptFinished then
+                global:loadAndStart("C:\\Users\\Vivien\\Documents\\Snowbot-Scripts-3\\PC\\Scripts\\Craft\\Craft-Brisage.lua")
+            end
 
-    --         steep = 0 global:leaveDialog()
-    --         hdvRessourceChecked = true
-    --     end
+            steep = 0 global:leaveDialog()
+            hdvRessourceChecked = true
+        end
         
-    --     KamasDeBase = character:kamas()
+        KamasDeBase = character:kamas()
         
-    --     --va chercher les kamas en banque
-    --     if not map:onMap(217059328) and not bankChecked2 then
-    --         return treatMaps(goToBankBonta)
-    --     elseif not bankChecked2 then
-    --         npc:npcBank(-1)
-    --         if exchange:storageKamas() > 0 then
-    --             exchange:putAllItems()
-    --             global:delay(500)
-    --             exchange:getKamas(0)
-    --             global:delay(500)
-    --             global:printSuccess("j'ai récupérer les kamas, je vais vendre")
-    --         elseif exchange:storageKamas() == 0 then
-    --             exchange:putAllItems()
-    --             global:delay(500)
-    --             global:printError("il n'y a pas de kamas dans la banque")
-    --         end	
+        --va chercher les kamas en banque
+        if not map:onMap(217059328) and not bankChecked2 then
+            return treatMaps(goToBankBonta)
+        elseif not bankChecked2 then
+            npc:npcBank(-1)
+            if exchange:storageKamas() > 0 then
+                exchange:putAllItems()
+                global:delay(500)
+                exchange:getKamas(0)
+                global:delay(500)
+                global:printSuccess("j'ai récupérer les kamas, je vais vendre")
+            elseif exchange:storageKamas() == 0 then
+                exchange:putAllItems()
+                global:delay(500)
+                global:printError("il n'y a pas de kamas dans la banque")
+            end	
 
-    --         bankContent = exchange:storageItems()
+            bankContent = exchange:storageItems()
 
-    --         for _, item in ipairs(CraftCordonier) do
-    --             for i = 1, item.NbToCraft do
-    --                 if exchange:storageItemQuantity(item.Id) > 0 then
-    --                     exchange:getItem(item.Id, 1)
-    --                 end
-    --             end
-    --             for _, ressource in ipairs(item.ListIdCraft) do
-    --                 local QuantityMax = (inventory:podsMax() * 0.85 - inventory:pods()) / inventory:itemWeight(ressource.Id)
-    --                 local Quantity = math.min(QuantityMax, exchange:storageItemQuantity(ressource.Id), ressource.Quantity * (item.NbToCraft - inventory:itemCount(item.Id)), inventory:podsP() < 85 and 500 or 0)
-    --                 if Quantity > 0 then
-    --                     exchange:getItem(ressource.Id, Quantity)
-    --                 end
-    --             end
-    --         end
-    --         for _, item in ipairs(CraftBijoutier) do
-    --             for i = 1, item.NbToCraft do
-    --                 if exchange:storageItemQuantity(item.Id) > 0 then
-    --                     exchange:getItem(item.Id, 1)
-    --                 end
-    --             end
-    --             for _, ressource in ipairs(item.ListIdCraft) do
-    --                 local QuantityMax = (inventory:podsMax() * 0.85 - inventory:pods()) / inventory:itemWeight(ressource.Id)
-    --                 local Quantity = math.min(QuantityMax, exchange:storageItemQuantity(ressource.Id), ressource.Quantity * (item.NbToCraft - inventory:itemCount(item.Id)), inventory:podsP() < 85 and 500 or 0)
-    --                 if Quantity > 0 then
-    --                     exchange:getItem(ressource.Id, Quantity)
-    --                 end
-    --             end
-    --         end
-    --         for _, item in ipairs(CraftTailleur) do
-    --             for i = 1, item.NbToCraft do
-    --                 if exchange:storageItemQuantity(item.Id) > 0 then
-    --                     exchange:getItem(item.Id, 1)
-    --                 end
-    --             end
-    --             for _, ressource in ipairs(item.ListIdCraft) do
-    --                 local QuantityMax = (inventory:podsMax() * 0.85 - inventory:pods()) / inventory:itemWeight(ressource.Id)
-    --                 local Quantity = math.min(QuantityMax, exchange:storageItemQuantity(ressource.Id), ressource.Quantity * (item.NbToCraft - inventory:itemCount(item.Id)), inventory:podsP() < 85 and 500 or 0)
-    --                 if Quantity > 0 then
-    --                     exchange:getItem(ressource.Id, Quantity)
-    --                 end
-    --             end
-    --         end
-    --         for _, item in ipairs(CraftForgeron) do
-    --             for i = 1, item.NbToCraft do
-    --                 if exchange:storageItemQuantity(item.Id) > 0 then
-    --                     exchange:getItem(item.Id, 1)
-    --                 end
-    --             end
-    --             for _, ressource in ipairs(item.ListIdCraft) do
-    --                 local QuantityMax = (inventory:podsMax() * 0.85 - inventory:pods()) / inventory:itemWeight(ressource.Id)
-    --                 local Quantity = math.min(QuantityMax, exchange:storageItemQuantity(ressource.Id), ressource.Quantity * (item.NbToCraft - inventory:itemCount(item.Id)), inventory:podsP() < 85 and 500 or 0)
-    --                 if Quantity > 0 then
-    --                     exchange:getItem(ressource.Id, Quantity)
-    --                 end
-    --             end
-    --         end
-    --         for _, item in ipairs(CraftSculpteur) do
-    --             for i = 1, item.NbToCraft do
-    --                 if exchange:storageItemQuantity(item.Id) > 0 then
-    --                     exchange:getItem(item.Id, 1)
-    --                 end
-    --             end
-    --             for _, ressource in ipairs(item.ListIdCraft) do
-    --                 local QuantityMax = (inventory:podsMax() * 0.85 - inventory:pods()) / inventory:itemWeight(ressource.Id)
-    --                 local Quantity = math.min(QuantityMax, exchange:storageItemQuantity(ressource.Id), ressource.Quantity * (item.NbToCraft - inventory:itemCount(item.Id)), inventory:podsP() < 85 and 500 or 0)
-    --                 if Quantity > 0 then
-    --                     exchange:getItem(ressource.Id, Quantity)
-    --                 end
-    --             end
-    --         end
-    --         steep = 0 global:leaveDialog()
-    --         bankChecked2 = true
-    --         map:door(518)
-    --     end
+            for _, item in ipairs(CraftCordonier) do
+                for i = 1, item.NbToCraft do
+                    if exchange:storageItemQuantity(item.Id) > 0 then
+                        exchange:getItem(item.Id, 1)
+                    end
+                end
+                for _, ressource in ipairs(item.ListIdCraft) do
+                    local QuantityMax = (inventory:podsMax() * 0.85 - inventory:pods()) / inventory:itemWeight(ressource.Id)
+                    local Quantity = math.min(QuantityMax, exchange:storageItemQuantity(ressource.Id), ressource.Quantity * (item.NbToCraft - inventory:itemCount(item.Id)), inventory:podsP() < 85 and 500 or 0)
+                    if Quantity > 0 then
+                        exchange:getItem(ressource.Id, Quantity)
+                    end
+                end
+            end
+            for _, item in ipairs(CraftBijoutier) do
+                for i = 1, item.NbToCraft do
+                    if exchange:storageItemQuantity(item.Id) > 0 then
+                        exchange:getItem(item.Id, 1)
+                    end
+                end
+                for _, ressource in ipairs(item.ListIdCraft) do
+                    local QuantityMax = (inventory:podsMax() * 0.85 - inventory:pods()) / inventory:itemWeight(ressource.Id)
+                    local Quantity = math.min(QuantityMax, exchange:storageItemQuantity(ressource.Id), ressource.Quantity * (item.NbToCraft - inventory:itemCount(item.Id)), inventory:podsP() < 85 and 500 or 0)
+                    if Quantity > 0 then
+                        exchange:getItem(ressource.Id, Quantity)
+                    end
+                end
+            end
+            for _, item in ipairs(CraftTailleur) do
+                for i = 1, item.NbToCraft do
+                    if exchange:storageItemQuantity(item.Id) > 0 then
+                        exchange:getItem(item.Id, 1)
+                    end
+                end
+                for _, ressource in ipairs(item.ListIdCraft) do
+                    local QuantityMax = (inventory:podsMax() * 0.85 - inventory:pods()) / inventory:itemWeight(ressource.Id)
+                    local Quantity = math.min(QuantityMax, exchange:storageItemQuantity(ressource.Id), ressource.Quantity * (item.NbToCraft - inventory:itemCount(item.Id)), inventory:podsP() < 85 and 500 or 0)
+                    if Quantity > 0 then
+                        exchange:getItem(ressource.Id, Quantity)
+                    end
+                end
+            end
+            for _, item in ipairs(CraftForgeron) do
+                for i = 1, item.NbToCraft do
+                    if exchange:storageItemQuantity(item.Id) > 0 then
+                        exchange:getItem(item.Id, 1)
+                    end
+                end
+                for _, ressource in ipairs(item.ListIdCraft) do
+                    local QuantityMax = (inventory:podsMax() * 0.85 - inventory:pods()) / inventory:itemWeight(ressource.Id)
+                    local Quantity = math.min(QuantityMax, exchange:storageItemQuantity(ressource.Id), ressource.Quantity * (item.NbToCraft - inventory:itemCount(item.Id)), inventory:podsP() < 85 and 500 or 0)
+                    if Quantity > 0 then
+                        exchange:getItem(ressource.Id, Quantity)
+                    end
+                end
+            end
+            for _, item in ipairs(CraftSculpteur) do
+                for i = 1, item.NbToCraft do
+                    if exchange:storageItemQuantity(item.Id) > 0 then
+                        exchange:getItem(item.Id, 1)
+                    end
+                end
+                for _, ressource in ipairs(item.ListIdCraft) do
+                    local QuantityMax = (inventory:podsMax() * 0.85 - inventory:pods()) / inventory:itemWeight(ressource.Id)
+                    local Quantity = math.min(QuantityMax, exchange:storageItemQuantity(ressource.Id), ressource.Quantity * (item.NbToCraft - inventory:itemCount(item.Id)), inventory:podsP() < 85 and 500 or 0)
+                    if Quantity > 0 then
+                        exchange:getItem(ressource.Id, Quantity)
+                    end
+                end
+            end
+            steep = 0 global:leaveDialog()
+            bankChecked2 = true
+            map:door(518)
+        end
 
-    --     ScriptStarting = false
-    -- end
+        ScriptStarting = false
+    end
 
-    -- global:printSuccess("1")
+    global:printSuccess("1")
 
-    -- if not map:onMap(212601350) and HaveToBuyRessources() then
-    --     return treatMaps(goToHdvRessources)
-    -- elseif HaveToBuyRessources() then
-    --     HdvBuy()
-    --     for _, item in ipairs(CraftCordonier) do
-    --         if inventory:itemCount(item.Id) < item.NbToCraft and inventory:podsP() < 95 then
-    --             global:printSuccess("On achète les ressources pour craft [" .. inventory:itemNameId(item.Id) .. "]")
-    --             global:printMessage("--------------------------------------")
-    --             for _, ressource in ipairs(item.ListIdCraft) do
-    --                 local QuantityToBuy = ressource.Quantity * (item.NbToCraft - inventory:itemCount(item.Id)) - inventory:itemCount(ressource.Id)
-    --                 if QuantityToBuy > 0 then
-    --                     global:printSuccess("Achat de " .. QuantityToBuy .. " [" .. inventory:itemNameId(ressource.Id) .. "]")
-    --                     if not Achat(ressource.Id, QuantityToBuy) then
-    --                         item.NbToCraft = 0
-    --                         for i, item2 in ipairs(TableItemToFM) do
-    --                             if item.Id == item2.Id then
-    --                                 table.remove(TableItemToFM, i)
-    --                             end
-    --                         end
-    --                         EditJsonMemory(TableItemToFM)
-    --                         break
-    --                     end
-    --                 end
-    --             end
-    --             global:printMessage("--------------------------------------")
-    --         end
-    --     end
-    --     for _, item in ipairs(CraftBijoutier) do
-    --         if inventory:itemCount(item.Id) < item.NbToCraft and inventory:podsP() < 95 then
-    --             global:printSuccess("On achète les ressources pour craft [" .. inventory:itemNameId(item.Id) .. "]")
-    --             global:printMessage("--------------------------------------")
-    --             for _, ressource in ipairs(item.ListIdCraft) do
-    --                 local QuantityToBuy = ressource.Quantity * (item.NbToCraft - inventory:itemCount(item.Id)) - inventory:itemCount(ressource.Id)
-    --                 if QuantityToBuy > 0 then
-    --                     global:printSuccess("Achat de " .. QuantityToBuy .. " [" .. inventory:itemNameId(ressource.Id) .. "]")
-    --                     if not Achat(ressource.Id, QuantityToBuy) then
-    --                         item.NbToCraft = 0
-    --                         for i, item2 in ipairs(TableItemToFM) do
-    --                             if item.Id == item2.Id then
-    --                                 table.remove(TableItemToFM, i)
-    --                             end
-    --                         end
-    --                         EditJsonMemory(TableItemToFM)
-    --                         break
-    --                     end
-    --                 end
-    --             end
-    --             global:printMessage("--------------------------------------")
-    --         end
-    --     end
-    --     for _, item in ipairs(CraftTailleur) do
-    --         if inventory:itemCount(item.Id) < item.NbToCraft and inventory:podsP() < 95 then
-    --             global:printSuccess("On achète les ressources pour craft [" .. inventory:itemNameId(item.Id) .. "]")
-    --             global:printMessage("--------------------------------------")
-    --             for _, ressource in ipairs(item.ListIdCraft) do
-    --                 local QuantityToBuy = ressource.Quantity * (item.NbToCraft - inventory:itemCount(item.Id)) - inventory:itemCount(ressource.Id)
-    --                 if QuantityToBuy > 0 then
-    --                     global:printSuccess("Achat de " .. QuantityToBuy .. " [" .. inventory:itemNameId(ressource.Id) .. "]")
-    --                     if not Achat(ressource.Id, QuantityToBuy) then
-    --                         item.NbToCraft = 0
-    --                         for i, item2 in ipairs(TableItemToFM) do
-    --                             if item.Id == item2.Id then
-    --                                 table.remove(TableItemToFM, i)
-    --                             end
-    --                         end
-    --                         EditJsonMemory(TableItemToFM)
-    --                         break
-    --                     end
-    --                 end
-    --             end
-    --             global:printMessage("--------------------------------------")
-    --         end
-    --     end
-    --     for _, item in ipairs(CraftForgeron) do
-    --         if inventory:itemCount(item.Id) < item.NbToCraft and inventory:podsP() < 95 then
-    --             global:printSuccess("On achète les ressources pour craft [" .. inventory:itemNameId(item.Id) .. "]")
-    --             global:printMessage("--------------------------------------")
-    --             for _, ressource in ipairs(item.ListIdCraft) do
-    --                 local QuantityToBuy = ressource.Quantity * (item.NbToCraft - inventory:itemCount(item.Id)) - inventory:itemCount(ressource.Id)
-    --                 if QuantityToBuy > 0 then
-    --                     global:printSuccess("Achat de " .. QuantityToBuy .. " [" .. inventory:itemNameId(ressource.Id) .. "]")
-    --                     if not Achat(ressource.Id, QuantityToBuy) then
-    --                         item.NbToCraft = 0
-    --                         for i, item2 in ipairs(TableItemToFM) do
-    --                             if item.Id == item2.Id then
-    --                                 table.remove(TableItemToFM, i)
-    --                             end
-    --                         end
-    --                         EditJsonMemory(TableItemToFM)
-    --                         break
-    --                     end
-    --                 end
-    --             end
-    --             global:printMessage("--------------------------------------")
-    --         end
-    --     end
-    --     for _, item in ipairs(CraftSculpteur) do
-    --         if inventory:itemCount(item.Id) < item.NbToCraft and inventory:podsP() < 95 then
-    --             global:printSuccess("On achète les ressources pour craft [" .. inventory:itemNameId(item.Id) .. "]")
-    --             global:printMessage("--------------------------------------")
-    --             for _, ressource in ipairs(item.ListIdCraft) do
-    --                 local QuantityToBuy = ressource.Quantity * (item.NbToCraft - inventory:itemCount(item.Id)) - inventory:itemCount(ressource.Id)
-    --                 if QuantityToBuy > 0 then
-    --                     global:printSuccess("Achat de " .. QuantityToBuy .. " [" .. inventory:itemNameId(ressource.Id) .. "]")
-    --                     if not Achat(ressource.Id, QuantityToBuy) then
-    --                         item.NbToCraft = 0
-    --                         for i, item2 in ipairs(TableItemToFM) do
-    --                             if item.Id == item2.Id then
-    --                                 table.remove(TableItemToFM, i)
-    --                             end
-    --                         end
-    --                         EditJsonMemory(TableItemToFM)
-    --                         break
-    --                     end
-    --                 end
-    --             end
-    --             global:printMessage("--------------------------------------")
-    --         end
-    --     end
-    --     steep = 0 global:leaveDialog()
-    -- end
-    -- --- Determines which item we'll craft and resell
-    -- global:printSuccess("2")
+    if not map:onMap(212601350) and HaveToBuyRessources() then
+        return treatMaps(goToHdvRessources)
+    elseif HaveToBuyRessources() then
+        HdvBuy()
+        for _, item in ipairs(CraftCordonier) do
+            if inventory:itemCount(item.Id) < item.NbToCraft and inventory:podsP() < 95 then
+                global:printSuccess("On achète les ressources pour craft [" .. inventory:itemNameId(item.Id) .. "]")
+                global:printMessage("--------------------------------------")
+                for _, ressource in ipairs(item.ListIdCraft) do
+                    local QuantityToBuy = ressource.Quantity * (item.NbToCraft - inventory:itemCount(item.Id)) - inventory:itemCount(ressource.Id)
+                    if QuantityToBuy > 0 then
+                        global:printSuccess("Achat de " .. QuantityToBuy .. " [" .. inventory:itemNameId(ressource.Id) .. "]")
+                        if not Achat(ressource.Id, QuantityToBuy) then
+                            item.NbToCraft = 0
+                            for i, item2 in ipairs(TableItemToFM) do
+                                if item.Id == item2.Id then
+                                    table.remove(TableItemToFM, i)
+                                end
+                            end
+                            EditJsonMemory(TableItemToFM)
+                            break
+                        end
+                    end
+                end
+                global:printMessage("--------------------------------------")
+            end
+        end
+        for _, item in ipairs(CraftBijoutier) do
+            if inventory:itemCount(item.Id) < item.NbToCraft and inventory:podsP() < 95 then
+                global:printSuccess("On achète les ressources pour craft [" .. inventory:itemNameId(item.Id) .. "]")
+                global:printMessage("--------------------------------------")
+                for _, ressource in ipairs(item.ListIdCraft) do
+                    local QuantityToBuy = ressource.Quantity * (item.NbToCraft - inventory:itemCount(item.Id)) - inventory:itemCount(ressource.Id)
+                    if QuantityToBuy > 0 then
+                        global:printSuccess("Achat de " .. QuantityToBuy .. " [" .. inventory:itemNameId(ressource.Id) .. "]")
+                        if not Achat(ressource.Id, QuantityToBuy) then
+                            item.NbToCraft = 0
+                            for i, item2 in ipairs(TableItemToFM) do
+                                if item.Id == item2.Id then
+                                    table.remove(TableItemToFM, i)
+                                end
+                            end
+                            EditJsonMemory(TableItemToFM)
+                            break
+                        end
+                    end
+                end
+                global:printMessage("--------------------------------------")
+            end
+        end
+        for _, item in ipairs(CraftTailleur) do
+            if inventory:itemCount(item.Id) < item.NbToCraft and inventory:podsP() < 95 then
+                global:printSuccess("On achète les ressources pour craft [" .. inventory:itemNameId(item.Id) .. "]")
+                global:printMessage("--------------------------------------")
+                for _, ressource in ipairs(item.ListIdCraft) do
+                    local QuantityToBuy = ressource.Quantity * (item.NbToCraft - inventory:itemCount(item.Id)) - inventory:itemCount(ressource.Id)
+                    if QuantityToBuy > 0 then
+                        global:printSuccess("Achat de " .. QuantityToBuy .. " [" .. inventory:itemNameId(ressource.Id) .. "]")
+                        if not Achat(ressource.Id, QuantityToBuy) then
+                            item.NbToCraft = 0
+                            for i, item2 in ipairs(TableItemToFM) do
+                                if item.Id == item2.Id then
+                                    table.remove(TableItemToFM, i)
+                                end
+                            end
+                            EditJsonMemory(TableItemToFM)
+                            break
+                        end
+                    end
+                end
+                global:printMessage("--------------------------------------")
+            end
+        end
+        for _, item in ipairs(CraftForgeron) do
+            if inventory:itemCount(item.Id) < item.NbToCraft and inventory:podsP() < 95 then
+                global:printSuccess("On achète les ressources pour craft [" .. inventory:itemNameId(item.Id) .. "]")
+                global:printMessage("--------------------------------------")
+                for _, ressource in ipairs(item.ListIdCraft) do
+                    local QuantityToBuy = ressource.Quantity * (item.NbToCraft - inventory:itemCount(item.Id)) - inventory:itemCount(ressource.Id)
+                    if QuantityToBuy > 0 then
+                        global:printSuccess("Achat de " .. QuantityToBuy .. " [" .. inventory:itemNameId(ressource.Id) .. "]")
+                        if not Achat(ressource.Id, QuantityToBuy) then
+                            item.NbToCraft = 0
+                            for i, item2 in ipairs(TableItemToFM) do
+                                if item.Id == item2.Id then
+                                    table.remove(TableItemToFM, i)
+                                end
+                            end
+                            EditJsonMemory(TableItemToFM)
+                            break
+                        end
+                    end
+                end
+                global:printMessage("--------------------------------------")
+            end
+        end
+        for _, item in ipairs(CraftSculpteur) do
+            if inventory:itemCount(item.Id) < item.NbToCraft and inventory:podsP() < 95 then
+                global:printSuccess("On achète les ressources pour craft [" .. inventory:itemNameId(item.Id) .. "]")
+                global:printMessage("--------------------------------------")
+                for _, ressource in ipairs(item.ListIdCraft) do
+                    local QuantityToBuy = ressource.Quantity * (item.NbToCraft - inventory:itemCount(item.Id)) - inventory:itemCount(ressource.Id)
+                    if QuantityToBuy > 0 then
+                        global:printSuccess("Achat de " .. QuantityToBuy .. " [" .. inventory:itemNameId(ressource.Id) .. "]")
+                        if not Achat(ressource.Id, QuantityToBuy) then
+                            item.NbToCraft = 0
+                            for i, item2 in ipairs(TableItemToFM) do
+                                if item.Id == item2.Id then
+                                    table.remove(TableItemToFM, i)
+                                end
+                            end
+                            EditJsonMemory(TableItemToFM)
+                            break
+                        end
+                    end
+                end
+                global:printMessage("--------------------------------------")
+            end
+        end
+        steep = 0 global:leaveDialog()
+    end
+    --- Determines which item we'll craft and resell
+    global:printSuccess("2")
 
-    -- --- Path To Craft
-    -- for _, item in ipairs(CraftCordonier) do
-    --     global:printSuccess("a " .. inventory:itemNameId(item.Id))
-    --     if inventory:itemCount(item.Id) < item.NbToCraft then
-    --         if not map:onMap(217055238) then
-    --             return treatMaps(goToAtelierCordoBonta)
-    --         else
-    --             ProcessCraft(CraftCordonier, 360, 15)
-    --         end
-    --     end
-    -- end
-    -- for _, item in ipairs(CraftBijoutier) do
-    --     global:printSuccess("b " .. inventory:itemNameId(item.Id))
-    --     if inventory:itemCount(item.Id) < item.NbToCraft then
-    --         if not map:onMap(217058310) then
-    --             return treatMaps(goToAtelierBijoutierBonta)
-    --         else
-    --             ProcessCraft(CraftBijoutier, 485, 16)
-    --         end
-    --     end
-    -- end
-    -- for _, item in ipairs(CraftTailleur) do
-    --     global:printSuccess("c " .. inventory:itemNameId(item.Id))
-    --     if inventory:itemCount(item.Id) < item.NbToCraft then
-    --         if not map:onMap(217056260) then
-    --             return treatMaps(goToAtelierTailleurBonta)
-    --         else
-    --             ProcessCraft(CraftTailleur, 520, 27)
-    --         end
-    --     end
-    -- end
-    -- for _, item in ipairs(CraftForgeron) do
-    --     global:printSuccess("d " .. inventory:itemNameId(item.Id))
-    --     if inventory:itemCount(item.Id) < item.NbToCraft then
-    --         if not map:onMap(217055236) then
-    --             return treatMaps(goToAtelierForgeronBonta)
-    --         else
-    --             ProcessCraft(CraftForgeron, 526, 11)
-    --         end
-    --     end
-    -- end
-    -- for _, item in ipairs(CraftSculpteur) do
-    --     global:printSuccess("e " .. inventory:itemNameId(item.Id))
-    --     if inventory:itemCount(item.Id) < item.NbToCraft then
-    --         if not map:onMap(217058308) then
-    --             return treatMaps(goToAtelierSculpteurBonta)
-    --         else
-    --             ProcessCraft(CraftSculpteur, 479, 13)
-    --         end
-    --     end
-    -- end
+    --- Path To Craft
+    for _, item in ipairs(CraftCordonier) do
+        global:printSuccess("a " .. inventory:itemNameId(item.Id))
+        if inventory:itemCount(item.Id) < item.NbToCraft then
+            if not map:onMap(217055238) then
+                return treatMaps(goToAtelierCordoBonta)
+            else
+                ProcessCraft(CraftCordonier, 360, 15)
+            end
+        end
+    end
+    for _, item in ipairs(CraftBijoutier) do
+        global:printSuccess("b " .. inventory:itemNameId(item.Id))
+        if inventory:itemCount(item.Id) < item.NbToCraft then
+            if not map:onMap(217058310) then
+                return treatMaps(goToAtelierBijoutierBonta)
+            else
+                ProcessCraft(CraftBijoutier, 485, 16)
+            end
+        end
+    end
+    for _, item in ipairs(CraftTailleur) do
+        global:printSuccess("c " .. inventory:itemNameId(item.Id))
+        if inventory:itemCount(item.Id) < item.NbToCraft then
+            if not map:onMap(217056260) then
+                return treatMaps(goToAtelierTailleurBonta)
+            else
+                ProcessCraft(CraftTailleur, 520, 27)
+            end
+        end
+    end
+    for _, item in ipairs(CraftForgeron) do
+        global:printSuccess("d " .. inventory:itemNameId(item.Id))
+        if inventory:itemCount(item.Id) < item.NbToCraft then
+            if not map:onMap(217055236) then
+                return treatMaps(goToAtelierForgeronBonta)
+            else
+                ProcessCraft(CraftForgeron, 526, 11)
+            end
+        end
+    end
+    for _, item in ipairs(CraftSculpteur) do
+        global:printSuccess("e " .. inventory:itemNameId(item.Id))
+        if inventory:itemCount(item.Id) < item.NbToCraft then
+            if not map:onMap(217058308) then
+                return treatMaps(goToAtelierSculpteurBonta)
+            else
+                ProcessCraft(CraftSculpteur, 479, 13)
+            end
+        end
+    end
     
-    -- global:printSuccess("3")
+    global:printSuccess("3")
 
 
     if not map:onMap(217056262) and not brisageDone then
@@ -1025,12 +1025,11 @@ function move()
         for _, element in ipairs(content) do
             if IsItem(inventory:itemTypeId(element.objectGID)) and element.position == 63 and (isItemCeluiQuonACraft(element.objectGID)
             or inventory:itemCount(element.objectGID) > 10) then
-                table.insert(items, {objectUID = element.objectUID, quantity = element.quantity})
+                table.insert(items, {objectGID = element.objectGID, objectUID = element.objectUID, quantity = element.quantity})
             end
         end
         
-        map:useById(521675, -1)
-        global:delay(math.random(500, 1500))
+
 
         local index = 1
         local step = 1 
@@ -1038,7 +1037,9 @@ function move()
             local batchSize = math.min(50, #items - index + 1)
 
             for i = 0, batchSize - 1 do
-                debug(i)
+                map:useById(521675, -1)
+                global:delay(math.random(500, 1500))
+                debug("on va mettre l'objet " .. inventory:itemNameId(items[index + i].objectGID) .. " dans l'échange")
                 local item = items[index + i]
                 local message = developer:createMessage("ExchangeObjectMoveRequest")
                 message.object_uid = item.objectUID
@@ -1047,32 +1048,21 @@ function move()
                 
                 developer:suspendScriptUntil("ExchangeObjectsAddedEvent", 5000, false, nil, 50)
                 global:delay(math.random(50, 200))
-            end
 
-            debug("fini de mettre les objets dans l'échange")
-
-            global:delay(math.random(1000, 2000))
-
-            -- Confirmer l'envoi de ce lot
-            local message = developer:createMessage("ExchangeFocusedReadyRequest")
-            message.focus_action_id = 0
-            message.ready = true
-            message.step = step
-            developer:sendMessage(message)
-
-            while not developer:suspendScriptUntil("ExchangeReadyEvent", 5000, false, nil, 20) do
+                -- Confirmer l'envoi de ce lot
                 local message = developer:createMessage("ExchangeFocusedReadyRequest")
                 message.focus_action_id = 0
                 message.ready = true
                 message.step = step
                 developer:sendMessage(message)
-                global:delay(math.random(1000, 3000))
+                global:delay(math.random(500, 1500))
+                global:leaveDialog()
             end
-            global:delay(math.random(500, 1500))
 
-                        debug("on a validé")
+            debug("fini de mettre les objets dans l'échange")
 
-
+            global:delay(math.random(1000, 2000))
+            debug("on a validé")
             -- Passer aux items suivants
             index = index + batchSize
             step = step + 1

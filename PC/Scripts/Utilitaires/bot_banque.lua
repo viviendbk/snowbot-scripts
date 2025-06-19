@@ -99,7 +99,7 @@ function move()
 	if IsInTable(SERVERS_MONO, character:server()) and getRemainingSubscription(true) < 2 then
 		Abonnement()
 	end
-
+	debug("oui")
 	goAstrubBank(fini)
 
 end
@@ -109,7 +109,7 @@ function bank()
 end
 
 
-function PHENIX()
+function phenix()
 	return {
 	}
 end

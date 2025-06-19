@@ -271,6 +271,7 @@ function launchExchangeAndGive(minKamas, maxWaitingTime)
 		rerollVar()
 		global:editInMemory("retryTimestamp", os.time())
 		global:addInMemory("failed", true)
+        setBotBankConnected(character:server(), false)
 		receiver:disconnect()
 		return
     end
@@ -407,6 +408,7 @@ function goAstrubBank(inBankCallback)
     end
 
     if not map:onMap(BANK_MAPS.bankAstrubInt) then
+        debug("aaa")
         return treatMaps(GO_BANK_ASTRUB)
     end
     global:printSuccess("On est arrivé a la banque d'astrub")

@@ -606,13 +606,35 @@ function move()
     elseif global:remember("ETAPE_ZAAP") == 8 then
         GoTo("10,22", function ()
             increment()
-            map:changeMap("right")
+            map:changeMap("left")
         end)
     elseif global:remember("ETAPE_ZAAP") == 9 then
-        GoTo("5,7", function ()
+        return {
+            {map = "10,22", path = "left"},
+            {map = "9,20", path = "left"},
+            {map = "8,20", path = "left"},
+            {map = "7,20", path = "left"},
+            {map = "9,22", path = "top"},
+            {map = "9,21", path = "top"},
+            {map = "6,20", path = "top"},
+            {map = "6,19", path = "top"},
+            {map = "6,18", path = "top"},
+            {map = "6,17", path = "top"},
+            {map = "6,16", path = "top"},
+            {map = "6,15", path = "top"},
+            {map = "6,14", path = "top"},
+            {map = "6,13", path = "top"},
+            {map = "6,12", path = "top"},
+            {map = "6,11", path = "top"},
+            {map = "6,10", path = "top"},
+            {map = "6,9", path = "top"},
+            {map = "6,8", path = "top"},
+            {map = "6,7", path = "left"},
+            {map = "5,7", custom = function ()
             increment()
             map:changeMap("top")
-        end)
+        end},
+        }
     elseif global:remember("ETAPE_ZAAP") == 10 then
         GoTo("7,-4", function ()
             increment()
@@ -1036,7 +1058,7 @@ end
 -- end
 
 
-function PHENIX()
+function phenix()
 	return {
 		{map = "-68,-43", path = "right"},
 		{map = "-67,-43", path = "top"},

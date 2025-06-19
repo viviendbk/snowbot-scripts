@@ -874,10 +874,6 @@ function move()
 	end
 
 	if global:remember("lvlFinish") > character:level() and character:kamas() > 300000 then
-		if map:onMap("192415750") then
-			map:moveToCell(409)
-		end
-
 		if map:currentSubArea() == "Égouts d'Astrub" then
 			return getOutSouterrain
 		end
@@ -1102,17 +1098,8 @@ function bank()
 end
 
 
-function PHENIX()
-    return {
-	{map = "190843392", custom = function() map:door(313) map:changeMap("top") end},
-	{map = "-3,-13", path = "right"},
-	{map = "-2,-13", path = "right"},
-	{map = "-1,-13", path = "right"},
-	{map = "0,-13", path = "right"},
-	{map = "1,-13", path = "right"},
-	{map = "2,-13", path = "top"},
-	{map = "2,-14", door = "313"},
-	}
+function phenix()
+    return PHENIX
 end
 
 function stopped()

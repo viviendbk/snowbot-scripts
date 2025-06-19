@@ -189,12 +189,7 @@ end
 function buy_ressources()
     HdvBuy()
     while inventory:itemCount(885) < 5 do
-        for i = 1, 5 do
-            Achat(885, 5)
-        end
-        if inventory:itemCount(885) < 5 then
-            sale:buyItem(885,10,10000000)
-        end
+        Achat(885, 5)
     end
 
     while inventory:itemCount(421) < 50 do
