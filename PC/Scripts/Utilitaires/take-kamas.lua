@@ -145,7 +145,11 @@ function move()
         f:close()
 
         global:printMessage("On a besoin d'un abonnement")
-        global:editAlias(global:thisAccountController():getAlias() .. " [NEED ABO]", true)
+        local currentTime = os.time()
+        local reconnectTime = currentTime + (30 * 60)
+
+        global:printMessage("Le contrôleur nous reconnectera à" .. os.date("%Y-%m-%d %H:%M:%S", reconnectTime) .. ". Déconnexion du compte.")
+        global:editAlias(global:thisAccountController():getAlias() .. " [NEED ABO] retry at (" .. os.date("%Y-%m-%d %H:%M:%S", reconnectTime) .. ")", true)
         global:disconnect()
     end
 
@@ -215,13 +219,11 @@ function move()
                 global:loadAndStart("C:\\Users\\Vivien\\Documents\\Snowbot-Scripts-3\\PC\\Scripts\\PLAndZaaps\\PL_1-6X.lua")
             end
 
-
         end
 
         return goAstrubBank(function() return takeKamas(giver) end)
 
     elseif getRemainingSubscription(true) > 0 then
-        debug("aa")
         if global:thisAccountController():getAlias():find("Combat") then
             global:loadAndStart("C:\\Users\\Vivien\\Documents\\Snowbot-Scripts-3\\PC\\Scripts\\Combat\\buyStuffSacri200.lua")
         elseif not global:thisAccountController():getAlias():find("Groupe") then

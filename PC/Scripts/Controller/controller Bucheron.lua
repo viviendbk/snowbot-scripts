@@ -191,40 +191,46 @@ function move()
         end
 
 
-        -- lines = acc.global():consoleLines()
-        -- if lines ~= nil then
-        --     if not isAccountController(acc:getAlias()) and #lines > 100 and LoopBug(lines) then
-        --         global:printSuccess("On débug le bot " .. acc:getAlias() .. " (loop bug)")
-        --         acc.global():clearConsole()
-        --         acc.disconnect()
-        --     end
-        --     -- debug("1")
-        --     local nbDjBlSuccess = 0
-        --     local nbZaapsTaken = 0
-        --     for _, ligne in ipairs(lines) do
-        --         if ligne:find("Identifiant ou mot de passe incorrect !") then
-        --             snowbotController:deleteAccount(acc:getUsername())
-        --             DebutDeScript = true
-        --         end
-        --         if ligne:find("Trajet : Dj_Bl_Success lancé !") then
-        --             nbDjBlSuccess = nbDjBlSuccess + 1
-        --         end
-        --         if ligne:find("Vous avez perdu") then
-        --             nbZaapsTaken = nbZaapsTaken + 1
-        --         end
-        --     end
-        --                 -- debug("2")
+        lines = acc.global():consoleLines()
+        if lines ~= nil then
+            if not isAccountController(acc:getAlias()) and #lines > 100 and LoopBug(lines) then
+                global:printSuccess("On débug le bot " .. acc:getAlias() .. " (loop bug)")
+                acc.global():clearConsole()
+                acc.disconnect()
+            end
+            -- debug("1")
+            local nbZaapsTaken = 0
+            for _, ligne in ipairs(lines) do
+                if ligne:find("Identifiant ou mot de passe incorrect !") then
+                end
+                if ligne:find("Vous avez perdu") then
+                    nbZaapsTaken = nbZaapsTaken + 1
+                end
+            end
 
-        --     if nbZaapsTaken > 20 then
-        --         acc.global():clearConsole()
-        --         acc:setScriptVariable("NeedToReturnBank", true)
-        --     end
-        --     if nbDjBlSuccess > 10 then
-        --         acc.global():clearConsole()
-        --         acc.global():loadAndStart("C:\\Users\\Vivien\\Documents\\Snowbot-Scripts-3\\PC\\Scripts\\PLAndZaaps\\quete_pandala.lua")
-        --     end
+            -- ajouter le check de si le compte est connecté et si ce n'est pas un compte craft
+            -- local lastLog = extractTime(lines[#lines])
+            -- if not lastLog then
+            --     global:printError("impossible de trouver l'heure de reconnexion dans l'alias: " .. Alias)
+            -- end
 
-        -- end
+            -- local lastLogPlusX = addMinutes(lastLog, 20)
+            -- -- Vérification si l'heure actuelle dépasse celle de reconnexion + 30 minutes
+            -- local currentTime = os.date("%H:%M:%S")
+            -- if compareDateTime(currentTime, lastLogPlusX) >= 0 then
+            --     global:printSuccess(Alias .. ": L'heure actuelle " .. currentTime .. " est supérieure ou égale à l'heure de last log plus x " .. lastLogPlusX .. "on déconnecte le compte")
+            --     acc.global():clearConsole()
+            --     acc:disconnect()
+            --     return true
+            -- end
+                        -- debug("2")
+
+            if nbZaapsTaken > 20 then
+                acc.global():clearConsole()
+                acc:setScriptVariable("NeedToReturnBank", true)
+            end
+
+        end
         -- debug("3")
         if not acc.developer():hasScript() and acc:isAccountFullyConnected() and not acc:getAlias():find("Groupe")
         and (job:level(2) > 5 or job:level(24) > 5 or character:level() < 60) then

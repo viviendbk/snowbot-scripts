@@ -191,40 +191,30 @@ function move()
         end
 
 
-        -- lines = acc.global():consoleLines()
-        -- if lines ~= nil then
-        --     if not isAccountController(acc:getAlias()) and #lines > 100 and LoopBug(lines) then
-        --         global:printSuccess("On débug le bot " .. acc:getAlias() .. " (loop bug)")
-        --         acc.global():clearConsole()
-        --         acc.disconnect()
-        --     end
-        --     -- debug("1")
-        --     local nbDjBlSuccess = 0
-        --     local nbZaapsTaken = 0
-        --     for _, ligne in ipairs(lines) do
-        --         if ligne:find("Identifiant ou mot de passe incorrect !") then
-        --             snowbotController:deleteAccount(acc:getUsername())
-        --             DebutDeScript = true
-        --         end
-        --         if ligne:find("Trajet : Dj_Bl_Success lancé !") then
-        --             nbDjBlSuccess = nbDjBlSuccess + 1
-        --         end
-        --         if ligne:find("Vous avez perdu") then
-        --             nbZaapsTaken = nbZaapsTaken + 1
-        --         end
-        --     end
-        --                 -- debug("2")
+        lines = acc.global():consoleLines()
+        if lines ~= nil then
+            if not isAccountController(acc:getAlias()) and #lines > 100 and LoopBug(lines) then
+                global:printSuccess("On débug le bot " .. acc:getAlias() .. " (loop bug)")
+                acc.global():clearConsole()
+                acc.disconnect()
+            end
+            -- debug("1")
+            local nbZaapsTaken = 0
+            for _, ligne in ipairs(lines) do
+                if ligne:find("Identifiant ou mot de passe incorrect !") then
 
-        --     if nbZaapsTaken > 20 then
-        --         acc.global():clearConsole()
-        --         acc:setScriptVariable("NeedToReturnBank", true)
-        --     end
-        --     if nbDjBlSuccess > 10 then
-        --         acc.global():clearConsole()
-        --         acc.global():loadAndStart("C:\\Users\\Vivien\\Documents\\Snowbot-Scripts-3\\PC\\Scripts\\PLAndZaaps\\quete_pandala.lua")
-        --     end
+                end
+                if ligne:find("Vous avez perdu") then
+                    nbZaapsTaken = nbZaapsTaken + 1
+                end
+            end
+                        -- debug("2")
+            if nbZaapsTaken > 20 then
+                acc.global():clearConsole()
+                acc:setScriptVariable("NeedToReturnBank", true)
+            end
 
-        -- end
+        end
         -- debug("3")
         if not acc.developer():hasScript() and acc:isAccountFullyConnected() and not acc:getAlias():find("Groupe")
         and (job:level(2) > 5 or job:level(24) > 5 or character:level() < 60) then

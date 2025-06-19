@@ -169,7 +169,7 @@ function move()
             if IsItem(inventory:itemTypeId(i)) then
                 table.insert(tableItem, {
                     Id = i,
-                    ListIdCraft = getIngredients(i),
+                    ListIdCraft = getRecipe(i),
                     Type = inventory:getTypeName(i),
                     NbToCraft = 0,
                 })

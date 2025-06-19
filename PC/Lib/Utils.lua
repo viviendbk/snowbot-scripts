@@ -227,6 +227,8 @@ function getCurrentDateTime()
     return day .. ":" .. month .. ":" .. year .. " " .. hour .. ":" .. minute
 end
 
+
+
 function isDateExceeded(dateString)
     -- Parse the given date string
     local day, month, year, hour, minute = dateString:match("(%d+):(%d+):(%d+) (%d+):(%d+)")
@@ -316,6 +318,32 @@ function extractDateTime(text)
     -- Recherche une date et heure au format "YYYY-MM-DD HH:MM:SS"
     local dateTime = text:match("(%d%d%d%d%-%d%d%-%d%d %d%d:%d%d:%d%d)")
     return dateTime
+end
+
+function extractTime(message)
+    local hour, min, sec = message:match("(%d%d):(%d%d):(%d%d)")
+    if hour and min and sec then
+        return string.format("%s:%s:%s", hour, min, sec)
+    else
+        return nil
+    end
+end
+
+function addMinutes(time_str, minutes_to_add)
+    local h, m, s = time_str:match("(%d%d):(%d%d):(%d%d)")
+    if not h then return nil end  -- format invalide
+
+    local total_seconds = tonumber(h) * 3600 + tonumber(m) * 60 + tonumber(s)
+    total_seconds = total_seconds + minutes_to_add * 60
+
+    -- Gérer le dépassement au-delà de 24h (optionnel)
+    total_seconds = total_seconds % (24 * 3600)
+
+    local new_h = math.floor(total_seconds / 3600)
+    local new_m = math.floor((total_seconds % 3600) / 60)
+    local new_s = total_seconds % 60
+
+    return string.format("%02d:%02d:%02d", new_h, new_m, new_s)
 end
 
 function compareDateTime(d1, d2)
@@ -523,7 +551,7 @@ function debug(msg)
 end
 
 function canReconnect(Alias)
-    if not Alias:find("Reconnect") then
+    if not Alias:find("Reconnect") or Alias:find("Need Abo") then
         return true
     end
 
@@ -622,7 +650,7 @@ function connectAccountsWithFailleProxy()
     for _, server in ipairs(ALL_SERVERS) do
         for _, acc in ipairs(loadedAccounts) do
             if acc:getAlias():find(server) and (acc:getAlias():find("Mineur") or acc:getAlias():find("Bucheron") 
-            or acc:getAlias("Combat") or acc:getAlias():find("LvlUp")) and not acc:getAlias():find("BAN") and not acc:getAlias():find("NEED ABO")
+            or acc:getAlias("Combat") or acc:getAlias():find("LvlUp")) and not acc:getAlias():find("BAN")
             and not acc:isAccountConnected() and canReconnect(acc:getAlias()) then
                 table.insert(accountsToConnectByServer[server], acc)
             end
@@ -1029,28 +1057,32 @@ function WithdrawTime(lines)
     end
     return toReturn
 end
-
-function find_repeated_patterns(strings, x, y)
+function find_repeated_patterns(strings, x)
     local n = #strings
     local counts = {}
     local lastPattern = nil
+
     if strings then
         for i = 1, n - x + 1, x do
             local pattern = table.concat(strings, "", i, i + x - 1)
+
             if lastPattern and pattern ~= lastPattern then
-              counts = {}
+                counts = {}
             end
+
             counts[pattern] = (counts[pattern] or 0) + 1
-            if counts[pattern] == y then
-                global:printMessage("pattern : " .. pattern .. "\nRépété " .. x .. " fois")
-              return true
+
+            if counts[pattern] >= 4 then
+                global:printMessage("pattern : " .. pattern .. "\nRépété " .. counts[pattern] .. "fois")
+                return true
             end
+
             lastPattern = pattern
-          end
+        end
     end
 
     return false
-  end
+end
 
 function LoopBug(lines)
     if lines then

@@ -541,7 +541,7 @@ function move()
                     if CanCraftNow(i, jsonFile) then
                         table.insert(TableItem, {
                             Id = i,
-                            ListIdCraft = getIngredients(i),
+                            ListIdCraft = getRecipe(i),
                             Type = inventory:getTypeName(i),
                             NbToCraft = 0,
                         })
@@ -569,7 +569,7 @@ function move()
                 for _, element in ipairs(tableCraft) do
                     for _, type in ipairs(element.types) do
                         if item.Type == type then
-                            table.insert(element.table, {Id = item.Id, TotalCost = item.TotalCost, Type = item.Type, PodsNeededToCraft = item.PodsNeededToCraft, ListIdCraft = getIngredients(item.Id), NbToCraft = 1})
+                            table.insert(element.table, {Id = item.Id, TotalCost = item.TotalCost, Type = item.Type, PodsNeededToCraft = item.PodsNeededToCraft, ListIdCraft = getRecipe(item.Id), NbToCraft = 1})
                         end
                     end
                 end
@@ -1570,7 +1570,7 @@ function move()
                                     for _, element in ipairs(tableCraft) do
                                         for _, type in ipairs(element.types) do
                                             if type == item.Type then
-                                                table.insert(element.table, {Id = item.Id, TotalCost = item.TotalCost, Type = item.Type, PodsNeededToCraft = item.PodsNeededToCraft, ListIdCraft = getIngredients(item.Id), NbToCraft = item.NbToCraft})
+                                                table.insert(element.table, {Id = item.Id, TotalCost = item.TotalCost, Type = item.Type, PodsNeededToCraft = item.PodsNeededToCraft, ListIdCraft = getRecipe(item.Id), NbToCraft = item.NbToCraft})
                                             end
                                         end
                                     end

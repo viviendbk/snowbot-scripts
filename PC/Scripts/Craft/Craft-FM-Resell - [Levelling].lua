@@ -524,7 +524,7 @@ function move()
                  and ((inventory:itemCount(i) > 0 and inventory:itemPosition(i) == 63) or inventory:itemCount(i) == 0) then
                     table.insert(TableItem, {
                         Id = i,
-                        ListIdCraft = getIngredients(i),
+                        ListIdCraft = getRecipe(i),
                         Type = inventory:getTypeName(i),
                         NbToCraft = 1
                     })
@@ -627,28 +627,28 @@ function move()
                 if #item.ListIdCraft > 0 and item.TotalCost > 0 and item.TotalCost < 2000000 then
                     if job:level(64) < math.min(200, job:level(27) + 1) and GetJobMageIdByType(inventory:getTypeName(item.Id)) == 64 and ItemHasTwoOrMoreCarac(item.Id) and ItemHasAtLeastOneLittleStat(item.Id) and (inventory:getLevel(item.Id) + 3) > job:level(GetJobMageIdByType(inventory:getTypeName(item.Id))) then -- costumage
                         global:printSuccess("On va craft  " .. inventory:itemNameId(item.Id) .. " [lvl " .. inventory:getLevel(item.Id) .. "]")
-                        table.insert(TableItemToFM, {Id = item.Id, TotalCost = item.TotalCost, Type = item.Type, PodsNeededToCraft = item.PodsNeededToCraft, ListIdCraft = getIngredients(item.Id), NbToCraft = item.NbToCraft, InfoFm = item.InfoFm, RunesCost = 0})
-                        table.insert(CraftTailleur, {Id = item.Id, TotalCost = item.TotalCost, Type = item.Type, PodsNeededToCraft = item.PodsNeededToCraft, ListIdCraft = getIngredients(item.Id), NbToCraft = item.NbToCraft, InfoFm = item.InfoFm, RunesCost = 0})
+                        table.insert(TableItemToFM, {Id = item.Id, TotalCost = item.TotalCost, Type = item.Type, PodsNeededToCraft = item.PodsNeededToCraft, ListIdCraft = getRecipe(item.Id), NbToCraft = item.NbToCraft, InfoFm = item.InfoFm, RunesCost = 0})
+                        table.insert(CraftTailleur, {Id = item.Id, TotalCost = item.TotalCost, Type = item.Type, PodsNeededToCraft = item.PodsNeededToCraft, ListIdCraft = getRecipe(item.Id), NbToCraft = item.NbToCraft, InfoFm = item.InfoFm, RunesCost = 0})
                         break
                     elseif job:level(62) < math.min(200, job:level(15) + 1) and GetJobMageIdByType(inventory:getTypeName(item.Id)) == 62 and ItemHasTwoOrMoreCarac(item.Id) and ItemHasAtLeastOneLittleStat(item.Id) and (inventory:getLevel(item.Id) + 3) > job:level(GetJobMageIdByType(inventory:getTypeName(item.Id))) then -- jaillomage
                         global:printSuccess("On va craft " .. inventory:itemNameId(item.Id) .. " [lvl " .. inventory:getLevel(item.Id) .. "]")
-                        table.insert(TableItemToFM, {Id = item.Id, TotalCost = item.TotalCost, Type = item.Type, PodsNeededToCraft = item.PodsNeededToCraft, ListIdCraft = getIngredients(item.Id), NbToCraft = item.NbToCraft, InfoFm = item.InfoFm, RunesCost = 0})
-                        table.insert(CraftCordonier, {Id = item.Id, TotalCost = item.TotalCost, Type = item.Type, PodsNeededToCraft = item.PodsNeededToCraft, ListIdCraft = getIngredients(item.Id), NbToCraft = item.NbToCraft, InfoFm = item.InfoFm, RunesCost = 0})
+                        table.insert(TableItemToFM, {Id = item.Id, TotalCost = item.TotalCost, Type = item.Type, PodsNeededToCraft = item.PodsNeededToCraft, ListIdCraft = getRecipe(item.Id), NbToCraft = item.NbToCraft, InfoFm = item.InfoFm, RunesCost = 0})
+                        table.insert(CraftCordonier, {Id = item.Id, TotalCost = item.TotalCost, Type = item.Type, PodsNeededToCraft = item.PodsNeededToCraft, ListIdCraft = getRecipe(item.Id), NbToCraft = item.NbToCraft, InfoFm = item.InfoFm, RunesCost = 0})
                         break
                     elseif job:level(63) < math.min(200, job:level(16) + 1) and GetJobMageIdByType(inventory:getTypeName(item.Id)) == 63 and ItemHasTwoOrMoreCarac(item.Id) and ItemHasAtLeastOneLittleStat(item.Id) and (inventory:getLevel(item.Id) + 3) > job:level(GetJobMageIdByType(inventory:getTypeName(item.Id))) then -- cordomage
                         global:printSuccess("On va craft " .. inventory:itemNameId(item.Id) .. " [lvl " .. inventory:getLevel(item.Id) .. "]")
-                        table.insert(TableItemToFM, {Id = item.Id, TotalCost = item.TotalCost, Type = item.Type, PodsNeededToCraft = item.PodsNeededToCraft, ListIdCraft = getIngredients(item.Id), NbToCraft = item.NbToCraft, InfoFm = item.InfoFm, RunesCost = 0})
-                        table.insert(CraftBijoutier, {Id = item.Id, TotalCost = item.TotalCost, Type = item.Type, PodsNeededToCraft = item.PodsNeededToCraft, ListIdCraft = getIngredients(item.Id), NbToCraft = item.NbToCraft, InfoFm = item.InfoFm, RunesCost = 0})
+                        table.insert(TableItemToFM, {Id = item.Id, TotalCost = item.TotalCost, Type = item.Type, PodsNeededToCraft = item.PodsNeededToCraft, ListIdCraft = getRecipe(item.Id), NbToCraft = item.NbToCraft, InfoFm = item.InfoFm, RunesCost = 0})
+                        table.insert(CraftBijoutier, {Id = item.Id, TotalCost = item.TotalCost, Type = item.Type, PodsNeededToCraft = item.PodsNeededToCraft, ListIdCraft = getRecipe(item.Id), NbToCraft = item.NbToCraft, InfoFm = item.InfoFm, RunesCost = 0})
                         break
                     elseif job:level(44) < math.min(200, job:level(11) + 1) and GetJobMageIdByType(inventory:getTypeName(item.Id)) == 44 and ItemHasTwoOrMoreCarac(item.Id) and ItemHasAtLeastOneLittleStat(item.Id) and (inventory:getLevel(item.Id) + 3) > job:level(GetJobMageIdByType(inventory:getTypeName(item.Id))) then -- forgemage
                         global:printSuccess("On va craft " .. inventory:itemNameId(item.Id) .. " [lvl " .. inventory:getLevel(item.Id) .. "]")
-                        table.insert(TableItemToFM, {Id = item.Id, TotalCost = item.TotalCost, Type = item.Type, PodsNeededToCraft = item.PodsNeededToCraft, ListIdCraft = getIngredients(item.Id), NbToCraft = item.NbToCraft, InfoFm = item.InfoFm, RunesCost = 0})
-                        table.insert(CraftForgeron, {Id = item.Id, TotalCost = item.TotalCost, Type = item.Type, PodsNeededToCraft = item.PodsNeededToCraft, ListIdCraft = getIngredients(item.Id), NbToCraft = item.NbToCraft, InfoFm = item.InfoFm, RunesCost = 0})
+                        table.insert(TableItemToFM, {Id = item.Id, TotalCost = item.TotalCost, Type = item.Type, PodsNeededToCraft = item.PodsNeededToCraft, ListIdCraft = getRecipe(item.Id), NbToCraft = item.NbToCraft, InfoFm = item.InfoFm, RunesCost = 0})
+                        table.insert(CraftForgeron, {Id = item.Id, TotalCost = item.TotalCost, Type = item.Type, PodsNeededToCraft = item.PodsNeededToCraft, ListIdCraft = getRecipe(item.Id), NbToCraft = item.NbToCraft, InfoFm = item.InfoFm, RunesCost = 0})
                         break
                     elseif job:level(48) < math.min(200, job:level(13) + 1) and GetJobMageIdByType(inventory:getTypeName(item.Id)) == 48 and ((inventory:getLevel(item.Id) == 1) or ((ItemHasTwoOrMoreCarac(item.Id) or inventory:getLevel(item.Id) < 10) and ItemHasAtLeastOneLittleStat(item.Id))) and (inventory:getLevel(item.Id) + 4) > job:level(GetJobMageIdByType(inventory:getTypeName(item.Id))) then -- sculptemage
                         global:printSuccess("On va craft " .. inventory:itemNameId(item.Id) .. " [lvl " .. inventory:getLevel(item.Id) .. "]")
-                        table.insert(TableItemToFM, {Id = item.Id, TotalCost = item.TotalCost, Type = item.Type, PodsNeededToCraft = item.PodsNeededToCraft, ListIdCraft = getIngredients(item.Id), NbToCraft = item.NbToCraft, InfoFm = item.InfoFm, RunesCost = 0})
-                        table.insert(CraftSculpteur, {Id = item.Id, TotalCost = item.TotalCost, Type = item.Type, PodsNeededToCraft = item.PodsNeededToCraft, ListIdCraft = getIngredients(item.Id), NbToCraft = item.NbToCraft, InfoFm = item.InfoFm, RunesCost = 0})
+                        table.insert(TableItemToFM, {Id = item.Id, TotalCost = item.TotalCost, Type = item.Type, PodsNeededToCraft = item.PodsNeededToCraft, ListIdCraft = getRecipe(item.Id), NbToCraft = item.NbToCraft, InfoFm = item.InfoFm, RunesCost = 0})
+                        table.insert(CraftSculpteur, {Id = item.Id, TotalCost = item.TotalCost, Type = item.Type, PodsNeededToCraft = item.PodsNeededToCraft, ListIdCraft = getRecipe(item.Id), NbToCraft = item.NbToCraft, InfoFm = item.InfoFm, RunesCost = 0})
                         break
                     end
                 end

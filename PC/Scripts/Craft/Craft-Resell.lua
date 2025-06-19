@@ -388,7 +388,7 @@ function move()
                 and inventory:getLevel(i) < (character:server() == "Ombre" and 150 or 200) and ((inventory:itemCount(i) > 0 and inventory:itemPosition(i) == 63) or inventory:itemCount(i) == 0) and CanCraftItem(i, jsonFile) then
                     table.insert(TableItem, {
                         Id = i,
-                        ListIdCraft = getIngredients(i),
+                        ListIdCraft = getRecipe(i),
                         Type = inventory:getTypeName(i),
                         NbToCraft = 1
                     })

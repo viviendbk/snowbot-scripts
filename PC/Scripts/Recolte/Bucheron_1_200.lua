@@ -1444,18 +1444,21 @@ local eigthAreaBis = {
 }
 
 local Planches = {
-    {Name = "Planche de Salut", Id = 16499, MaxHdv10 = 3, MaxHdv1 = 3, CanCraft = false, ListIdCraft = {{Id = 7016, Nb = 10}, {Id = 7014, Nb = 10}, {Id = 472, Nb = 10}, {Id = 7925, Nb = 10}, {Id = 470, Nb = 10}, {Id = 11107, Nb = 10}, {Id = 449, Nb = 10}, {Id = 16488, Nb = 10}}, lvlMax = 201, CanSell = true},
-    {Name = "Planche a Dessin", Id = 16498, MaxHdv10 = 3, MaxHdv1 = 3, CanCraft = false, ListIdCraft = {{Id = 7016, Nb = 10}, {Id = 474, Nb = 10}, {Id = 472, Nb = 10}, {Id = 7925, Nb = 10}, {Id = 470, Nb = 10}, {Id = 7013, Nb = 10}, {Id = 449, Nb = 10}, {Id = 16488, Nb = 10}}, lvlMax = 201, CanSell = true},
-    {Name = "Planche a Pain", Id = 16497, MaxHdv10 = 3, MaxHdv1 = 3, CanCraft = false, ListIdCraft = {{Id = 461, Nb = 10}, {Id = 474, Nb = 10}, {Id = 472, Nb = 10}, {Id = 7925, Nb = 10}, {Id = 7013, Nb = 10}, {Id = 449, Nb = 10}, {Id = 16488, Nb = 10}}, lvlMax = 180, CanSell = true},
-    {Name = "Planche de Gravure", Id = 16496, MaxHdv10 = 3, MaxHdv1 = 3, CanCraft = false, ListIdCraft = {{Id = 461, Nb = 10}, {Id = 474, Nb = 10}, {Id = 2357, Nb = 5}, {Id = 7013, Nb = 10}, {Id = 449, Nb = 10}, {Id = 16488, Nb = 10}, {Id = 27375, Nb = 5}}, lvlMax = 160, CanSell = true},
-    {Name = "Planche a Patisserie", Id = 16495, MaxHdv10 = 3, MaxHdv1 = 3, CanCraft = false, ListIdCraft = {{Id = 461, Nb = 10}, {Id = 474, Nb = 10}, {Id = 2357, Nb = 5}, {Id = 7013, Nb = 10}, {Id = 2358, Nb = 10}, {Id = 471, Nb = 10}, {Id = 27375, Nb = 5}}, lvlMax = 140, CanSell = true},
-    {Name = "Planche de Toilettes", Id = 16494, MaxHdv10 = 3, MaxHdv1 = 3, CanCraft = false, ListIdCraft = {{Id = 461, Nb = 10}, {Id = 2357, Nb = 5}, {Id = 460, Nb = 10}, {Id = 2358, Nb = 10}, {Id = 471, Nb = 10}, {Id = 27375, Nb = 5}}, lvlMax = 120, CanSell = true},
-	{Name = "Planche a Repasser", Id = 16493, MaxHdv10 = 3, MaxHdv1 = 3, CanCraft = false, ListIdCraft = {{Id = 476, Nb = 10}, {Id = 460, Nb = 10}, {Id = 2358, Nb = 10}, {Id = 471, Nb = 10}}, lvlMax = 100, CanSell = true},
-    {Name = "Planche de Surf", Id = 16492, MaxHdv10 = 3, MaxHdv1 = 3, CanCraft = false, ListIdCraft = {{Id = 476, Nb = 10}, {Id = 303, Nb = 10}, {Id = 460, Nb = 10}, {Id = 473, Nb = 10}}, lvlMax = 80, CanSell = true},
-    {Name = "Planche a Griller", Id = 16491, MaxHdv10 = 3, MaxHdv1 = 3, CanCraft = false, ListIdCraft = {{Id = 476, Nb = 10}, {Id = 303, Nb = 10}, {Id = 473, Nb = 10}}, lvlMax = 60, CanSell = true},
-    {Name = "Planche Contreplaquee", Id = 16489, MaxHdv10 = 3, MaxHdv1 = 3, CanCraft = false, ListIdCraft = {{Id = 303, Nb = 10}, {Id = 473, Nb = 10}}, lvlMax = 40, CanSell = true},
+    {Name = "Planche de Salut", Id = 16499, MaxHdv10 = 3, MaxHdv1 = 3, CanCraft = false, ListIdCraft = {{Id = 7016, Quantity = 10}, {Id = 7014, Quantity = 10}, {Id = 472, Quantity = 10}, {Id = 7925, Quantity = 10}, {Id = 470, Quantity = 10}, {Id = 11107, Quantity = 10}, {Id = 449, Quantity = 10}, {Id = 16488, Quantity = 10}}, lvlMax = 201, CanSell = true},
+    {Name = "Planche a Dessin", Id = 16498, MaxHdv10 = 3, MaxHdv1 = 3, CanCraft = false, ListIdCraft = {{Id = 7016, Quantity = 10}, {Id = 474, Quantity = 10}, {Id = 472, Quantity = 10}, {Id = 7925, Quantity = 10}, {Id = 470, Quantity = 10}, {Id = 7013, Quantity = 10}, {Id = 449, Quantity = 10}, {Id = 16488, Quantity = 10}}, lvlMax = 201, CanSell = true},
+    {Name = "Planche a Pain", Id = 16497, MaxHdv10 = 3, MaxHdv1 = 3, CanCraft = false, ListIdCraft = {{Id = 461, Quantity = 10}, {Id = 474, Quantity = 10}, {Id = 472, Quantity = 10}, {Id = 7925, Quantity = 10}, {Id = 7013, Quantity = 10}, {Id = 449, Quantity = 10}, {Id = 16488, Quantity = 10}}, lvlMax = 180, CanSell = true},
+    {Name = "Planche de Gravure", Id = 16496, MaxHdv10 = 3, MaxHdv1 = 3, CanCraft = false, ListIdCraft = {{Id = 461, Quantity = 10}, {Id = 474, Quantity = 10}, {Id = 2357, Quantity = 5}, {Id = 7013, Quantity = 10}, {Id = 449, Quantity = 10}, {Id = 16488, Quantity = 10}, {Id = 27375, Quantity = 5}}, lvlMax = 160, CanSell = true},
+    {Name = "Planche a Patisserie", Id = 16495, MaxHdv10 = 3, MaxHdv1 = 3, CanCraft = false, ListIdCraft = {{Id = 461, Quantity = 10}, {Id = 474, Quantity = 10}, {Id = 2357, Quantity = 5}, {Id = 7013, Quantity = 10}, {Id = 2358, Quantity = 10}, {Id = 471, Quantity = 10}, {Id = 27375, Quantity = 5}}, lvlMax = 140, CanSell = true},
+    {Name = "Planche de Toilettes", Id = 16494, MaxHdv10 = 3, MaxHdv1 = 3, CanCraft = false, ListIdCraft = {{Id = 461, Quantity = 10}, {Id = 2357, Quantity = 5}, {Id = 460, Quantity = 10}, {Id = 2358, Quantity = 10}, {Id = 471, Quantity = 10}, {Id = 27375, Quantity = 5}}, lvlMax = 120, CanSell = true},
+	{Name = "Planche a Repasser", Id = 16493, MaxHdv10 = 3, MaxHdv1 = 3, CanCraft = false, ListIdCraft = {{Id = 476, Quantity = 10}, {Id = 460, Quantity = 10}, {Id = 2358, Quantity = 10}, {Id = 471, Quantity = 10}}, lvlMax = 100, CanSell = true},
+    {Name = "Planche de Surf", Id = 16492, MaxHdv10 = 3, MaxHdv1 = 3, CanCraft = false, ListIdCraft = {{Id = 476, Quantity = 10}, {Id = 303, Quantity = 10}, {Id = 460, Quantity = 10}, {Id = 473, Quantity = 10}}, lvlMax = 80, CanSell = true},
+    {Name = "Planche a Griller", Id = 16491, MaxHdv10 = 3, MaxHdv1 = 3, CanCraft = false, ListIdCraft = {{Id = 476, Quantity = 10}, {Id = 303, Quantity = 10}, {Id = 473, Quantity = 10}}, lvlMax = 60, CanSell = true},
+    {Name = "Planche Contreplaquee", Id = 16489, MaxHdv10 = 3, MaxHdv1 = 3, CanCraft = false, ListIdCraft = {{Id = 303, Quantity = 10}, {Id = 473, Quantity = 10}}, lvlMax = 40, CanSell = true},
 }
 
+for _, element in ipairs(Planches) do
+    element.ListIdCraft = getRecipe(element.Id)
+end
           
 local Bois = {
     {Name = "Tremble", Id = 11107, MaxHdv100 = 3, MaxHdv10 = 3, CanSell = true},
@@ -1612,14 +1615,15 @@ local function ProcessBank() -- done
             NeedToCraft = true
             CraftQuantity = math.floor(podsAvailable/ (#element.ListIdCraft * 50))
             for _, element2 in ipairs(element.ListIdCraft) do 
-                CraftQuantity = math.min(CraftQuantity, math.floor(exchange:storageItemQuantity(element2.Id) / element2.Nb))
+                CraftQuantity = math.min(CraftQuantity, math.floor(exchange:storageItemQuantity(element2.Id) / element2.Quantity))
             end
 
-            global:printSuccess("[Info] Possibilité de création de " .. CraftQuantity .. "x [" .. element.Name .. "]")
+			global:printSuccess("[Info] Possibilité de création de " .. CraftQuantity .. "x [" .. element.Name .. "] (Craft à " .. #element.ListIdCraft .. " cases)")
 
-            for _, element2 in ipairs(element.ListIdCraft) do
-                exchange:getItem(element2.Id, CraftQuantity * element2.Nb)
-            end
+			for _, element2 in ipairs(element.ListIdCraft) do
+				global:printSuccess("On prend " .. CraftQuantity * element2.Quantity .. "x [" .. element2.Id .. "]")
+				exchange:getItem(element2.Id, CraftQuantity * element2.Quantity)
+			end
         end
     end
 	
@@ -1677,7 +1681,7 @@ local function ProcessCraft() -- done
         if element.CanCraft then
 			global:printSuccess(element.Name)
             for _, element2 in ipairs(element.ListIdCraft) do
-                craft:putItem(element2.Id, element2.Nb)
+                craft:putItem(element2.Id, element2.Quantity)
             end
 			global:printSuccess(CraftQuantity)
             craft:changeQuantityToCraft(CraftQuantity)

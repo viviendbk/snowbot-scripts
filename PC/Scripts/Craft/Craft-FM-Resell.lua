@@ -616,7 +616,7 @@ function move()
                  and ((inventory:itemCount(i) > 0 and inventory:itemPosition(i) == 63) or inventory:itemCount(i) == 0) then
                     table.insert(TableItem, {
                         Id = i,
-                        ListIdCraft = getIngredients(i),
+                        ListIdCraft = getRecipe(i),
                         Type = inventory:getTypeName(i),
                         NbToCraft = 1
                     })
@@ -643,7 +643,7 @@ function move()
                 for _, element in ipairs(tableCraft) do
                     for _, type in ipairs(element.types) do
                         if item.Type == type then
-                            table.insert(element.table, {Id = item.Id, TotalCost = item.TotalCost, Type = item.Type, PodsNeededToCraft = item.PodsNeededToCraft, ListIdCraft = getIngredients(item.Id), NbToCraft = item.NbToCraft, InfoFm = item.InfoFm, RunesCost = item.RunesCost, PriceFM = item.PriceFM})
+                            table.insert(element.table, {Id = item.Id, TotalCost = item.TotalCost, Type = item.Type, PodsNeededToCraft = item.PodsNeededToCraft, ListIdCraft = getRecipe(item.Id), NbToCraft = item.NbToCraft, InfoFm = item.InfoFm, RunesCost = item.RunesCost, PriceFM = item.PriceFM})
                         end
                     end
                 end
@@ -692,7 +692,7 @@ function move()
             --         for _, element in ipairs(TableItem) do
             --             if element.Id == item.objectGID then
             --                 global:printSuccess(element.TotalCost)
-            --                 table.insert(TableItemToFM, {Id = element.Id, TotalCost = element.TotalCost, Type = element.Type, PodsNeededToCraft = element.PodsNeededToCraft, ListIdCraft = getIngredients(element.Id), NbToCraft = 1, RunesCost = 0})
+            --                 table.insert(TableItemToFM, {Id = element.Id, TotalCost = element.TotalCost, Type = element.Type, PodsNeededToCraft = element.PodsNeededToCraft, ListIdCraft = getRecipe(element.Id), NbToCraft = 1, RunesCost = 0})
             --             end
             --         end
             --     end

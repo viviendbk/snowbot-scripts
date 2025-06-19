@@ -718,19 +718,25 @@ local GoTakeKamas = {
     {map = "217059328", custom = TakeKamas},
 }
 
+
+-- j'ai laissé la recette au cas où getrecipe marche plus
 local Aliage = {
-    {Name = "Ardonite", Id = 12728, MaxHdv10 = 7, MaxHdv1 = 5, CanCraft = false, ListIdCraft = {{Id = 313, Nb = 10}, {Id = 350, Nb = 10}, {Id = 444, Nb = 5}, {Id = 27621, Nb = 5}, {Id = 446, Nb = 10}, {Id = 7032, Nb = 5}, {Id = 7033, Nb = 5}, {Id = 11110, Nb = 10}}, lvlMax = 201, CanSell = true},
-    {Name = "Pyrute", Id = 7035, MaxHdv10 = 7, MaxHdv1 = 5, CanCraft = false, ListIdCraft = {{Id = 313, Nb = 10}, {Id = 350, Nb = 10}, {Id = 444, Nb = 5}, {Id = 27621, Nb = 5}, {Id = 446, Nb = 10}, {Id = 7032, Nb = 5}, {Id = 7033, Nb = 5}, {Id = 443, Nb = 10}}, lvlMax = 201, CanSell = true},
-    {Name = "Rutile", Id = 7036, MaxHdv10 = 7, MaxHdv1 = 5, CanCraft = false, ListIdCraft = {{Id = 313, Nb = 10}, {Id = 350, Nb = 10}, {Id = 444, Nb = 5}, {Id = 445, Nb = 10}, {Id = 446, Nb = 10}, {Id = 7032, Nb = 5}, {Id = 443, Nb = 10}}, lvlMax = 201, CanSell = true},
-    {Name = "Kobalite", Id = 6458, MaxHdv10 = 3, MaxHdv1 = 3, CanCraft = false, ListIdCraft = {{Id = 350, Nb = 10}, {Id = 444, Nb = 5}, {Id = 445, Nb = 10}, {Id = 442, Nb = 10}, {Id = 7032, Nb = 5}, {Id = 443, Nb = 10}}, lvlMax = 201, CanSell = true},
-    {Name = "Kriptonite", Id = 6457, MaxHdv10 = 3, MaxHdv1 = 3, CanCraft = false, ListIdCraft = {{Id = 444, Nb = 5}, {Id = 445, Nb = 10}, {Id = 442, Nb = 10}, {Id = 7032, Nb = 5}, {Id = 443, Nb = 10}}, lvlMax = 201, CanSell = true},
-    {Name = "Kouartz", Id = 750, MaxHdv10 = 5, MaxHdv1 = 5, CanCraft = false, ListIdCraft = {{Id = 444, Nb = 5}, {Id = 445, Nb = 10}, {Id = 442, Nb = 10}, {Id = 7032, Nb = 5}, {Id = 443, Nb = 10}}, lvlMax = 201, CanSell = true},
-    {Name = "Bakélélite", Id = 749, MaxHdv10 = 10, MaxHdv1 = 10, CanCraft = false, ListIdCraft = {{Id = 441, Nb = 10}, {Id = 442, Nb = 10}, {Id = 443, Nb = 10}, {Id = 445, Nb = 10}}, lvlMax = 201, CanSell = true},
-    {Name = "Magnésite", Id = 748, MaxHdv10 = 10, MaxHdv1 = 10, CanCraft = false, ListIdCraft = {{Id = 312, Nb = 10}, {Id = 441, Nb = 10}, {Id = 442, Nb = 10}, {Id = 443, Nb = 10}}, lvlMax = 201, CanSell = true},
-    {Name = "Ebonite", Id = 746, MaxHdv10 = 10, MaxHdv1 = 10, CanCraft = false, ListIdCraft = {{Id = 312, Nb = 10}, {Id = 441, Nb = 10}, {Id = 442, Nb = 10}}, lvlMax = 201, CanSell = true},
-    {Name = "Alumite", Id = 747, MaxHdv10 = 10, MaxHdv1 = 10, CanCraft = false, ListIdCraft = {{Id = 312, Nb = 10}, {Id = 441, Nb = 10}}, lvlMax = 40, CanSell = true},
+    {Name = "Ardonite", Id = 12728, MaxHdv10 = 7, MaxHdv1 = 5, CanCraft = false, ListIdCraft = {{Id = 313, Quantity = 10}, {Id = 350, Quantity = 10}, {Id = 444, Quantity = 5}, {Id = 27621, Quantity = 5}, {Id = 446, Quantity = 10}, {Id = 7032, Quantity = 5}, {Id = 7033, Quantity = 5}, {Id = 11110, Quantity = 10}}, lvlMax = 201, CanSell = true},
+    {Name = "Pyrute", Id = 7035, MaxHdv10 = 7, MaxHdv1 = 5, CanCraft = false, ListIdCraft = {{Id = 313, Quantity = 10}, {Id = 350, Quantity = 10}, {Id = 444, Quantity = 5}, {Id = 27621, Quantity = 5}, {Id = 446, Quantity = 10}, {Id = 7032, Quantity = 5}, {Id = 7033, Quantity = 5}, {Id = 443, Quantity = 10}}, lvlMax = 201, CanSell = true},
+    {Name = "Rutile", Id = 7036, MaxHdv10 = 7, MaxHdv1 = 5, CanCraft = false, ListIdCraft = {{Id = 313, Quantity = 10}, {Id = 350, Quantity = 10}, {Id = 444, Quantity = 5}, {Id = 445, Quantity = 10}, {Id = 446, Quantity = 10}, {Id = 7032, Quantity = 5}, {Id = 443, Quantity = 10}}, lvlMax = 201, CanSell = true},
+    {Name = "Kobalite", Id = 6458, MaxHdv10 = 3, MaxHdv1 = 3, CanCraft = false, ListIdCraft = {{Id = 350, Quantity = 10}, {Id = 444, Quantity = 5}, {Id = 445, Quantity = 10}, {Id = 442, Quantity = 10}, {Id = 7032, Quantity = 5}, {Id = 443, Quantity = 10}}, lvlMax = 201, CanSell = true},
+    {Name = "Kriptonite", Id = 6457, MaxHdv10 = 3, MaxHdv1 = 3, CanCraft = false, ListIdCraft = {{Id = 444, Quantity = 5}, {Id = 445, Quantity = 10}, {Id = 442, Quantity = 10}, {Id = 7032, Quantity = 5}, {Id = 443, Quantity = 10}}, lvlMax = 201, CanSell = true},
+    {Name = "Kouartz", Id = 750, MaxHdv10 = 5, MaxHdv1 = 5, CanCraft = false, ListIdCraft = {{Id = 444, Quantity = 5}, {Id = 445, Quantity = 10}, {Id = 442, Quantity = 10}, {Id = 7032, Quantity = 5}, {Id = 443, Quantity = 10}}, lvlMax = 201, CanSell = true},
+    {Name = "Bakélélite", Id = 749, MaxHdv10 = 10, MaxHdv1 = 10, CanCraft = false, ListIdCraft = {{Id = 441, Quantity = 10}, {Id = 442, Quantity = 10}, {Id = 443, Quantity = 10}, {Id = 445, Quantity = 10}}, lvlMax = 201, CanSell = true},
+    {Name = "Magnésite", Id = 748, MaxHdv10 = 10, MaxHdv1 = 10, CanCraft = false, ListIdCraft = {{Id = 312, Quantity = 10}, {Id = 441, Quantity = 10}, {Id = 442, Quantity = 10}, {Id = 443, Quantity = 10}}, lvlMax = 201, CanSell = true},
+    {Name = "Ebonite", Id = 746, MaxHdv10 = 10, MaxHdv1 = 10, CanCraft = false, ListIdCraft = {{Id = 312, Quantity = 10}, {Id = 441, Quantity = 10}, {Id = 442, Quantity = 10}}, lvlMax = 201, CanSell = true},
+    {Name = "Alumite", Id = 747, MaxHdv10 = 10, MaxHdv1 = 10, CanCraft = false, ListIdCraft = {{Id = 312, Quantity = 10}, {Id = 441, Quantity = 10}}, lvlMax = 40, CanSell = true},
 }
 
+
+for _, element in ipairs(Aliage) do
+    element.ListIdCraft = getRecipe(element.Id)
+end
           
 local Minerai = {
     {Name = "Obsidienne", Id = 11110, MaxHdv100 = 3, MaxHdv10 = 3, CanSell = true, LvlMinToSell = 160},
@@ -1085,7 +1091,7 @@ local function ProcessBank()
         local totalWeight = 0
 
         for _, element2 in ipairs(element.ListIdCraft) do
-            totalWeight = totalWeight + inventory:itemWeight(element2.Id) * element2.Nb
+            totalWeight = totalWeight + inventory:itemWeight(element2.Id) * element2.Quantity
             if not (exchange:storageItemQuantity(element2.Id) >= 50) or NeedToCraft or not element.CanSell or job:level(24) >= element.lvlMax then
                 element.CanCraft = false
                 break
@@ -1096,16 +1102,17 @@ local function ProcessBank()
             CraftQuantity = math.floor(podsAvailable * 0.95 / totalWeight)
 
             for _, element2 in ipairs(element.ListIdCraft) do 
-                CraftQuantity = math.min(CraftQuantity, math.floor(exchange:storageItemQuantity(element2.Id) / element2.Nb))
+                CraftQuantity = math.min(CraftQuantity, math.floor(exchange:storageItemQuantity(element2.Id) / element2.Quantity))
             end   
             
             if CraftQuantity >= 5 then
                 NeedToSell = false
                 NeedToCraft = true
-                global:printSuccess("[Info] Possibilité de création de " .. CraftQuantity .. "x [" .. element.Name .. "]")
+                global:printSuccess("[Info] Possibilité de création de " .. CraftQuantity .. "x [" .. element.Name .. "] (Craft à " .. #element.ListIdCraft .. " cases)")
 
                 for _, element2 in ipairs(element.ListIdCraft) do
-                    exchange:getItem(element2.Id, CraftQuantity * element2.Nb)
+                    global:printSuccess("On prend " .. CraftQuantity * element2.Quantity .. "x [" .. element2.Id .. "]")
+                    exchange:getItem(element2.Id, CraftQuantity * element2.Quantity)
                 end
             end
         elseif element.Stopper == nil and element.CanCraft and not NeedToCraft and job:level(24) < element.lvlMax then
@@ -1114,16 +1121,17 @@ local function ProcessBank()
             global:printSuccess("total weight : " .. totalWeight)
 
             for _, element2 in ipairs(element.ListIdCraft) do 
-                CraftQuantity = math.min(CraftQuantity, math.floor(exchange:storageItemQuantity(element2.Id) / element2.Nb))
+                CraftQuantity = math.min(CraftQuantity, math.floor(exchange:storageItemQuantity(element2.Id) / element2.Quantity))
             end   
             
             if CraftQuantity >= 5 then
                 NeedToSell = false
                 NeedToCraft = true
-                global:printSuccess("[Info] Possibilité de création de " .. CraftQuantity .. "x [" .. element.Name .. "]")
+                global:printSuccess("[Info] Possibilité de création de " .. CraftQuantity .. "x [" .. element.Name .. "] (Craft à " .. #element.ListIdCraft .. " cases)")
 
                 for _, element2 in ipairs(element.ListIdCraft) do
-                    exchange:getItem(element2.Id, CraftQuantity * element2.Nb)
+                    global:printSuccess("On prend " .. CraftQuantity * element2.Quantity .. "x [" .. inventory:itemNameId(element2.Id) .. "]")
+                    exchange:getItem(element2.Id, CraftQuantity * element2.Quantity)
                 end
             end
         end
@@ -1164,21 +1172,21 @@ local function ProcessCraft()
         if element.CanCraft then
             if index == 2 and Aliage[3].CanSell then
                 for _, element2 in ipairs(Aliage[2].ListIdCraft) do
-                    craft:putItem(element2.Id, element2.Nb)
+                    craft:putItem(element2.Id, element2.Quantity)
                 end
                 craft:changeQuantityToCraft(math.floor(CraftQuantity / 2))
                 element.CanCraft = false
                 global:delay(1000)
                 craft:ready()
                 for _, element2 in ipairs(Aliage[3].ListIdCraft) do
-                    craft:putItem(element2.Id, element2.Nb)
+                    craft:putItem(element2.Id, element2.Quantity)
                 end
                 craft:changeQuantityToCraft(math.floor(CraftQuantity / 2))
                 global:delay(1000)
                 craft:ready()
             else
                 for _, element2 in ipairs(element.ListIdCraft) do
-                    craft:putItem(element2.Id, element2.Nb)
+                    craft:putItem(element2.Id, element2.Quantity)
                 end
                 craft:changeQuantityToCraft(CraftQuantity)
                 element.CanCraft = false

@@ -66,6 +66,7 @@ local function giveResourcesKamasAndValidate()
 	global:printSuccess("J'accepte l'échange")
 	exchange:ready()
 	global:editAlias("bank_" .. character:server():lower() .. " : [" .. truncKamas() .. "m]", true)
+    logBotStats()
 end
 
 function _handleExchange(message)

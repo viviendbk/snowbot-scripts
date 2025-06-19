@@ -589,7 +589,7 @@ function move()
                  and ((inventory:itemCount(i) > 0 and inventory:itemPosition(i) == 63) or inventory:itemCount(i) == 0) then
                     table.insert(TableItem, {
                         Id = i,
-                        ListIdCraft = getIngredients(i),
+                        ListIdCraft = getRecipe(i),
                         Type = inventory:getTypeName(i),
                         NbToCraft = 1
                     })
@@ -713,7 +713,7 @@ function move()
                     for _, item in ipairs(TableItem) do
                         if #item.ListIdCraft > 0 and item.TotalCost > 0 and ((inventory:getLevel(item.Id)) > (job:level(element.Id) - 4)) and IsInTable(element.Type, item.Type) and ((item.PodsNeededToCraft * 100) < podsAvailable) then
                             global:printError("AAAA" .. item.TotalCost)
-                            table.insert(ItemsToCraft, {Id = item.Id, TotalCost = item.TotalCost, Type = item.Type, PodsNeededToCraft = item.PodsNeededToCraft, ListIdCraft = getIngredients(item.Id), NbToCraft = 100})
+                            table.insert(ItemsToCraft, {Id = item.Id, TotalCost = item.TotalCost, Type = item.Type, PodsNeededToCraft = item.PodsNeededToCraft, ListIdCraft = getRecipe(item.Id), NbToCraft = 100})
                         end
                     end
 

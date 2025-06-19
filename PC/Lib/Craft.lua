@@ -823,7 +823,7 @@ function IsItem(TypeId)
     return false
 end
 
-function getIngredients(id)
+function getRecipe(id)
 
     local recipe = d2data:objectFromD2O("Recipes", id)
     
