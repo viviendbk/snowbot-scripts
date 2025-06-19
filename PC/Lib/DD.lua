@@ -179,6 +179,11 @@ function buyAndfeedDD()
         {Name = "Poisson-Chaton", Id = 603},
         {Name = "Bar Rikain", Id = 1779},
     }
+
+    if inventory:podsMax() - inventory:pods() < 200 then
+        global:printError("Plus de place dans l'inventaire, on ne peut pas acheter de poisson DD")
+        return
+    end
     
     for _, element in ipairs(TableAchat) do
         if inventory:itemCount(element.Id) > 0 then
