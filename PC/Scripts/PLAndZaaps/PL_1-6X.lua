@@ -392,6 +392,8 @@ local Calanques_Astrub = {
 	{map = "10,-22", path = "right", fight = true},
 	{map = "192415750", path = "409"},
 	{map = "6,-19", path = "bottom"},
+	{map = "9,-18", path = "left"},
+	{map = "8,-18", path = "top"},
 	{map = "10,-19", custom = function ()
 		map:door(232)
 		global:delay(1000)
@@ -871,7 +873,7 @@ function move()
 		global:loadConfigurationWithoutScript("C:\\Users\\Vivien\\Documents\\Snowbot-Scripts-3\\PC\\Configs\\Config_PL_1-6X.xml")
 	end
 
-	if global:remember("lvlFinish") > character:level() then
+	if global:remember("lvlFinish") > character:level() and character:kamas() > 300000 then
 		if map:onMap("192415750") then
 			map:moveToCell(409)
 		end
@@ -980,7 +982,7 @@ function move()
 			map:moveToCell(372)
 		end
 	end
-		debug("ok")
+		debug("o4k")
 
 	-- monter chaseur niv 20
 	if (inventory:itemCount(17123) < 275) and (job:level(41) < 20) then
@@ -1008,7 +1010,7 @@ function move()
 	-- end
 
 	--
-	debug("ok")
+	debug("okaa")
 
 
 	if character:level() >= 64 then
@@ -1040,6 +1042,7 @@ function move()
 	elseif character:level() >= 40 and character:level() < 42 then 
 		MAX_MONSTERS = 5
 		MIN_MONSTERS = 1
+		debug("a")
 		return treatMapsAstrub(Calanques_Astrub)
 	elseif character:level() >= 38 and character:level() < 40 then 
 		MAX_MONSTERS = 5

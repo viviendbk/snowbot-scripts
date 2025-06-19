@@ -76,19 +76,21 @@ local function takeKamas(giver)
         setBotBankConnected(character:server(), false)
         global:deleteMemory("doneTransfert")
         customReconnect(60)
-    end
-
-    if not global:thisAccountController():getAlias():find("Draconiros") and getRemainingSubscription(true) <= 0 then 
-        Abonnement() 
     else
-        global:disconnect()
+        global:printSuccess("le bot banque nous a donné les kamas, on continue")
+        giver:disconnect()
+        setBotBankConnected(character:server(), false)
+        if global:thisAccountController():getAlias():find("Combat") then
+            global:loadAndStart("C:\\Users\\Vivien\\Documents\\Snowbot-Scripts-3\\PC\\Scripts\\Combat\\buyStuffSacri200.lua")
+        elseif not global:thisAccountController():getAlias():find("Groupe") then
+            if character:level() > 140 then
+                global:loadAndStart("C:\\Users\\Vivien\\Documents\\Snowbot-Scripts-3\\PC\\Scripts\\Recolte\\buyStuffRecolte.lua")
+            end
+            global:loadAndStart("C:\\Users\\Vivien\\Documents\\Snowbot-Scripts-3\\PC\\Scripts\\PLAndZaaps\\Zaaps&Stuffs.lua")
+        else
+            global:loadAndStart("C:\\Users\\Vivien\\Documents\\Snowbot-Scripts-3\\PC\\Scripts\\PLAndZaaps\\quete_pandala.lua")
+        end
     end
-
-    global:printSuccess("le bot banque n'a pas pu nous donner les kamas, on retente dans 4h")
-    global:deleteMemory("doneTransfert")
-    giver:disconnect()
-    setBotBankConnected(character:server(), false)
-    customReconnect(4 * 60)
 end
 
 function move()
