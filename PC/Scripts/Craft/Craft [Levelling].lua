@@ -554,10 +554,7 @@ function move()
     mapDelay()
     if ScriptStarting then
         -- vérifie qu'il est bien abonné        
-        if getRemainingHoursSubscription() <= 24 and character:kamas() > (character:server() == "Draconiros" and 550000 or 1000000) then
-            global:printSuccess("il reste " .. getRemainingHoursSubscription() .. "jours d'abonnement, on tente de s'abonner à nouveau")
-            Abonnement()
-        elseif getRemainingHoursSubscription() < 24 then
+        if getRemainingHoursSubscription() < 24 then
             Abonnement()
         end
 

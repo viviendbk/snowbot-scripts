@@ -786,18 +786,8 @@ end
 
 function move()
     handleDisconnection()
-    if getRemainingSubscription(true) <= 0 and (character:kamas() > ((character:server() == "Draconiros") and 600000 or 1100000)) then
-        global:loadAndStart(scriptPath)
-    elseif getRemainingHoursSubscription() < 4 and character:server() == "Draconiros" then
-        global:loadAndStart(scriptPath)
-    elseif getRemainingSubscription(true) < 0 then
-        global:loadAndStart(scriptPath)
-    end
+
     mapDelay()
-    if global:thisAccountController():getAlias():find("Draconiros") and character:server() ~= "Draconiros" then
-        global:thisAccountController():forceServer("Draconiros")
-        global:disconnect()
-    end
 
     for i = 1, NB_MINEUR do
         if global:thisAccountController():getAlias():find("Mineur" .. i) then

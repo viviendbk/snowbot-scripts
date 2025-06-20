@@ -488,10 +488,7 @@ function move()
 
     if ScriptStarting then
         -- vérifie qu'il est bien abonné        
-        if getRemainingSubscription(true) <= 0 and character:kamas() > (character:server() == "Draconiros" and 550000 or 1000000) then
-            global:printSuccess("il reste " .. getRemainingSubscription(true) .. "jours d'abonnement, on tente de s'abonner à nouveau")
-            Abonnement()
-        elseif getRemainingSubscription(true) < 0 then
+        if getRemainingSubscription(true) <= 0 then
             Abonnement()
         end
 

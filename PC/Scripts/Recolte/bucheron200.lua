@@ -1236,10 +1236,6 @@ end
 function move()
     handleDisconnection()
     mapDelay()
-    if global:thisAccountController():getAlias():find("Draconiros") and character:server() ~= "Draconiros" then
-        global:thisAccountController():forceServer("Draconiros")
-        global:disconnect()
-    end
 
     while character:kamas() == 0 and map:onMap("4,-18") do
         npc:npcBank(-1)
@@ -1266,9 +1262,7 @@ function move()
         end
     end
 
-    if getRemainingSubscription(true) <= 0 and (character:kamas() > ((character:server() == "Draconiros") and 600000 or 1100000)) then
-        Abonnement()
-    elseif getRemainingSubscription(true) < 0 then
+    if getRemainingSubscription(true) < 0 then
         Abonnement()
     end
 

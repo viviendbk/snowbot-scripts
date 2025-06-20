@@ -1607,13 +1607,10 @@ function move()
 		global:delay(1555)
 	end
 
-	if getRemainingSubscription(true) <= 0 and (character:kamas() > ((character:server() == "Draconiros") and 600000 or 1100000)) then
-        Abonnement()
-    elseif getRemainingHoursSubscription() < 4 and character:server() == "Draconiros" then
-        Abonnement()
-    elseif getRemainingSubscription(true) < 0 then
+	if getRemainingSubscription(true) <= 0 then
         Abonnement()
     end
+
 	mapDelay()
     if debutDeScript then
         debutDeScript = falses
@@ -1674,19 +1671,19 @@ function move()
         end
     end
 
-	if (character:level() == (levelToReach - 5)) or (levelToReach <= 160) and (character:level() >= 140) then
-		local nbAccountInSameServ = 0
+	-- if (character:level() == (levelToReach - 5)) or (levelToReach <= 160) and (character:level() >= 140) then
+	-- 	local nbAccountInSameServ = 0
 
-		for _, acc in ipairs(snowbotController:getLoadedAccounts()) do
-			if acc:getAlias():find(character:server()) and acc:getAlias():find(stringalias) then
-				nbAccountInSameServ = nbAccountInSameServ + 1
-			end
-		end
+	-- 	for _, acc in ipairs(snowbotController:getLoadedAccounts()) do
+	-- 		if acc:getAlias():find(character:server()) and acc:getAlias():find(stringalias) then
+	-- 			nbAccountInSameServ = nbAccountInSameServ + 1
+	-- 		end
+	-- 	end
 
-		if nbAccountInSameServ < 2 and not global:thisAccountController():getAlias():find("Draconiros") then
-			CreateOtherAccount()
-		end
-	end
+	-- 	if nbAccountInSameServ < 2 and not global:thisAccountController():getAlias():find("Draconiros") then
+	-- 		CreateOtherAccount()
+	-- 	end
+	-- end
 
 	if NeedToSell then
 		return {

@@ -1419,11 +1419,7 @@ function move()
     end
     
 
-    if getRemainingSubscription(true) <= 0 and (character:kamas() > ((character:server() == "Draconiros") and 600000 or 1100000)) then
-        Abonnement()
-    elseif getRemainingHoursSubscription() < 4 and character:server() == "Draconiros" then
-        Abonnement()
-    elseif getRemainingSubscription(true) < 0 then
+    if getRemainingSubscription(true) <= 0 then
         Abonnement()
     end
 

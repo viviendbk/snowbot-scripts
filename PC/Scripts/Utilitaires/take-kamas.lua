@@ -8,7 +8,7 @@ function messagesRegistering()
 end
 
 
-local function conditionTakeKamas()
+local function conditionTakeKamasAndNoAbo()
 
     if global:thisAccountController():getAlias():find("Mineur")
     or global:thisAccountController():getAlias():find("Bucheron")
@@ -23,10 +23,26 @@ local function conditionTakeKamas()
     return true
 end
 
-local function takeKamas(giver)
+local function conditionTakeKamasAndAbo()
+
+    if global:thisAccountController():getAlias():find("Mineur")
+    or global:thisAccountController():getAlias():find("Bucheron")
+    or global:thisAccountController():getAlias():find("LvlUp") then
+        if (getRemainingSubscription(true) <= 0 and character:kamas() < 2000000)
+        and (job:level(2) >= 5 and job:level(24) >= 5) then
+            return true
+        end
+        return false
+    end
+
+    return true
+end
+
+local function takeKamas(giver, boolAbo)
     debug(giver.character():id())
     global:delay(5000)
     local maxWaitingTime = 120
+    local currentKamas = character:kamas()
 
     if not waitBotIsOnAstrubBank(giver, maxWaitingTime) then
         global:printError("Bot banque n'est toujours pas à astrub après " .. maxWaitingTime .. " secondes, reprise du trajet")
@@ -70,7 +86,7 @@ local function takeKamas(giver)
     end)
     global:addInMemory("doneTransfert", true)
 
-    if character:kamas() < 500000 then
+    if character:kamas() <= currentKamas then
         global:printSuccess("le bot banque n'a pas pu nous donner les kamas, on retente dans 1h")
         giver:disconnect()
         setBotBankConnected(character:server(), false)
@@ -80,6 +96,10 @@ local function takeKamas(giver)
         global:printSuccess("le bot banque nous a donné les kamas, on continue")
         giver:disconnect()
         setBotBankConnected(character:server(), false)
+
+        if boolAbo then
+            Abonnement()
+        end
 
         if global:thisAccountController():getAlias():find("NEED ABO") then
             local alias = global:thisAccountController():getAlias():split(" ")
@@ -100,14 +120,6 @@ end
 
 function move()
     mapDelay()
-    -- if (getRemainingSubscription(true) > 0 and not global:thisAccountController():getAlias():find("Draconiros")) 
-    -- or (global:thisAccountController():getAlias():find("Draconiros") and character:kamas() > 150000) or character:kamas() > 1200000 then
-    --     if not global:thisAccountController():getAlias():find("Groupe") then
-    --         global:loadAndStart("C:\\Users\\Vivien\\Documents\\Snowbot-Scripts-3\\PC\\Scripts\\PLAndZaaps\\Zaaps&Stuffs.lua")
-    --     else
-    --         global:loadAndStart("C:\\Users\\Vivien\\Documents\\Snowbot-Scripts-3\\PC\\Scripts\\PLAndZaaps\\quete_pandala.lua")
-    --     end
-    -- end
 
     global:printSuccess(global:remember("firstDecoReco"))
 
@@ -149,7 +161,7 @@ function move()
         local reconnectTime = currentTime + (30 * 60)
 
         global:printMessage("Le contrôleur nous reconnectera à" .. os.date("%Y-%m-%d %H:%M:%S", reconnectTime) .. ". Déconnexion du compte.")
-        global:editAlias(global:thisAccountController():getAlias() .. " [NEED ABO] retry at (" .. os.date("%Y-%m-%d %H:%M:%S", reconnectTime) .. ")", true)
+        global:editAlias(global:thisAccountController():getAlias():gsub("%[NEED ABO%] retry at %[?%b()%]?", ""):gsub("  ", " ") .. " [NEED ABO] retry at (" .. os.date("%Y-%m-%d %H:%M:%S", reconnectTime) .. ")", true)
         global:disconnect()
     end
 
@@ -162,7 +174,7 @@ function move()
     end
 
 
-    if not global:remember("doneTransfert") and conditionTakeKamas() then
+    if not global:remember("doneTransfert") and conditionTakeKamasAndNoAbo() then
         local submitKamas = 0
         if character:kamas() < 2000000 then
 
@@ -177,7 +189,7 @@ function move()
             elseif global:thisAccountController():getAlias():find("LvlUp") then
                 submitKamas = 400000
             else
-                submitKamas = 300000
+                submitKamas = 500000 - character:kamas()
             end
 
             if submitKamas > 0 then
@@ -223,6 +235,27 @@ function move()
 
         return goAstrubBank(function() return takeKamas(giver) end)
 
+    elseif not global:remember("doneTransfert") and conditionTakeKamasAndAbo() then
+        local submitKamas = 1300000
+        submitKamasOrder(submitKamas)
+
+
+        if not giver then
+            while not isBotBankAvailable() do
+                global:printError("Le bot bank est connecté sur une autre instance, on attend 10 secondes")
+                global:delay(10000)
+            end
+
+            giver = connectGiver(120)
+
+            if not giver then
+                global:printError("[ERROR] Impossible de connecter le bot banque, nouvelle tentative dans " .. timeToRetry .. " heures.")
+                customReconnect(timeToRetry * 60)
+            end
+
+        end
+
+        return goAstrubBank(function() return takeKamas(giver) end)
     elseif getRemainingSubscription(true) > 0 then
         if global:thisAccountController():getAlias():find("Combat") then
             global:loadAndStart("C:\\Users\\Vivien\\Documents\\Snowbot-Scripts-3\\PC\\Scripts\\Combat\\buyStuffSacri200.lua")

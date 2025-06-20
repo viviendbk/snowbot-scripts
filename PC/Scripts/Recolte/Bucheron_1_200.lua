@@ -1921,18 +1921,13 @@ end
 function move()
 	handleDisconnection()
 	mapDelay()
-	if global:thisAccountController():getAlias():find("Draconiros") and character:server() ~= "Draconiros" then
-		global:thisAccountController():forceDelete(character:name())
-		global:disconnect()
-	end
+
 	--[[job:level(2) < 50 and global:getCountGather() > 0 and (global:getCountGather() + global:remember("increm")) % (global:remember("increm") == 0 and 50 or 400) == 0 then
 		global:editInMemory("increm", global:remember("increm") + 1)
 		customReconnect(math.random(80, 120))
 
 	end]]
-	if getRemainingSubscription(true) <= 0 and (character:kamas() > ((character:server() == "Draconiros") and 600000 or 1100000)) then
-        Abonnement()
-    elseif getRemainingSubscription(true) < 0 then
+	if getRemainingSubscription(true) <= 0 then
         Abonnement()
     end
 	if getRemainingSubscription(true) < 0 then

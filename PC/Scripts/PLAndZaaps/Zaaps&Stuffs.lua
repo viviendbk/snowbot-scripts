@@ -402,8 +402,7 @@ function move()
         global:loadAndStart("C:\\Users\\Vivien\\Documents\\Snowbot-Scripts-3\\PC\\Scripts\\PLAndZaaps\\PL_1-6X.lua")
     end
     mapDelay()
-    if getRemainingSubscription(true) <= 0 and character:kamas() > (character:server() == "Draconiros"  and 700000 or 1200000) then
-        global:printSuccess("il reste " .. getRemainingSubscription(true) .. "jours d'abonnement, on tente de s'abonner à nouveau")
+    if getRemainingSubscription(true) <= 0 then
         Abonnement()
     end
 

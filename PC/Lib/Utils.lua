@@ -154,9 +154,9 @@ function getRemainingSubscription(inDay, acc)
         return 0                     -- la date est dépassée ou c'est le moment même
     end
     if inDay then
-        return math.floor(diff / 86400) -- 86400 s = 1 jour
+        return math.ceil(diff / 86400) -- 86400 s = 1 jour
     end
-    return math.floor(diff / 3600) -- 3600 s = 1 heure
+    return math.ceil(diff / 3600) -- 3600 s = 1 heure
 end
 
 function getRemainingHoursSubscription(acc)
@@ -1057,6 +1057,8 @@ function WithdrawTime(lines)
     end
     return toReturn
 end
+
+
 function find_repeated_patterns(strings, x)
     local n = #strings
     local counts = {}
@@ -1066,23 +1068,31 @@ function find_repeated_patterns(strings, x)
         for i = 1, n - x + 1, x do
             local pattern = table.concat(strings, "", i, i + x - 1)
 
-            if lastPattern and pattern ~= lastPattern then
+            -- Ne pas comptabiliser les patterns contenant "ETAPE_ZAAP"
+            if not pattern:find("ETAPE_ZAAP") and not pattern:find("le bot bank") then
+                if lastPattern and pattern ~= lastPattern then
+                    counts = {}
+                end
+
+                counts[pattern] = (counts[pattern] or 0) + 1
+
+                if counts[pattern] >= 8 then
+                    global:printMessage("pattern : " .. pattern .. "\nRépété au moins 4 fois")
+                    return true
+                end
+
+                lastPattern = pattern
+            else
+                -- Réinitialise aussi si ETAPE_ZAAP casse le pattern
                 counts = {}
+                lastPattern = nil
             end
-
-            counts[pattern] = (counts[pattern] or 0) + 1
-
-            if counts[pattern] >= 4 then
-                global:printMessage("pattern : " .. pattern .. "\nRépété " .. counts[pattern] .. "fois")
-                return true
-            end
-
-            lastPattern = pattern
         end
     end
 
     return false
 end
+
 
 function LoopBug(lines)
     if lines then

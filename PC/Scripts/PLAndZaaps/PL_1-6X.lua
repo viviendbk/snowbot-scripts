@@ -863,6 +863,7 @@ end
 
 
 function move()
+	debug(map:currentMapId())
 	if job:level(24) > 5 or job:level(2) > 5 then
 		global:loadAndStart("C:\\Users\\Vivien\\Documents\\Snowbot-Scripts-3\\PC\\Scripts\\Utilitaires\\take-kamas.lua")
     end
@@ -873,7 +874,7 @@ function move()
 		global:loadConfigurationWithoutScript("C:\\Users\\Vivien\\Documents\\Snowbot-Scripts-3\\PC\\Configs\\Config_PL_1-6X.xml")
 	end
 
-	if global:remember("lvlFinish") > character:level() and character:kamas() > 300000 then
+	if global:remember("lvlFinish") > character:level() and character:kamas() > 300000 and not global:remember("failed") then
 		if map:currentSubArea() == "Égouts d'Astrub" then
 			return getOutSouterrain
 		end
@@ -1026,6 +1027,7 @@ function move()
 		MIN_MONSTERS = 1
 		return treatMapsAstrub(Foret_Astrub)
 	elseif character:level() >= 60 and character:level() < 61 then 
+			debug("egouts")
 		MAX_MONSTERS = 6
 		MIN_MONSTERS = 1
 		return egouts2 and treatMapsAstrub(Egouts_Astrub2) or treatMapsAstrub(Egouts_Astrub1)

@@ -349,10 +349,7 @@ end
 function move()
 
     mapDelay()
-    if global:thisAccountController():getAlias():find("Draconiros") and character:server() ~= "Draconiros" then
-        global:thisAccountController():forceServer("Draconiros")
-        global:disconnect()
-    end
+
     if global:thisAccountController():getAlias():find("Craft2") then
         global:editAlias("Craft2 " .. character:server() .. " : [" .. truncKamas() .. "m]", true)
     else
@@ -363,10 +360,7 @@ function move()
     if ScriptStarting then
         logBotStats()
         -- vérifie qu'il est bien abonné        
-        if getRemainingSubscription(true) <= 0 and character:kamas() > (character:server() == "Draconiros" and 550000 or 1000000) then
-            global:printSuccess("il reste " .. getRemainingSubscription(true) .. "jours d'abonnement, on tente de s'abonner à nouveau")
-            Abonnement()
-        elseif getRemainingSubscription(true) < 0 then
+        if getRemainingSubscription(true) <= 0 then
             Abonnement()
         end
 
@@ -384,7 +378,7 @@ function move()
 
             local jsonFile = openFile("C:\\Users\\Vivien\\Documents\\Snowbot-Scripts-3\\PC\\Scripts\\Craft\\" .. character:server() .. "\\Craft-Resell.json")
             for i = 1, 20000 do
-                if IsItem(inventory:itemTypeId(i)) and inventory:getLevel(i) <= job:level(GetJobIdByType(inventory:getTypeName(i))) and inventory:getLevel(i) > (character:server() == "Draconiros" and 49 or 49)
+                if IsItem(inventory:itemTypeId(i)) and inventory:getLevel(i) <= job:level(GetJobIdByType(inventory:getTypeName(i))) and inventory:getLevel(i) > 49
                 and inventory:getLevel(i) < (character:server() == "Ombre" and 150 or 200) and ((inventory:itemCount(i) > 0 and inventory:itemPosition(i) == 63) or inventory:itemCount(i) == 0) and CanCraftItem(i, jsonFile) then
                     table.insert(TableItem, {
                         Id = i,

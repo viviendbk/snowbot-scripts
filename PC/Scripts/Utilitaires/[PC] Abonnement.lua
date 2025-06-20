@@ -116,6 +116,7 @@ function Abonnement()
 
     if character:kamas() < needed_kamas then
         global:printError("Je n'ai pas assez de kamas : " .. character:kamas() .. " < " .. needed_kamas)
+        global:loadAndStart("C:\\Users\\Vivien\\Documents\\Snowbot-Scripts-3\\PC\\Scripts\\Utilitaires\\take-kamas.lua")
         return
     end
 

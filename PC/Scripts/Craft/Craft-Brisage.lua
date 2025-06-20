@@ -469,10 +469,7 @@ end
 
 function move()
     mapDelay()
-    if global:thisAccountController():getAlias():find("Draconiros") and character:server() ~= "Draconiros" then
-        global:thisAccountController():forceServer("Draconiros")
-        global:disconnect()
-    end
+
     --[[
         nouveau possible trajet:
         recuperer le prix des runes hdv runes
@@ -497,10 +494,7 @@ function move()
 
     if ScriptStarting then
         logBotStats()
-        if getRemainingSubscription(true) <= 0 and character:kamas() > (character:server() == "Draconiros" and 550000 or 1000000) then
-            global:printSuccess("il reste " .. getRemainingSubscription(true) .. "jours d'abonnement, on tente de s'abonner à nouveau")
-            Abonnement()
-        elseif getRemainingSubscription(true) < 0 then
+        if getRemainingSubscription(true) <= 0 then
             Abonnement()
         end
 
@@ -1617,11 +1611,6 @@ function move()
                     data.RentaNet = data.RentaNet + ToAddInJson.RentaNet
                     data.RentaPercentage = data.EstimationKamasGagnes > 0 and data.EstimationKamasGagnes / data.nbKamasInvesti or 0
                     jsonBrisage[1]["Renta du "..  getDate()] = not jsonBrisage[1]["Renta du "..  getDate()] and ToAddInJson.RentaNet or jsonBrisage[1]["Renta du "..  getDate()] + ToAddInJson.RentaNet
-                    if jsonBrisage[1]["Renta du "..  getDate()] > 5000000 and character:server() == "Draconiros" or jsonBrisage[1]["Renta du "..  getDate()] > 20000000 then
-                        global:printError("Potentiel bug")
-                        global:editAlias(global:thisAccountController():getAlias() .. " BUG", false)
-                        -- global:disconnect()
-                    end
                     break
                 end
             end

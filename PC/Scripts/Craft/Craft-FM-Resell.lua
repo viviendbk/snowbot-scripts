@@ -569,20 +569,13 @@ function move()
         -> on vends cet item au bon prix (max 3 fois son prix de craft + prix de fm)
     ]]
 
-    if global:thisAccountController():getAlias():find("Draconiros") and character:server() ~= "Draconiros" then
-        global:thisAccountController():forceServer("Draconiros")
-        global:disconnect()
-    end
     global:editAlias("CraftFM " .. character:server() .. " : [" .. truncKamas() .. "m]", true)
     --- Determines which item we'll craft and resell
 
     if ScriptStarting then
         logBotStats()
         -- vérifie qu'il est bien abonné        
-        if getRemainingSubscription(true) <= 0 and character:kamas() > (character:server() == "Draconiros" and 550000 or 1000000) then
-            global:printSuccess("il reste " .. getRemainingSubscription(true) .. "jours d'abonnement, on tente de s'abonner à nouveau")
-            Abonnement()
-        elseif getRemainingSubscription(true) < 0 then
+        if getRemainingSubscription(true) <= 0 then
             Abonnement()
         end
 
