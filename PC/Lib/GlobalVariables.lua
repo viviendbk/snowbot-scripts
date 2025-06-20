@@ -280,7 +280,14 @@ PHENIX = {
                 {map = "35,-42", path = "bottom"},
         {map = "35,-41", path = "bottom"},
         {map = "35,-40", custom = function() map:door(306) map:changeMap("havenbag") end},
-        {map = "146800640", custom = function() map:door(200) map:door(333) end}
+        {map = "146800640", custom = function() map:door(200) map:door(333) end},
+        {map = "34472966", path = "432"},
+        {map = "-40,-16", path = "left"},
+        {map = "-41,-16", path = "left"},
+        {map = "-42,-16", path = "left"},
+        {map = "-43,-17", path = "top"},
+        {map = "-43,-18", path = "top"},
+        {map = "-43,-19", custom = function() map:door(271) map:changeMap("havenbag") end},
 
 	}
 

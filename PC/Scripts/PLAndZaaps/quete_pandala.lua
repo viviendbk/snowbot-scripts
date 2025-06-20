@@ -442,6 +442,7 @@ function move()
     elseif tonumber(global:remember("ETAPE_PANDALA")) == 5 then
         global:printSuccess("5")
         return{
+            { map = "192937988", path = "396"},
             { map = "188744705", path = "right" },
             { map = "4,-21", path = "bottom" },
             { map = "4,-20", path = "bottom" },

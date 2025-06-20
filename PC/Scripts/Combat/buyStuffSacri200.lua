@@ -157,11 +157,9 @@ local function achatStuff()
 
     for i, element in ipairs(tableEquip) do
 		if (inventory:itemCount(element.Id) == 0) and (element.Id ~= 14966) and (element.Id ~= 13830) and (element.Id ~= 737) and element.Id ~= 972 then
-			table.insert(items, element.Id)
-		end
+            buyWorthItem(element.Id)
+        end
 	end
-
-	buyWorthItem(items)
 
 
     global:leaveDialog()

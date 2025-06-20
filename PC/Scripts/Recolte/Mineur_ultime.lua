@@ -1483,9 +1483,9 @@ function move()
     
     antiModo()
 
-    -- if job:level(24) > 180 and inventory:itemCount(1704) == 0 and character:kamas() >= 150000 then
-    --     return treatMaps(AreaAchatSacStaca)
-    -- end
+    if job:level(24) > 180 and inventory:itemCount(1704) == 0 and character:kamas() >= 150000 then
+        return treatMaps(AreaAchatSacStaca)
+    end
     if character:energyPoints() < 5000 then
         return treatMaps(AreaEnergie)
     end

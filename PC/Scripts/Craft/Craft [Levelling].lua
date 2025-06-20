@@ -718,6 +718,7 @@ function move()
                     table.sort(ItemsToCraft, function (a, b)
                         return a.TotalCost < b.TotalCost
                     end)
+                                        global:printSuccess("c")
                     global:printSuccess("On va craft  " .. inventory:itemNameId(ItemsToCraft[1].Id) .. " [lvl " .. inventory:getLevel(ItemsToCraft[1].Id) .. "]")
 
                     table.insert(element.Table, ItemsToCraft[1])
@@ -1035,7 +1036,7 @@ function move()
 
             for i = 0, batchSize - 1 do
                 if inventory:podsP() > 80 then
-                    global:printSuccess("on va merge les runes")
+                    global:printSuccess("on va merge les runes ")
                     MergeRunes()
                 end
                 map:useById(521675, -1)

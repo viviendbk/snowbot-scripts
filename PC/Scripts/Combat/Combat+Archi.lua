@@ -2463,17 +2463,6 @@ function move()
         Abonnement()
     end
 
-    if NeedToSell then
-		return {
-			{map ="0,0", path = "zaap(212600323)"},				
-			{map = "212600322", path = "bottom(552)"}, -- Map extérieure de la banque de bonta
-			{map = "-31,-56", path = "bottom"},
-			{map = "-31,-55", path = "bottom"},
-			{map = "-31,-54", path = "right"},
-			{map = "212601350", custom = ProcessSell}, -- Map HDV ressources bonta
-		}
-	end
-
     if NeedToReturnBank then
         return {
             {map = "-30,-55", path = "top"},
@@ -2483,6 +2472,21 @@ function move()
             {map = "217060352", custom = ProcessBank}, -- Dépôt de l'inventaire et sortie de la banque
         }
     end
+
+    if NeedToSell then
+        return {
+			{map = "212602886", path = "zaapi(212601350)"}, -- map extérieur atelier mineur
+			{map = "-29,-55", path = "left"},
+			{map = "-30,-55", path = "left"},
+            -- {map = "212600322", path = "bottom(552)"}, -- Map extérieure de la banque de bonta
+            {map = "212600322", path = "zaapi(212601350)"}, -- Map extérieure de la banque de bonta
+			{map = "-31,-56", path = "bottom"},
+			{map = "-31,-55", path = "bottom"},
+			{map = "-31,-54", path = "right"},
+            {map = "212601350", custom = ProcessSell}, -- Map HDV ressouces bonta
+        }
+    end	
+
 
     minKamas = (getRemainingSubscription(true) == 0) and 1700000 or 300000
 
@@ -2595,28 +2599,30 @@ function bank()
         end
     end
 
-    if NeedToSell then
-		return {
-			{map ="0,0", path = "zaap(212600323)"},				
-			{map = "212600322", path = "bottom(552)"}, -- Map extérieure de la banque de bonta
-			{map = "-31,-56", path = "bottom"},
-			{map = "-31,-55", path = "bottom"},
-			{map = "-31,-54", path = "right"},
-            {map = "220200961", path = "zaapi(212601350)"},
-			{map = "212601350", custom = ProcessSell}, -- Map HDV ressources bonta
-		}
-	end
-
     if NeedToReturnBank then
         return {
             {map = "-30,-55", path = "top"},
 			{map = "-30,-56", door = "437"},
 			{map = "-31,-56", path = "top"},
-            {map = "220200961", path = "zaapi(212600322)"},
             {map = "212600322", door = "512"}, -- Map extérieure de la banque de bonta
             {map = "217060352", custom = ProcessBank}, -- Dépôt de l'inventaire et sortie de la banque
         }
     end
+
+    if NeedToSell then
+        return {
+			{map = "212602886", path = "zaapi(212601350)"}, -- map extérieur atelier mineur
+			{map = "-29,-55", path = "left"},
+			{map = "-30,-55", path = "left"},
+            -- {map = "212600322", path = "bottom(552)"}, -- Map extérieure de la banque de bonta
+            {map = "212600322", path = "zaapi(212601350)"}, -- Map extérieure de la banque de bonta
+			{map = "-31,-56", path = "bottom"},
+			{map = "-31,-55", path = "bottom"},
+			{map = "-31,-54", path = "right"},
+            {map = "212601350", custom = ProcessSell}, -- Map HDV ressouces bonta
+        }
+    end	
+
 
     if map:currentSubArea() == "Canyon sauvage" then
         return

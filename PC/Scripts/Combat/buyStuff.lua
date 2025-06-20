@@ -60,10 +60,9 @@ local function achatStuff()
 
     for _, element in ipairs(items) do
         if inventory:itemCount(element) == 0 then
-            buyWorthItem(element, 1000000)
+            buyWorthItem(element)
         end
     end
-	buyWorthItem(items)
 
     global:leaveDialog()
 
@@ -78,8 +77,6 @@ local function achatStuff()
 
     equiper()
 
-
-    
     map:changeMap("right")
 end
 

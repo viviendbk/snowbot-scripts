@@ -488,6 +488,7 @@ local getOutSouterrain = {
 	{map = "101713411", path = "138"},
 	{map = "101712387", path = "474"},
 	{map = "101717512", path = "322"},
+	{map = "101715465", path = "227"},
 
 }
 

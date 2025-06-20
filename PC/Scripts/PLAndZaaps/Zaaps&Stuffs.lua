@@ -42,23 +42,6 @@ local function equiper(stuff)
 	end
 end
 
-local function BuyIdoles()
-	npc:npc(333, 6)
-
-	local listeIdoles = {
-		{name = "dynamo", id_banque = 16864},
-		{name = "kyoub", id_banque = 16964},
-		{name = "leukide", id_banque = 16881},
-	}
-
-	for _, element in ipairs(listeIdoles) do
-	    if inventory:itemCount(element.id_banque) == 0 then
-			sale:buyItem(element.id_banque, 1, 500000)
-		end
-	end
-
-	global:leaveDialog()
-end
 
 local function BuyStuff114()
 	local tableEquipWithoutBigFonction = {
@@ -76,23 +59,15 @@ local function BuyStuff114()
 		{name = "ombre", id = 14966},
 	}
 
-	local prices = {}
 
-	npc:npc(333, 5)
+	local items = {}
 
-    for i, element in ipairs(tableEquipWithoutBigFonction) do
-        prices[i] = sale:getAveragePriceItem(element.id, 1) * 1.5
-    end
+	for _, element in ipairs(tableEquipWithoutBigFonction) do
+		if inventory:itemCount(element.Id) == 0 then
+            buyWorthItem(element.Id)
+		end
+	end
 
-    global:leaveDialog()
-
-    npc:npc(333, 6)
-    for i, element in ipairs(tableEquipWithoutBigFonction) do
-        if inventory:itemCount(element.id) == 0 then
-            sale:buyItem(element.id, 1, prices[i])
-            global:delay(500)
-        end
-    end
     if inventory:itemCount(14966) == 0 then
         sale:buyItem(14966, 1, 1000000)
     end
@@ -104,14 +79,9 @@ local function BuyStuff114()
     end   
 
     global:leaveDialog()
-    npc:npc(333, 6)
 
-    for i, element in ipairs(tableEquipWithoutBigFonction) do
-        if inventory:itemCount(element.id) == 0 then
-            sale:buyItem(element.id, 1, prices[i])
-            global:delay(500)
-        end
-    end
+    HdvBuy()
+
     if inventory:itemCount(14966) == 0 then
         sale:buyItem(14966, 1, 1000000)
     end
@@ -141,14 +111,13 @@ local function BuyStuff114()
 	for _, element in ipairs(tableStuff114) do
 		if inventory:itemCount(element.Id) == 0 then
 			table.insert(items, element.Id)
+            buyWorthItem(element.Id)
 		end
 	end
 
-	buyWorthItem(items)
-
 	global:leaveDialog()
 
-    npc:npc(255,6)	
+    HdvBuy()
 
     for _, item in ipairs(items) do
         if inventory:itemCount(item) == 0 then
@@ -172,23 +141,19 @@ local function BuyStuff()
         {Type = "arme", Id = 1162, Emplacement = 1, Equipe = false},
     }
 
-    npc:npc(255,6)	
-
+    HdvBuy()
+    debug("a")
     if (inventory:itemCount(2469) == 0) then
         sale:buyItem(2469, 1, 200000)
     end
+    debug("b")
 
     if (inventory:itemCount(19629) == 0) then
         sale:buyItem(19629, 1, 200000)
     end  
+    debug("c")
 
     local items = {}
-
-    for _, element in ipairs(tableEquip) do
-		if (inventory:itemCount(element.Id) == 0) then
-			table.insert(items, element.Id)
-		end
-	end
 
     for _, element in ipairs(tableEquip) do
         if (inventory:itemCount(element.Id) == 0) then
@@ -201,7 +166,7 @@ local function BuyStuff()
     npc:npc(255,6)	
 
     for _, item in ipairs(items) do
-        if inventory:itemCount(item) == 0 and charcter:kamas() > 50000 then
+        if inventory:itemCount(item) == 0 and character:kamas() > 50000 then
             sale:buyItem(item, 1, 100000)
         end
     end
@@ -315,7 +280,6 @@ function achatDD()
                 local message = developer:createMessage("ExchangeBidHouseSearchMessage")
                 message.objectGID = Id
                 message.follow = true
-                debug("oui")
                 developer:registerMessage("ExchangeTypesItemsExchangerDescriptionForUserMessage", _GetBestPriceDDLvl1And100)
                 developer:sendMessage(message)
                 developer:suspendScriptUntil("ExchangeTypesItemsExchangerDescriptionForUserMessage", 2000, true)
@@ -457,10 +421,7 @@ function move()
             end},
             {map = "-30,-55", path = "bottom"},
             {map = "-30,-54", custom = function ()
-                if not global:thisAccountController():getAlias():find("Mineur") and not global:thisAccountController():getAlias():find("Bucheron") then
-                    BuyIdoles()
-                end
-                global:printSuccess("Hdv Ressources")
+
                 map:changeMap("zaapi(212731651)")
             end},
             {map = "-35,-60", path = "zaapi(212600839)"},
@@ -1105,59 +1066,7 @@ end
 
 
 function phenix()
-	return {
-		{map = "-68,-43", path = "right"},
-		{map = "-67,-43", path = "top"},
-		{map = "-67,-44", custom = function() map:door(219) global:editInMemory("ETAPE_ZAAP", 1) map:changeMap("havenbag") end},
-		{map = "22,22", custom = function() map:door(387) global:editInMemory("ETAPE_ZAAP", 1) map:changeMap("havenbag") end},
-		{map = "9,16", path = "right"},
-		{map = "10,16", path = "right"},
-		{map = "11,16", path = "right"},
-		{map = "12,16", path = "right"},
-		{map = "13,16", path = "top"},
-		{map = "13,15", path = "top"},
-		{map = "13,14", path = "top"},
-		{map = "13,13", path = "top"},
-		{map = "13,12", path = "left"},
-		{map = "12,12", custom = function() map:door(184) global:editInMemory("ETAPE_ZAAP", 1) map:changeMap("havenbag") end},
-		{map = "-68,-43", path = "right"},
-		{map = "-67,-43", path = "top"},
-		{map = "-67,-44", custom = function() map:door(219) global:editInMemory("ETAPE_ZAAP", 1) map:changeMap("havenbag") end},
-		{map = "-16,41", path = "top"},
-		{map = "-16,40", path = "top"},
-		{map = "-16,39", path = "top"},
-		{map = "-16,38", path = "top"},
-		{map = "-16,37", path = "top"},
-		{map = "-13,28", path = "right"},
-		{map = "-17,41", path = "right"},
-		{map = "-16,36", custom = function() map:door(135) global:editInMemory("ETAPE_ZAAP", 1) map:changeMap("havenbag") end},
-		{map = "-9,-54", path = "left"},
-		{map = "-10,-54", custom = function() map:door(342) global:editInMemory("ETAPE_ZAAP", 1) map:changeMap("havenbag") end},
-		{map = "23330816", path = "bottom"},
-		{map = "159769", path = "left"},
-		{map = "-57,25", path = "left"},
-		{map = "-58,24", path = "top"},
-		{map = "-58,25", path = "top"},
-		{map = "-58,23", path = "top"},
-		{map = "-58,22", path = "top"},
-		{map = "-58,21", path = "top"},
-		{map = "-58,20", path = "top"},
-		{map = "-58,19", path = "top"},
-		{map = "-58,18", custom = function() map:door(354) global:editInMemory("ETAPE_ZAAP", 1) map:changeMap("right") end},
-		{map = "-43,0", custom = function() map:door(259) global:editInMemory("ETAPE_ZAAP", 1) map:changeMap("bottom") end},
-
-		{map = "-3,-13", path = "right"},
-        {map = "-2,-13", path = "right"},
-        {map = "-1,-13", path = "right"},
-        {map = "0,-13", path = "right"},
-        {map = "1,-13", path = "right"},
-        {map = "2,-13", path = "top"},
-        {map = "2,-14", custom = function ()
-			map:door(313)
-            global:editInMemory("ETAPE_ZAAP", 1)
-			map:changeMap("havenbag")
-        end},
-	}
+	return PHENIX
 end
 
 

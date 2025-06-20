@@ -667,7 +667,6 @@ function connectAccountsWithFailleProxy()
     global:printSuccess("Il y a " .. nbVagues .. " vagues de connexion à faire")
     if nbVagues > 0 then
         local connexionFile = openFile("C:\\Users\\Vivien\\Documents\\Snowbot-Scripts-3\\PC\\Temp\\controllerConnexion.json")
-        printVar(connexionFile)
         if not connexionFile or #connexionFile == 0 or not connexionFile[1].inUse then
             connexionFile[1] = {
                     inUse = true,
@@ -745,7 +744,7 @@ function connectAccountsWithFailleProxy()
 
         global:delay(10000)
     end
-    
+
     local connexionFile = openFile("C:\\Users\\Vivien\\Documents\\Snowbot-Scripts-3\\PC\\Temp\\controllerConnexion.json")
     connexionFile[1].inUse = false
     connexionFile[1].by = ""

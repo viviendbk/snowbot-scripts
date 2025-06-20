@@ -1178,10 +1178,10 @@
     "Tal Kasha": {
       "Zenin-Shupper": {
         "kamas": {
-          "lastTotal": 426562,
+          "lastTotal": 411362,
           "gain": 0
         },
-        "lastSeen": 1750459148357,
+        "lastSeen": 1750461635021,
         "roses": {
           "lastTotal": 0,
           "gain": 0
@@ -1212,10 +1212,10 @@
       },
       "Kinghoski": {
         "kamas": {
-          "lastTotal": 644175,
+          "lastTotal": 624000,
           "gain": 0
         },
-        "lastSeen": 1750458891758,
+        "lastSeen": 1750461232687,
         "roses": {
           "lastTotal": 0,
           "gain": 0
@@ -1229,10 +1229,10 @@
       },
       "Chardin-Phan": {
         "kamas": {
-          "lastTotal": 525817,
-          "gain": 0
+          "lastTotal": 778826,
+          "gain": 257970
         },
-        "lastSeen": 1750459144194,
+        "lastSeen": 1750459419046,
         "roses": {
           "lastTotal": 0,
           "gain": 0
@@ -1243,15 +1243,117 @@
           "identifiant": "LornaKealoha101@hotmail.com",
           "motDePasse": "0UnVZOF8IvB0Pu1"
         }
+      },
+      "Sagicidi-noo": {
+        "kamas": {
+          "lastTotal": 127889,
+          "gain": 1126
+        },
+        "lastSeen": 1750461150927,
+        "roses": {
+          "lastTotal": 0,
+          "gain": 0
+        },
+        "profil": {
+          "classe": "Sacrieur",
+          "niveau": 63,
+          "identifiant": "lauraduran663812@gmail.com",
+          "motDePasse": "o5NIKyFf"
+        }
+      },
+      "Korro-Paima": {
+        "kamas": {
+          "lastTotal": 640452,
+          "gain": 16682
+        },
+        "lastSeen": 1750461554161,
+        "roses": {
+          "lastTotal": 0,
+          "gain": 0
+        },
+        "profil": {
+          "classe": "Sacrieur",
+          "niveau": 61,
+          "identifiant": "jacksonbla52js@gmail.com",
+          "motDePasse": "U!5yJ2r@qL"
+        }
+      },
+      "Abusorurabute": {
+        "kamas": {
+          "lastTotal": 820949,
+          "gain": 172600
+        },
+        "lastSeen": 1750460455022,
+        "roses": {
+          "lastTotal": 0,
+          "gain": 0
+        },
+        "profil": {
+          "classe": "Sacrieur",
+          "niveau": 74,
+          "identifiant": "rc7302966@gmail.com",
+          "motDePasse": "4kN!5vS@8g"
+        }
+      },
+      "Feturk": {
+        "kamas": {
+          "lastTotal": 663224,
+          "gain": 15808
+        },
+        "lastSeen": 1750461487358,
+        "roses": {
+          "lastTotal": 0,
+          "gain": 0
+        },
+        "profil": {
+          "classe": "Sacrieur",
+          "niveau": 75,
+          "identifiant": "margaretacd55kr@gmail.com",
+          "motDePasse": "2tN!5wG@7q"
+        }
+      },
+      "Kuzkozd": {
+        "kamas": {
+          "lastTotal": 489996,
+          "gain": 5739
+        },
+        "lastSeen": 1750461573840,
+        "roses": {
+          "lastTotal": 0,
+          "gain": 0
+        },
+        "profil": {
+          "classe": "Sacrieur",
+          "niveau": 63,
+          "identifiant": "andreandrade797439@gmail.com",
+          "motDePasse": "4f4wDfPP"
+        }
+      },
+      "Kerales": {
+        "kamas": {
+          "lastTotal": 400443,
+          "gain": 0
+        },
+        "lastSeen": 1750461442862,
+        "roses": {
+          "lastTotal": 0,
+          "gain": 0
+        },
+        "profil": {
+          "classe": "Sacrieur",
+          "niveau": 61,
+          "identifiant": "chadshaw993643@gmail.com",
+          "motDePasse": "XZa0qZNUR"
+        }
       }
     },
     "Orukam": {
       "Harphr-Dorez": {
         "kamas": {
-          "lastTotal": 341075,
+          "lastTotal": 339590,
           "gain": 43569
         },
-        "lastSeen": 1750458787432,
+        "lastSeen": 1750459404716,
         "roses": {
           "lastTotal": 0,
           "gain": 0
@@ -1265,10 +1367,10 @@
       },
       "Maryssiose": {
         "kamas": {
-          "lastTotal": 1764304,
-          "gain": 287743
+          "lastTotal": 1824713,
+          "gain": 353611
         },
-        "lastSeen": 1750457251750,
+        "lastSeen": 1750460060843,
         "roses": {
           "lastTotal": 0,
           "gain": 0
@@ -1282,10 +1384,10 @@
       },
       "Pock-Dian": {
         "kamas": {
-          "lastTotal": 488490,
+          "lastTotal": 479990,
           "gain": 0
         },
-        "lastSeen": 1750457869619,
+        "lastSeen": 1750461540878,
         "roses": {
           "lastTotal": 0,
           "gain": 0
@@ -1299,10 +1401,10 @@
       },
       "Jaken-Helle": {
         "kamas": {
-          "lastTotal": 411635,
-          "gain": 89902
+          "lastTotal": 461788,
+          "gain": 143695
         },
-        "lastSeen": 1750458852436,
+        "lastSeen": 1750461552221,
         "roses": {
           "lastTotal": 0,
           "gain": 0
@@ -1313,15 +1415,83 @@
           "identifiant": "helenkcf64gz@gmail.com",
           "motDePasse": "Y#7dFpQ9m6"
         }
+      },
+      "Mia-permegad": {
+        "kamas": {
+          "lastTotal": 182540,
+          "gain": 6271
+        },
+        "lastSeen": 1750461480895,
+        "roses": {
+          "lastTotal": 0,
+          "gain": 0
+        },
+        "profil": {
+          "classe": "Sacrieur",
+          "niveau": 62,
+          "identifiant": "michellehicks136306@gmail.com",
+          "motDePasse": "qYlYCj5bK"
+        }
+      },
+      "Hera-Reesy": {
+        "kamas": {
+          "lastTotal": 19215635,
+          "gain": 0
+        },
+        "lastSeen": 1750460198925,
+        "roses": {
+          "lastTotal": 0,
+          "gain": 0
+        },
+        "profil": {
+          "classe": "Sacrieur",
+          "niveau": 60,
+          "identifiant": "garciadvo80sh@gmail.com",
+          "motDePasse": "H@7zN6v#jM"
+        }
+      },
+      "Trume-Ich-xm": {
+        "kamas": {
+          "lastTotal": 423105,
+          "gain": 0
+        },
+        "lastSeen": 1750460750614,
+        "roses": {
+          "lastTotal": 0,
+          "gain": 0
+        },
+        "profil": {
+          "classe": "Sacrieur",
+          "niveau": 62,
+          "identifiant": "nathangoodman790189@gmail.com",
+          "motDePasse": "qrcgo4hY"
+        }
+      },
+      "Zino-Tail": {
+        "kamas": {
+          "lastTotal": 372484,
+          "gain": 0
+        },
+        "lastSeen": 1750461478163,
+        "roses": {
+          "lastTotal": 0,
+          "gain": 0
+        },
+        "profil": {
+          "classe": "Sacrieur",
+          "niveau": 60,
+          "identifiant": "samanthawatson118761@gmail.com",
+          "motDePasse": "vLwbjet8W"
+        }
       }
     },
     "Tylezia": {
       "Pandrey-Maud": {
         "kamas": {
-          "lastTotal": 1314056,
-          "gain": 61115
+          "lastTotal": 1756244,
+          "gain": 504536
         },
-        "lastSeen": 1750457143418,
+        "lastSeen": 1750460788319,
         "roses": {
           "lastTotal": 0,
           "gain": 0
@@ -1352,10 +1522,10 @@
       },
       "Corey-Shawin": {
         "kamas": {
-          "lastTotal": 732969,
-          "gain": 51473
+          "lastTotal": 712665,
+          "gain": 71106
         },
-        "lastSeen": 1750458647961,
+        "lastSeen": 1750460851998,
         "roses": {
           "lastTotal": 0,
           "gain": 0
@@ -1369,10 +1539,10 @@
       },
       "Madelle-Arron": {
         "kamas": {
-          "lastTotal": 1721228,
-          "gain": 4041
+          "lastTotal": 1985677,
+          "gain": 289432
         },
-        "lastSeen": 1750458337365,
+        "lastSeen": 1750461261793,
         "roses": {
           "lastTotal": 0,
           "gain": 0
@@ -1386,10 +1556,10 @@
       },
       "Elean-Luca": {
         "kamas": {
-          "lastTotal": 1190381,
+          "lastTotal": 1186978,
           "gain": 57964
         },
-        "lastSeen": 1750458901944,
+        "lastSeen": 1750460856846,
         "roses": {
           "lastTotal": 0,
           "gain": 0
@@ -1400,15 +1570,66 @@
           "identifiant": "NoeliaBowerize8085@hotmail.com",
           "motDePasse": "LBci7FhTJ1"
         }
+      },
+      "Arc-Arrow-Bombe": {
+        "kamas": {
+          "lastTotal": 331036,
+          "gain": 16788
+        },
+        "lastSeen": 1750461547547,
+        "roses": {
+          "lastTotal": 0,
+          "gain": 0
+        },
+        "profil": {
+          "classe": "Sacrieur",
+          "niveau": 61,
+          "identifiant": "robertmason677795@gmail.com",
+          "motDePasse": "w2G6kdbP"
+        }
+      },
+      "Inastyn": {
+        "kamas": {
+          "lastTotal": 224256,
+          "gain": 461
+        },
+        "lastSeen": 1750460524874,
+        "roses": {
+          "lastTotal": 0,
+          "gain": 0
+        },
+        "profil": {
+          "classe": "Sacrieur",
+          "niveau": 62,
+          "identifiant": "joshuamann635702@gmail.com",
+          "motDePasse": "p5NTNQSL"
+        }
+      },
+      "Fatemie": {
+        "kamas": {
+          "lastTotal": 850056,
+          "gain": 0
+        },
+        "lastSeen": 1750461601191,
+        "roses": {
+          "lastTotal": 0,
+          "gain": 0
+        },
+        "profil": {
+          "classe": "Sacrieur",
+          "niveau": 160,
+          "identifiant": "MelodeeZangara6719@hotmail.com",
+          "motDePasse": "15mdOHhsmib71"
+        }
       }
     },
     "Hell Mina": {
       "Zebien-La-Dion": {
         "kamas": {
-          "lastTotal": 256598,
-          "gain": 0
+          "lastTotal": 274501,
+          "gain": 17903
         },
-        "lastSeen": 1750457898338,
+        "lastSeen": 1750460756776,
         "roses": {
           "lastTotal": 0,
           "gain": 0
@@ -1436,15 +1657,49 @@
           "identifiant": "kinggux16hg@gmail.com",
           "motDePasse": "F@6yH2v!9t"
         }
+      },
+      "Joanika-Coquel": {
+        "kamas": {
+          "lastTotal": 390989,
+          "gain": 62675
+        },
+        "lastSeen": 1750460619868,
+        "roses": {
+          "lastTotal": 0,
+          "gain": 0
+        },
+        "profil": {
+          "classe": "Sacrieur",
+          "niveau": 66,
+          "identifiant": "thomashjl95oh@gmail.com",
+          "motDePasse": "8zN@2pW#rT"
+        }
+      },
+      "Noufle-Mrdos": {
+        "kamas": {
+          "lastTotal": 507240,
+          "gain": 15008
+        },
+        "lastSeen": 1750461610112,
+        "roses": {
+          "lastTotal": 0,
+          "gain": 0
+        },
+        "profil": {
+          "classe": "Sacrieur",
+          "niveau": 62,
+          "identifiant": "caroleku50ui@gmail.com",
+          "motDePasse": "2jM!pR8b@L"
+        }
       }
     },
     "Imagiro": {
       "Webekielle": {
         "kamas": {
-          "lastTotal": 533427,
-          "gain": 0
+          "lastTotal": 653047,
+          "gain": 119620
         },
-        "lastSeen": 1750458487283,
+        "lastSeen": 1750459389587,
         "roses": {
           "lastTotal": 0,
           "gain": 0
@@ -1458,10 +1713,10 @@
       },
       "Le-Crafe": {
         "kamas": {
-          "lastTotal": 681496,
-          "gain": 0
+          "lastTotal": 731289,
+          "gain": 53507
         },
-        "lastSeen": 1750459034426,
+        "lastSeen": 1750461604724,
         "roses": {
           "lastTotal": 0,
           "gain": 0
@@ -1472,15 +1727,117 @@
           "identifiant": "hilllfn16jz@gmail.com",
           "motDePasse": "9sL$4tPzE@"
         }
+      },
+      "Ox-Firestellii": {
+        "kamas": {
+          "lastTotal": 725985,
+          "gain": 23012
+        },
+        "lastSeen": 1750461474869,
+        "roses": {
+          "lastTotal": 0,
+          "gain": 0
+        },
+        "profil": {
+          "classe": "Sacrieur",
+          "niveau": 61,
+          "identifiant": "joannakelly722856@gmail.com",
+          "motDePasse": "CZGiBnw4"
+        }
+      },
+      "Jennella": {
+        "kamas": {
+          "lastTotal": 1664786,
+          "gain": 157946
+        },
+        "lastSeen": 1750461561740,
+        "roses": {
+          "lastTotal": 0,
+          "gain": 0
+        },
+        "profil": {
+          "classe": "Sacrieur",
+          "niveau": 160,
+          "identifiant": "PeterkinRhump15026@hotmail.com",
+          "motDePasse": "TkSuQRc7CV1"
+        }
+      },
+      "Ethacryloca": {
+        "kamas": {
+          "lastTotal": 981969,
+          "gain": 2540
+        },
+        "lastSeen": 1750460331845,
+        "roses": {
+          "lastTotal": 0,
+          "gain": 0
+        },
+        "profil": {
+          "classe": "Sacrieur",
+          "niveau": 160,
+          "identifiant": "ElsieBrakefield92@hotmail.com",
+          "motDePasse": "yacnu06kucu1"
+        }
+      },
+      "Gust-dom": {
+        "kamas": {
+          "lastTotal": 731101,
+          "gain": 26631
+        },
+        "lastSeen": 1750461565553,
+        "roses": {
+          "lastTotal": 0,
+          "gain": 0
+        },
+        "profil": {
+          "classe": "Sacrieur",
+          "niveau": 62,
+          "identifiant": "nicolehouse384944@gmail.com",
+          "motDePasse": "uEYRBX46L"
+        }
+      },
+      "Eliob-Freen": {
+        "kamas": {
+          "lastTotal": 538017,
+          "gain": 0
+        },
+        "lastSeen": 1750461619727,
+        "roses": {
+          "lastTotal": 0,
+          "gain": 0
+        },
+        "profil": {
+          "classe": "Sacrieur",
+          "niveau": 62,
+          "identifiant": "josephjohnson734005@gmail.com",
+          "motDePasse": "WTQx9qC3"
+        }
+      },
+      "Jayanan": {
+        "kamas": {
+          "lastTotal": 2026500,
+          "gain": 790724
+        },
+        "lastSeen": 1750461516395,
+        "roses": {
+          "lastTotal": 0,
+          "gain": 0
+        },
+        "profil": {
+          "classe": "Sacrieur",
+          "niveau": 160,
+          "identifiant": "RennaZboral265@hotmail.com",
+          "motDePasse": "S9lpcdGkys1"
+        }
       }
     },
     "Brial": {
       "Lalkyrik": {
         "kamas": {
-          "lastTotal": 702001,
-          "gain": 41290
+          "lastTotal": 706822,
+          "gain": 46684
         },
-        "lastSeen": 1750458911697,
+        "lastSeen": 1750460308473,
         "roses": {
           "lastTotal": 0,
           "gain": 0
@@ -1497,7 +1854,7 @@
           "lastTotal": 347578,
           "gain": 0
         },
-        "lastSeen": 1750458958554,
+        "lastSeen": 1750460994715,
         "roses": {
           "lastTotal": 0,
           "gain": 0
@@ -1511,10 +1868,10 @@
       },
       "Zywood-Popolife": {
         "kamas": {
-          "lastTotal": 590069,
+          "lastTotal": 589461,
           "gain": 46377
         },
-        "lastSeen": 1750459109630,
+        "lastSeen": 1750459161434,
         "roses": {
           "lastTotal": 0,
           "gain": 0
@@ -1525,15 +1882,49 @@
           "identifiant": "stevenmoody338185@gmail.com",
           "motDePasse": "TnSpoi9Y"
         }
+      },
+      "Su-Wei": {
+        "kamas": {
+          "lastTotal": 385579,
+          "gain": 0
+        },
+        "lastSeen": 1750460425967,
+        "roses": {
+          "lastTotal": 0,
+          "gain": 0
+        },
+        "profil": {
+          "classe": "Sacrieur",
+          "niveau": 63,
+          "identifiant": "tiffanyhartman781295@gmail.com",
+          "motDePasse": "zOCGW3l39"
+        }
+      },
+      "Thunti": {
+        "kamas": {
+          "lastTotal": 518469,
+          "gain": 11090
+        },
+        "lastSeen": 1750461597845,
+        "roses": {
+          "lastTotal": 0,
+          "gain": 0
+        },
+        "profil": {
+          "classe": "Sacrieur",
+          "niveau": 62,
+          "identifiant": "troyrowe128016@gmail.com",
+          "motDePasse": "zH3l7NX7"
+        }
       }
     },
     "Salar": {
       "Le-Blood": {
         "kamas": {
-          "lastTotal": 150028,
+          "lastTotal": 128010,
           "gain": 0
         },
-        "lastSeen": 1750458894585,
+        "lastSeen": 1750459459368,
         "roses": {
           "lastTotal": 0,
           "gain": 0
@@ -1547,10 +1938,10 @@
       },
       "Cache-Tracrie-Argia": {
         "kamas": {
-          "lastTotal": 645722,
-          "gain": 0
+          "lastTotal": 849458,
+          "gain": 214228
         },
-        "lastSeen": 1750459140937,
+        "lastSeen": 1750461169142,
         "roses": {
           "lastTotal": 0,
           "gain": 0
@@ -1560,6 +1951,163 @@
           "niveau": 64,
           "identifiant": "danielrojas504746@gmail.com",
           "motDePasse": "YPOOum1l"
+        }
+      },
+      "Moukus-Rosalet": {
+        "kamas": {
+          "lastTotal": 460755,
+          "gain": 102277
+        },
+        "lastSeen": 1750460721779,
+        "roses": {
+          "lastTotal": 0,
+          "gain": 0
+        },
+        "profil": {
+          "classe": "Sacrieur",
+          "niveau": 64,
+          "identifiant": "paulawilson432986@gmail.com",
+          "motDePasse": "Cmb2DMoFW"
+        }
+      },
+      "Fluorz-v": {
+        "kamas": {
+          "lastTotal": 504485,
+          "gain": 7121
+        },
+        "lastSeen": 1750460812946,
+        "roses": {
+          "lastTotal": 0,
+          "gain": 0
+        },
+        "profil": {
+          "classe": "Sacrieur",
+          "niveau": 63,
+          "identifiant": "davidbrown550623@gmail.com",
+          "motDePasse": "mwzVZQj2j"
+        }
+      },
+      "Letctrois": {
+        "kamas": {
+          "lastTotal": 304544,
+          "gain": 0
+        },
+        "lastSeen": 1750461588686,
+        "roses": {
+          "lastTotal": 0,
+          "gain": 0
+        },
+        "profil": {
+          "classe": "Sacrieur",
+          "niveau": 62,
+          "identifiant": "richardrodriguez168755@gmail.com",
+          "motDePasse": "j0iDXsTD"
+        }
+      }
+    },
+    "Draconiros": {
+      "Setsu-Wraya": {
+        "kamas": {
+          "lastTotal": 5264503,
+          "gain": 332871
+        },
+        "lastSeen": 1750461547948,
+        "roses": {
+          "lastTotal": 0,
+          "gain": 0
+        },
+        "profil": {
+          "classe": "Sacrieur",
+          "niveau": 85,
+          "identifiant": "LeolaBendzus3491@hotmail.com",
+          "motDePasse": "01g83uohV3Vvv1"
+        }
+      }
+    },
+    "Rafal": {
+      "Didzo-un": {
+        "kamas": {
+          "lastTotal": 333470,
+          "gain": 16512
+        },
+        "lastSeen": 1750461387157,
+        "roses": {
+          "lastTotal": 0,
+          "gain": 0
+        },
+        "profil": {
+          "classe": "Sacrieur",
+          "niveau": 61,
+          "identifiant": "brookebaker848259@gmail.com",
+          "motDePasse": "TrU9OGLi"
+        }
+      },
+      "Sabre-Frane": {
+        "kamas": {
+          "lastTotal": 204032,
+          "gain": 0
+        },
+        "lastSeen": 1750459838436,
+        "roses": {
+          "lastTotal": 0,
+          "gain": 0
+        },
+        "profil": {
+          "classe": "Sacrieur",
+          "niveau": 64,
+          "identifiant": "matthewpowell473273@gmail.com",
+          "motDePasse": "fpi6Z3jM"
+        }
+      },
+      "Barrac-Dentys": {
+        "kamas": {
+          "lastTotal": 514754,
+          "gain": 14549
+        },
+        "lastSeen": 1750461252439,
+        "roses": {
+          "lastTotal": 0,
+          "gain": 0
+        },
+        "profil": {
+          "classe": "Sacrieur",
+          "niveau": 63,
+          "identifiant": "kurtmccarthy699233@gmail.com",
+          "motDePasse": "vLwbjet8W"
+        }
+      },
+      "Rupi-Rock": {
+        "kamas": {
+          "lastTotal": 295882,
+          "gain": 0
+        },
+        "lastSeen": 1750460077585,
+        "roses": {
+          "lastTotal": 0,
+          "gain": 0
+        },
+        "profil": {
+          "classe": "Sacrieur",
+          "niveau": 60,
+          "identifiant": "victoriarodriguez193078@gmail.com",
+          "motDePasse": "STSm0vk4"
+        }
+      },
+      "Aspirinatochingwin": {
+        "kamas": {
+          "lastTotal": 439025,
+          "gain": 0
+        },
+        "lastSeen": 1750460217082,
+        "roses": {
+          "lastTotal": 0,
+          "gain": 0
+        },
+        "profil": {
+          "classe": "Sacrieur",
+          "niveau": 65,
+          "identifiant": "randallsingh249134@gmail.com",
+          "motDePasse": "ozlDN8iX"
         }
       }
     }

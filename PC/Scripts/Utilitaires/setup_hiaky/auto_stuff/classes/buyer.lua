@@ -1060,31 +1060,6 @@ function Buyer:process()
     end
 end
 
--- static
-function buyWorthItem(...)
-    local results = {}
-    local items = type(...) == "table"
-        and ...
-        or { ... }
-
-    print:success("Achat des items.", true)
-    print:void()
-
-    for _, item in ipairs(items) do
-        local item = self:new(item)
-
-        if item then
-            insert(results, {
-                id = item,
-                success = item:process()
-            })
-        end 
-    end
-
-    return results
-end
-
-
 ---------------------------------------------------
 ---------------------------------------------------
 ---------------------------------------------------

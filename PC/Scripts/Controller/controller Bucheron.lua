@@ -208,13 +208,12 @@ function move()
                 end
             end
 
-            debug("test extractTime")
             -- ajouter le check de si le compte est connecté et si ce n'est pas un compte craft
             local lastLog = extractTime(lines[#lines])
             if not lastLog then
                 global:printError("impossible de trouver l'heure de reconnexion dans l'alias: " .. acc:getAlias())
             end
-            
+
             -- ajouter le check de si le compte est connecté et si ce n'est pas un compte craft
             local lastLog = extractTime(lines[#lines])
             if not lastLog then
