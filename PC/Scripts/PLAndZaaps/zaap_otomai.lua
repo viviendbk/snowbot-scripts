@@ -321,6 +321,7 @@ function move()
             { map = "21,24", path = "top" },
             { map = "21,23", custom = buy_ressources, path = "right" },
             { map = "22,23", path = "zaapi(90703364)" },
+            { map = "12,29", path = "right" },
             { map = "13,29", path = "right" },
             { map = "14,29", path = "top" },
             { map = "14,28", path = "right" },

@@ -222,7 +222,7 @@ function move()
 
 
         -- lines = acc.global():consoleLines()
-        -- if lines ~= nil then
+        -- if lines ~= nil and #lines > 0 then
         --     if not isAccountController(acc:getAlias()) and #lines > 100 and LoopBug(lines) then
         --         global:printSuccess("On débug le bot " .. acc:getAlias() .. " (loop bug)")
         --         acc.global():clearConsole()

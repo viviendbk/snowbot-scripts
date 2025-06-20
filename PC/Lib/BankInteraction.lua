@@ -25,6 +25,9 @@ function setBotBankConnected(server, bool)
     local new_content = json.encode(jsonMemory)
     -- Écrire les modifications dans le fichier JSON
 
+    global:printMessage("L'availability du bot a été mis à :")
+    global:printMessage(bool)
+
     local file = io.open("C:\\Users\\Vivien\\Documents\\Snowbot-Scripts-3\\PC\\Temp\\" .. server .. "\\botBankAvailability.json", "w")
 
     file:write(new_content)
@@ -345,9 +348,12 @@ end
 
 
 function submitKamasOrder(amount)
+    
     local filePath = "C:\\Users\\Vivien\\Documents\\Snowbot-Scripts-3\\PC\\Temp\\" .. character:server() .. "\\bank-orders.json"
+                                debug("d")
     local jsonMemory = openFile(filePath)
-  
+                              debug("d")
+
     -- Remove existing entry with the same id
     if #jsonMemory > 0 then
         for i = #jsonMemory, 1, -1 do
@@ -386,14 +392,15 @@ function deleteKamasOrder(characterId)
     local jsonMemory = openFile(filePath)
 
     -- Ensure jsonMemory[1] exists and is a table
-    if type(jsonMemory[1]) ~= "table" then
+    if type(jsonMemory) ~= "table" then
+        global:printError("Aucune commande trouvée pour le personnage " .. characterId)
         return -- nothing to delete
     end
 
     -- Remove all matching entries
-    for i = #jsonMemory[1], 1, -1 do
-        if jsonMemory[1][i].id == characterId then
-            table.remove(jsonMemory[1], i)
+    for i = #jsonMemory, 1, -1 do
+        if tostring(jsonMemory[i].id) == tostring(characterId) then
+            table.remove(jsonMemory, i)
         end
     end
 

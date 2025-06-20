@@ -1027,6 +1027,53 @@ function move()
             end},
         }
     elseif global:remember("ETAPE_ZAAP") == 28 then
+        return {
+            {map = "0,0", path = "zaap(164364304)"},
+            {map = "-20,-20", path = "bottom"},
+            {map = "-20,-19", path = "bottom"},
+            {map = "-20,-18", path = "bottom"},
+            {map = "-20,-16", path = "bottom"},
+            {map = "-20,-17", path = "bottom"},
+            {map = "-20,-15", path = "bottom"},
+            {map = "-20,-14", path = "bottom"},
+            {map = "-20,-13", path = "bottom"},
+            {map = "-24,-11", path = "bottom"},
+            {map = "-24,-10", path = "bottom"},
+            {map = "-24,-9", path = "bottom"},
+            {map = "-24,-8", path = "bottom"},
+            {map = "-24,-7", path = "left"},
+            {map = "-25,-7", path = "bottom"},
+            {map = "-25,-6", path = "right"},
+            {map = "-24,-6", path = "bottom"},
+            {map = "-24,-5", path = "bottom"},
+            {map = "-24,-4", path = "bottom"},
+            {map = "-24,-3", path = "bottom"},
+            {map = "-24,-2", path = "bottom"},
+            {map = "-24,-1", path = "bottom"},
+            {map = "-24,0", path = "bottom"},
+            {map = "-24,1", path = "bottom"},
+            {map = "-24,2", path = "bottom"},
+            {map = "-25,3", path = "bottom"},
+            {map = "-25,4", path = "bottom"},
+            {map = "-25,5", path = "bottom"},
+            {map = "-25,6", path = "bottom"},
+            {map = "-25,7", path = "bottom"},
+            {map = "-25,8", path = "bottom"},
+            {map = "-25,9", path = "bottom"},
+            {map = "-25,10", path = "bottom"},
+            {map = "-25,11", path = "bottom"},
+            {map = "-20,-12", path = "left"},
+            {map = "-21,-12", path = "left"},
+            {map = "-22,-12", path = "left"},
+            {map = "-23,-12", path = "left"},
+            {map = "-24,-12", path = "bottom"},
+            {map = "-24,3", path = "left"},
+            {map = "-25,12", custom = function ()
+                increment()
+                map:changeMap("havenbag")
+            end},
+        }
+    elseif global:remember("ETAPE_ZAAP") == 29 then
         if global:thisAccountController():getAlias():find("Mineur") or global:thisAccountController():getAlias():find("Bucheron") then
             global:loadAndStart("C:\\Users\\Vivien\\Documents\\Snowbot-Scripts-3\\PC\\Scripts\\PLAndZaaps\\quete_pandala.lua")
         elseif global:thisAccountController():getAlias():find("LvlUp") then

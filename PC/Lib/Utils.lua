@@ -433,7 +433,7 @@ function addSecondsToDateTime(datetime, secondsToAdd)
     end
 end
 
-function comparehHour(h1, h2)
+function compareHours(h1, h2)
     local function to_seconds(hms)
         local h, m, s = hms:match("^(%d%d):(%d%d):(%d%d)$")
         if h and m and s then
@@ -543,7 +543,7 @@ function secondsToHours(time)
 end
 
 function isAccountController(alias)
-    return alias:find("controller") or alias:find("contrôleur")
+    return alias:lower():find("controller") or alias:lower():find("contrôleur")
 end
 
 function debug(msg)
@@ -551,7 +551,7 @@ function debug(msg)
 end
 
 function canReconnect(Alias)
-    if not Alias:find("Reconnect") or Alias:find("Need Abo") then
+    if not Alias:find("Reconnect") and not Alias:find("Need Abo") then
         return true
     end
 
@@ -667,14 +667,13 @@ function connectAccountsWithFailleProxy()
     global:printSuccess("Il y a " .. nbVagues .. " vagues de connexion à faire")
     if nbVagues > 0 then
         local connexionFile = openFile("C:\\Users\\Vivien\\Documents\\Snowbot-Scripts-3\\PC\\Temp\\controllerConnexion.json")
-
+        printVar(connexionFile)
         if not connexionFile or #connexionFile == 0 or not connexionFile[1].inUse then
             connexionFile[1] = {
                     inUse = true,
                     by = global:thisAccountController():getAlias(),
                     date = os.date("%Y-%m-%d %H:%M:%S")
                 }
-
             writeToJsonFile("C:\\Users\\Vivien\\Documents\\Snowbot-Scripts-3\\PC\\Temp\\controllerConnexion.json", connexionFile)
         elseif connexionFile[1].inUse and compareDateTime(os.date("%Y-%m-%d %H:%M:%S"), connexionFile[1].date) < 20 * 60 then
             global:printError("Un autre script est déjà en train de se connecter, on continue le script")
@@ -687,6 +686,7 @@ function connectAccountsWithFailleProxy()
             connexionFile[1].by = ""
             connexionFile[1].date = ""
             writeToJsonFile("C:\\Users\\Vivien\\Documents\\Snowbot-Scripts-3\\PC\\Temp\\controllerConnexion.json", connexionFile)
+            debug("in use mis à false 1")
             return connectAccountsWithFailleProxy() -- Retenter la connexion
         end
     end
@@ -730,6 +730,7 @@ function connectAccountsWithFailleProxy()
             connexionFile[1].by = ""
             connexionFile[1].date = ""
             writeToJsonFile("C:\\Users\\Vivien\\Documents\\Snowbot-Scripts-3\\PC\\Temp\\controllerConnexion.json", connexionFile)
+            debug("in use mis à false 2")
 
             global:delay(10000) -- Attendre 1 minute avant de retenter
             return connectAccountsWithFailleProxy() -- Retenter la connexion
@@ -742,14 +743,16 @@ function connectAccountsWithFailleProxy()
             end
         end
 
-        local connexionFile = openFile("C:\\Users\\Vivien\\Documents\\Snowbot-Scripts-3\\PC\\Temp\\controllerConnexion.json")
-        connexionFile[1].inUse = false
-        connexionFile[1].by = ""
-        connexionFile[1].date = ""
-        writeToJsonFile("C:\\Users\\Vivien\\Documents\\Snowbot-Scripts-3\\PC\\Temp\\controllerConnexion.json", connexionFile)
-
-        global:delay(20000) -- 20000 ms = 20 secondes
+        global:delay(10000)
     end
+    
+    local connexionFile = openFile("C:\\Users\\Vivien\\Documents\\Snowbot-Scripts-3\\PC\\Temp\\controllerConnexion.json")
+    connexionFile[1].inUse = false
+    connexionFile[1].by = ""
+    connexionFile[1].date = ""
+    writeToJsonFile("C:\\Users\\Vivien\\Documents\\Snowbot-Scripts-3\\PC\\Temp\\controllerConnexion.json", connexionFile)
+    debug("in use mis à false 3")
+
 end
 
 
@@ -1059,39 +1062,33 @@ function WithdrawTime(lines)
 end
 
 
-function find_repeated_patterns(strings, x)
+function findRepeatedPatterns(strings, x, y)
     local n = #strings
     local counts = {}
     local lastPattern = nil
-
     if strings then
         for i = 1, n - x + 1, x do
+
             local pattern = table.concat(strings, "", i, i + x - 1)
 
-            -- Ne pas comptabiliser les patterns contenant "ETAPE_ZAAP"
-            if not pattern:find("ETAPE_ZAAP") and not pattern:find("le bot bank") then
-                if lastPattern and pattern ~= lastPattern then
-                    counts = {}
-                end
-
-                counts[pattern] = (counts[pattern] or 0) + 1
-
-                if counts[pattern] >= 8 then
-                    global:printMessage("pattern : " .. pattern .. "\nRépété au moins 4 fois")
-                    return true
-                end
-
-                lastPattern = pattern
-            else
-                -- Réinitialise aussi si ETAPE_ZAAP casse le pattern
-                counts = {}
-                lastPattern = nil
+            if lastPattern and pattern ~= lastPattern then
+              counts = {}
             end
-        end
+
+            counts[pattern] = (counts[pattern] or 0) + 1
+
+            if counts[pattern] == y then
+                global:printMessage("pattern : " .. pattern .. "\nRépété " .. x .. " fois")
+              return true
+            end
+
+            lastPattern = pattern
+
+          end
     end
 
     return false
-end
+  end
 
 
 function LoopBug(lines)
@@ -1099,8 +1096,8 @@ function LoopBug(lines)
         global:printSuccess("loopbug1")
         lines = WithdrawTime(lines)
         global:printSuccess("loopbug1.5")
-        for i = 2, 15 do
-            if find_repeated_patterns(lines, i, math.floor(#lines / math.floor(i * 2))) then
+        for i = 4, 15 do
+            if findRepeatedPatterns(lines, i, math.floor(#lines / math.floor(i * 2))) then
                 global:printSuccess("loopbug2")
                 return true
             end

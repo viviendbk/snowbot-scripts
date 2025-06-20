@@ -1034,6 +1034,10 @@ function move()
             local batchSize = math.min(50, #items - index + 1)
 
             for i = 0, batchSize - 1 do
+                if inventory:podsP() > 80 then
+                    global:printSuccess("on va merge les runes")
+                    MergeRunes()
+                end
                 map:useById(521675, -1)
                 global:delay(math.random(500, 1500))
                 debug("on va mettre l'objet " .. inventory:itemNameId(items[index + i].objectGID) .. " dans l'échange")

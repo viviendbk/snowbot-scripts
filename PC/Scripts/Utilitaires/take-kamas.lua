@@ -75,7 +75,6 @@ local function takeKamas(giver, boolAbo)
     else
         global:delay(6000, 7000)
     end
-    debug("ok")
 
     exchange:ready()
     
@@ -119,6 +118,7 @@ local function takeKamas(giver, boolAbo)
 end
 
 function move()
+    setBotBankConnected(character:server(), false)
     mapDelay()
 
     global:printSuccess(global:remember("firstDecoReco"))

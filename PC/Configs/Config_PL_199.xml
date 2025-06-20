@@ -14,7 +14,7 @@
   <Communaute>false</Communaute>
   <Guild>true</Guild>
   <ConnexionAuto>false</ConnexionAuto>
-  <Sucess>false</Sucess>
+  <Sucess>true</Sucess>
   <StatuPrivate>false</StatuPrivate>
   <AntiAgro>false</AntiAgro>
   <BankReturn>90</BankReturn>

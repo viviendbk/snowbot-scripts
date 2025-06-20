@@ -182,7 +182,7 @@ function move()
 
 
         lines = acc.global():consoleLines()
-        if lines ~= nil then
+        if lines ~= nil and #lines > 0 then
             if not isAccountController(acc:getAlias()) and #lines > 100 and LoopBug(lines) then
                 global:printSuccess("On débug le bot " .. acc:getAlias() .. " (loop bug)")
                 acc.global():clearConsole()
@@ -205,6 +205,22 @@ function move()
             if nbZaapsTaken > 20 then
                 acc.global():clearConsole()
                 acc:setScriptVariable("NeedToReturnBank", true)
+            end
+
+            -- ajouter le check de si le compte est connecté et si ce n'est pas un compte craft
+            local lastLog = extractTime(lines[#lines])
+            if not lastLog then
+                global:printError("impossible de trouver l'heure de reconnexion dans l'alias: " .. acc:getAlias())
+            else
+                local lastLogPlusX = addMinutes(lastLog, 20)
+                -- Vérification si l'heure actuelle dépasse celle de reconnexion + 30 minutes
+                local currentTime = os.date("%H:%M:%S")
+
+                if acc:isAccountConnected() and compareHours(currentTime, lastLogPlusX) then
+                    debug("[" .. acc:getAlias() .. "] :  lastLog: " .. lastLog .. " | lastLogPlusX: " .. lastLogPlusX .. " | currentTime: " .. currentTime)
+                    debug(lines[#lines])
+                    acc:disconnect()
+                end
             end
 
         end

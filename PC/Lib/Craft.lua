@@ -696,6 +696,8 @@ function MergeRunes()
     local content = inventory:inventoryContent()
 
     for _, element in ipairs(content) do
+        debug("Analyse de l'item [" .. inventory:itemNameId(element.objectGID) .. "] (" .. element.objectGID .. ")")
+        debug("Type : " .. inventory:itemTypeId(element.objectGID) .. " - Nombre de runes disponibles pour fusion : " .. GetNumberOfMergeAvailable(element.objectGID))
         if inventory:itemTypeId(element.objectGID) == 78 and GetNumberOfMergeAvailable(element.objectGID) == 2 and inventory:itemCount(element.objectGID) > 29 then
             global:printMessage("Analyse des possibles fusions de [" .. inventory:itemNameId(element.objectGID) .. "]")
             local tabPriceByPui = {

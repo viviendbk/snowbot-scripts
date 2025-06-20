@@ -187,18 +187,13 @@ function messagesRegistering()
 end
 
 function buy_ressources()
-    HdvBuy()
+
     while inventory:itemCount(885) < 5 do
         Achat(885, 5)
     end
 
     while inventory:itemCount(421) < 50 do
-        for i = 1, 5 do
-            sale:buyItem(421,10,10000000)
-        end
-        if inventory:itemCount(421) < 50 then
-            sale:buyItem(421,100,10000000)
-        end
+        Achat(421, 50)
     end
 
     global:leaveDialog()
@@ -209,6 +204,23 @@ function buy_ressources()
 			global:finishScript()
 		end
 	end
+end
+
+local function treatMaps(maps, errorFn)
+    errorFn = errorFn or function() map:changeMap("havenbag") end
+
+    local msg = "[Erreur] - Aucune action à réaliser sur la map, on va dans le havre-sac"
+
+    for _, element in ipairs(maps) do
+        local condition = map:onMap(element.map) 
+
+        if condition then
+            return {element}
+        end
+    end
+
+    increment()
+    return move()
 end
 
 
@@ -233,10 +245,26 @@ function move()
         end
     end
 
-    global:printSuccess("ok")
+
+
     if global:remember("ETAPE_PANDALA") == nil then
         global:addInMemory("ETAPE_PANDALA", (quest:questCurrentStep(2149) == 2805) and 2 or 1)
     end
+
+    local objectifsDone = quest:questDoneObjectives(2149)
+
+    if objectifsDone and #objectifsDone == 8 then
+        global:editInMemory("ETAPE_PANDALA", 7) 
+    elseif objectifsDone and #objectifsDone == 9 then
+        global:editInMemory("ETAPE_PANDALA", 8) 
+    elseif objectifsDone and #objectifsDone == 7 then
+        if inventory:itemCount(23038) > 0 then -- si il a l'échantillon de sang pour le serum
+            global:editInMemory("ETAPE_PANDALA", 6)
+        else
+            global:editInMemory("ETAPE_PANDALA", 5) 
+        end
+    end
+
     global:printSuccess(tonumber(global:remember("ETAPE_PANDALA")))
 
     if tonumber(global:remember("ETAPE_PANDALA")) == 1 then
@@ -437,6 +465,7 @@ function move()
     elseif tonumber(global:remember("ETAPE_PANDALA")) == 7 then
         global:printSuccess("7")
         return{
+            { map = "192937988", path = "396"},
             { map = "188744705", door = "198" },
             { map = "192417798", custom = pandala_7 },
         }
@@ -444,6 +473,7 @@ function move()
         global:printSuccess("8")
         return{
             { map = "188744705", path = "right" },
+            { map = "3,-21", path = "right" },
             { map = "4,-21", path = "right" },
             { map = "5,-21", path = "right" },
             { map = "6,-21", path = "right" },
