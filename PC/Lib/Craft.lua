@@ -854,19 +854,26 @@ function _GetResultBreak(message)
     Pourcentage = math.floor(message.bonusMaxBonusMinOne * 100)
     EstimationGain = 0 
     debug(tostring(message))
-    
+
     for i = 0, #message.runes - 1 do
+        debug("ok")
         for k, v in pairs(PoidsByStat) do
+            debug("a")
             for _, element in ipairs(v.Runes) do
+                debug("b")
+                debug(message.runes[i].quantityRuneIdOne)
                 if element.Id == message.runes[i].quantityRuneIdOne then
-                    global:printSuccess("[" .. inventory:itemNameId(message.runes.quantityRuneIdOne) .. "] : " .. math.min(element.Prices.AveragePrice, element.Prices.TrueAveragePrice) * message.runes.quantityRuneIdTwo[i] .. " k")
-                    EstimationGain = EstimationGain + (math.min(element.Prices.AveragePrice, element.Prices.TrueAveragePrice) * message.runes.quantityRuneIdTwo[i])
+                    global:printSuccess("[" .. inventory:itemNameId(message.runes[i].quantityRuneIdOne) .. "] : " .. math.min(element.Prices.AveragePrice, element.Prices.TrueAveragePrice) * message.runes[i].quantityRuneIdTwo .. " k")
+                    EstimationGain = EstimationGain + (math.min(element.Prices.AveragePrice, element.Prices.TrueAveragePrice) * message.runes[i].quantityRuneIdTwo)
                 end
+                debug("bfin")
             end
+            debug("afin")
         end
+        debug("okfin")
     end
 
-    global:printMessage("Nous avons obtenu " .. Pourcentage .. "% et " .. #message[1].runes ..  " runes différentes estimées à " .. EstimationGain)
+    global:printMessage("Nous avons obtenu " .. Pourcentage .. "% et " .. #message.runes ..  " runes différentes estimées à " .. EstimationGain)
 end
 
 function CanCraftNow(Id, jsonFile)

@@ -308,9 +308,9 @@ local AreaEnergieAndSellParcho = {
 local RatBonta1 = {
     {map = "0,0", path = "zaap(212600323)"},
     {map = "212600323", path = "left"},
-    {map = "-32,-56", path = "top"},
-    {map = "-32,-57", path = "top"},
-    {map = "-32,-58", door = "523"},
+    {map = "212599811", path = "top"}, -- -32,-56
+    {map = "212599810", path = "top"}, -- -32,-57
+    {map = "212599809", door = "523"}, -- -32,-58
     {map = "216269574", fight = true, door = "402"},
 
     {map = "216269572", fight = true, path = "left"},

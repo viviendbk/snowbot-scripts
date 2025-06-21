@@ -43,8 +43,8 @@ local function conditionTakeKamasAndAbo()
     if ((global:thisAccountController():getAlias():find("Mineur")
     or global:thisAccountController():getAlias():find("Bucheron")
     or global:thisAccountController():getAlias():find("LvlUp"))
-    and (getRemainingSubscription(true) <= 0 and character:kamas() < 2000000
-        and (job:level(2) >= 5 and job:level(24) >= 5)))
+    and (getRemainingSubscription(true) < 1 and character:kamas() < 2000000
+        and (job:level(2) >= 5 or job:level(24) >= 5)))
 
     or (global:thisAccountController():getAlias():find("Combat")
     and (not hasAlmostAllHisPanneau() or getRemainingSubscription(true) <= 0))

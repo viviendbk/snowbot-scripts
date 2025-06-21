@@ -83,6 +83,7 @@ function _handleExchange(message)
         global:leaveDialog()
     end
     enEchange = true
+	global:delay(1000)
 	global:thisAccountController():startScript()
 end
 
@@ -96,7 +97,12 @@ local function fini()
 		return
 	end
 	global:printMessage("On prend des ressources random ")
-	takeRandomRessources()
+	if global:remember("reloadNumber") > 1 then
+		global:printMessage("On a déjà relancé " .. global:remember("reloadNumber") .. " fois, on ne prend pas les ressources")
+	else
+		takeRandomRessources()
+	end
+
 	developer:registerMessage("ExchangeRequestedTradeMessage", _handleExchange)
 
 
@@ -114,6 +120,7 @@ function move()
 		Abonnement()
 	end
 	debug("oui")
+
 	goAstrubBank(fini)
 
 end
