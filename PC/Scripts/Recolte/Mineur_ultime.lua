@@ -842,8 +842,41 @@ local TableArea = {
 
 }
 
+local function randomRotate(table)
+    local n = #table
+    if n == 0 then return {} end
+
+    -- Ensemble des MapSwitch interdits en 1ère position
+    local forbidden = {
+        ["178785288"] = true,  -- sidimote 3 4 5
+    }
+
+    -- Recherche d’un index de départ valide
+    local startIdx
+    local tries = 0
+    repeat
+        startIdx = math.random(1, n)
+        tries = tries + 1
+        -- sécurité : si on tourne trop, on abandonne et on prend 1
+        if tries > 10 then
+            startIdx = 1
+            break
+        end
+    until not forbidden[table[startIdx].Zone[1][2]]
+
+    -- Construction de la table tournée
+    local rotated = {}
+    for i = 1, n do
+        -- (startIdx + i - 2) % n + 1 : calcule l’indice cyclique
+        local idx = ((startIdx + i - 2) % n) + 1
+        rotated[i] = table[idx]
+    end
+
+    return rotated
+end
+
 if not global:thisAccountController():getAlias():find("Mineur1") then
-    TableArea = rotateTableRandom(TableArea)
+    TableArea = randomRotate(TableArea)
 end
 
 local function ChoosePath()
@@ -1400,6 +1433,7 @@ function move()
     handleDisconnection()
     mapDelay()
 
+    take50kIfNeed(10000, 120, 1)
     while character:kamas() == 0 and map:onMap("4,-18") do
         npc:npcBank(-1)
         global:delay(500)

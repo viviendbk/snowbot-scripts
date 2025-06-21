@@ -1,3 +1,386 @@
+function prefightManagement(challengers, defenders)
+	local DistanceEmplacement = {0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0}
+	local cellIdOmbre = 0
+	local CellulesWithDistance = { }
+
+	local i = 1
+	for cell1, id1 in pairs(challengers) do
+		if not fightAction:isFreeCell(cell1) and (id1 == -1) then
+			cellIdOmbre = cell1
+		end
+		for cell2, id2 in pairs(defenders) do
+			if id2 ~= -1 then
+				DistanceEmplacement[i] = DistanceEmplacement[i] + map:cellDistance(cell1, cell2)
+			end
+		end
+
+		local element = {
+			Cellid = cell1,
+			DistanceTotale = DistanceEmplacement[i]
+		}
+		table.insert(CellulesWithDistance, element)
+		i = i + 1
+	end
+
+	table.sort(CellulesWithDistance, function(a, b) return a.DistanceTotale < b.DistanceTotale end)
+
+	for i = 1, 11 do
+		if not fightAction:isFreeCell(CellulesWithDistance[i].Cellid) and (CellulesWithDistance[i].CellId == cellIdOmbre) then
+			local message = developer:createMessage("GameFightPlacementPositionRequestMessage")
+			message.cellId = CellulesWithDistance[i + 1].Cellid
+			developer.sendMessage(message)
+
+			message = developer:createMessage("GameFightPlacementSwapPositionsRequestMessage")
+			message.requestedId = -1
+			message.cellId = cellIdOmbre
+			developer.sendMessage(message)
+
+			break
+		end
+		if fightAction:isFreeCell(CellulesWithDistance[i].Cellid) then
+			local message = developer:createMessage("GameFightPlacementPositionRequestMessage")
+			message.cellId = CellulesWithDistance[i + 1].Cellid
+			developer.sendMessage(message)
+
+			if cellIdOmbre ~= 0 then
+				message = developer:createMessage("GameFightPlacementSwapPositionsRequestMessage")
+				message.requestedId = -1
+				message.cellId = cellIdOmbre
+				developer.sendMessage(message)
+
+				message = developer:createMessage("GameFightPlacementPositionRequestMessage")
+				message.cellId = CellulesWithDistance[i].Cellid
+				developer.sendMessage(message)
+			end
+			break
+		end
+	end
+end
+
+
+function chooseChallenge(challengeId, i)
+	global:delay(global:random(500, 1000))
+	local ChallengeSelectionMessage = developer:createMessage("ChallengeSelectionMessage")
+	ChallengeSelectionMessage.challengeId = challengeId
+	developer:sendMessage(ChallengeSelectionMessage)
+	global:printMessage("Le challenge ("..fightChallenge:challengeName(challengeId)..") a été choisi pour le slot N°"..tostring(i)..".")
+	return challengeId
+end
+
+function challengeManagement(challengeCount, isMule)
+
+	-- Choix le type de bonus
+	-- 0 = XP
+	-- 1 = DROP
+	local challengeBonus = 1
+
+	-- Choix du mode des challenges
+	-- 0 = Manuel
+	-- 1 = Aléatoire
+	local challengeMod = 1
+	-------------------------------------------------------------------------------------------
+	-------------------------------------------------------------------------------------------
+	-------------------------------------------------------------------------------------------
+
+	-- Texte variables
+	local challengeBonusText = { "XP", "DROP" }
+	local challengeModText = { "Manuel", "Aléatoire" }
+
+	-- Choix le type de bonus
+	local ChallengeBonusChoiceMessage = developer:createMessage("ChallengeBonusChoiceMessage")
+	ChallengeBonusChoiceMessage.challengeBonus = challengeBonus
+	developer:sendMessage(ChallengeBonusChoiceMessage)
+
+	-- Choix du mode des challenges
+	local ChallengeModSelectMessage = developer:createMessage("ChallengeModSelectMessage")
+	ChallengeModSelectMessage.challengeMod = challengeMod
+	developer:sendMessage(ChallengeModSelectMessage)
+
+	-- Message
+	if not isMule then
+		global:printSuccess("Challenges: "..challengeModText[challengeMod + 1].." - Bonus: "..challengeBonusText[challengeBonus + 1])
+	else
+		global:printSuccess("[MULE] Bonus: "..challengeBonusText[challengeBonus + 1])
+		return
+	end
+end
+
+function fightManagement()
+    -- Je vérifie dans un premier temps que c'est bien à moi de jouer :
+        
+    if fightCharacter:isItMyTurn() == true then
+        if fightAction:getCurrentTurn() == 1 then
+            passTurnForOmbre = false
+            lancable = 0
+            incrementation = 0
+        elseif fightAction:getCurrentTurn() > (map:currentSubArea() == "Bois de Litneg" and 150 or 100) then
+            Abandon()
+        end
+
+        delayFightStartTurn()
+        
+        global:printSuccess("1")
+        -- J'avance vers mon ennemi le plus proche
+        local enemies = GetAllEnemiesFromTheNearest()
+
+        global:printSuccess("1.5")
+
+        if enemies ~= nil and #enemies > 0 then
+            for _, entity in ipairs(enemies) do
+                local PM = fightCharacter:getMP()
+                if PM > 0 and not IsHandToHandEnemy() and entity.CellId then
+                    local cellId = fightCharacter:getCellId()
+                    MoveInLineOf(entity.CellId, 6)
+                    if cellId == fightCharacter:getCellId() then
+                        MoveInLineOf(entity.CellId, 9)
+                    end
+                    if PM ~= fightCharacter:getMP() then
+                        break
+                    end
+                end
+            end
+        end
+        global:printSuccess("2")
+
+        local Hp = fightCharacter:getLifePoints()
+
+        -- lancement mutilation
+        if lancable == 0 then 
+            if incrementation == 1 then
+                if fightAction:getCurrentTurn() < 5 and map:currentSubArea() ~= "Territoire Cacterre" and map:currentSubArea() ~= "Canaux méphitiques" and map:currentSubArea() ~= "Entrailes de Brâkmar" and map:currentSubArea() ~= "Pics de Cania" then
+                    Berserk()
+                elseif fightCharacter:getLifePointsP() < 35 and map:currentSubArea() ~= "Canaux méphitiques" and map:currentSubArea() ~= "Entrailes de Brâkmar" and map:currentSubArea() ~= "Pics de Cania" then
+                    Libation()
+                end
+                Hp = fightCharacter:getLifePoints()
+                if fightCharacter:getAP() >= 6  then
+                    launchBestSort4pa()
+                    Deplacement()
+                end
+                if fightCharacter:getAP() >= 5 and fightCharacter:getLifePoints() >= Hp then
+                    launchBestSort3pa()
+                    Deplacement()
+                end
+                if fightCharacter:getAP() >= 6 and fightCharacter:getLifePoints() >= Hp then
+                    launchBestSort4pa()
+                    Deplacement()
+                end
+                if fightCharacter:getAP() >= 6 and fightCharacter:getLifePoints() >= Hp then
+                    launchBestSort4pa()
+                    Deplacement()
+                end
+                if fightCharacter:getAP() >= 4 and fightCharacter:getLifePoints() >= Hp then
+                    Afflux()
+                end
+            end
+            fightAction:castSpellOnCell(12737, fightCharacter:getCellId())
+
+            if fightCharacter:getLifePoints() < Hp and incrementation == 1 and map:currentSubArea() == "Territoire Cacterre" then
+                incrementation = (incrementation == 0) and 1 or 0
+                lancable = lancable + incrementation
+                passTurnForOmbre = true
+                global:printSuccess("cactana a son passif, on passe notre tour (1)")
+                Deplacement()
+                LaunchEpee_Vorace()
+                Courrone_Epine()
+                return -- Je passe mon tour
+            else
+                incrementation = (incrementation == 0) and 1 or 0
+                lancable = lancable + incrementation
+            end
+
+        else
+            lancable = lancable - 1
+        end
+
+        Hp = fightCharacter:getLifePoints()
+
+        if fightCharacter:getLifePointsP() < 10 then
+            Courrone_Epine()
+        end
+
+        if capturer then
+            capture()
+        end
+
+        launchBestSort3pa()
+        if fightCharacter:getLifePoints() < Hp and map:currentSubArea() == "Territoire Cacterre" then
+            passTurnForOmbre = true
+            global:printSuccess("cactana a son passif, on passe notre tour (2)")
+            MoveInLineOf(fightAction:getNearestEnemy(), 6)
+            LaunchEpee_Vorace()
+            Courrone_Epine()
+            return -- Je passe mon tour
+        end
+
+        MoveInLineOf(fightAction:getNearestEnemy(), 6)
+
+        if fightCharacter:getAP() == 7 or fightCharacter:getAP() == 5 then
+            launchBestSort3pa()
+        end
+
+        if PersoBloque then
+            global:printSuccess("Perso bloqué")
+            BainDeSang2()
+            BainDeSang2()
+            PersoBloque = false
+        end
+
+        launchBestSort4pa()
+        MoveInLineOf(fightAction:getNearestEnemy(), 6)
+
+        launchBestSort4pa()
+        MoveInLineOf(fightAction:getNearestEnemy(), 6)
+
+        launchBestSort3pa()
+
+        Ravage(WeakerMonsterAdjacent())
+
+        Hp = fightCharacter:getLifePoints()
+
+        launchBestSort4pa()
+        MoveInLineOf(fightAction:getNearestEnemy(), 6)
+
+        if fightCharacter:getLifePoints() < Hp and map:currentSubArea() == "Territoire Cacterre" then
+            passTurnForOmbre = true
+            global:printSuccess("cactana a son passif, on passe notre tour (3)")
+            MoveInLineOf(fightAction:getNearestEnemy(), 6)
+            LaunchEpee_Vorace()
+            Courrone_Epine()
+            return -- Je passe mon tour
+        end
+        launchBestSort4pa()
+        MoveInLineOf(fightAction:getNearestEnemy(), 6)
+
+        launchBestSort3pa()
+
+        Ravage(WeakerMonsterAdjacent())
+        
+        launchBestSort3pa()
+
+        MoveInLineOf(fightAction:getNearestEnemy(), 6)
+
+        if NbMontresAdjacents(fightCharacter:getCellId()) == 0 and map:currentSubArea() == "Territoire Cacterre" then
+            Attirance(fightAction:getNearestEnemy())
+            if NbMontresAdjacents(fightCharacter:getCellId()) == 0 then
+                Fluctuation()
+                MoveInLineOf(fightAction:getNearestEnemy(), 6)
+            end
+        end
+
+        launchBestSort4pa()
+        MoveInLineOf(fightAction:getNearestEnemy(), 6)
+        launchBestSort4pa()
+        MoveInLineOf(fightAction:getNearestEnemy(), 6)
+        launchBestSort3pa()
+        MoveInLineOf(fightAction:getNearestEnemy(), 6)
+
+
+        Ravage(WeakerMonsterAdjacent())
+        Cac(fightAction:getNearestEnemy())
+        Courrone_Epine()
+
+        DeplacementProche()
+        Afflux()
+        Afflux()
+        LaunchEpee_Vorace()
+        Stase()
+        Stase()
+
+        BainDeSang2()
+        BainDeSang2()
+        Afflux2()
+        MoveInLineOf(fightAction:getNearestEnemy(), 6)
+
+        fightAction:passTurn()
+    else
+        delayFightStartTurn()
+        global:printSuccess("Ombre")
+
+        MoveInLineOfForSlave(fightSlave:getNearestEnemy(), 6)
+
+        if passTurnForOmbre then
+            global:printSuccess("Pass Turn For Ombre")
+            passTurnForOmbre = false
+            fightAction:passTurn()
+        end
+
+        Colere_Noire()
+
+        Vengeance_Nocturne()
+
+        MoveInLineOfForSlave(fightSlave:getNearestEnemy(), 6)
+
+
+        local nearestEnnemi = fightSlave:getNearestEnemy()
+        Diabolo_Chiste(nearestEnnemi)
+
+        local entities = fightAction:getAllEntities()
+        local AdjCases = fightAction:getAdjacentCells(fightSlave:cellId())
+        local newEnnemi = nil
+
+        for _, cellId in ipairs(AdjCases) do
+            for _, entity in ipairs(entities) do
+                if (entity.CellId == cellId) and entity.Team and (entity.CellId ~= nearestEnnemi) then
+                    newEnnemi = entity.CellId
+                end
+            end
+        end
+        if newEnnemi == nil then
+            newEnnemi = fightSlave:getNearestEnemy()
+        end
+        if newEnnemi ~= nearestEnnemi then
+            Diabolo_Chiste(newEnnemi)
+        end
+
+
+        DeplacementProcheSlave()
+
+        Cartilage(fightSlave:getNearestEnemy())
+
+        DeplacementSlave()
+        Ombrolingo(fightSlave:getNearestEnemy())
+        DeplacementSlave()
+        Ombrolingo(fightSlave:getNearestEnemy())
+
+        nearestEnnemi = fightSlave:getNearestEnemy()
+        Crepuscule(nearestEnnemi)
+        DeplacementSlave()
+
+        if fightSlave:getNearestEnemy() ~= nearestEnnemi then
+            Crepuscule(fightSlave:getNearestEnemy())
+        end
+
+        Vengeance_Nocturne2()
+        
+        if fightSlave:entity().MP > 0 then
+            local entities = fightAction:getAllEntities()
+            for _, element in ipairs(entities) do
+                -- on cherche le sacrieur
+                if not element.Team and not element.Companion then
+                    local zone = fightAction:getCells_square(element.CellId, 1, 1)
+                    for _, cellId in ipairs(zone) do
+                        -- on regarde si on se trouve dans sa zone bain de sang
+                        if fightSlave:cellId() == cellId then
+                            -- si c'est le cas on regarde pour finir son tour dans sa case adjacente la plus éloignée du sacrieur
+                            local cellWhereMove = fightAction:getCells_lozenge(fightSlave:cellId(), 1, 2)
+                            table.sort(cellWhereMove, function(a, b) return fightAction:getDistance(a, element.CellId) > fightAction:getDistance(b, element.CellId) end)
+                            fightSlave:moveTowardCell(cellWhereMove[1])
+                            break
+                        end
+                    end
+                    break
+                end
+            end
+        end
+        global:printSuccess("Fin Ombre")
+
+        fightAction:passTurn()
+
+    end
+end
+
+
 --- IA ---
 
 
@@ -5,16 +388,14 @@
 
 function actionFightDelay()
 	local random = math.random()
-	if random < 0.02 then
-		global:delay(math.random(5000, 7500))
-    elseif random < 0.05 then
-		global:delay(math.random(2000, 3000))
+    if random < 0.05 then
+		global:delay(math.random(5000, 15000))
 	elseif random < 0.25 then
-		global:delay(math.random(800, 1500))
+		global:delay(math.random(1000, 1500))
 	elseif random < 0.5 then
-		global:delay(math.random(400, 800))
+		global:delay(math.random(300, 600))
 	else
-		global:delay(math.random(50, 400))
+		global:delay(math.random(50, 300))
 	end
 end
 

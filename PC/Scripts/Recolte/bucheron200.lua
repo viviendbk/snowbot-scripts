@@ -628,8 +628,44 @@ local TableWhichArea = {
 	{MapSwitch = "-26,-5", Area = Sidimote, AreaString = "Landes de Sidimote", Farmer = false},
 }
 
-if global:thisAccountController():getAlias():find("Bucheron1") then
-    TableWhichArea = rotateTableRandom(TableWhichArea)
+local function randomRotate(table)
+    local n = #table
+    if n == 0 then return {} end
+
+    -- Ensemble des MapSwitch interdits en 1ère position
+    local forbidden = {
+        ["-12,-8"] = true,  -- Koalak2
+        ["24,-34"]  = true,  -- Pandala2
+        ["22,-29"]  = true,  -- Pandala3
+        ["-26,-5"]  = true,  -- Sidimote
+    }
+
+    -- Recherche d’un index de départ valide
+    local startIdx
+    local tries = 0
+    repeat
+        startIdx = math.random(1, n)
+        tries = tries + 1
+        -- sécurité : si on tourne trop, on abandonne et on prend 1
+        if tries > 10 then
+            startIdx = 1
+            break
+        end
+    until not forbidden[table[startIdx].MapSwitch]
+
+    -- Construction de la table tournée
+    local rotated = {}
+    for i = 1, n do
+        -- (startIdx + i - 2) % n + 1 : calcule l’indice cyclique
+        local idx = ((startIdx + i - 2) % n) + 1
+        rotated[i] = table[idx]
+    end
+
+    return rotated
+end
+
+if not global:thisAccountController():getAlias():find("Bucheron1") then
+    TableWhichArea = randomRotate(TableWhichArea)
 end
 
 
@@ -1236,6 +1272,7 @@ end
 function move()
     handleDisconnection()
     mapDelay()
+    take50kIfNeed(10000, 120, 1)
 
     while character:kamas() == 0 and map:onMap("4,-18") do
         npc:npcBank(-1)
@@ -1380,13 +1417,8 @@ function bank()
             {map = "217060352", custom = ProcessBank}, -- Dépôt de l'inventaire et sortie de la banque
         }
     end
-
-    if map:currentMapId()~=217059328 and map:currentMap()~= "-31,-57" and map:currentMap()~= "-31,-56" and map:currentMap()~=104861191 and map:currentMap()~=104862215 and map:currentMap()~=104859143  and map:currentMap()~=104859145 and map:currentMap()~=104860169 and map:currentMap()~=104861193   and map:currentMap()~=104862217 and map:currentMap()~=2885641 and map:currentMap()~=145209 and map:currentMap()~=2884113 and map:currentMapId()~=2885641 and map:currentMapId()~=147768 and map:currentMapId()~=162791424 and map:currentMapId()~=191104004 and map:currentMapId()~=7340551 and map:currentMapId()~="-32,-56" and map:currentMap()~="-4,2" and map:currentMapId()~=191104004  then 
-		return{
-			{map=tostring(map:currentMap()),path="havenbag"}}
-		end
 	
-    return { 
+    return treatMaps({ 
 		{map ="104861191", path = "457"},
 		{map ="104862217", path = "369"},
 		{map ="104861193", path = "454"},
@@ -1398,7 +1430,7 @@ function bank()
 		{map="-31,-56",path="top"},
 		{map="212600322", door = "468"},
 		{map = "217059328", custom = ProcessBank},
-    }
+    })
 end
 
 function stopped()

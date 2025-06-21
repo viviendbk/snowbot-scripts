@@ -1,4 +1,3 @@
-dofile("C:\\Users\\Vivien\\Documents\\Snowbot-Scripts-3\\PC\\Scripts\\Utilitaires\\[PC] Abonnement Previous.lua")
 ---------------------------------------------------------------------------
 -- Script d’abonnement : version « getRequest2 » (remplace dofusRequest) ---
 ---------------------------------------------------------------------------
@@ -21,27 +20,15 @@ end
 ---------------------------------------------------------------------------
 -- Variables globales ------------------------------------------------------
 ---------------------------------------------------------------------------
-APIKEY = nil            -- token Haapi
 local transaction_token -- token de transaction lors de l’achat
 local SERVER_ID
 
 ---------------------------------------------------------------------------
 -- Point d’entrée ----------------------------------------------------------
 ---------------------------------------------------------------------------
-function Abonnement()
+function AbonnementPrevious()
 
-    -----------------------------------------------------------------------
-    -- 1️⃣  Obtention de l’API‑Key Haapi
-    -----------------------------------------------------------------------
-    APIKEY = nil
-    developer:sendMessage(developer:createMessage("HaapiShopApiKeyRequestMessage"))
-    developer:sendMessage(developer:createMessage("HaapiBufferListRequestMessage"))
-    developer:suspendScriptUntil("HaapiShopApiKeyMessage", 10000, false)
-
-    if not APIKEY then
-        global:printError("⛔ APIKEY is nil. Cannot continue.")
-        return
-    end
+    global:printSuccess("APIKEY = " .. APIKEY)
 
     -----------------------------------------------------------------------
     -- 2️⃣  Détermination du SERVER_ID courant
@@ -77,12 +64,12 @@ function Abonnement()
     -----------------------------------------------------------------------
     -- 4️⃣  Calcul des ogrines nécessaires pour l’abonnement
     -----------------------------------------------------------------------
-    local needed_ogrines_target = character:freeMode() and 1500 or 1400
+    local needed_ogrines_target = character:freeMode() and 1100 or 1000
     local needed_ogrines        = math.max(needed_ogrines_target - my_ogrines, 0)
     global:printMessage("Il me faut " .. needed_ogrines .. " ogrines pour s'abonner.")
 
     if needed_ogrines == 0 then
-        subscribe(needed_ogrines_target, 17132)
+        subscribePrevious(needed_ogrines_target, 11020)
         return
     end
 
@@ -117,7 +104,6 @@ function Abonnement()
 
     if character:kamas() < needed_kamas then
         global:printError("Je n'ai pas assez de kamas : " .. character:kamas() .. " < " .. needed_kamas)
-        global:loadAndStart("C:\\Users\\Vivien\\Documents\\Snowbot-Scripts-3\\PC\\Scripts\\Utilitaires\\take-kamas.lua")
         return
     end
 
@@ -156,9 +142,7 @@ function Abonnement()
     local new_amount = (updated and updated:sub(1,1) == "{" and JSON:decode(updated).amount) or my_ogrines
     global:printSuccess("Je possède maintenant " .. new_amount .. " ogrines.")
 
-    subscribe(needed_ogrines_target, 17132)
-
-    global:disconnect()
+    subscribePrevious(needed_ogrines_target, 11020)
 end
 
 ---------------------------------------------------------------------------
@@ -169,7 +153,7 @@ local function shopRequest(url, token, body)
     return developer:dofusRequest("SHOP", url, token, body)
 end
 
-function subscribe(amount, article_id)
+function subscribePrevious(amount, article_id)
     global:printMessage("Abonnement en cours …")
     global:delay(5000)
 
@@ -196,7 +180,6 @@ function subscribe(amount, article_id)
     local orders = JSON:decode(shopRequest("https://shop-api.ankama.com/fr/shops/DOFUS_UNITY_INGAME/carts/" .. carts.id .. "/orders", shopToken, orderBody) or "{}")
     if not orders.id then
         global:printError("[3] Échec — création de la commande.")
-        AbonnementPrevious()
         return
     end
     global:printSuccess("[3] OrderID : " .. orders.id)
@@ -206,26 +189,9 @@ function subscribe(amount, article_id)
     local payment = JSON:decode(shopRequest("https://shop-api.ankama.com/fr/shops/DOFUS_UNITY_INGAME/payment/providers/ankama/types/ogrine:create-payment", "", paymentBody) or "{}")
     if payment.payment_id then
         global:printSuccess("Abonnement effectué avec succès !")
-        global:disconnect()
+        return
     else
         global:printError("Échec du paiement !")
+        return
     end
-
-    
-end
-
----------------------------------------------------------------------------
--- Écoute des messages réseaux --------------------------------------------
----------------------------------------------------------------------------
--- function messagesRegistering()
---     developer:registerMessage("HaapiShopApiKeyMessage", function(msg) APIKEY = msg.token end)
---     developer:registerMessage("HaapiConfirmationMessage", function(msg) transaction_token = msg.transaction end)
--- end
-
-function _HaapiShopApiKeyMessage(msg)
-    APIKEY = msg.token
-end
-
-function _HaapiConfirmationMessage(msg)
-    transaction_token = msg.transaction
 end

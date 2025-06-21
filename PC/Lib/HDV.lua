@@ -730,7 +730,7 @@ function GetPricesItem(Id)
     if Prices ~= {} and Prices ~= nil then
         return Prices
     else
-        global:printSuccess("Impossible de récupérer le prix de " .. inventory:itemNameId(Id))
+        global:printSuccess("Impossible de récupérer le prix de " .. inventory:itemNameId(Id) .. " (id : " .. Id .. ")")
         return {
             Price1 = 0,
             Price10 = 0,
@@ -1557,3 +1557,39 @@ function buyWorthItem(objectId, limit)
 end
 
 
+function getPricesResourceInHDV()
+        global:printMessage("Récupération du prix des ressources...")
+        local PrixHdvAllRessources = {}
+
+        if cpt == 0 then
+            cpt = cpt +1
+            for _, item in ipairs(TableItem) do
+            
+                if _ == math.floor(#TableItem / 4) then
+                    global:printMessage("25% effectué...")
+                elseif _ == math.floor(#TableItem / 2) then
+                    global:printMessage("50% effectué...")
+                elseif _ == math.floor(#TableItem * 0.75) then
+                    global:printMessage("75% effectué...")
+                end
+                
+                if item.ListIdCraft then
+                    for _, Ressource in ipairs(item.ListIdCraft) do
+                        if not PrixHdvAllRessources[tostring(Ressource.Id)] then
+                            PrixHdvAllRessources[tostring(Ressource.Id)] = GetPricesItem(Ressource.Id)
+                        end
+                    end
+                end
+            end
+        end
+
+        global:delay(2000)
+
+        global:printSuccess("Analyse finie!")
+        global:printMessage("--------------------------------------")
+        global:printMessage("")
+
+        global:leaveDialog()
+
+        EditJsonRessources(PrixHdvAllRessources)
+end

@@ -71,6 +71,28 @@ ALL_SERVERS = {
     "Draconiros", "Dakal", "Kourial", "Mikhal", "Imagiro", "Orukam", "Tal Kasha", "Hell Mina", "Tylezia", "Rafal", "Salar", "Brial"
 }
 
+STUFF_200 = {
+	{Type = "amulette", Id = 8262, Emplacement = 0, Equipe = false},
+	{Type = "ceinture", Id = 8266, Emplacement = 3, Equipe = false},
+	{Type = "cape", Id = 8265, Emplacement = 7, Equipe = false},
+	{Type = "bottes", Id = 8264, Emplacement = 5, Equipe = false},
+	{Type = "coiffe", Id = 8267, Emplacement = 6, Equipe = false},
+	{Type = "anneauGauche", Id = 8263, Emplacement = 2, Equipe = false},
+	{Type = "anneauDroit", Id = 2469, Emplacement = 4, Equipe = false}, 
+    {Type = "arme", Id = 8827, Emplacement = 1, Equipe = false}, 
+	{Type = "bouclier", Id = 18688, Equipe = false, Emplacement = 15},
+    {Type = "compagnon", Id = 14966, Emplacement = 28, Equipe = false},
+
+    --{Type = "dokoko", Id = 17078, Emplacement = 9, Equipe = false},
+    --{Type = "dofus argenté", Id = 19629, Emplacement = 10, Equipe = false},
+    --{Type = "forcené", Id = 13758, Emplacement = 10, Equipe = false}, remplacement du dofus argenté
+
+    {Type = "dofus kaliptus", Id = 8072, Emplacement = 11, Equipe = false},
+    {Type = "dofus emeraude", Id = 737, Emplacement = 12, Equipe = false},
+    {Type = "dofus cawotte", Id = 972, Emplacement = 14, Equipe = false},
+    {Type = "voyageur", Id = 13830, Emplacement = 13, Equipe = false},
+
+}
 
 MAPS_SANS_HAVRESAC = {
     {Id = 168035328, Door = "458"},

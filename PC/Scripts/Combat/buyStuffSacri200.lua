@@ -2,31 +2,19 @@ dofile("C:\\Users\\Vivien\\Documents\\Snowbot-Scripts-3\\PC\\Lib\\IMPORT_LIBRARI
 
 local stop = false
 
-local tableEquip = {
-	{Type = "amulette", Id = 8262, Emplacement = 0, Equipe = false},
-	{Type = "ceinture", Id = 8266, Emplacement = 3, Equipe = false},
-	{Type = "cape", Id = 8265, Emplacement = 7, Equipe = false},
-	{Type = "bottes", Id = 8264, Emplacement = 5, Equipe = false},
-	{Type = "coiffe", Id = 8267, Emplacement = 6, Equipe = false},
-	{Type = "anneauGauche", Id = 8263, Emplacement = 2, Equipe = false},
-	{Type = "anneauDroit", Id = 2469, Emplacement = 4, Equipe = false}, 
-    {Type = "arme", Id = 8827, Emplacement = 1, Equipe = false}, 
-	{Type = "bouclier", Id = 18688, Equipe = false, Emplacement = 15},
-    {Type = "compagnon", Id = 14966, Emplacement = 28, Equipe = false},
-
-    --{Type = "dokoko", Id = 17078, Emplacement = 9, Equipe = false},
-    --{Type = "dofus argenté", Id = 19629, Emplacement = 10, Equipe = false},
-    --{Type = "forcené", Id = 13758, Emplacement = 10, Equipe = false}, remplacement du dofus argenté
-
-    {Type = "dofus kaliptus", Id = 8072, Emplacement = 11, Equipe = false},
-    {Type = "dofus emeraude", Id = 737, Emplacement = 12, Equipe = false},
-    {Type = "dofus cawotte", Id = 972, Emplacement = 14, Equipe = false},
-    {Type = "voyageur", Id = 13830, Emplacement = 13, Equipe = false},
-
-}
+local function hasAlmostAllHisPanneau()
+    local counter = 0
+    for _, element in ipairs(STUFF_200) do
+        if inventory:itemCount(element.Id) > 0 then
+            counter = counter + 1
+        end
+    end
+    global:printSuccess("On a " .. counter .. " items sur " .. #STUFF_200 .. " dans la panneau")
+    return counter > #STUFF_200 - 5
+end
 
 local function equiper()
-	for _, element in ipairs(tableEquip) do
+	for _, element in ipairs(STUFF_200) do
 		if inventory:itemCount(element.Id) > 0 then
 			inventory:equipItem(element.Id, element.Emplacement)
 		end
@@ -155,7 +143,7 @@ local function achatStuff()
 
     local items = {}
 
-    for i, element in ipairs(tableEquip) do
+    for i, element in ipairs(STUFF_200) do
 		if (inventory:itemCount(element.Id) == 0) and (element.Id ~= 14966) and (element.Id ~= 13830) and (element.Id ~= 737) and element.Id ~= 972 then
             buyWorthItem(element.Id)
         end
@@ -166,7 +154,7 @@ local function achatStuff()
 
     HdvBuy()
 
-    for i, element in ipairs(tableEquip) do
+    for i, element in ipairs(STUFF_200) do
 		if (inventory:itemCount(element.Id) == 0) and (element.Id ~= 14966) and (element.Id ~= 13830) and (element.Id ~= 737) and element.Id ~= 972 then
 			sale:buyItem(element.Id, 1, 1000000)
 		end
@@ -183,16 +171,6 @@ end
 
 
 local function achatIdoles()
-
-
-    local tableIdSorts = {12763, 12729}
-    for _, element in ipairs(tableIdSorts) do
-        local message = developer:createMessage("SpellVariantActivationRequestMessage")
-        message.spellId = element
-        developer:sendMessage(message)
-    end
-
-
     map:changeMap("zaapi(212731651)")
 end
 
@@ -300,21 +278,13 @@ local trajet = {
 local trajet2 = {
 }
 
-local function treatMaps(maps)
-
-    for _, element in ipairs(maps) do
-        local condition = map:onMap(element.map) 
-
-        if condition then
-            return maps
-        end
-    end
-
-    return {{map = map:currentMap(), path = "havenbag"}}
-end
-
+local a = 0
 
 function move()
+    if a == 0 then
+        a = 1
+        stop = hasAlmostAllHisPanneau()
+    end
     mapDelay()
     if stop then global:loadAndStart("C:\\Users\\Vivien\\Documents\\Snowbot-Scripts-3\\PC\\Scripts\\PLAndZaaps\\Up_Chasseur.lua") end
     if changement1 then

@@ -610,6 +610,7 @@ function GetBestFocusOnJp(Id)
     local bestEstimation = 0
     local bestFocus = ""
 
+
     for i, statRef in ipairs(statsJP) do
         -- global:printSuccess(statRef.name)
         local PuiTotal = 0
@@ -697,7 +698,6 @@ function MergeRunes()
 
     for _, element in ipairs(content) do
         debug("Analyse de l'item [" .. inventory:itemNameId(element.objectGID) .. "] (" .. element.objectGID .. ")")
-        debug("Type : " .. inventory:itemTypeId(element.objectGID) .. " - Nombre de runes disponibles pour fusion : " .. GetNumberOfMergeAvailable(element.objectGID))
         if inventory:itemTypeId(element.objectGID) == 78 and GetNumberOfMergeAvailable(element.objectGID) == 2 and inventory:itemCount(element.objectGID) > 29 then
             global:printMessage("Analyse des possibles fusions de [" .. inventory:itemNameId(element.objectGID) .. "]")
             local tabPriceByPui = {
@@ -801,7 +801,7 @@ end
 function GetIdCarac(name)
     for id, value in pairs(ID_TO_STAT_NAME) do
         if value == name then
-            return id
+            return tonumber(id)
         end
     end
 end
@@ -850,16 +850,17 @@ end
 
 function _GetResultBreak(message)
     developer:unRegisterMessage("DecraftResultMessage")
-    message = message.results
-    Pourcentage = math.floor(message[1].bonux_max * 100)
+    message = message.results[0]
+    Pourcentage = math.floor(message.bonusMaxBonusMinOne * 100)
     EstimationGain = 0 
-
-    for i = 1, #message[1].runes do
+    debug(tostring(message))
+    
+    for i = 0, #message.runes - 1 do
         for k, v in pairs(PoidsByStat) do
             for _, element in ipairs(v.Runes) do
-                if element.Id == message[1].runes[i].quantity_rune_id_one then
-                    global:printSuccess("[" .. inventory:itemNameId(message[1].runes[i].quantity_rune_id_one) .. "] : " .. math.min(element.Prices.AveragePrice, element.Prices.TrueAveragePrice) * message[1].runes.quantity_rune_id_two[i] .. " k")
-                    EstimationGain = EstimationGain + (math.min(element.Prices.AveragePrice, element.Prices.TrueAveragePrice) * message[1].runesQty[i])
+                if element.Id == message.runes[i].quantityRuneIdOne then
+                    global:printSuccess("[" .. inventory:itemNameId(message.runes.quantityRuneIdOne) .. "] : " .. math.min(element.Prices.AveragePrice, element.Prices.TrueAveragePrice) * message.runes.quantityRuneIdTwo[i] .. " k")
+                    EstimationGain = EstimationGain + (math.min(element.Prices.AveragePrice, element.Prices.TrueAveragePrice) * message.runes.quantityRuneIdTwo[i])
                 end
             end
         end
@@ -980,21 +981,23 @@ function GetDices(Id)
 
     itemData = itemData.FieldUseless
 
+
     for k, v in ipairs(itemData.possibleEffects) do
         local data = v.FieldUseless
         local effectName = ID_TO_STAT_NAME[tostring(data.effectId)]
 
-        if effectName and not effectName:find("Degats") then
+        if effectName and not effectName:find("Degats") and not effectName:find("-") then
             table.insert(dices, {
                 id = data.effectId,
                 name = ID_TO_STAT_NAME[tostring(data.effectId)],
                 dice = {
                     min = data.diceNum,
-                    max = data.diceSide,
+                    max = data.diceNum > 0 and data.diceNum or data.diceSide,
                 },
             })
         end
     end
+
 
     return dices
 end

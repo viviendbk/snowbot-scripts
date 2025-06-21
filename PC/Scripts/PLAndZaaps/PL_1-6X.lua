@@ -865,7 +865,7 @@ end
 
 function move()
 	debug(map:currentMapId())
-	if job:level(24) > 5 or job:level(2) > 5 then
+	if job:level(24) > 5 or job:level(2) > 5 or character:level() > 165 then
 		global:loadAndStart("C:\\Users\\Vivien\\Documents\\Snowbot-Scripts-3\\PC\\Scripts\\Utilitaires\\take-kamas.lua")
     end
 

@@ -1708,6 +1708,7 @@ local function ProcessSell() -- done
     end
     NeedToSell = false
 	HdvSell()
+	debug("ok")
 
 	for _, element in ipairs(Planches) do
 		local priceItem = GetPricesItem(element.Id)
@@ -1734,6 +1735,8 @@ local function ProcessSell() -- done
             randomDelay()
         end
     end
+
+	debug("ok")
 
     for _, element in ipairs(Bois) do
 		local itemSold = false
@@ -1763,6 +1766,7 @@ local function ProcessSell() -- done
 		end
     end
 
+	debug("ok")
      for _, element in ipairs(Seves) do
 		local itemSold = false
 
@@ -1770,7 +1774,7 @@ local function ProcessSell() -- done
 		priceItem.Price1 = (priceItem.Price1 == nil or priceItem.Price1 == 0 or priceItem.Price0 == 1) and priceItem.AveragePrice * 1.5 or priceItem.Price1
         cpt = get_quantity(element.Id).quantity["1"]
 
-        while inventory:itemCount(element.Id) >= 1 and sale:availableSpace() > 0 and cpt < element.MaxHdv1 do 
+        while inventory:itemCount(element.Id) >= 1 and sale:availableSpace() > 0 do 
             sale:SellItem(element.Id, 1, priceItem.Price1 - 1) 
             global:printSuccess("1 lot de " .. 1 .. " x " .. element.Name .. " à " .. priceItem.Price1 - 1 .. "kamas")
             cpt = cpt + 1
@@ -1781,9 +1785,10 @@ local function ProcessSell() -- done
 			randomDelay()
 		end
      end
+	debug("ok")
 
 	global:leaveDialog()
-		
+
 	table.sort(TABLE_VENTE_PL, function(a, b) return inventory:itemCount(a.Id) > inventory:itemCount(b.Id) end)
 
 	HdvSell()
@@ -1851,6 +1856,7 @@ local function ProcessSell() -- done
 	elseif sale:AvailableSpace() > 0 then
 	    NeedToReturnBank = true
 	end
+	debug("ok")
 
     global:leaveDialog()
 
@@ -1921,6 +1927,7 @@ end
 function move()
 	handleDisconnection()
 	mapDelay()
+    take50kIfNeed(10000, 120, 1)
 
 	--[[job:level(2) < 50 and global:getCountGather() > 0 and (global:getCountGather() + global:remember("increm")) % (global:remember("increm") == 0 and 50 or 400) == 0 then
 		global:editInMemory("increm", global:remember("increm") + 1)

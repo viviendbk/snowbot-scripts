@@ -729,7 +729,6 @@ function connectAccountsWithFailleProxy()
             connexionFile[1].by = ""
             connexionFile[1].date = ""
             writeToJsonFile("C:\\Users\\Vivien\\Documents\\Snowbot-Scripts-3\\PC\\Temp\\controllerConnexion.json", connexionFile)
-            debug("in use mis à false 2")
 
             global:delay(10000) -- Attendre 1 minute avant de retenter
             return connectAccountsWithFailleProxy() -- Retenter la connexion
@@ -750,7 +749,6 @@ function connectAccountsWithFailleProxy()
     connexionFile[1].by = ""
     connexionFile[1].date = ""
     writeToJsonFile("C:\\Users\\Vivien\\Documents\\Snowbot-Scripts-3\\PC\\Temp\\controllerConnexion.json", connexionFile)
-    debug("in use mis à false 3")
 
 end
 
@@ -1348,5 +1346,45 @@ function writeFile(path, data)
     local file = io.open(path, "w")
 
     file:write(path:find(".json") and json.encode(data) or data)
+    file:close()
+end
+
+
+function EditJsonRessources(content)
+    local jsonMemory = openFile(global:getCurrentScriptDirectory() .. "\\" .. character:server() .. "\\PriceRessources.json")
+
+    if not jsonMemory[1] then
+        jsonMemory[1] = {Date = getDate(), Time = getCurrentTime(), Prices = content}
+    else
+        jsonMemory[1].Date = getDate()
+        jsonMemory[1].Time = getCurrentTime()
+        jsonMemory[1].Prices = content
+    end    
+
+    local new_content = json.encode(jsonMemory)
+
+    local file = io.open(global:getCurrentScriptDirectory() .. "\\" .. character:server() .. "\\PriceRessources.json", "w")
+
+    file:write(new_content)
+
+    file:close()
+end
+
+function EditJsonItems(content)
+    local jsonMemory = openFile(global:getCurrentScriptDirectory() .. "\\" .. character:server() .. "\\PriceItems.json")
+
+    if not jsonMemory[1] then
+        jsonMemory[1] = {Date = getDate(), Time = getCurrentTime(), Prices = content}
+    else
+        jsonMemory[1].Date = getDate()
+        jsonMemory[1].Time = getCurrentTime()
+        jsonMemory[1].Prices = content
+    end
+
+    local new_content = json.encode(jsonMemory)
+
+    local file = io.open(global:getCurrentScriptDirectory() .. "\\" .. character:server() .. "\\PriceItems.json", "w")
+
+    file:write(new_content)
     file:close()
 end

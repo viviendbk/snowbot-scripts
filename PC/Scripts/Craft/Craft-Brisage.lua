@@ -57,113 +57,6 @@ local function EditJsonMemory(content)
     file:close()
 end
 
-local function EditJsonRessources(content)
-    local jsonMemory = openFile(global:getCurrentScriptDirectory() .. "\\" .. character:server() .. "\\PriceRessources.json")
-
-    if not jsonMemory[1] then
-        jsonMemory[1] = {Date = getDate(), Time = getCurrentTime(), Prices = content}
-    else
-        jsonMemory[1].Date = getDate()
-        jsonMemory[1].Time = getCurrentTime()
-        jsonMemory[1].Prices = content
-    end    
-
-    local new_content = json.encode(jsonMemory)
-
-    local file = io.open(global:getCurrentScriptDirectory() .. "\\" .. character:server() .. "\\PriceRessources.json", "w")
-
-    file:write(new_content)
-
-    file:close()
-end
-
-local function EditJsonItems(content)
-    local jsonMemory = openFile(global:getCurrentScriptDirectory() .. "\\" .. character:server() .. "\\PriceItems.json")
-
-    if not jsonMemory[1] then
-        jsonMemory[1] = {Date = getDate(), Time = getCurrentTime(), Prices = content}
-    else
-        jsonMemory[1].Date = getDate()
-        jsonMemory[1].Time = getCurrentTime()
-        jsonMemory[1].Prices = content
-    end
-
-    local new_content = json.encode(jsonMemory)
-
-    local file = io.open(global:getCurrentScriptDirectory() .. "\\" .. character:server() .. "\\PriceItems.json", "w")
-
-    file:write(new_content)
-    file:close()
-end
-
-local function getPricesResourceInHDV()
-        global:printMessage("Récupération du prix des ressources...")
-        local PrixHdvAllRessources = {}
-
-        if cpt == 0 then
-            cpt = cpt +1
-            for _, item in ipairs(TableItem) do
-            
-                if _ == math.floor(#TableItem / 4) then
-                    global:printMessage("25% effectué...")
-                elseif _ == math.floor(#TableItem / 2) then
-                    global:printMessage("50% effectué...")
-                elseif _ == math.floor(#TableItem * 0.75) then
-                    global:printMessage("75% effectué...")
-                end
-                
-                if item.ListIdCraft then
-                    for _, Ressource in ipairs(item.ListIdCraft) do
-                        if not PrixHdvAllRessources[tostring(Ressource.Id)] then
-                            PrixHdvAllRessources[tostring(Ressource.Id)] = GetPricesItem(Ressource.Id)
-                        end
-                    end
-                end
-            end
-        end
-
-        global:delay(2000)
-
-        global:printSuccess("Analyse finie!")
-        global:printMessage("--------------------------------------")
-        global:printMessage("")
-
-        global:leaveDialog()
-
-        EditJsonRessources(PrixHdvAllRessources)
-end
-
-local function getPricesItemsInHDV()
-        local priceItems = {}
-        for _, item in ipairs(TableItem) do
-            if _ == math.floor(#TableItem / 4) then
-                global:printMessage("25% effectué...")
-            elseif _ == math.floor(#TableItem / 2) then
-                global:printMessage("50% effectué...")
-                global:leaveDialog()
-                map:moveToCell(397)
-                HdvSell()
-            elseif _ == math.floor(#TableItem * 0.75) then
-                global:printMessage("75% effectué...")
-            end
-
-            if not priceItems[tostring(item.Id)] then
-                priceItems[tostring(item.Id)] = GetPricesItem(item.Id)
-            end
-
-            item.PriceHdv = priceItems[tostring(item.Id)]
-        end
-
-        global:delay(2000)
-
-        global:printSuccess("Analyse finie!")
-        global:printMessage("--------------------------------------")
-        global:printMessage("")
-
-        global:leaveDialog()
-
-        EditJsonItems(priceItems)
-end
 
 local function ProcessCraft(table, cellId)
     global:printSuccess("Debut Craft")
@@ -863,52 +756,7 @@ function move()
         --récupère le cout total du craft de chaque item et le met dans la table
 
         if mount:hasMount() then
-            local myMount = mount:myMount()
-            if (myMount.energyMax - myMount.energy) > 1000 then
-                local index = 0
-                local minPrice = 500000000
-                local TableAchat = {
-                    {Name = "Poisson Pané", Id = 1750},
-                    {Name = "Crabe Sourimi", Id = 1757},
-                    {Name = "Goujon", Id = 1782},
-                    {Name = "Brochet", Id = 1847},
-                    {Name = "Sardine Brillante", Id = 1805},
-                    {Name = "Cuisse de Boufton", Id = 1911},
-                    {Name = "Cuisse de Bouftou **", Id = 1912},
-                    {Name = "Poisson-Chaton", Id = 603},
-                    {Name = "Bar Rikain", Id = 1779},
-                }
-            
-                npc:npc(333, 5)
-            
-                global:printSuccess("Check du meilleur prix")
-            
-                for i, element in ipairs(TableAchat) do
-                    local Price = sale:getPriceItem(element.Id, 3)
-                    if Price ~= nil and Price ~= 0 and Price < minPrice then
-                        minPrice = Price
-                        index = i
-                    end
-                end
-            
-                global:leaveDialog()
-            
-                global:delay(math.random(500, 1500))
-            
-                if  minPrice < 6000 then
-                    local myMount1 = mount:myMount()
-                    while (myMount1.energyMax - myMount1.energy) > 1000 and character:kamas() > 10000 and (inventory:podsMax() - inventory:pods()) > 200 do
-                        npc:npc(333, 6)
-                        sale:buyItem(TableAchat[index].Id, 100, 30000)
-                        global:leaveDialog()
-                        mount:feedMount(TableAchat[index].Id, 100)
-                        myMount1 = mount:myMount()
-                    end
-                        global:printSuccess("DD nourrie")
-                else
-                    global:printSuccess("les prix sont trop cher, on a pas pu acheter")
-                end
-            end	
+            buyAndfeedDD()
             if not mount:isRiding() then
                 mount:toggleRiding()
             end
@@ -922,6 +770,8 @@ function move()
         local jsonPrice = openFile(global:getCurrentScriptDirectory() .. "\\".. character:server() .. "\\PriceRessources.json")
 
         jsonPrice = not jsonPrice and {{Date = getDate(), Time = getCurrentTime(), Prices = {}}} or jsonPrice
+        debug("date = " .. jsonPrice[1].Date)
+        global:printSuccess(isXDaysLater(jsonPrice[1].Date, 2))
 
         if isXDaysLater(jsonPrice[1].Date, 2) then
             global:printSuccess("Le prix des ressources ne sont pas à jour, on les récupère")
@@ -1011,7 +861,9 @@ function move()
             end
             if item.TotalCost > 0 then
                 minCost = math.min(minCost, item.TotalCost)
+                debug(item.Id .. " " .. inventory:itemNameId(item.Id) .. " : " .. item.TotalCost)
                 item.BestFocus = GetBestFocusOnJp(item.Id)
+                                debug("ok")
                 if item.BestFocus == StatSearched then
                     NbItemsSameFocus = NbItemsSameFocus + 1
                 end
@@ -1335,9 +1187,6 @@ function move()
             end
         end
 
-        if character:isBusy() then
-            global:leaveDialog()
-        end
         
         for _, item in ipairs(TableItemToChoice) do
             if item.NbToCraft > 1 then
@@ -1440,7 +1289,8 @@ function move()
                         else
                             message.focus_action_id = GetIdCarac(StatSearched)
                         end
-    
+                            global:printSuccess("Ok3")
+
                         message.ready = true
                         message.step = 1
                         developer:sendMessage(message)

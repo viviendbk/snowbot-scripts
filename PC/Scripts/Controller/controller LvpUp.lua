@@ -196,12 +196,12 @@ function move()
                 if IsInTable(SERVERS_MONO, GetServerByAlias(acc:getAlias())) and Alias:find("Next") and (acc:getAlias():find("Mineur") or acc:getAlias():find("Bucheron")) then
                     global:printSuccess("On remplace le compte " .. acc:getAlias())
                     -- snowbotController:deleteAccount(acc:getUsername())
-                    launchNewAccounts(type, nbMax, proxyNumber)
+                    -- launchNewAccounts(type, nbMax, proxyNumber)
                     break
                 elseif IsInTable(SERVERS_MULTI, GetServerByAlias(acc:getAlias())) and Alias == "*" and (acc:getAlias():find("Mineur") or acc:getAlias():find("Bucheron")) then
                     global:printSuccess("On remplace le compte " .. acc:getAlias())
                     -- snowbotController:deleteAccount(acc:getUsername())
-                    launchNewAccounts(type, nbMax, proxyNumber)
+                    -- launchNewAccounts(type, nbMax, proxyNumber)
                     break
                 end
             end
@@ -232,7 +232,6 @@ function move()
                 acc:setScriptVariable("NeedToReturnBank", true)
             end
 
-                        -- ajouter le check de si le compte est connecté et si ce n'est pas un compte craft
             -- ajouter le check de si le compte est connecté et si ce n'est pas un compte craft
             local lastLog = extractTime(lines[#lines])
             if not lastLog then

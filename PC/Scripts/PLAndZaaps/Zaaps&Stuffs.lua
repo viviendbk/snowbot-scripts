@@ -360,7 +360,6 @@ local function GoTo(mapToward, action)
 end
 
 function move()
-
     global:printSuccess("ETAPE_ZAAP : " .. global:remember("ETAPE_ZAAP"))
     if character:level() == 1 then
         global:loadAndStart("C:\\Users\\Vivien\\Documents\\Snowbot-Scripts-3\\PC\\Scripts\\PLAndZaaps\\PL_1-6X.lua")

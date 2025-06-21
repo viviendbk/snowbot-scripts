@@ -2298,6 +2298,7 @@ end
 
 
 function move()
+    global:printSuccess(map:currentMap())
     handleDisconnection()
     mapDelay()
 
@@ -2308,150 +2309,150 @@ function move()
         ManageXpMount()
     end
 
-    -- si il y a une  dd à vendre, on y va
-    if #DDToSell > 0 and character:level() > 250 then
-        global:printSuccess("on va vendre la dd")
-        if not map:onMap("-30,-59") then
-            return treatMaps({
-                {map = "0,0", path = "zaap(212600323)"},
-                {map = "-31,-56", path = "zaapi(212601345)"},
-                {map = "-30,-58", path = "top"},
-            }, function() map:changeMap("havenbag") end)
-        else
-            if not map:onMap(212601350) then
-                for _, element in ipairs(DDToSell) do
-                    SellDD(element[1], element[2])
-                end
-                UpdatePriceDD()
-                DDToSell = GetDDLvl100()
-            end
-        end
-    end
+    -- -- si il y a une  dd à vendre, on y va
+    -- if #DDToSell > 0 and character:level() > 250 then
+    --     global:printSuccess("on va vendre la dd")
+    --     if not map:onMap("-30,-59") then
+    --         return treatMaps({
+    --             {map = "0,0", path = "zaap(212600323)"},
+    --             {map = "-31,-56", path = "zaapi(212601345)"},
+    --             {map = "-30,-58", path = "top"},
+    --         }, function() map:changeMap("havenbag") end)
+    --     else
+    --         if not map:onMap(212601350) then
+    --             for _, element in ipairs(DDToSell) do
+    --                 SellDD(element[1], element[2])
+    --             end
+    --             UpdatePriceDD()
+    --             DDToSell = GetDDLvl100()
+    --         end
+    --     end
+    -- end
 
-    if character:level() > 250 and not global:thisAccountController():getAlias():find("Combat3") then
-        local myMount = mount:myMount()
-        if myMount ~= nil then
-            if myMount.energy < 100 then
-                global:printSuccess("la dd n'a plus d'énergie, on va la remettre au max")
-                return treatMaps({
-                    {map ="0,0", path = "zaap(212600323)"},				
-                    {map = "212600322", path = "bottom(552)"}, -- Map extérieure de la banque de bonta
-                    {map = "-31,-56", path = "bottom"},
-                    {map = "-31,-55", path = "bottom"},
-                    {map = "-31,-54", path = "right"},
-                    {map = "212601350", custom = ProcessSell}, -- Map HDV ressources bonta
-                }, function() map:changeMap("havenbag") end)
-            end
-            if myMount.level == 100 then
-                global:printSuccess("dd level 100, on la remets en certificat")
-                if not map:onMap("212601346") then
-                    return treatMaps({
-                        {map = "0,0", path = "zaap(212600323)"},
-                        {map = "-31,-56", path = "zaapi(212601345)"},
-                        {map = "-30,-59", path = "bottom"},
-                    }, function() map:changeMap("havenbag") end)
-                else
-                    map:moveToCell(332)
-                    map:door(357)
-                    developer:suspendScriptUntil("ExchangeStartOkMountWithOutPaddockMessage", 5000, true)
-                    local message = developer:createMessage("ExchangeHandleMountsMessage")
-                    message.actionType = 13
-                    message.ridesId = {myMount.id}
-                    developer:sendMessage(message)
-                    developer:suspendScriptUntil("InventoryWeightMessage", 2000, true)
-                    global:delay(math.random(500, 1500))
-                    global:leaveDialog()
-                    global:delay(math.random(500, 1500))
-                    DDToSell = GetDDLvl100()  
-                end
-            end
-        elseif not myMount then
-            local ddEquipables = GetDDInfLvl100()
-            if #ddEquipables > 0 then
-                -- si on peut équiper une dd, on va l'équiper
-                global:printSuccess("on va équiper la dd")
-                if not map:onMap("212601346") then
-                    return treatMaps({
-                        {map = "0,0", path = "zaap(212600323)"},
-                        {map = "-31,-56", path = "zaapi(212601345)"},
-                        {map = "-30,-59", path = "bottom"},
-                    }, function() map:changeMap("havenbag") end)
-                else
-                    map:moveToCell(332)
-                    map:door(357)
-                    developer:suspendScriptUntil("ExchangeStartOkMountWithOutPaddockMessage", 5000, true)
-                    local message = developer:createMessage("ExchangeHandleMountsMessage")
-                    message.actionType = 15
-                    message.ridesId = {ddEquipables[1][2]}
-                    developer:sendMessage(message)
-                    developer:suspendScriptUntil("InventoryWeightMessage", 2000, true)
-                    global:delay(math.random(500, 1500))
-                    global:leaveDialog()
-                    global:delay(math.random(500, 1500))
-                    ManageXpMount()
-                end
-            elseif character:kamas() > 700000 then
-                global:printSuccess("On va acheter une nouvelle dd")
-                if not map:onMap("-30,-59") then
-                    return treatMaps({
-                        {map = "0,0", path = "zaap(212600323)"},
-                        {map = "-31,-56", path = "zaapi(212601345)"},
-                        {map = "-30,-58", path = "top"},
-                    }, function() map:changeMap("havenbag") end)
-                else
-                    AchatMostProfitableDD()
-                end
-                if GetNbDD() > 5 then
-                    global:printError("BUG DD")
-                    global:disconnect()
-                end
-            end
+    -- if character:level() > 250 and not global:thisAccountController():getAlias():find("Combat3") then
+    --     local myMount = mount:myMount()
+    --     if myMount ~= nil then
+    --         if myMount.energy < 100 then
+    --             global:printSuccess("la dd n'a plus d'énergie, on va la remettre au max")
+    --             return treatMaps({
+    --                 {map ="0,0", path = "zaap(212600323)"},				
+    --                 {map = "212600322", path = "bottom(552)"}, -- Map extérieure de la banque de bonta
+    --                 {map = "-31,-56", path = "bottom"},
+    --                 {map = "-31,-55", path = "bottom"},
+    --                 {map = "-31,-54", path = "right"},
+    --                 {map = "212601350", custom = ProcessSell}, -- Map HDV ressources bonta
+    --             }, function() map:changeMap("havenbag") end)
+    --         end
+    --         if myMount.level == 100 then
+    --             global:printSuccess("dd level 100, on la remets en certificat")
+    --             if not map:onMap("212601346") then
+    --                 return treatMaps({
+    --                     {map = "0,0", path = "zaap(212600323)"},
+    --                     {map = "-31,-56", path = "zaapi(212601345)"},
+    --                     {map = "-30,-59", path = "bottom"},
+    --                 }, function() map:changeMap("havenbag") end)
+    --             else
+    --                 map:moveToCell(332)
+    --                 map:door(357)
+    --                 developer:suspendScriptUntil("ExchangeStartOkMountWithOutPaddockMessage", 5000, true)
+    --                 local message = developer:createMessage("ExchangeHandleMountsMessage")
+    --                 message.actionType = 13
+    --                 message.ridesId = {myMount.id}
+    --                 developer:sendMessage(message)
+    --                 developer:suspendScriptUntil("InventoryWeightMessage", 2000, true)
+    --                 global:delay(math.random(500, 1500))
+    --                 global:leaveDialog()
+    --                 global:delay(math.random(500, 1500))
+    --                 DDToSell = GetDDLvl100()  
+    --             end
+    --         end
+    --     elseif not myMount then
+    --         local ddEquipables = GetDDInfLvl100()
+    --         if #ddEquipables > 0 then
+    --             -- si on peut équiper une dd, on va l'équiper
+    --             global:printSuccess("on va équiper la dd")
+    --             if not map:onMap("212601346") then
+    --                 return treatMaps({
+    --                     {map = "0,0", path = "zaap(212600323)"},
+    --                     {map = "-31,-56", path = "zaapi(212601345)"},
+    --                     {map = "-30,-59", path = "bottom"},
+    --                 }, function() map:changeMap("havenbag") end)
+    --             else
+    --                 map:moveToCell(332)
+    --                 map:door(357)
+    --                 developer:suspendScriptUntil("ExchangeStartOkMountWithOutPaddockMessage", 5000, true)
+    --                 local message = developer:createMessage("ExchangeHandleMountsMessage")
+    --                 message.actionType = 15
+    --                 message.ridesId = {ddEquipables[1][2]}
+    --                 developer:sendMessage(message)
+    --                 developer:suspendScriptUntil("InventoryWeightMessage", 2000, true)
+    --                 global:delay(math.random(500, 1500))
+    --                 global:leaveDialog()
+    --                 global:delay(math.random(500, 1500))
+    --                 ManageXpMount()
+    --             end
+    --         elseif character:kamas() > 700000 then
+    --             global:printSuccess("On va acheter une nouvelle dd")
+    --             if not map:onMap("-30,-59") then
+    --                 return treatMaps({
+    --                     {map = "0,0", path = "zaap(212600323)"},
+    --                     {map = "-31,-56", path = "zaapi(212601345)"},
+    --                     {map = "-30,-58", path = "top"},
+    --                 }, function() map:changeMap("havenbag") end)
+    --             else
+    --                 AchatMostProfitableDD()
+    --             end
+    --             if GetNbDD() > 5 then
+    --                 global:printError("BUG DD")
+    --                 global:disconnect()
+    --             end
+    --         end
     
-        end
-    elseif character:level() < 251 and not mount:hasMount() then
-        local ddEquipables = GetDDLvl100()
-        if #ddEquipables > 0 then
-            -- si on peut équiper une dd, on va l'équiper
-            global:printSuccess("on va équiper la dd")
-            if not map:onMap("212601346") then
-                return treatMaps({
-                    {map = "0,0", path = "zaap(212600323)"},
-                    {map = "-31,-56", path = "zaapi(212601345)"},
-                    {map = "-30,-59", path = "bottom"},
-                }, function() map:changeMap("havenbag") end)
-            else
-                map:moveToCell(332)
-                map:door(357)
-                developer:suspendScriptUntil("ExchangeStartOkMountWithOutPaddockMessage", 5000, true)
-                local message = developer:createMessage("ExchangeHandleMountsMessage")
-                message.actionType = 15
-                message.ridesId = {ddEquipables[1][2]}
-                developer:sendMessage(message)
-                developer:suspendScriptUntil("InventoryWeightMessage", 2000, true)
-                global:delay(math.random(500, 1500))
-                global:leaveDialog()
-                global:delay(math.random(500, 1500))
-                ManageXpMount()
-            end
-        else
-            global:printSuccess("On va acheter une nouvelle dd")
-            if not map:onMap("-30,-59") then
-                return treatMaps({
-                    {map = "0,0", path = "zaap(212600323)"},
-                    {map = "-31,-56", path = "zaapi(212601345)"},
-                    {map = "-30,-58", path = "top"},
-                }, function() map:changeMap("havenbag") end)
-            else
-                global:printSuccess("dac")
-                BuyDDTurquoise100()
-                global:printSuccess("dac2")
-                if GetNbDD() > 2 then
-                    global:printError("BUG DD")
-                    global:disconnect()
-                end
-            end
-        end
-    end
+    --     end
+    -- elseif character:level() < 251 and not mount:hasMount() then
+    --     local ddEquipables = GetDDLvl100()
+    --     if #ddEquipables > 0 then
+    --         -- si on peut équiper une dd, on va l'équiper
+    --         global:printSuccess("on va équiper la dd")
+    --         if not map:onMap("212601346") then
+    --             return treatMaps({
+    --                 {map = "0,0", path = "zaap(212600323)"},
+    --                 {map = "-31,-56", path = "zaapi(212601345)"},
+    --                 {map = "-30,-59", path = "bottom"},
+    --             }, function() map:changeMap("havenbag") end)
+    --         else
+    --             map:moveToCell(332)
+    --             map:door(357)
+    --             developer:suspendScriptUntil("ExchangeStartOkMountWithOutPaddockMessage", 5000, true)
+    --             local message = developer:createMessage("ExchangeHandleMountsMessage")
+    --             message.actionType = 15
+    --             message.ridesId = {ddEquipables[1][2]}
+    --             developer:sendMessage(message)
+    --             developer:suspendScriptUntil("InventoryWeightMessage", 2000, true)
+    --             global:delay(math.random(500, 1500))
+    --             global:leaveDialog()
+    --             global:delay(math.random(500, 1500))
+    --             ManageXpMount()
+    --         end
+    --     else
+    --         global:printSuccess("On va acheter une nouvelle dd")
+    --         if not map:onMap("-30,-59") then
+    --             return treatMaps({
+    --                 {map = "0,0", path = "zaap(212600323)"},
+    --                 {map = "-31,-56", path = "zaapi(212601345)"},
+    --                 {map = "-30,-58", path = "top"},
+    --             }, function() map:changeMap("havenbag") end)
+    --         else
+    --             global:printSuccess("dac")
+    --             BuyDDTurquoise100()
+    --             global:printSuccess("dac2")
+    --             if GetNbDD() > 2 then
+    --                 global:printError("BUG DD")
+    --                 global:disconnect()
+    --             end
+    --         end
+    --     end
+    -- end
 
     for i = 1, NB_COMBAT do
         if not global:thisAccountController():getAlias():find("Combat" .. i) then
@@ -2539,21 +2540,21 @@ end
 function bank()
     mapDelay()
     -- si il y a une  dd à vendre, on y va
-    if #DDToSell > 0 and character:level() > 250 then
-        global:printSuccess("on va vendre la dd")
-        if not map:onMap("-30,-59") then
-            return treatMaps({
-                {map = "0,0", path = "zaap(212600323)"},
-                {map = "-31,-56", path = "zaapi(212601345)"},
-                {map = "-30,-58", path = "top"},
-            }, function() map:changeMap("havenbag") end)
-        else
-            for _, element in ipairs(DDToSell) do
-                SellDD(element[1], element[2])
-            end
-            DDToSell = GetDDLvl100()
-        end
-    end
+    -- if #DDToSell > 0 and character:level() > 250 then
+    --     global:printSuccess("on va vendre la dd")
+    --     if not map:onMap("-30,-59") then
+    --         return treatMaps({
+    --             {map = "0,0", path = "zaap(212600323)"},
+    --             {map = "-31,-56", path = "zaapi(212601345)"},
+    --             {map = "-30,-58", path = "top"},
+    --         }, function() map:changeMap("havenbag") end)
+    --     else
+    --         for _, element in ipairs(DDToSell) do
+    --             SellDD(element[1], element[2])
+    --         end
+    --         DDToSell = GetDDLvl100()
+    --     end
+    -- end
 
     if NeedToReturnBank then
         return {

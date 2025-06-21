@@ -132,13 +132,11 @@ end
 
 
 function move()
-
     totalKamas = 0
     global:printMessage("[INFO] : Checkup des bots")
-
     -- account loading
     resetBotBankAvailability(false)
-    global:printMessage("[INFO] : Checkup des bots")
+    debug("ok")
 
     if cptExportation == 20 then
         cptExportation = 0
@@ -146,7 +144,6 @@ function move()
         -- RegisterHLAccounts()
         resetBotBankAvailability(false)
     end
-        global:printMessage("[INFO] : Checkup des bots")
 
     if DebutDeScript then
         global:printSuccess("Lancement des comptes")
@@ -179,12 +176,12 @@ function move()
                 if IsInTable(SERVERS_MONO, GetServerByAlias(acc:getAlias())) and Alias:find("Next") and (acc:getAlias():find("Mineur") or acc:getAlias():find("Bucheron")) then
                     global:printSuccess("On remplace le compte " .. acc:getAlias())
                     -- snowbotController:deleteAccount(acc:getUsername())
-                    launchNewAccounts(type, nbMax, proxyNumber)
+                    -- launchNewAccounts(type, nbMax, proxyNumber)
                     break
                 elseif IsInTable(SERVERS_MULTI, GetServerByAlias(acc:getAlias())) and Alias == "*" and (acc:getAlias():find("Mineur") or acc:getAlias():find("Bucheron")) then
                     global:printSuccess("On remplace le compte " .. acc:getAlias())
                     -- snowbotController:deleteAccount(acc:getUsername())
-                    launchNewAccounts(type, nbMax, proxyNumber)
+                    -- launchNewAccounts(type, nbMax, proxyNumber)
                     break
                 end
             end

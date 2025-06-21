@@ -47,6 +47,7 @@ local function takeRandomRessources()
 			end
 		end
 	end
+	global:leaveDialog()
 end
 
 local function giveResourcesKamasAndValidate()

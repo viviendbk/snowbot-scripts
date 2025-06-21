@@ -6,6 +6,7 @@ dofile("C:\\Users\\Vivien\\Documents\\Snowbot-Scripts-3\\PC\\Lib\\IMPORT_LIBRARI
 local totalKamas = 0
 local DebutDeScript = true
 local cptExportation = 0
+local nbMax = NB_COMBAT
 local type = "Combat"
 local proxyNumber = "2"
 local proxyBank = "5"
@@ -176,12 +177,12 @@ function move()
                 if IsInTable(SERVERS_MONO, GetServerByAlias(acc:getAlias())) and Alias:find("Next") and (acc:getAlias():find("Mineur") or acc:getAlias():find("Bucheron")) then
                     global:printSuccess("On remplace le compte " .. acc:getAlias())
                     -- snowbotController:deleteAccount(acc:getUsername())
-                    launchNewAccounts(type, nbMax, 1)
+                    -- launchNewAccounts(type, nbMax, 1)
                     break
                 elseif IsInTable(SERVERS_MULTI, GetServerByAlias(acc:getAlias())) and Alias == "*" and (acc:getAlias():find("Mineur") or acc:getAlias():find("Bucheron")) then
                     global:printSuccess("On remplace le compte " .. acc:getAlias())
                     -- snowbotController:deleteAccount(acc:getUsername())
-                    launchNewAccounts(type, nbMax, 1)
+                    -- launchNewAccounts(type, nbMax, 1)
                     break
                 end
             end
@@ -240,6 +241,11 @@ function move()
         elseif not acc.developer():hasScript() and acc.character():level() > 140 and acc:isAccountFullyConnected() and not acc:getAlias():find("Groupe") then
             acc:loadConfig("C:\\Users\\Vivien\\Documents\\Snowbot-Scripts-3\\PC\\Configs\\ConfigRecolte.xml")
             acc:loadScript("C:\\Users\\Vivien\\Documents\\Snowbot-Scripts-3\\PC\\Scripts\\Utilitaires\\take-kamas.lua")
+            acc:disconnect()
+            acc:connect()
+        elseif not acc.developer():hasScript() and acc:getAlias():find("Combat") then
+            acc:loadConfig("C:\\Users\\Vivien\\Documents\\Snowbot-Scripts-3\\PC\\Configs\\ConfigCombat.xml")
+            acc:loadScript("C:\\Users\\Vivien\\Documents\\Snowbot-Scripts-3\\PC\\Scripts\\Scripts\\Combat+Archi.lua")
             acc:disconnect()
             acc:connect()
         end

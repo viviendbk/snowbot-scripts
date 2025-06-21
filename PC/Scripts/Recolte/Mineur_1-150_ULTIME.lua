@@ -785,6 +785,8 @@ end
 
 
 function move()
+
+
     handleDisconnection()
 
     mapDelay()
@@ -795,6 +797,7 @@ function move()
             break
         end
     end
+    take50kIfNeed(10000, 120, 1)
 
     while character:kamas() == 0 and map:onMap("4,-18") do
         npc:npcBank(-1)

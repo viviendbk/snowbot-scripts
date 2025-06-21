@@ -23,10 +23,8 @@ function GetDDInfLvl100()
 
     local toReturn = {}
     local content = inventory:inventoryContent()
-    printVar(content)
     for _, element in ipairs(content) do
         if inventory:itemTypeId(element.objectGID) == 97 then
-            printVar(element.effects[1])
             debug(element.effects[1].expirationDate)
         end
     end

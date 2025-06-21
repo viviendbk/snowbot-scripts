@@ -20,12 +20,13 @@ function setBotBankConnected(server, bool)
     else
         jsonMemory[1].connected = bool
         jsonMemory[1].lastUpdate = getCurrentDateTime()
+        jsonMemory[1].doneBy = global:thisAccountController():getAlias()
     end
 
     local new_content = json.encode(jsonMemory)
     -- Écrire les modifications dans le fichier JSON
 
-    global:printMessage("L'availability du bot a été mis à :")
+    global:printMessage("json update : bot bank connected mis à :")
     global:printMessage(bool)
 
     local file = io.open("C:\\Users\\Vivien\\Documents\\Snowbot-Scripts-3\\PC\\Temp\\" .. server .. "\\botBankAvailability.json", "w")
@@ -35,8 +36,10 @@ function setBotBankConnected(server, bool)
 end
 
 function resetBotBankAvailability(force)
+    debug("reset bot connected")
     local servers = merge(SERVERS_MULTI, SERVERS_MONO)
     for _, server in ipairs(servers) do
+        debug(server)
         if force then
                 global:printSuccess(server)
             setBotBankConnected(server, false)
@@ -111,6 +114,65 @@ function forwardKamasBotBankIfNeeded(givingTriggerValue, minKamas, maxWaitingTim
     end
 
 end
+
+function take50kIfNeed(kamasTriggerValuer, maxWaitingTime, minRetryHours)
+    if global:remember("failed") then
+        global:deleteMemory("failed")
+        global:printError("On a pas pu faire l'echange avec le bot bank et on a plus de kamas, on retente plus tard")
+        customReconnect(minRetryHours)
+    end
+    if character:kamas() < kamasTriggerValuer then
+        go = true
+    end
+
+    if go then
+
+        if not connected then
+
+            while not isBotBankAvailable() do
+                global:printError("Le bot bank est connecté sur une autre instance, on attend 10 secondes")
+                global:delay(10000)
+            end
+
+            receiver = connectGiver50k(maxWaitingTime)
+
+            if cannotConnect or not botFound then
+                rerollVar()
+                if botFound then
+                    receiver:disconnect()
+                end
+                global:addInMemory("failed", true)
+				cannotConnect = false
+                global:restartScript(true)
+            else
+				connected = true
+            end
+        end
+
+        if not global:remember("failed") then
+            if not movingPrinted then
+                global:printMessage("Déplacement jusqu'à la banque d'Astrub")
+                movingPrinted = true
+            end
+            debug(getCurrentAreaName())
+            if not getCurrentAreaName():find("Astrub") then
+                if map:currentMapId() == tonumber(BANK_MAPS.idHavenbag) then
+                    return map:changeMap(BANK_MAPS.zAstrub)
+                else
+                    return map:changeMap("havenbag")
+                end
+            else
+                if map:currentMapId() ~= tonumber(BANK_MAPS.bankAstrubInt) then
+                    return debugMoveToward(tonumber(BANK_MAPS.bankAstrubInt))
+                else
+                    launchExchangeAndTake50k(maxWaitingTime)
+                end
+            end
+        end
+    end
+end
+
+
 
 function connectReceiver(maxWaitingTime)
     global:printSuccess("Connexion du bot banque")
@@ -193,6 +255,55 @@ function connectGiver(maxWaitingTime)
                 else
                     acc:loadScript("C:\\Users\\Vivien\\Documents\\Snowbot-Scripts-3\\PC\\Scripts\\Utilitaires\\give-kamas.lua")				
                 end
+
+                acc:exchangeListen(false)
+                acc.global():setPrivate(false)
+                acc:startScript()
+                return acc
+            else
+                debug(acc:getAlias() .. " est déjà connecté")
+                debug(acc.character():id())
+                return acc
+            end
+        end
+    end
+    botFound = false
+end
+
+function connectGiver50k(maxWaitingTime)
+    global:printSuccess("Connexion du bot banque")
+
+    for _, acc in ipairs(snowbotController:getLoadedAccounts()) do
+		if acc:getAlias():find("bank_" .. character:server():lower()) then
+            botFound = true
+            if not acc:isAccountFullyConnected() then
+
+                setBotBankConnected(character:server(), true)
+                acc:connect()
+
+
+                local safetyCount = 0
+                while not acc:isAccountFullyConnected() do
+                    safetyCount = safetyCount + 1
+
+
+                    if safetyCount == 1 then
+                        global:printMessage("Attente de la connexion du bot banque (" .. maxWaitingTime .. " secondes max)")
+                    end
+
+                    global:delay(1000)
+
+                    if safetyCount >= maxWaitingTime then
+                        global:printError("Bot banque non-connecté après " .. maxWaitingTime .. " secondes, reprise du trajet")
+                        setBotBankConnected(character:server(), false)
+                        cannotConnect = true
+	
+                        return acc
+                    end
+                end
+
+                acc:loadConfig("C:\\Users\\Vivien\\Documents\\Snowbot-Scripts-3\\PC\\Configs\\configBank.xml")
+                acc:loadScript("C:\\Users\\Vivien\\Documents\\Snowbot-Scripts-3\\PC\\Scripts\\Utilitaires\\give-50k.lua")
 
                 acc:exchangeListen(false)
                 acc.global():setPrivate(false)
@@ -315,6 +426,89 @@ function launchExchangeAndGive(minKamas, maxWaitingTime)
     randomDelay()
     global:printSuccess("On donne " .. toGive .. " kamas")
     exchange:putKamas(toGive)
+    global:delay(math.random(7500, 15000))
+    randomDelay()
+
+    global:printMessage("On confirm l'échange")
+    exchange:ready()
+
+    global:printSuccess("Kamas transférés. Reprise du trajet")
+	global:delay(math.random(5000, 10000))
+
+    rerollVar()
+    receiver:disconnect()
+    setBotBankConnected(character:server(), false)
+    while receiver:isAccountConnected() do
+        global:printError("Le bot banque n'a pas pu se déconnecter, on attend 5 seconde")
+        global:delay(5000)
+        receiver:disconnect()
+    end
+
+    global:restartScript(true)
+end
+
+
+function launchExchangeAndTake50k(maxWaitingTime)
+    local id = receiver.character():id()
+    receiver:exchangeListen(false)
+
+    
+    if not waitBotIsOnAstrubBank(receiver, maxWaitingTime) then
+        global:printError("Bot banque n'est toujours pas à astrub après " .. maxWaitingTime .. " secondes, reprise du trajet")
+		rerollVar()
+		global:editInMemory("retryTimestamp", os.time())
+		global:addInMemory("failed", true)
+        setBotBankConnected(character:server(), false)
+		receiver:disconnect()
+		return
+    end
+
+    global:printSuccess("On attend qu'il ait fini son interaction avec la bank")
+    global:delay(math.random(20000, 30000))
+
+    global:printSuccess("Lancement de l'échange avec le bot d'ID " .. id)
+
+    if not launchExchangeSafely(id, maxWaitingTime) then
+        global:printError("Bot banque ne répond pas après " .. maxWaitingTime .. " secondes, reprise du trajet")
+		rerollVar()
+		global:editInMemory("retryTimestamp", os.time())
+		global:addInMemory("failed", true)
+        setBotBankConnected(character:server(), false)
+		receiver:disconnect()
+		return
+    end
+
+
+    -- on donne des ressources random
+    local giveRessources = math.random()
+    if giveRessources < 0.5 then
+        local content = inventory:inventoryContent()
+
+        -- On filtre les objets qu'on a le droit de donner
+        local eligibleItems = {}
+        for _, item in ipairs(content) do
+            if not IsItem(item.objectGID) then
+                table.insert(eligibleItems, item)
+            end
+        end
+
+        local nbResourcesToGive = math.random(0, math.min(3, #eligibleItems))
+        if nbResourcesToGive > 0 then
+            global:printMessage("On va donner " .. nbResourcesToGive .. " ressources")
+            for i = 1, nbResourcesToGive do
+                local random = math.random(1, #eligibleItems)
+                local id = eligibleItems[random].objectGID
+                local quantity = math.random(1, math.min(inventory:itemCount(id), 3))
+                exchange:putItem(id, quantity)
+                global:printSuccess("Ressource donnée : " .. inventory:itemNameId(id) .. " x" .. quantity)
+            end
+        else
+            global:printMessage("Aucune ressource éligible à donner")
+        end
+    else
+        global:printMessage("On ne donne pas de ressources")
+    end
+
     global:delay(math.random(7500, 15000))
     randomDelay()
 
