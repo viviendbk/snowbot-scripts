@@ -154,9 +154,9 @@ function getRemainingSubscription(inDay, acc)
         return 0                     -- la date est dépassée ou c'est le moment même
     end
     if inDay then
-        return math.ceil(diff / 86400) -- 86400 s = 1 jour
+        return math.floor(diff / 86400) -- 86400 s = 1 jour
     end
-    return math.ceil(diff / 3600) -- 3600 s = 1 heure
+    return math.floor(diff / 3600) -- 3600 s = 1 heure
 end
 
 function getRemainingHoursSubscription(acc)

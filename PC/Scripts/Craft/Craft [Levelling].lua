@@ -551,7 +551,6 @@ end
 
 function move()
 
-    mapDelay()
     if ScriptStarting then
         -- vérifie qu'il est bien abonné        
         if getRemainingHoursSubscription() < 24 then
@@ -1079,7 +1078,7 @@ function move()
         global:disconnect()
     end
 
-    global:restartScript(true)
+    global:loadAndStart(global:getCurrentScriptDirectory() .. "\\Craft [Levelling].lua")
 
 
     CraftTailleur = {}
@@ -1112,7 +1111,7 @@ function move()
             global:loadAndStart("C:\\Users\\Vivien\\Documents\\Snowbot-Scripts-3\\PC\\Scripts\\Craft\\Craft-Brisage.lua")
         else
             if job:level(62) < 150 then
-                global:restartScript(true)
+                global:loadAndStart(global:getCurrentScriptDirectory() .. "\\Craft [Levelling].lua")
             end
             customReconnect(math.random(100, 150))
         end

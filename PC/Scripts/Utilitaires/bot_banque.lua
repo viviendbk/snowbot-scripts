@@ -6,6 +6,9 @@
 -- Auteur : 
 dofile("C:\\Users\\Vivien\\Documents\\Snowbot-Scripts-3\\PC\\Lib\\IMPORT_LIBRARIES.lua")
 
+if not global:remember("reloadNumber") then
+	global:addInMemory("reloadNumber", 0)
+end
 
 GATHER = {}
 OPEN_BAGS = true
@@ -67,6 +70,7 @@ local function giveResourcesKamasAndValidate()
 	exchange:ready()
 	global:editAlias("bank_" .. character:server():lower() .. " : [" .. truncKamas() .. "m]", true)
     logBotStats()
+	global:editInMemory("reloadNumber", 0)
 end
 
 function _handleExchange(message)
@@ -82,6 +86,14 @@ function _handleExchange(message)
 end
 
 local function fini()
+	global:editInMemory("reloadNumber", global:remember("reloadNumber") + 1)
+	if global:remember("reloadNumber") > 5 then
+		global:editInMemory("reloadNumber", 0)
+		global:printError("Trop de reloads, on arrête le bot")
+		setBotBankConnected(character:server(), false)
+		global:disconnect()
+		return
+	end
 	global:printMessage("On prend des ressources random ")
 	takeRandomRessources()
 	developer:registerMessage("ExchangeRequestedTradeMessage", _handleExchange)

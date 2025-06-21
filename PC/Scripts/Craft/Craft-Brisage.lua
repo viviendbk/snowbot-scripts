@@ -1196,7 +1196,7 @@ function move()
                 global:printSuccess("Nous avons déjà suffisant de runes de ce type, on en cherche d'autre")
                 global:leaveDialog()
                 EditJsonMemory({})
-                global:restartScript(true)
+                global:loadAndStart(global:getCurrentScriptDirectory() .. "\\Craft-brisage.lua")
             end
         end
 

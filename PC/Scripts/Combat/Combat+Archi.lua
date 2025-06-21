@@ -2390,7 +2390,7 @@ function move()
                     global:delay(math.random(500, 1500))
                     ManageXpMount()
                 end
-            elseif character:kamas() > 7000000 then
+            elseif character:kamas() > 700000 then
                 global:printSuccess("On va acheter une nouvelle dd")
                 if not map:onMap("-30,-59") then
                     return treatMaps({
@@ -2488,7 +2488,7 @@ function move()
     end	
 
 
-    minKamas = (getRemainingSubscription(true) == 0) and 1700000 or 300000
+    minKamas = (getRemainingSubscription(true) <= 0) and 1700000 or 300000
 
     forwardKamasBotBankIfNeeded(2500000, minKamas, 120, 6)
     
@@ -2499,53 +2499,9 @@ function move()
     end
 
     if DebutDuScript then
-        if map:currentSubArea() == "Canyon sauvage" then
-            return
-            {
-                {map = "-16,11", path = "top"},
-                {map = "-16,10", path = "left"},
-                {map = "-17,10", path = "bottom"},
-                {map = "-17,11", path = "left"},
-                {map = "-18,11", path = "bottom"},
-                {map = "-18,12", path = "left"},
-                {map = "-19,12", path = "top(6)"},
-                {map = "-19,11", path = "top"},
-                {map = "-19,10", path = "right"},
-                {map = "-18,10", path = "top"},
-                {map = "-18,9", path = "right"},
-                {map = "-19,9", path = "right"},
-                {map = "-17,9", path = "top"},
-                {map = "-17,8", path = "top"},
-            }
-        elseif getCurrentAreaName() == "Île du Minotoror" then 
-            return
-            {
-                {map = "34476296", custom = function() npc:npc(783, 3) npc:reply(-2) npc:reply(-1) end},
-                {map = "-43,-17", path = "bottom"},
-                {map = "-43,-18", path = "bottom"},
-                {map = "-43,-19", path = "bottom"},
-                {map = "-40,-19", path = "bottom"},
-                {map = "-40,-18", path = "bottom"},
-                {map = "-40,-17", path = "bottom"},
-                {map = "-40,-16", path = "left"},
-                {map = "-41,-16", path = "left"},
-                {map = "-42,-16", path = "left"},
-                {map = "-41,-17", path = "left"},
-                {map = "-41,-18", path = "left"},
-                {map = "-42,-18", path = "left"},
-                {map = "-42,-17", path = "top"},
-                {map = "-41,-19", path = "left"},
-                {map = "-42,-19", path = "left"},
-                {map = "-43,-16", custom = function() npc:npc(770, 3) npc:reply(-1) npc:reply(-1) end}
-            } 
-        elseif map:onMap("11,10") then
-            map:changeMap("left")
-        end
-        if not map:onMap("0,0") and not map:onMap("212600323") and not map:onMap("212600838") and not map:onMap("212600837") and not map:onMap("212601350") then
-            map:changeMap("havenbag")
-        end
+
         if inventory:itemCount(14966) == 0 and not ombreChecked and character:kamas() > 1000000 then
-            return {
+            return treatMaps({
                 {map = "0,0", path = "zaap(212600323)"},
                 {map = "212600323", path = "bottom"},
                 {map = "-31,-55", custom = function()
@@ -2560,15 +2516,15 @@ function move()
                         map:changeMap("right")
                     end
                 end}
-            }
+            })
         end
-        return {
+        return treatMaps({
             {map = "212600323", path = "bottom"},
             {map = "212600837", path = "bottom"},
             {map = "212600838", path = "right"},
             {map = "0,0", path = "zaap(212600323)"},
             {map = "212601350", custom = ProcessSell}, -- Map HDV ressources bonta
-        }
+        })
     end
 
     return WhichArea()
@@ -2623,59 +2579,10 @@ function bank()
         }
     end	
 
-
-    if map:currentSubArea() == "Canyon sauvage" then
-        return
-        {
-            {map = "-16,11", path = "top"},
-            {map = "-16,10", path = "left"},
-            {map = "-17,10", path = "bottom"},
-            {map = "-17,11", path = "left"},
-            {map = "-18,11", path = "bottom"},
-            {map = "-18,12", path = "left"},
-            {map = "-19,12", path = "top(6)"},
-            {map = "-19,11", path = "top"},
-            {map = "-19,10", path = "right"},
-            {map = "-18,10", path = "top"},
-            {map = "-18,9", path = "right"},
-            {map = "-19,9", path = "right"},
-            {map = "-17,9", path = "top"},
-            {map = "-17,8", path = "top"},
-        }
-    elseif map:currentSubArea() == "Île du Minotoror" then 
-        return
-        {
-            {map = "-43,-17", path = "bottom"},
-            {map = "-43,-18", path = "bottom"},
-            {map = "-43,-19", path = "bottom"},
-            {map = "-40,-19", path = "bottom"},
-            {map = "-40,-18", path = "bottom"},
-            {map = "-40,-17", path = "bottom"},
-            {map = "-40,-16", path = "left"},
-            {map = "-41,-16", path = "left"},
-            {map = "-42,-16", path = "left"},
-            {map = "-41,-17", path = "left"},
-            {map = "-41,-18", path = "left"},
-            {map = "-42,-18", path = "left"},
-            {map = "-42,-17", path = "top"},
-            {map = "-41,-19", path = "left"},
-            {map = "-42,-19", path = "left"},
-            {map = "-43,-16", custom = function() npc:npc(770, 3) npc:reply(-1) npc:reply(-1) end}
-        } 
-    end
-
-    
-	if map:currentMap() == "11,10" then map:changeMap("right") end
-	
-    if not map:onMap("0,0") and not map:onMap("212600323") and not map:onMap("212600838") and not map:onMap("212600837") and not map:onMap("212601350")
-        and not map:onMap("220200961") then
-        map:changeMap("havenbag")
-    end
-
     Pierre_Ames_Pleines = CheckPierreAme()
 
     if (Pierre_Ames_Pleines ~= nil and #Pierre_Ames_Pleines > 0) or inventory:itemCount(9686) == 0 or inventory:itemCount(9687) == 0 or inventory:itemCount(9688) == 0 then
-        return {
+        return treatMaps({
             {map = "0,0", path = "zaap(212600323)"},
             {map = "-31,-56", path = "zaapi(220200961)"},
             {map = "220200961", custom = function()
@@ -2683,17 +2590,17 @@ function bank()
                 SendPresetOne()
                 SendPresetTwo()
             end}
-        }
+        })
 	end
 
-    return {
+    return treatMaps({
         {map = "212600323", path = "bottom"},
         {map = "212600837", path = "bottom"},
         {map = "212600838", path = "right"},
         {map = "220200961", path = "zaapi(212601350)"},
         {map = "0,0", path = "zaap(212600323)"},
         {map = "212601350", custom = ProcessSell}, -- Map HDV ressources bonta
-    }
+    })
 end
 
 function banned()
