@@ -121,7 +121,7 @@ function move()
 	end
 	debug("oui")
 
-	goAstrubBank(fini)
+	return goAstrubBank(fini)
 
 end
 

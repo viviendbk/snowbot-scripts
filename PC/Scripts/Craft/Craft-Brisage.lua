@@ -1441,7 +1441,7 @@ function move()
             global:printMessage("Update du json...")
 
             jsonBrisage = openFile(global:getCurrentScriptDirectory() .. "\\" .. character:server() .. "\\Brisage.json")
-    
+            
             for _, data in ipairs(jsonBrisage) do
                 if data.server == character:server() then
                     for i = #data.BrisagesEffectues, 1, -1 do

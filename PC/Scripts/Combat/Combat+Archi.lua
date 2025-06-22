@@ -2303,7 +2303,7 @@ function move()
     mapDelay()
 
     StopAchatGoujon = false
-    archionmap()
+    -- archionmap()
 
     if global:afterFight() then
         ManageXpMount()

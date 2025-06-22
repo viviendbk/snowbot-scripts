@@ -208,7 +208,7 @@ function move()
             elseif global:thisAccountController():getAlias():find("LvlUp") then
                 submitKamas = 400000
             else
-                submitKamas = 500000 - character:kamas()
+                submitKamas = 600000 - character:kamas()
             end
 
             if submitKamas > 0 then
@@ -257,7 +257,7 @@ function move()
     elseif not global:remember("doneTransfert") and conditionTakeKamasAndAbo() then
                 debug("ok")
 
-        local submitKamas = 1300000
+        local submitKamas = 2000000 - character:kamas()
         submitKamasOrder(submitKamas)
 
 

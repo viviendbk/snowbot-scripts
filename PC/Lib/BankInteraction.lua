@@ -116,10 +116,10 @@ function forwardKamasBotBankIfNeeded(givingTriggerValue, minKamas, maxWaitingTim
 end
 
 function take50kIfNeed(kamasTriggerValuer, maxWaitingTime, minRetryHours)
-    if global:remember("failed") then
-        global:deleteMemory("failed")
-        global:printError("On a pas pu faire l'echange avec le bot bank et on a plus de kamas, on retente plus tard")
-        customReconnect(minRetryHours)
+    if global:remember("failedTakeKamas") then
+        global:deleteMemory("failedTakeKamas")
+        global:printError("On a pas pu faire l'echange avec le bot bank et on a plus de kamas, on retente dans " .. minRetryHours .. " heures")
+        customReconnect(minRetryHours * 60)
     end
     if character:kamas() < kamasTriggerValuer then
         go = true
@@ -141,7 +141,7 @@ function take50kIfNeed(kamasTriggerValuer, maxWaitingTime, minRetryHours)
                 if botFound then
                     receiver:disconnect()
                 end
-                global:addInMemory("failed", true)
+                global:addInMemory("failedTakeKamas", true)
 				cannotConnect = false
                 global:restartScript(true)
             else
@@ -149,7 +149,7 @@ function take50kIfNeed(kamasTriggerValuer, maxWaitingTime, minRetryHours)
             end
         end
 
-        if not global:remember("failed") then
+        if not global:remember("failedTakeKamas") then
             if not movingPrinted then
                 global:printMessage("Déplacement jusqu'à la banque d'Astrub")
                 movingPrinted = true
@@ -609,7 +609,6 @@ function goAstrubBank(inBankCallback)
     end
 
     if not map:onMap(BANK_MAPS.bankAstrubInt) then
-        debug("aaa")
         return treatMaps(GO_BANK_ASTRUB)
     end
     global:printSuccess("On est arrivé a la banque d'astrub")

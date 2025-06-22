@@ -709,8 +709,38 @@ function connectAccountsWithFailleProxy()
 
         local proxyReady = json.decode(developer:getRequest("http://" .. IP_PROXY .. "/status?proxy=p:5001"))
 
+        local counter = 0
         while not proxyReady.status do
+            counter = counter + 1
             debug("ip pas encore ready, on attend")
+            if counter % 10 == 0 then
+                global:printError("Le proxy a surement bugué, on reset l'usb hub")
+                developer:postRequest(
+                    "http://193.252.210.41/v2/reset_bus_dongle",
+                    '{"position":1}',
+                    {
+                    "Accept",
+                    "Accept-Language",
+                    "Access-Control-Allow-Origin",
+                    "Authorization",
+                    "Content-Type",
+                    "Cookie",
+                    "Origin",
+                    "Referer",
+                    },
+                    {
+                    "application/json, text/plain, */*",
+                    "fr-FR,fr;q=0.9,en-US;q=0.8,en;q=0.7,ru;q=0.6",
+                    "*",
+                    "Basic cHJveHk6MTkzN1NoaWVsZCExMjM0QWJjZA==",
+                    "application/json",
+                    "Admin-Token=admin-token; selected_based_url=http://192.168.1.48:80",
+                    "http://193.252.210.41",
+                    "http://193.252.210.41/",
+                    }
+                )                
+                global:delay(5000)
+            end
             global:delay(2000)
             proxyReady = json.decode(developer:getRequest("http://" .. IP_PROXY .. "/status?proxy=p:5001"))
         end
@@ -723,12 +753,6 @@ function connectAccountsWithFailleProxy()
             global:printMessage("Nouvelle IP : " .. nouvelleIp)
         else
             global:printError("L'IP n'a pas changé, on retente dans 10 secondes")
-
-            local connexionFile = openFile("C:\\Users\\Vivien\\Documents\\Snowbot-Scripts-3\\PC\\Temp\\controllerConnexion.json")
-            connexionFile[1].inUse = false
-            connexionFile[1].by = ""
-            connexionFile[1].date = ""
-            writeToJsonFile("C:\\Users\\Vivien\\Documents\\Snowbot-Scripts-3\\PC\\Temp\\controllerConnexion.json", connexionFile)
 
             global:delay(10000) -- Attendre 1 minute avant de retenter
             return connectAccountsWithFailleProxy() -- Retenter la connexion
@@ -842,6 +866,7 @@ function treatMaps(maps, errorFn)
         local condition = map:onMap(element.map) 
 
         if condition then
+            printVar(element)
             return {element}
         end
     end

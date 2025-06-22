@@ -1604,6 +1604,9 @@ local function ProcessBank() -- done
 
     for _, element in ipairs(Planches) do
         element.CanCraft = true
+		if not element.ListIdCraft or #element.ListIdCraft == 0 then
+			global:printError("Pas de recette pour " .. element.Name)
+		end
         for _, element2 in ipairs(element.ListIdCraft) do
             if not (exchange:storageItemQuantity(element2.Id) >= 50) or NeedToCraft then
                 element.CanCraft = false

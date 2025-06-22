@@ -246,13 +246,13 @@ function move()
     end
 
 
-
     if global:remember("ETAPE_PANDALA") == nil then
         global:addInMemory("ETAPE_PANDALA", (quest:questCurrentStep(2149) == 2805) and 2 or 1)
     end
 
     local objectifsDone = quest:questDoneObjectives(2149)
 
+    debug(#objectifsDone)
     if objectifsDone and #objectifsDone == 8 then
         global:editInMemory("ETAPE_PANDALA", 7) 
     elseif objectifsDone and #objectifsDone == 9 then
