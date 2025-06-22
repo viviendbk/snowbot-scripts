@@ -39,7 +39,7 @@ function Abonnement()
     developer:suspendScriptUntil("HaapiShopApiKeyMessage", 10000, false)
 
     if not APIKEY then
-        global:printError("⛔ APIKEY is nil. Cannot continue.")
+        global:printError("⛔ abonnement nouveau APIKEY is nil. Cannot continue.")
         return
     end
 

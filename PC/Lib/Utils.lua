@@ -866,7 +866,6 @@ function treatMaps(maps, errorFn)
         local condition = map:onMap(element.map) 
 
         if condition then
-            printVar(element)
             return {element}
         end
     end

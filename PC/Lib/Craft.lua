@@ -849,7 +849,7 @@ function getRecipe(id)
 end
 
 function _GetResultBreak(message)
-    developer:unRegisterMessage("DecraftResultMessage")
+    developer:unRegisterMessage("DecraftResultEvent")
     message = message.results[0]
     Pourcentage = math.floor(message.bonusMaxBonusMinOne * 100)
     EstimationGain = 0 

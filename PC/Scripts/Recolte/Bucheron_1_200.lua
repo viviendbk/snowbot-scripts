@@ -2112,3 +2112,8 @@ end
 function phenix()
 	return PHENIX
 end
+
+function messagesRegistering()
+	developer:registerMessage("HaapiShopApiKeyMessage", _HaapiShopApiKeyMessage)
+	developer:registerMessage("HaapiConfirmationMessage", _HaapiConfirmationMessage)
+end
