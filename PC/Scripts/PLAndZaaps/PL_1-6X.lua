@@ -470,15 +470,14 @@ local getOutSouterrain = {
 	{map = "153093378", path = "right"},
 	{map = "190843392", path = "top"},
 	{ map = "153092354", door = 409},
-  { map = "152045573", path = "right", gather = false, fight = false }, -- 152045573
-  { map = "152043521", path = "right", gather = false, fight = false }, -- 152045573
-  { map = "152046597", path = "right", gather = false, fight = false }, -- 152045573
+  	{ map = "152045573", path = "right", gather = false, fight = false }, -- 152045573
+  	{ map = "152043521", path = "right", gather = false, fight = false }, -- 152045573
+  	{ map = "152046597", path = "right", gather = false, fight = false }, -- 152045573
     { map = "192416776", path = "left"}, -- 192416776
-  {map = "192415750", path = "409"},
-  {map = "154011397", path = "top"},
+  	{map = "192415750", path = "409"},
+  	{map = "154011397", path = "top"},
   	{map = "101716487", path = "266"},
-
-		{map = "101715461", door = "175"},
+	{map = "101715461", door = "175"},
 	{map = "101715463", path = "121"},
 	{map = "192415750", path = "409"},
 	{map = "188484100", door = "155"},
@@ -864,6 +863,9 @@ end
 
 
 function move()
+	if global:thisAccountController():getAlias():find("Requests") and character:level() >= 35 then
+		global:editInMemory("lvlFinish", 35)
+	end
 	debug(map:currentMapId())
 	if job:level(24) > 5 or job:level(2) > 5 or character:level() > 165 then
 		global:loadAndStart("C:\\Users\\Vivien\\Documents\\Snowbot-Scripts-3\\PC\\Scripts\\Utilitaires\\take-kamas.lua")

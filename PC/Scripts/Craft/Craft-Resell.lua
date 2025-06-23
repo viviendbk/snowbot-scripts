@@ -1031,9 +1031,6 @@ function move()
                 end
             end
         end
-        if character:isBusy() then
-            global:leaveDialog()
-        end
     end
     --- Determines which item we'll craft and resell
     global:printSuccess("2")

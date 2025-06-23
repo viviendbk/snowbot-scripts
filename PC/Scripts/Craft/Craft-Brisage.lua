@@ -882,9 +882,7 @@ function move()
             end
             if item.TotalCost > 0 then
                 minCost = math.min(minCost, item.TotalCost)
-                debug(item.Id .. " " .. inventory:itemNameId(item.Id) .. " : " .. item.TotalCost)
                 item.BestFocus = GetBestFocusOnJp(item.Id)
-                                debug("ok")
                 if item.BestFocus == StatSearched then
                     NbItemsSameFocus = NbItemsSameFocus + 1
                 end
