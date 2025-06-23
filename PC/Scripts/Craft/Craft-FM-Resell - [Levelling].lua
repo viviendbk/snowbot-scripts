@@ -98,18 +98,18 @@ local function UseRune(runeId)
 
     developer:registerMessage("ExchangeCraftResultMagicWithObjectDescMessage", _AnalyseResultsFM)
     -- mettre la rune sur l'interface
-    local message = developer:createMessage("ExchangeObjectMoveMessage")
-    message.objectUID = inventory:getUID(runeId)
+    local message = developer:createMessage("ExchangeObjectMoveRequest")
+    message.object_uid = inventory:getUID(runeId)
     message.quantity = 1
     developer:sendMessage(message)
-    developer:suspendScriptUntil("ExchangeObjectAddedMessage", 5000, false, nil, 50)
+    developer:suspendScriptUntil("ExchangeObjectsAddedEvent", 5000, false, nil, 50)
     global:delay(math.random(100, 300))
 
     steep = steep + 2
 
-    local message = developer:createMessage("ExchangeReadyMessage")
+    local message = developer:createMessage("ExchangeReadyRequest")
     message.ready = true
-    message.steep = steep
+    message.step = steep
     developer:sendMessage(message)
     
     developer:suspendScriptUntil("ExchangeCraftResultMagicWithObjectDescMessage", 5000, false, nil, 50)
@@ -326,35 +326,51 @@ local goToAtelierFm = {
 
 
 
-function _AnalyseResultsFM(message)
-    developer:unRegisterMessage("ExchangeCraftResultMagicWithObjectDescMessage")
+function fromProtoToInfoFM(protoList)
+    local toReturn = {}
 
+    for i = 0, #protoList - 1 do
+        local el = protoList[i]
+        table.insert(toReturn, {
+            actionId = el.ejbj,
+            value    = el.ejbp
+        })
+    end
+
+    return toReturn
+end
+
+
+function _AnalyseResultsFM(message)
+    developer:unRegisterMessage("ExchangeCraftResultEvent")
+    message = message.object
     local changements = {}
-    if message.magicPoolStatus == 3 then
+
+    if message.magic_pool_status == 3 then
         -- si on a - reliquat, on actualise le pui
         InfoCurrentItemFM.InfoFm.Pui = InfoCurrentItemFM.InfoFm.Pui - GetPoidsRune(InfoCurrentItemFM.CurrentRune)
         InfoCurrentItemFM.InfoFm.Pui = InfoCurrentItemFM.InfoFm.Pui > 0 and InfoCurrentItemFM.InfoFm.Pui or 0
-    elseif message.magicPoolStatus == 2 then
+    elseif message.magic_pool_status == 2 then
         -- si on a + reliquat, on retire le poids de la rune qu'on a mis au pui et on rajoutera ensuite le poids des stats retirés
         InfoCurrentItemFM.InfoFm.Pui = InfoCurrentItemFM.InfoFm.Pui - GetPoidsRune(InfoCurrentItemFM.CurrentRune)
     end
-    InfoCurrentItemFM.InfoFm.StatsId = message.objectInfo.effects
-    --InfoCurrentItemFM.InfoFm.Quality = 0
+    InfoCurrentItemFM.InfoFm.StatsId = fromProtoToInfoFM(message.object.effects)
 
-    local totalPoids = 0
-    local qualite = 0
+    -- printVar(InfoCurrentItemFM.InfoFm.StatsId)
+
+
     for k, v in pairs(InfoCurrentItemFM.InfoFm.Stats) do
         local found = false
         for _, effect in ipairs(InfoCurrentItemFM.InfoFm.StatsId) do
             if GetNameCarac(effect.actionId) == k then
                 found = true
             end
-            if tostring(effect) == "SwiftBot.ObjectEffectInteger" and GetNameCarac(effect.actionId) == k and (v.Current - effect.value) ~= 0 then
-                if message.magicPoolStatus == 2 and (v.Current - effect.value) > 0 then
+            if GetNameCarac(effect.actionId) == k and (v.Current - effect.value) ~= 0 then
+                if message.magic_pool_status == 2 and (v.Current - effect.value) > 0 then
                     -- si on a + reliquat, on actualise le pui
                     InfoCurrentItemFM.InfoFm.Pui = InfoCurrentItemFM.InfoFm.Pui + (v.Current - effect.value) * PoidsByStat[k].PoidsUnite
-                    if (v.Current - effect.value) * PoidsByStat[k].PoidsUnite > 20 then
-                        -- si on vient d'avoir le + reliquat et que le pui dépasse 20, on mets de côté la stat principale qui vient de sauter pour la remettre après
+                    if (v.Current - effect.value) * PoidsByStat[k].PoidsUnite > 19 then
+                        -- si on vient d'avoir le + reliquat et que le pui dépasse 19, on mets de côté la stat principale qui vient de sauter pour la remettre après
                         StatToRePut = k
                     end
                 end
@@ -363,30 +379,25 @@ function _AnalyseResultsFM(message)
             end
         end
         if not found then
-            if message.magicPoolStatus == 2 then
+            if message.magic_pool_status == 2 then
                 -- si on a + reliquat, on actualise le pui
                 InfoCurrentItemFM.InfoFm.Pui = InfoCurrentItemFM.InfoFm.Pui + v.Current * PoidsByStat[k].PoidsUnite
-                if v.Current * PoidsByStat[k].PoidsUnite > 20 then
-                    -- si on vient d'avoir le + reliquat et que le pui dépasse 20, on mets de côté la stat principale qui vient de sauter pour la remettre après
+                if v.Current * PoidsByStat[k].PoidsUnite > 19 then
+                    -- si on vient d'avoir le + reliquat et que le pui dépasse 19, on mets de côté la stat principale qui vient de sauter pour la remettre après
                     StatToRePut = k
                 end
             end
             changements[k] = 0 - v.Current
             v.Current = 0
         end
-        -- on ne prend pas en compte le poids des runes invo, po, pa, pm pour ne pas fausser la qualité de l'item
-        if not (PoidsByStat[k].PoidsUnite > 30 and v.Current == 1) then
-            totalPoids = totalPoids + PoidsByStat[k].PoidsUnite
-            qualite = qualite + (PoidsByStat[k].PoidsUnite * (v.Current / v.Max))
-        end
     end
 
-    InfoCurrentItemFM.InfoFm.Quality = qualite / totalPoids
-    if InfoCurrentItemFM.InfoFm.Quality > MaxCoef then
+    InfoCurrentItemFM.InfoFm.Quality = GetQualityItem(InfoCurrentItemFM.InfoFm.StatsId, InfoCurrentItemFM.Id)
+    if InfoCurrentItemFM.InfoFm.Quality > MaxCoef and StatToRePut == "" then
         MaxCoef = InfoCurrentItemFM.InfoFm.Quality
     end
 
-    if counter % 5  == 0 then
+    if counter % 10  == 0 then
         global:printMessage("----- stats actuels ----")
         for k, v in pairs(InfoCurrentItemFM.InfoFm.Stats) do
             global:printSuccess("[" .. k .. "] : { " .. v.Min .. " | " .. v.Current .. " | " .. v.Max .. " }")
@@ -400,29 +411,42 @@ function _AnalyseResultsFM(message)
         if v > 0 then
             string = string .. "+" .. v .. " " .. k .. ", "
         else
-            if message.magicPoolStatus == 1 and InfoCurrentItemFM.InfoFm.Pui < 0 then
+            if message.magic_pool_status == 1 and InfoCurrentItemFM.InfoFm.Pui < 0 then
                 InfoCurrentItemFM.InfoFm.Pui = 0
             end
             string = string .. v .. " " .. k .. ", "
         end
     end
-    if message.magicPoolStatus == 3 then
-        string = string .. " -reliquat, "
-    elseif message.magicPoolStatus == 2 then
-        string = string .. " +reliquat, "
-    end
-    string = string .. " [Qualité] = " .. InfoCurrentItemFM.InfoFm.Quality .. ", [Pui] = " .. InfoCurrentItemFM.InfoFm.Pui
 
     if not string:find("-") then
+        if message.magic_pool_status == 3 then
+            string = string .. " -reliquat, "
+        elseif message.magic_pool_status == 2 then
+            string = string .. " +reliquat, "
+        end
+        string = string .. " [Qualité] = " .. InfoCurrentItemFM.InfoFm.Quality .. ", [Pui] = " .. InfoCurrentItemFM.InfoFm.Pui .. ", [NbRunesUsed] = " .. NbRunesUsed
         global:printSuccess(string)
     elseif string:find("-") and string:find("+") then
+        if message.magic_pool_status == 3 then
+            string = string .. " -reliquat, "
+        elseif message.magic_pool_status == 2 then
+            string = string .. " +reliquat, "
+        end
+        string = string .. " [Qualité] = " .. InfoCurrentItemFM.InfoFm.Quality .. ", [Pui] = " .. InfoCurrentItemFM.InfoFm.Pui .. ", [NbRunesUsed] = " .. NbRunesUsed
         global:printMessage(string)
     else
+        if message.magic_pool_status == 3 then
+            string = string .. " -reliquat, "
+        elseif message.magic_pool_status == 2 then
+            string = string .. " +reliquat, "
+        end
+        string = string .. " [Qualité] = " .. InfoCurrentItemFM.InfoFm.Quality .. ", [Pui] = " .. InfoCurrentItemFM.InfoFm.Pui .. ", [NbRunesUsed] = " .. NbRunesUsed
         global:printError(string)
     end
-    -- if ItemSatisfyConditions(InfoCurrentItemFM).Bool and StatToRePut == "" then
-    --     steep = 0 global:leaveDialog()
-    -- end
+    if ItemSatisfyConditions(InfoCurrentItemFM).Bool and StatToRePut == "" then
+        steep = 0 global:leaveDialog()
+    end
+
 end
 
 local function HaveToBuyRessources()
@@ -1056,11 +1080,11 @@ function move()
 
                 for _, item2 in ipairs(content) do
                     if item2.objectGID == item.Id then
-                        local message = developer:createMessage("ExchangeObjectMoveMessage")
-                        message.objectUID = item2.objectUID
+                        local message = developer:createMessage("ExchangeObjectMoveRequest")
+                        message.object_uid = item2.objectUID
                         message.quantity = 1
                         developer:sendMessage(message)
-                        developer:suspendScriptUntil("ExchangeObjectAddedMessage", 5000, false, nil, 50)
+                        developer:suspendScriptUntil("ExchangeObjectsAddedEvent", 5000, false, nil, 50)
                         break
                     end
                 end
@@ -1278,11 +1302,11 @@ function move()
                 global:delay(500)
 
                 -- depot de l'item dans le briseur
-                local message = developer:createMessage("ExchangeObjectMoveMessage")
-                message.objectUID = item.objectUID
+                local message = developer:createMessage("ExchangeObjectMoveRequest")
+                message.object_uid = item.objectUID
                 message.quantity = 1
                 developer:sendMessage(message)  
-                developer:suspendScriptUntil("ExchangeObjectAddedMessage", 5000, false, nil, 50)
+                developer:suspendScriptUntil("ExchangeObjectsAddedEvent", 5000, false, nil, 50)
 
                 -- brisage
                 global:delay(500)
@@ -1291,7 +1315,7 @@ function move()
 
                 message.focusActionId = 0
                 message.ready = true
-                message.steep = 1
+                message.step = 1
                 
                 developer:sendMessage(message)
                 global:delay(500)

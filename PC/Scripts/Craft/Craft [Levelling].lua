@@ -74,35 +74,6 @@ local function EditJsonMemory(content)
     -- file:close()
 end
 
-local function UseRune(runeId)
-    global:printMessage("On pose la rune [" .. inventory:itemNameId(runeId) .. "] dans l'interface")
-
-    developer:registerMessage("ExchangeCraftResultMagicWithObjectDescMessage", _AnalyseResultsFM)
-    -- mettre la rune sur l'interface
-    local message = developer:createMessage("ExchangeObjectMoveMessage")
-    message.objectUID = inventory:getUID(runeId)
-    message.quantity = 1
-    developer:sendMessage(message)
-    developer:suspendScriptUntil("ExchangeObjectAddedMessage", 5000, false, nil, 50)
-    global:delay(math.random(100, 300))
-
-    steep = steep + 2
-
-    local message = developer:createMessage("ExchangeReadyMessage")
-    message.ready = true
-    message.steep = steep
-    developer:sendMessage(message)
-    
-    developer:suspendScriptUntil("ExchangeCraftResultMagicWithObjectDescMessage", 5000, false, nil, 50)
-    local random = math.random()
-    if random < 0.05 then
-        global:delay(math.random(4000, 7000))
-    elseif random < 0.2 then
-        global:delay(math.random(2000, 3000))
-    else
-        global:delay(math.random(500, 2000))
-    end
-end
 
 local function ProcessCraft(table, cellId, jobId)
     for _, element in ipairs(table) do

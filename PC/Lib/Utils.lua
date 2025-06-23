@@ -779,7 +779,7 @@ end
 
 
 function conditionStartScript(acc)
-    return acc:isAccountFullyConnected() and not acc:isScriptPlaying() and (acc:isTeamLeader() or not acc:isItATeam())
+    return acc:isAccountFullyConnected() and not acc:isScriptPlaying() and (acc:isTeamLeader() or not acc:isItATeam()) and not acc:getAlias():find("bank")
 end
 
 --- interaction bot bank ---

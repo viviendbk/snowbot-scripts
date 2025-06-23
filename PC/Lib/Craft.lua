@@ -3,6 +3,7 @@ function ItemSatisfyConditions(item, StatNegliger)
         si l'item est lvl 200 et qu'il a PA ou PM, on rajoute dans CoefMiniByCarac all Dommages = 0.95 et les stats pas dans exeption = 0.85
         si il y a plus de 1 stat de base à satisfaire, on regarde si pour chaque stat, current >= min + (max - min) / 2, si non on ajoute cette stat à la première place de statprbmatiques
     ]]
+
     local nbStatProblematique = 0
     local tableStatPbmatique = {}
     local counterRes = 0
@@ -67,10 +68,14 @@ function ItemSatisfyConditions(item, StatNegliger)
     local statLourde = false
 
     for k, v in pairs(item.InfoFm.Stats) do
+
         if v.Current < v.Min and k ~= "Initiative" and k ~= "Pods" then
+            debug(k .. " " .. v.Current .. " " .. v.Min)
             return {Bool = false, StatsNeeded = {}}
         end
+
         local poidsUnite = PoidsByStat[k].PoidsUnite
+
         if poidsUnite > 3 then
             statLourde = true
         end
@@ -79,6 +84,7 @@ function ItemSatisfyConditions(item, StatNegliger)
             toAdd = toAdd * (v.Max / 10)
         end
         toAdd = toAdd + ((poidsUnite == 3 and 0.005) or (poidsUnite == 2 and 0.0025) or 0)
+
 
         nbStatProblematique = nbStatProblematique + toAdd
         counterRes = counterRes + (k:find("% Resistance") and 1 or 0)
@@ -89,8 +95,9 @@ function ItemSatisfyConditions(item, StatNegliger)
         or k:find("Dommages") and (v.Max - v.Current) > (math.floor(v.Max / 10) > 0 and math.floor(v.Max / 10) or 1)
         --[[or (inventory:getLevel(item.Id) == 200 and ItemHasBigStat(item.Id) and toAdd < 0.065 and v.Max > 0 and (not IsInTable(STATS_TO_IGNORE, k) and (v.Current / v.Max) > (k:find("Dommages ") and 0.92 or 0.85)))]]
         then
-        tableStatPbmatique[#tableStatPbmatique + 1] = k
+            tableStatPbmatique[#tableStatPbmatique + 1] = k
         end
+        
     end
 
     if #tableStatPbmatique > 1 then
@@ -796,6 +803,8 @@ function GetNameCarac(Id)
     if ID_TO_STAT_NAME[Id] then
         return ID_TO_STAT_NAME[Id]
     end
+    global:printError("la stat d'id " .. Id .. " n'existe pas dans la table")
+    return ""
 end
 
 function GetIdCarac(name)
@@ -992,7 +1001,7 @@ function GetDices(Id)
                 name = ID_TO_STAT_NAME[tostring(data.effectId)],
                 dice = {
                     min = data.diceNum,
-                    max = data.diceNum > 0 and data.diceNum or data.diceSide,
+                    max = data.diceSide > 0 and data.diceSide or data.diceNum,
                 },
             })
         end

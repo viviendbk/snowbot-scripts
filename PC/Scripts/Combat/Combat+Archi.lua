@@ -50,7 +50,6 @@ end
 local lancable = 0
 local incrementation = 0
 local CompteurDeath = 0
-local StopAchatGoujon = false
 local DDToSell = {}
 local cptReconnect = 0
 
@@ -1931,7 +1930,8 @@ local function ProcessSell()
         NeedToReturnBank = true
     end
 
-    if mount:hasMount() and not StopAchatGoujon then
+    if mount:hasMount() and not DDNourrie and not DebutDuScript then
+        DDNourrie = true
         buyAndfeedDD()
 
         if not mount:isRiding() then
@@ -2198,6 +2198,27 @@ local function ProcessBank()
             end
         end
     end
+
+    if not DDNourrie and mount:hasMount() then
+        local tablePoisson = {
+            {Name = "Poisson Pané", Id = 1750},
+            {Name = "Crabe Sourimi", Id = 1757},
+            {Name = "Goujon", Id = 1782},
+            {Name = "Brochet", Id = 1847},
+            {Name = "Sardine Brillante", Id = 1805},
+            {Name = "Cuisse de Boufton", Id = 1911},
+            {Name = "Cuisse de Bouftou **", Id = 1912},
+            {Name = "Poisson-Chaton", Id = 603},
+            {Name = "Bar Rikain", Id = 1779},
+        }
+        for _, element in ipairs(tablePoisson) do
+            if exchange:storageItemQuantity(element.Id) > 0 then
+                exchange:getItem(element.Id, math.min(exchange:storageItemQuantity(element.Id), 200))
+                break
+            end
+        end
+    end
+
     if not hdvFull then
         local cpt = 0
         for _, element in ipairs(TableVente) do
@@ -2205,7 +2226,6 @@ local function ProcessBank()
             local TotalMax = element.remaining100 * 100 + element.remaining10 * 10 + element.remaining1
             local QuantiteAPrendre = math.min(exchange:storageItemQuantity(element.id), TotalMax, math.floor(podsAvailable * 0.95 / inventory:itemWeight(element.id)))
             if ((element.remaining100 > 0 and QuantiteAPrendre >= 100) or (element.remaining10 > 0 and QuantiteAPrendre >= 10)) and element.canSell then
-                StopAchatGoujon = true
                 exchange:getItem(element.id, QuantiteAPrendre)
                 cpt = cpt + 1
             end
@@ -2302,7 +2322,6 @@ function move()
     handleDisconnection()
     mapDelay()
 
-    StopAchatGoujon = false
     -- archionmap()
 
     if global:afterFight() then
@@ -2487,6 +2506,7 @@ function move()
             {map = "212601350", custom = ProcessSell}, -- Map HDV ressouces bonta
         }
     end	
+
 
 
     minKamas = (getRemainingSubscription(true) <= 0) and 1700000 or 300000

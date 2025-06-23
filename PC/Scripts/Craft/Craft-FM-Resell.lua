@@ -101,24 +101,23 @@ end
 local function UseRune(runeId)
     global:printMessage("On pose la rune [" .. inventory:itemNameId(runeId) .. "] dans l'interface")
 
-    developer:registerMessage("ExchangeCraftResultMagicWithObjectDescMessage", _AnalyseResultsFM)
+    developer:registerMessage("ExchangeCraftResultEvent", _AnalyseResultsFM)
     -- mettre la rune sur l'interface
-    local message = developer:createMessage("ExchangeObjectMoveMessage")
-    message.objectUID = inventory:getUID(runeId)
+    local message = developer:createMessage("ExchangeObjectMoveRequest")
+    message.object_uid = inventory:getUID(runeId)
     message.quantity = 1
     developer:sendMessage(message)
-    developer:suspendScriptUntil("ExchangeObjectAddedMessage", 5000, false, nil, 50)
+    developer:suspendScriptUntil("ExchangeObjectsAddedEvent", 5000, false, nil, 50)
     global:delay(math.random(200, 500))
 
     steep = steep + 2
 
-    local message = developer:createMessage("ExchangeReadyMessage")
+    local message = developer:createMessage("ExchangeReadyRequest")
     message.ready = true
-    message.steep = steep
+    message.step = steep
     developer:sendMessage(message)
     
-    developer:suspendScriptUntil("ExchangeCraftResultMagicWithObjectDescMessage", 5000, false, nil, 50)
-    local random = math.random()
+    developer:suspendScriptUntil("ExchangeCraftResultEvent", 5000, false, nil, 50)
     randomDelay()
 end
 
@@ -434,20 +433,38 @@ local tableCraft = {
     {table = CraftSculpteur, path = goToAtelierSculpteurBonta, mapIdInsideWorkshop = 217058308, cellIdOutWorkshop = 479, types = {"Bâton", "Baguette", "Arc"}},
 }
 
+function fromProtoToInfoFM(protoList)
+    local toReturn = {}
+
+    for i = 0, #protoList - 1 do
+        local el = protoList[i]
+        table.insert(toReturn, {
+            actionId = el.ejbj,
+            value    = el.ejbp
+        })
+    end
+
+    return toReturn
+end
+
 
 function _AnalyseResultsFM(message)
-    developer:unRegisterMessage("ExchangeCraftResultMagicWithObjectDescMessage")
-
+    developer:unRegisterMessage("ExchangeCraftResultEvent")
+    message = message.object
     local changements = {}
-    if message.magicPoolStatus == 3 then
+
+    if message.magic_pool_status == 3 then
         -- si on a - reliquat, on actualise le pui
         InfoCurrentItemFM.InfoFm.Pui = InfoCurrentItemFM.InfoFm.Pui - GetPoidsRune(InfoCurrentItemFM.CurrentRune)
         InfoCurrentItemFM.InfoFm.Pui = InfoCurrentItemFM.InfoFm.Pui > 0 and InfoCurrentItemFM.InfoFm.Pui or 0
-    elseif message.magicPoolStatus == 2 then
+    elseif message.magic_pool_status == 2 then
         -- si on a + reliquat, on retire le poids de la rune qu'on a mis au pui et on rajoutera ensuite le poids des stats retirés
         InfoCurrentItemFM.InfoFm.Pui = InfoCurrentItemFM.InfoFm.Pui - GetPoidsRune(InfoCurrentItemFM.CurrentRune)
     end
-    InfoCurrentItemFM.InfoFm.StatsId = message.objectInfo.effects
+    InfoCurrentItemFM.InfoFm.StatsId = fromProtoToInfoFM(message.object.effects)
+
+    -- printVar(InfoCurrentItemFM.InfoFm.StatsId)
+
 
     for k, v in pairs(InfoCurrentItemFM.InfoFm.Stats) do
         local found = false
@@ -455,8 +472,8 @@ function _AnalyseResultsFM(message)
             if GetNameCarac(effect.actionId) == k then
                 found = true
             end
-            if tostring(effect) == "SwiftBot.ObjectEffectInteger" and GetNameCarac(effect.actionId) == k and (v.Current - effect.value) ~= 0 then
-                if message.magicPoolStatus == 2 and (v.Current - effect.value) > 0 then
+            if GetNameCarac(effect.actionId) == k and (v.Current - effect.value) ~= 0 then
+                if message.magic_pool_status == 2 and (v.Current - effect.value) > 0 then
                     -- si on a + reliquat, on actualise le pui
                     InfoCurrentItemFM.InfoFm.Pui = InfoCurrentItemFM.InfoFm.Pui + (v.Current - effect.value) * PoidsByStat[k].PoidsUnite
                     if (v.Current - effect.value) * PoidsByStat[k].PoidsUnite > 19 then
@@ -469,7 +486,7 @@ function _AnalyseResultsFM(message)
             end
         end
         if not found then
-            if message.magicPoolStatus == 2 then
+            if message.magic_pool_status == 2 then
                 -- si on a + reliquat, on actualise le pui
                 InfoCurrentItemFM.InfoFm.Pui = InfoCurrentItemFM.InfoFm.Pui + v.Current * PoidsByStat[k].PoidsUnite
                 if v.Current * PoidsByStat[k].PoidsUnite > 19 then
@@ -501,7 +518,7 @@ function _AnalyseResultsFM(message)
         if v > 0 then
             string = string .. "+" .. v .. " " .. k .. ", "
         else
-            if message.magicPoolStatus == 1 and InfoCurrentItemFM.InfoFm.Pui < 0 then
+            if message.magic_pool_status == 1 and InfoCurrentItemFM.InfoFm.Pui < 0 then
                 InfoCurrentItemFM.InfoFm.Pui = 0
             end
             string = string .. v .. " " .. k .. ", "
@@ -509,25 +526,25 @@ function _AnalyseResultsFM(message)
     end
 
     if not string:find("-") then
-        if message.magicPoolStatus == 3 then
+        if message.magic_pool_status == 3 then
             string = string .. " -reliquat, "
-        elseif message.magicPoolStatus == 2 then
+        elseif message.magic_pool_status == 2 then
             string = string .. " +reliquat, "
         end
         string = string .. " [Qualité] = " .. InfoCurrentItemFM.InfoFm.Quality .. ", [Pui] = " .. InfoCurrentItemFM.InfoFm.Pui .. ", [NbRunesUsed] = " .. NbRunesUsed
         global:printSuccess(string)
     elseif string:find("-") and string:find("+") then
-        if message.magicPoolStatus == 3 then
+        if message.magic_pool_status == 3 then
             string = string .. " -reliquat, "
-        elseif message.magicPoolStatus == 2 then
+        elseif message.magic_pool_status == 2 then
             string = string .. " +reliquat, "
         end
         string = string .. " [Qualité] = " .. InfoCurrentItemFM.InfoFm.Quality .. ", [Pui] = " .. InfoCurrentItemFM.InfoFm.Pui .. ", [NbRunesUsed] = " .. NbRunesUsed
         global:printMessage(string)
     else
-        if message.magicPoolStatus == 3 then
+        if message.magic_pool_status == 3 then
             string = string .. " -reliquat, "
-        elseif message.magicPoolStatus == 2 then
+        elseif message.magic_pool_status == 2 then
             string = string .. " +reliquat, "
         end
         string = string .. " [Qualité] = " .. InfoCurrentItemFM.InfoFm.Quality .. ", [Pui] = " .. InfoCurrentItemFM.InfoFm.Pui .. ", [NbRunesUsed] = " .. NbRunesUsed
@@ -536,6 +553,7 @@ function _AnalyseResultsFM(message)
     if ItemSatisfyConditions(InfoCurrentItemFM).Bool and StatToRePut == "" then
         steep = 0 global:leaveDialog()
     end
+
 end
 
 
@@ -834,26 +852,29 @@ function move()
                             randomDelay()
 
                             -- depot de l'item dans le briseur
-                            local message = developer:createMessage("ExchangeObjectMoveMessage")
+                            local message = developer:createMessage("ExchangeObjectMoveRequest")
                             message.objectUID = inventory:getUID(tonumber(k))
                             message.quantity = 1
                             developer:sendMessage(message)  
-                            developer:suspendScriptUntil("ExchangeObjectAddedMessage", 5000, false, nil, 50)
+                            developer:suspendScriptUntil("ExchangeObjectsAddedEvent", 5000, false, nil, 50)
 
-                            -- brisage
                             randomDelay()
-                            developer:registerMessage("DecraftResultMessage", GetResultBreak)
-                            message = developer:createMessage("FocusedExchangeReadyMessage")
+
+                            developer:registerMessage("DecraftResultEvent", _GetResultBreak)
+                            message = developer:createMessage("ExchangeFocusedReadyRequest")
                             if StatSearched == "No focus" then
-                                message.focusActionId = 0
+                                message.focus_action_id = 0
                             else
-                                message.focusActionId = GetIdCarac(StatSearched)
+                                message.focus_action_id = GetIdCarac(StatSearched)
                             end
+
                             message.ready = true
-                            message.steep = 1
+                            message.step = 1
                             developer:sendMessage(message)
                             randomDelay()
-                            developer:suspendScriptUntil("DecraftResultMessage", 5000, false, nil, 20)
+                            developer:suspendScriptUntil("DecraftResultEvent", 5000, false, nil, 20)
+                            global:leaveDialog()
+
                             steep = 0 global:leaveDialog()
                         end
                     end
@@ -1510,11 +1531,11 @@ function move()
                                 item.InfoFm.Stats[GetNameCarac(statJp.id)] = {Min = statJp.dice.min, Current = 0, Max = statJp.dice.max}
                             end
                         end
-                        local message = developer:createMessage("ExchangeObjectMoveMessage")
-                        message.objectUID = item2.objectUID
+                        local message = developer:createMessage("ExchangeObjectMoveRequest")
+                        message.object_uid = item2.objectUID
                         message.quantity = 1
                         developer:sendMessage(message)
-                        developer:suspendScriptUntil("ExchangeObjectAddedMessage", 5000, false, nil, 50)
+                        developer:suspendScriptUntil("ExchangeObjectsAddedEvent", 5000, false, nil, 50)
                         break
                     end
                 end
@@ -1538,6 +1559,7 @@ function move()
                     if NbRunesUsed % 10 == 0 then
                         EditJsonMemory(TableItemToFM)
                     end
+
                     local statToUp = ""
                     local maxCoef = -1
 
@@ -1694,10 +1716,11 @@ function move()
                     for k, v in pairs(item.InfoFm.Stats) do
                         if (not condition.StatsNeeded or #condition.StatsNeeded == 0 or IsInTable(condition.StatsNeeded, k)) and k ~= statToForget and v.Current < v.Max then
                             if v.Current < v.Min then
-                                
+                                debug(k .. " current " .. v.Current .. " min " .. v.Min)
                                 for i, rune in ipairs(PoidsByStat[k].Runes) do
                                     if ((rune.Value * 20 > (v.Current < v.Min and v.Min or v.Current)) or (i == #PoidsByStat[k].Runes))
                                     and ((v.Current + rune.Value) <= v.Max or (v.Current + rune.Value) < 101) then
+                                        debug("ddddd " .. k)
                                         statToUp = k
                                         runeSelected = rune.Id
                                         local unMergedRune = GetUnMergedRune(rune.Id)
@@ -1868,11 +1891,11 @@ function move()
 
                 for _, item2 in ipairs(content) do
                     if item2.objectGID == item.Id then
-                        local message = developer:createMessage("ExchangeObjectMoveMessage")
-                        message.objectUID = item2.objectUID
+                        local message = developer:createMessage("ExchangeObjectMoveRequest")
+                        message.object_uid = item2.objectUID
                         message.quantity = 1
                         developer:sendMessage(message)
-                        developer:suspendScriptUntil("ExchangeObjectAddedMessage", 5000, false, nil, 50)
+                        developer:suspendScriptUntil("ExchangeObjectsAddedEvent", 5000, false, nil, 50)
                         break
                     end
                 end
@@ -2109,7 +2132,7 @@ end
 
 -- Message listening
 function messagesRegistering()
-    --developer:registerMessage("ExchangeCraftResultMagicWithObjectDescMessage", _AnalyseResultsFM)
+    developer:registerMessage("ExchangeCraftResultEvent", _AnalyseResultsFM)
 	developer:registerMessage("HaapiShopApiKeyMessage", _HaapiShopApiKeyMessage)
 	developer:registerMessage("HaapiConfirmationMessage", _HaapiConfirmationMessage)
 end
