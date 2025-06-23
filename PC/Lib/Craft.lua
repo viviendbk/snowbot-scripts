@@ -434,10 +434,12 @@ function GetQualityItem(ItemStats, Id)
     local PoidsMaxItem = 0
     local statsJP = GetDices(Id) -- y'a pas les %dommages et %resistance
 
+
     -- vérifier une première fois dans ce sens pour que les stats à 0 soient prises en compte
     for _, statJP in ipairs(statsJP) do
         local found = false
         for _, stat in ipairs(ItemStats) do
+
             if (tostring(stat) == "SwiftBot.ObjectEffectInteger" or stat.actionId) and stat.actionId == statJP.id and IsActionIdKnown(stat.actionId) and not GetNameCarac(stat.actionId):find("-") then
                 found = true
                 if stat.value > statJP.dice.max and (PoidsByStat[statJP.name].PoidsUnite < 30) and statJP.name == "Vitalite" then
@@ -477,13 +479,11 @@ end
 
 function GetQualityItemWithoutException(ItemStats, Id)
 
-    debug("ok")
     Id = Id or IdToSell
     local PoidsItem = 0
     local PoidsMaxItem = 0
     local statsJP = GetDices(Id) -- y'a pas les %dommages et %resistance
 
-    debug("ok")
     -- vérifier une première fois dans ce sens pour que les stats à 0 soient prises en compte
     for _, statJP in ipairs(statsJP) do
         local found = false
@@ -697,7 +697,6 @@ function MergeRunes()
     local content = inventory:inventoryContent()
 
     for _, element in ipairs(content) do
-        debug("Analyse de l'item [" .. inventory:itemNameId(element.objectGID) .. "] (" .. element.objectGID .. ")")
         if inventory:itemTypeId(element.objectGID) == 78 and GetNumberOfMergeAvailable(element.objectGID) == 2 and inventory:itemCount(element.objectGID) > 29 then
             global:printMessage("Analyse des possibles fusions de [" .. inventory:itemNameId(element.objectGID) .. "]")
             local tabPriceByPui = {
@@ -793,6 +792,7 @@ function MergeRunes()
 end
 
 function GetNameCarac(Id)
+    Id = tostring(Id)
     if ID_TO_STAT_NAME[Id] then
         return ID_TO_STAT_NAME[Id]
     end
@@ -807,6 +807,7 @@ function GetIdCarac(name)
 end
 
 function IsActionIdKnown(actionId)
+    actionId = tostring(actionId)
     if ID_TO_STAT_NAME[actionId] then
         return true
     end

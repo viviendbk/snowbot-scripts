@@ -762,6 +762,7 @@ function connectAccountsWithFailleProxy()
             if acc then
                 global:printSuccess("Connexion de " .. acc:getAlias() .. " sur " .. server)
                 acc:connect()
+                global:delay(math.random(100, 500))
             end
         end
 

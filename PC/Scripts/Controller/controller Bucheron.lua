@@ -194,6 +194,7 @@ function move()
                 global:printSuccess("On débug le bot " .. acc:getAlias() .. " (loop bug)")
                 acc.global():clearConsole()
                 acc.disconnect()
+                global:delay(math.random(100, 1000))
             end
             -- debug("1")
             local nbZaapsTaken = 0
@@ -224,6 +225,7 @@ function move()
                     debug("[" .. acc:getAlias() .. "] :  lastLog: " .. lastLog .. " | lastLogPlusX: " .. lastLogPlusX .. " | currentTime: " .. currentTime)
                     debug(lines[#lines])
                     acc:disconnect()
+                                    global:delay(math.random(100, 1000))
                 end
             end
         end

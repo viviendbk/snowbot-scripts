@@ -542,6 +542,7 @@ function _BuyItemIfLessExpenciveThanCraft(message)
     local toScan = message.itemTypeDescriptions
     local AllItemsInHdv = {}
 
+
     for _, data in ipairs(toScan) do
         local element = {
             PourcentageJetPerf = GetQualityItem(data.effects, data.objectGID),

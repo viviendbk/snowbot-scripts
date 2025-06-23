@@ -252,7 +252,6 @@ function move()
 
     local objectifsDone = quest:questDoneObjectives(2149)
 
-    debug(#objectifsDone)
     if objectifsDone and #objectifsDone == 8 then
         global:editInMemory("ETAPE_PANDALA", 7) 
     elseif objectifsDone and #objectifsDone == 9 then

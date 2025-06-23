@@ -376,7 +376,6 @@ function move()
         - le cout de craft de l'item
         - le niveau de l'item
     ]]
-
     if global:thisAccountController():getAlias():find("FM") then
         global:editAlias("CraftFM " .. character:server() .. " : [" .. truncKamas() .. "m]", true)
     elseif global:thisAccountController():getAlias():find("Craft2") then
@@ -1295,7 +1294,7 @@ function move()
                         message.step = 1
                         developer:sendMessage(message)
                         randomDelay()
-                        developer:suspendScriptUntil("DecraftResultMessage", 5000, false, nil, 20)
+                        developer:suspendScriptUntil("DecraftResultEvent", 5000, false, nil, 20)
                         global:leaveDialog()
     
                         Total = Total + EstimationGain - item.TotalCost
