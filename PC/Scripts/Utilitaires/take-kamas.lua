@@ -281,7 +281,7 @@ function move()
         debug("ok4")
         if global:thisAccountController():getAlias():find("Craft") then
             global:loadAndStart("C:\\Users\\Vivien\\Documents\\Snowbot-Scripts-3\\PC\\Scripts\\Craft\\Craft-Brisage.lua")
-        if global:thisAccountController():getAlias():find("Combat") then
+        elseif global:thisAccountController():getAlias():find("Combat") then
             global:loadAndStart("C:\\Users\\Vivien\\Documents\\Snowbot-Scripts-3\\PC\\Scripts\\Combat\\buyStuffSacri200.lua")
         elseif not global:thisAccountController():getAlias():find("Groupe") then
             if character:level() > 140 then
