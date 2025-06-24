@@ -777,12 +777,14 @@ function connectAccountsWithFailleProxy()
         global:delay(10000)
     end
 
-    local connexionFile = openFile("C:\\Users\\Vivien\\Documents\\Snowbot-Scripts-3\\PC\\Temp\\controllerConnexion.json")
-    connexionFile[1].inUse = false
-    connexionFile[1].by = ""
-    connexionFile[1].date = os.date("%Y-%m-%d %H:%M:%S")
-    writeToJsonFile("C:\\Users\\Vivien\\Documents\\Snowbot-Scripts-3\\PC\\Temp\\controllerConnexion.json", connexionFile)
-
+    if nbVagues > 0 then
+        debug("aaa")
+        local connexionFile = openFile("C:\\Users\\Vivien\\Documents\\Snowbot-Scripts-3\\PC\\Temp\\controllerConnexion.json")
+        connexionFile[1].inUse = false
+        connexionFile[1].by = ""
+        connexionFile[1].date = os.date("%Y-%m-%d %H:%M:%S")
+        writeToJsonFile("C:\\Users\\Vivien\\Documents\\Snowbot-Scripts-3\\PC\\Temp\\controllerConnexion.json", connexionFile)
+    end
 end
 
 

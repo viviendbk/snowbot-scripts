@@ -486,7 +486,8 @@ local forthArea = {
 		{map = "-11,-50", path = "left", gather = true},
 		{map = "-12,-50", path = "left", gather = true},
 		{map = "-13,-50", path = "top", gather = true},
-		{map = "-13,-51", path = "left", gather = true},
+		{map = "158597120", path = "341"}, -- intérieur atelier
+		{map = "155976712", path = "left", gather = true}, -- extérieur atelier
 		{map = "-14,-51", path = "left", gather = true},
 		{map = "-15,-51", path = "top", gather = true},
 		{map = "-15,-52", path = "right", gather = true},

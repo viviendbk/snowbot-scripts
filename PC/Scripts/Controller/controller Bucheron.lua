@@ -217,7 +217,7 @@ function move()
             if not lastLog then
                 global:printError("impossible de trouver l'heure de reconnexion dans l'alias: " .. acc:getAlias())
             else
-                local lastLogPlusX = addMinutes(lastLog, 20)
+                local lastLogPlusX = addMinutes(lastLog, 15)
                 -- Vérification si l'heure actuelle dépasse celle de reconnexion + 30 minutes
                 local currentTime = os.date("%H:%M:%S")
 
@@ -225,7 +225,7 @@ function move()
                     debug("[" .. acc:getAlias() .. "] :  lastLog: " .. lastLog .. " | lastLogPlusX: " .. lastLogPlusX .. " | currentTime: " .. currentTime)
                     debug(lines[#lines])
                     acc:disconnect()
-                                    global:delay(math.random(100, 1000))
+                    global:delay(math.random(100, 1000))
                 end
             end
         end

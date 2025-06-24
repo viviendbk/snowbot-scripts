@@ -25,6 +25,7 @@ local enEchange = false
 
 
 function messagesRegistering()
+	developer:registerMessage("ExchangeRequestedTradeMessage", _handleExchange)
 	developer:registerMessage("HaapiShopApiKeyMessage", _HaapiShopApiKeyMessage)
 	developer:registerMessage("HaapiConfirmationMessage", _HaapiConfirmationMessage)
 end
