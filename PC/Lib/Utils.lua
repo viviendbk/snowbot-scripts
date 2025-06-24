@@ -665,9 +665,11 @@ function connectAccountsWithFailleProxy()
     end
 
     global:printSuccess("Il y a " .. nbVagues .. " vagues de connexion à faire")
+
     if nbVagues > 0 then
         local connexionFile = openFile("C:\\Users\\Vivien\\Documents\\Snowbot-Scripts-3\\PC\\Temp\\controllerConnexion.json")
         if not connexionFile or #connexionFile == 0 or not connexionFile[1].inUse then
+            debug("oui")
             connexionFile[1] = {
                     inUse = true,
                     by = global:thisAccountController():getAlias(),
@@ -687,6 +689,10 @@ function connectAccountsWithFailleProxy()
             writeToJsonFile("C:\\Users\\Vivien\\Documents\\Snowbot-Scripts-3\\PC\\Temp\\controllerConnexion.json", connexionFile)
             debug("in use mis à false 1")
             return connectAccountsWithFailleProxy() -- Retenter la connexion
+        elseif connexionFile[1].inUse and compareDateTime(os.date("%Y-%m-%d %H:%M:%S"), connexionFile[1].date) >= 20 * 60 then
+            -- script a planté mais le proxy est pas up
+            debug("pppp")
+            return
         end
     end
 

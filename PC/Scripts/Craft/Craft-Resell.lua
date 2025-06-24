@@ -565,7 +565,7 @@ function move()
 
                             -- depot de l'item dans le briseur
                             local message = developer:createMessage("ExchangeObjectMoveRequest")
-                            message.objectUID = inventory:getUID(tonumber(k))
+                            message.object_uid = inventory:getUID(tonumber(k))
                             message.quantity = 1
                             developer:sendMessage(message)  
                             developer:suspendScriptUntil("ExchangeObjectsAddedEvent", 5000, false, nil, 50)

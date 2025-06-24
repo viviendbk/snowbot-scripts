@@ -50,6 +50,7 @@ local function takeRandomRessources()
 	global:leaveDialog()
 end
 
+
 local function giveResourcesKamasAndValidate()
 	global:printMessage("Je vais mettre les ressources dans l'échange")
 	for _, element in ipairs(resourceToGive) do
@@ -64,11 +65,11 @@ local function giveResourcesKamasAndValidate()
 	if character:kamas() > quantityKamas then
 		global:printSuccess("Je mets " .. quantityKamas .. " kamas")
 		exchange:putKamas(quantityKamas)
-		global:delay(math.random(2000, 4000))
 	end
+		global:delay(math.random(5000, 10000))
 
-	global:printSuccess("J'accepte l'échange")
 	exchange:ready()
+	global:printSuccess("Je valide l'échange")
 	global:editAlias("bank_" .. character:server():lower() .. " : [" .. truncKamas() .. "m]", true)
     logBotStats()
 	global:editInMemory("reloadNumber", 0)
@@ -114,6 +115,7 @@ function move()
 
 	if enEchange then
 		giveResourcesKamasAndValidate()
+		return
 	end
 
 	if IsInTable(SERVERS_MONO, character:server()) and getRemainingSubscription(true) < 2 then

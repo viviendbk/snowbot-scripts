@@ -392,6 +392,8 @@ function launchExchangeAndGive(minKamas, maxWaitingTime)
 
     local toGive = (character:kamas() - minKamas) > 100000 and (character:kamas() - minKamas) or 1
 
+    global:printSuccess("On donne " .. toGive .. " kamas")
+    exchange:putKamas(toGive)
 
     -- on donne des ressources random
     local giveRessources = math.random()
@@ -401,7 +403,7 @@ function launchExchangeAndGive(minKamas, maxWaitingTime)
         -- On filtre les objets qu'on a le droit de donner
         local eligibleItems = {}
         for _, item in ipairs(content) do
-            if not IsItem(item.objectGID) then
+            if not IsItem(item.objectGID) and item.position == 63 then
                 table.insert(eligibleItems, item)
             end
         end
@@ -423,11 +425,7 @@ function launchExchangeAndGive(minKamas, maxWaitingTime)
         global:printMessage("On ne donne pas de ressources")
     end
 
-    randomDelay()
-    global:printSuccess("On donne " .. toGive .. " kamas")
-    exchange:putKamas(toGive)
-    global:delay(math.random(7500, 15000))
-    randomDelay()
+    global:delay(15000, 20000)
 
     global:printMessage("On confirm l'échange")
     exchange:ready()
