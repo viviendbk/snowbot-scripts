@@ -882,13 +882,17 @@ function move()
             end
             if item.TotalCost > 0 then
                 minCost = math.min(minCost, item.TotalCost)
+
                 item.BestFocus = GetBestFocusOnJp(item.Id)
+
                 if item.BestFocus == StatSearched then
                     NbItemsSameFocus = NbItemsSameFocus + 1
                 end
+
                 if item.BestFocus ~= "" and (GetPercentageMinimum(item.Id, item.TotalCost) < (reloadCount > 5 and 800 or 600)) and CanCraftNow(item.Id, jsonFile) and ((item.BestFocus == "No focus") or not PoidsByStat[item.BestFocus].CantBreak) then
                     listBrisagesPossibles[item.BestFocus] = not listBrisagesPossibles[item.BestFocus] and 1 or listBrisagesPossibles[item.BestFocus] + 1
                 end
+
                 if item.BestFocus == StatSearched and GetPercentageMinimum(item.Id, item.TotalCost) < (reloadCount > 5 and 800 or 600) and CanCraftNow(item.Id, jsonFile) then
                     local realTotalCost = 0
                     for _, ressource in ipairs(item.ListIdCraft) do
@@ -898,6 +902,7 @@ function move()
                     table.insert(TableItemToChoice, item)
                     table.insert(newTemp, item.Id)
                 end
+
             end
         end
 

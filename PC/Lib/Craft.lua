@@ -269,7 +269,7 @@ function ItemHasTwoOrMoreCarac(Id)
         if statJp.name:find("% Resistance") then
             counter = counter + 1
         end
-        if statJp.name == "Renvoie dommages" then
+        if statJp.name == "Renvoie Dommages" then
             return false
         end
     end
@@ -617,9 +617,7 @@ function GetBestFocusOnJp(Id)
     local bestEstimation = 0
     local bestFocus = ""
 
-
     for i, statRef in ipairs(statsJP) do
-        -- global:printSuccess(statRef.name)
         local PuiTotal = 0
         for _, stat in ipairs(statsJP) do
             if stat.name == statRef.name then
@@ -995,7 +993,7 @@ function GetDices(Id)
         local data = v.FieldUseless
         local effectName = ID_TO_STAT_NAME[tostring(data.effectId)]
 
-        if effectName and not effectName:find("Degats") and not effectName:find("-") then
+        if effectName and not effectName:find("Degats") and not effectName:find("-") and not effectName:find("Legendaire") then
             table.insert(dices, {
                 id = data.effectId,
                 name = ID_TO_STAT_NAME[tostring(data.effectId)],

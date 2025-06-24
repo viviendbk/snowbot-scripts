@@ -530,6 +530,8 @@ end
 function writeToJsonFile(path, content)
     local jsonContent = json.encode(content)
 
+    debug(tostring(jsonContent))
+
     local file = io.open(path, "w")
 
     file:write(jsonContent)
@@ -669,10 +671,10 @@ function connectAccountsWithFailleProxy()
     if nbVagues > 0 then
         local connexionFile = openFile("C:\\Users\\Vivien\\Documents\\Snowbot-Scripts-3\\PC\\Temp\\controllerConnexion.json")
         if not connexionFile or #connexionFile == 0 or not connexionFile[1].inUse then
-            debug("oui")
+            debug("in use mis à true ")
             connexionFile[1] = {
                     inUse = true,
-                    by = global:thisAccountController():getAlias(),
+                    by = global:thisAccountController():getAlias():gsub("ô", "o"),
                     date = os.date("%Y-%m-%d %H:%M:%S")
                 }
             writeToJsonFile("C:\\Users\\Vivien\\Documents\\Snowbot-Scripts-3\\PC\\Temp\\controllerConnexion.json", connexionFile)
@@ -685,7 +687,7 @@ function connectAccountsWithFailleProxy()
             global:printError("Le script de connexion a planté, on le relance")
             connexionFile[1].inUse = false
             connexionFile[1].by = ""
-            connexionFile[1].date = ""
+            connexionFile[1].date = os.date("%Y-%m-%d %H:%M:%S")
             writeToJsonFile("C:\\Users\\Vivien\\Documents\\Snowbot-Scripts-3\\PC\\Temp\\controllerConnexion.json", connexionFile)
             debug("in use mis à false 1")
             return connectAccountsWithFailleProxy() -- Retenter la connexion
@@ -778,7 +780,7 @@ function connectAccountsWithFailleProxy()
     local connexionFile = openFile("C:\\Users\\Vivien\\Documents\\Snowbot-Scripts-3\\PC\\Temp\\controllerConnexion.json")
     connexionFile[1].inUse = false
     connexionFile[1].by = ""
-    connexionFile[1].date = ""
+    connexionFile[1].date = os.date("%Y-%m-%d %H:%M:%S")
     writeToJsonFile("C:\\Users\\Vivien\\Documents\\Snowbot-Scripts-3\\PC\\Temp\\controllerConnexion.json", connexionFile)
 
 end

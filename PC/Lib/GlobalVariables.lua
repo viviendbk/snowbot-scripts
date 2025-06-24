@@ -177,7 +177,7 @@ PoidsByStat = {
     ["Puissance Pieges"] = {PoidsUnite = 2, Runes = {{Id = 7447, Poids = 2, Value = 1}, {Id = 10615, Poids = 6, Value = 3}, {Id = 10616, Poids = 20, Value = 10}}},
     ["Soins"] = {PoidsUnite = 10, Runes = {{Id = 7434, Poids = 10, Value = 1}, {Id = 19337, Poids = 30, Value = 3}}},
     ["% Critique"] = {PoidsUnite = 10, Runes = {{Id = 7433, Poids = 10, Value = 1}}},
-    ["Renvoie dommages"] = {PoidsUnite = 10, Runes = {{Id = 7437, Poids = 10, Value = 1}}},
+    ["Renvoie Dommages"] = {PoidsUnite = 10, Runes = {{Id = 7437, Poids = 10, Value = 1}}},
 
     ["Invocations"] = {PoidsUnite = 30, Runes = {{Id = 7442, Poids = 30, Value = 1}}},
     ["Portee"] = {PoidsUnite = 51, Runes = {{Id = 7438, Poids = 51, Value = 1}}},
