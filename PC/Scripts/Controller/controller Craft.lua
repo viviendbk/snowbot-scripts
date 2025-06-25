@@ -190,8 +190,9 @@ function move()
                 global:delay(math.random(100, 1000))
             end
             -- debug("1")
-            local nbDjBlSuccess = 0
+
             local nbZaapsTaken = 0
+            local counterBugHDV = 0
             for _, ligne in ipairs(lines) do
                 if ligne:find("Identifiant ou mot de passe incorrect !") then
                     -- snowbotController:deleteAccount(acc:getUsername())
@@ -200,12 +201,21 @@ function move()
                 if ligne:find("Vous avez perdu") then
                     nbZaapsTaken = nbZaapsTaken + 1
                 end
+                if ligne:find("Impossible d'accÃ©der au prix en Hdv") then
+                    counterBugHDV = counterBugHDV + 1
+                end
             end
                         -- debug("2")
 
             if nbZaapsTaken > 20 then
                 acc.global():clearConsole()
                 acc:setScriptVariable("NeedToReturnBank", true)
+            end
+            if counterBugHDV > 20 then
+                global:printSuccess("On débug le bot " .. acc:getAlias() .. " (bug HDV)")
+                acc.global():clearConsole()
+                acc:disconnect()
+                global:delay(math.random(100, 1000))
             end
 
             -- ajouter le check de si le compte est connecté et si ce n'est pas un compte craft

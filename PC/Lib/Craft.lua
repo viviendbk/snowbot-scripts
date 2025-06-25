@@ -820,17 +820,11 @@ function IsActionIdKnown(actionId)
     end
 end
 
-function IsItem(TypeId)
-    if not TypeId then
+function IsItem(typeID)
+    if not typeID then
         return false
     end
-    local Ids = { 16, 17, 11, 10, 1, 9, 82, 151, 7, 19, 8, 6, 5, 2, 3, 4, 217, 248, 151, 178}
-    for _, Id in ipairs(Ids) do
-        if Id == TypeId then
-            return true
-        end
-    end
-    return false
+    return VALID_ITEM_IDS[typeID] or false
 end
 
 function getRecipe(id)

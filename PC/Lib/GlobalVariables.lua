@@ -94,6 +94,14 @@ STUFF_200 = {
 
 }
 
+VALID_ITEM_IDS = {
+    [1]   = true,  [2]   = true,  [3]   = true,  [4]   = true,
+    [5]   = true,  [6]   = true,  [7]   = true,  [8]   = true,
+    [9]   = true,  [10]  = true,  [11]  = true,  [16]  = true,
+    [17]  = true,  [19]  = true,  [82]  = true,  [151] = true,
+    [178] = true,  [217] = true,  [248] = true,
+}
+
 MAPS_SANS_HAVRESAC = {
     {Id = 168035328, Door = "458"},
     {Id = 168034312, Door = "215"},

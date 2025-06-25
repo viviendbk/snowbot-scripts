@@ -98,10 +98,21 @@ local function EditJsonMemory(content)
     file:close()
 end
 
+
+
 local function UseRune(runeId)
     global:printMessage("On pose la rune [" .. inventory:itemNameId(runeId) .. "] dans l'interface")
 
     developer:registerMessage("ExchangeCraftResultEvent", _AnalyseResultsFM)
+
+    -- local message = developer:createMessage("ExchangeObjectMoveAndSetReadyRequest")
+    -- message.field_1 = 1
+    -- message.field_2 = true
+    -- message.field_3 = inventory:getUID(runeId)
+    -- message.field_4 = 0
+    -- message.field_5 = false
+
+    -- developer:sendMessage(message)
     -- mettre la rune sur l'interface
     local message = developer:createMessage("ExchangeObjectMoveRequest")
     message.object_uid = inventory:getUID(runeId)
@@ -164,23 +175,23 @@ local function getPricesResourceInHDV()
         global:printMessage("Récupération du prix des ressources...")
         local PrixHdvAllRessources = {}
 
-        if cpt == 0 then
-            cpt = cpt +1
-            for _, item in ipairs(TableItem) do
+        HdvSell()
+
+        debug(#TableItem)
+        for _, item in ipairs(TableItem) do
+        
+            if _ == math.floor(#TableItem / 4) then
+                global:printMessage("25% effectué...")
+            elseif _ == math.floor(#TableItem / 2) then
+                global:printMessage("50% effectué...")
+            elseif _ == math.floor(#TableItem * 0.75) then
+                global:printMessage("75% effectué...")
+            end
             
-                if _ == math.floor(#TableItem / 4) then
-                    global:printMessage("25% effectué...")
-                elseif _ == math.floor(#TableItem / 2) then
-                    global:printMessage("50% effectué...")
-                elseif _ == math.floor(#TableItem * 0.75) then
-                    global:printMessage("75% effectué...")
-                end
-                
-                if item.ListIdCraft then
-                    for _, Ressource in ipairs(item.ListIdCraft) do
-                        if not PrixHdvAllRessources[tostring(Ressource.Id)] then
-                            PrixHdvAllRessources[tostring(Ressource.Id)] = GetPricesItem(Ressource.Id)
-                        end
+            if item.ListIdCraft then
+                for _, Ressource in ipairs(item.ListIdCraft) do
+                    if not PrixHdvAllRessources[tostring(Ressource.Id)] then
+                        PrixHdvAllRessources[tostring(Ressource.Id)] = GetPricesItem(Ressource.Id)
                     end
                 end
             end
@@ -188,7 +199,7 @@ local function getPricesResourceInHDV()
 
         global:delay(2000)
 
-        global:printSuccess("Analyse finie!")
+        global:printSuccess("Récupération finie!")
         global:printMessage("--------------------------------------")
         global:printMessage("")
 
@@ -198,6 +209,7 @@ local function getPricesResourceInHDV()
 end
 
 local function getPricesItemsInHDV()
+        HdvSell()
         local priceItems = {}
         for _, item in ipairs(TableItem) do
             if _ == math.floor(#TableItem / 4) then
@@ -687,6 +699,7 @@ function move()
                     if exchange:storageItemQuantity(item) > 0 then
                         for i = 1, exchange:storageItemQuantity(item) do
                             if exchange:storageItemQuantity(item) > 0 then
+                                global:printSuccess("On prend l'item " .. inventory:itemNameId(item))
                                 exchange:getItem(item, 1)
                             end
                         end
@@ -822,8 +835,6 @@ function move()
 
             steep = 0 global:leaveDialog()
 
-            
-
             hdvRunesChecked = true
         end
 
@@ -909,9 +920,11 @@ function move()
 
             jsonPrice = not jsonPrice and {{Date = getDate(), Time = getCurrentTime(), Prices = {}}} or jsonPrice
 
-            if isXDaysLater(jsonPrice[1].Date, 2) then
+            if isXDaysLater(jsonPrice[1].Date, 2) or #jsonPrice[1].Prices == 0 then
                 global:printSuccess("Le prix des ressources ne sont pas à jour, on les récupère")
                 getPricesResourceInHDV()
+                jsonPrice = openFile(global:getCurrentScriptDirectory() .. "\\".. character:server() .. "\\PriceRessources.json")
+                jsonPrice = not jsonPrice and {{Date = getDate(), Time = getCurrentTime(), Prices = {}}} or jsonPrice
             end
 
             HdvSell()
@@ -1006,9 +1019,11 @@ function move()
 
             jsonPrice = not jsonPrice and {{Date = getDate(), Time = getCurrentTime(), Prices = {}}} or jsonPrice
 
-            if isXDaysLater(jsonPrice[1].Date, 2) then
+            if isXDaysLater(jsonPrice[1].Date, 2) or #jsonPrice[1].Prices == 0 then
                 global:printSuccess("Le prix des ressources ne sont pas à jour, on les récupère")
-                getPricesResourceInHDV()
+                getPricesItemsInHDV()
+                jsonPrice = openFile(global:getCurrentScriptDirectory() .. "\\".. character:server() .. "\\PriceItems.json")
+                jsonPrice = not jsonPrice and {{Date = getDate(), Time = getCurrentTime(), Prices = {}}} or jsonPrice
             end
 
             for _, item in ipairs(TableItem) do
@@ -1057,6 +1072,16 @@ function move()
                                 global:printSuccess("3")
                             end
                         end
+                    end
+                    -- si il était pas dans la tableitem
+                    local cpt = get_quantity(item.objectGID).quantity["1"]
+                    while inventory:itemCount(item.objectGID) > 0 and inventory:itemPosition(item.objectGID) == 63 and IsItem(inventory:itemTypeId(item.objectGID)) 
+                    and sale:availableSpace() > 0 and cpt < 2 and ItemSatisfyConditionsById(item.objectGID) and (inventory:getLevel(item.objectGID) > 79) do
+                        global:printSuccess("1")
+                        SellItem(item.objectGID, 0, 0)
+                        global:printSuccess("2")
+                        cpt = cpt + 1
+                        global:printSuccess("3")
                     end
                 end
             end

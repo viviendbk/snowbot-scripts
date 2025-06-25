@@ -281,23 +281,23 @@ local function getPricesResourceInHDV()
         global:printMessage("Récupération du prix des ressources...")
         local PrixHdvAllRessources = {}
 
-        if cpt == 0 then
-            cpt = cpt +1
-            for _, item in ipairs(TableItem) do
+        HdvSell()
+
+        debug(#TableItem)
+        for _, item in ipairs(TableItem) do
+        
+            if _ == math.floor(#TableItem / 4) then
+                global:printMessage("25% effectué...")
+            elseif _ == math.floor(#TableItem / 2) then
+                global:printMessage("50% effectué...")
+            elseif _ == math.floor(#TableItem * 0.75) then
+                global:printMessage("75% effectué...")
+            end
             
-                if _ == math.floor(#TableItem / 4) then
-                    global:printMessage("25% effectué...")
-                elseif _ == math.floor(#TableItem / 2) then
-                    global:printMessage("50% effectué...")
-                elseif _ == math.floor(#TableItem * 0.75) then
-                    global:printMessage("75% effectué...")
-                end
-                
-                if item.ListIdCraft then
-                    for _, Ressource in ipairs(item.ListIdCraft) do
-                        if not PrixHdvAllRessources[tostring(Ressource.Id)] then
-                            PrixHdvAllRessources[tostring(Ressource.Id)] = GetPricesItem(Ressource.Id)
-                        end
+            if item.ListIdCraft then
+                for _, Ressource in ipairs(item.ListIdCraft) do
+                    if not PrixHdvAllRessources[tostring(Ressource.Id)] then
+                        PrixHdvAllRessources[tostring(Ressource.Id)] = GetPricesItem(Ressource.Id)
                     end
                 end
             end
@@ -305,7 +305,7 @@ local function getPricesResourceInHDV()
 
         global:delay(2000)
 
-        global:printSuccess("Analyse finie!")
+        global:printSuccess("Récupération finie!")
         global:printMessage("--------------------------------------")
         global:printMessage("")
 
@@ -315,6 +315,7 @@ local function getPricesResourceInHDV()
 end
 
 local function getPricesItemsInHDV()
+        HdvSell()
         local priceItems = {}
         for _, item in ipairs(TableItem) do
             if _ == math.floor(#TableItem / 4) then
@@ -415,6 +416,7 @@ function move()
                     dicoItems[tostring(item)] = not dicoItems[tostring(item)] and 1 or dicoItems[tostring(item)] + 1
                     for i = 1, exchange:storageItemQuantity(item) do
                         if exchange:storageItemQuantity(item) > 0 then
+                            global:printSuccess("On prend l'item " .. inventory:itemNameId(item))
                             exchange:getItem(item, 1)
                         end
                     end
@@ -425,6 +427,7 @@ function move()
                 if v > 1 or inventory:getLevel(tonumber(k)) <= 50 then
                     global:printSuccess("On va briser des doublons d'items")
                     goBreak = true
+                    break
                 end
             end
 

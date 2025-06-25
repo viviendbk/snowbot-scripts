@@ -58,6 +58,63 @@ local function EditJsonMemory(content)
 end
 
 
+local function EditJsonRessources(content)
+    local jsonMemory = openFile(global:getCurrentScriptDirectory() .. "\\" .. character:server() .. "\\PriceRessources.json")
+
+    if not jsonMemory[1] then
+        jsonMemory[1] = {Date = getDate(), Time = getCurrentTime(), Prices = content}
+    else
+        jsonMemory[1].Date = getDate()
+        jsonMemory[1].Time = getCurrentTime()
+        jsonMemory[1].Prices = content
+    end    
+
+    local new_content = json.encode(jsonMemory)
+
+    local file = io.open(global:getCurrentScriptDirectory() .. "\\" .. character:server() .. "\\PriceRessources.json", "w")
+
+    file:write(new_content)
+
+    file:close()
+end
+
+local function getPricesResourceInHDV()
+        global:printMessage("Récupération du prix des ressources...")
+        local PrixHdvAllRessources = {}
+
+        HdvSell()
+
+        debug(#TableItem)
+        for _, item in ipairs(TableItem) do
+        
+            if _ == math.floor(#TableItem / 4) then
+                global:printMessage("25% effectué...")
+            elseif _ == math.floor(#TableItem / 2) then
+                global:printMessage("50% effectué...")
+            elseif _ == math.floor(#TableItem * 0.75) then
+                global:printMessage("75% effectué...")
+            end
+            
+            if item.ListIdCraft then
+                for _, Ressource in ipairs(item.ListIdCraft) do
+                    if not PrixHdvAllRessources[tostring(Ressource.Id)] then
+                        PrixHdvAllRessources[tostring(Ressource.Id)] = GetPricesItem(Ressource.Id)
+                    end
+                end
+            end
+        end
+
+        global:delay(2000)
+
+        global:printSuccess("Récupération finie!")
+        global:printMessage("--------------------------------------")
+        global:printMessage("")
+
+        global:leaveDialog()
+
+        EditJsonRessources(PrixHdvAllRessources)
+end
+
 local function ProcessCraft(table, cellId)
     global:printSuccess("Debut Craft")
     for _, element in ipairs(table) do

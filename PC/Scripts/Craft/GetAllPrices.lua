@@ -186,7 +186,7 @@ function move()
 
     --va hdv ressources pour récupérer le cout de craft des items
     if not map:onMap(212601350) and not hdvRessourceChecked then
-        return TreatMaps(goToHdvRessources)
+        return treatMaps(goToHdvRessources)
     elseif not hdvRessourceChecked then
         HdvSell()
         global:printMessage("")
@@ -229,7 +229,7 @@ function move()
 
     -- va hdv equipement pour récupérer le prix des items
     if not map:onMap(212600837) and not hdvEquipChecked then
-        return TreatMaps(goToHdvEquip)
+        return treatMaps(goToHdvEquip)
     elseif not hdvEquipChecked then
         global:printMessage("")
         global:printMessage("--------------------------------------")

@@ -1045,7 +1045,7 @@ function _AnalyseItemsOnSale(message)
 
     for _, data in ipairs(toScan) do
         if data.quantity == 1 and IsItem(inventory:itemTypeId(data.objectGID)) then
-            global:printSuccess(_ .. "ème item : " .. inventory:itemNameId(data.objectGID))
+            global:printSuccess(_ .. "ème item : " .. inventory:itemNameId(data.objectGID) .. ", id : " .. data.)
             local element = {
                 Id = data.objectGID,
                 UID = data.objectUID,
@@ -1056,6 +1056,7 @@ function _AnalyseItemsOnSale(message)
                 AveragePrice = jsonPrice[1].Prices[tostring(data.objectGID)].AveragePrice
             }
             table.insert(ItemsOnSale, element)
+                        global:printSuccess(_ .. "ème item : " .. inventory:itemNameId(data.objectGID))
         else
             local element = {
                 Id = data.objectGID,
@@ -1555,42 +1556,4 @@ function buyWorthItem(objectId, limit)
 
 
     -- itemList = {}
-end
-
-
-function getPricesResourceInHDV()
-        global:printMessage("Récupération du prix des ressources...")
-        local PrixHdvAllRessources = {}
-
-        if cpt == 0 then
-            cpt = cpt +1
-            for _, item in ipairs(TableItem) do
-            
-                if _ == math.floor(#TableItem / 4) then
-                    global:printMessage("25% effectué...")
-                elseif _ == math.floor(#TableItem / 2) then
-                    global:printMessage("50% effectué...")
-                elseif _ == math.floor(#TableItem * 0.75) then
-                    global:printMessage("75% effectué...")
-                end
-                
-                if item.ListIdCraft then
-                    for _, Ressource in ipairs(item.ListIdCraft) do
-                        if not PrixHdvAllRessources[tostring(Ressource.Id)] then
-                            PrixHdvAllRessources[tostring(Ressource.Id)] = GetPricesItem(Ressource.Id)
-                        end
-                    end
-                end
-            end
-        end
-
-        global:delay(2000)
-
-        global:printSuccess("Analyse finie!")
-        global:printMessage("--------------------------------------")
-        global:printMessage("")
-
-        global:leaveDialog()
-
-        EditJsonRessources(PrixHdvAllRessources)
 end

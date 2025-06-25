@@ -2474,7 +2474,7 @@ function move()
     -- end
 
     for i = 1, NB_COMBAT do
-        if not global:thisAccountController():getAlias():find("Combat" .. i) then
+        if global:thisAccountController():getAlias():find("Combat" .. i) then
             global:editAlias("Combat" .. i .. " " .. character:server() .. " " .. getRemainingSubscription(true), true)
         end
     end
