@@ -1528,7 +1528,9 @@ function move()
 end
 
 function bank()
-
+    if getRemainingSubscription(true) <= 0 then
+        Abonnement()
+    end
     mapDelay()
 
     editAlias("[" .. job:level(24) .. "] " .. getRemainingSubscription(true))

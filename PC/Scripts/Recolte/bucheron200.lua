@@ -1299,7 +1299,7 @@ function move()
         end
     end
 
-    if getRemainingSubscription(true) < 0 then
+    if getRemainingSubscription(true) <= 0 then
         Abonnement()
     end
 
@@ -1363,6 +1363,9 @@ function move()
 end
 
 function bank()
+    if getRemainingSubscription(true) <= 0 then
+        Abonnement()
+    end
     mapDelay()
 
     for i = 1, NB_BUCHERON do

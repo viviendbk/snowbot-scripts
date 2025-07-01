@@ -463,6 +463,8 @@ local function CheckEndFight(message)
 end
 
 function messagesRegistering()
+    developer:registerMessage("HaapiShopApiKeyMessage", _HaapiShopApiKeyMessage)
+	developer:registerMessage("HaapiConfirmationMessage", _HaapiConfirmationMessage)
     developer:registerMessage("GameFightEndMessage", CheckEndFight)
 end
 
@@ -818,6 +820,10 @@ function move()
 		global:loadAndStart(scriptPath)
 	end
 
+    if getRemainingSubscription(true) <= 0 then
+        Abonnement()
+    end
+
 
 	--[[if job:level(24) < 50 and global:getCountGather() > 0 and (global:getCountGather() + global:remember("increm")) % (global:remember("increm") == 0 and 50 or 400) == 0 then
 		global:editInMemory("increm", global:remember("increm") + 1)
@@ -871,6 +877,9 @@ end
 
 
 function bank()
+    if getRemainingSubscription(true) <= 0 then
+        Abonnement()
+    end
     mapDelay()
 
     for i = 1, NB_MINEUR do

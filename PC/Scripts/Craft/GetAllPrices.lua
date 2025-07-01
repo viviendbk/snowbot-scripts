@@ -1,4 +1,4 @@
-dofile("C:\\Users\\Vivien\\Documents\\Snowbot-Scripts-3\\PC\\Scripts\\Lib\\IMPORT_LIBRARIES.lua")
+dofile("C:\\Users\\Vivien\\Documents\\Snowbot-Scripts-3\\PC\\Lib\\IMPORT_LIBRARIES.lua")
 
 
 local switchServerMulti =  {
@@ -128,6 +128,7 @@ local function GetCraftCost(ListIdCraft)
 end
 
 function move()
+    achat2(287, 15)
     if character:level() < 35 then
         global:loadAndStart("C:\\Users\\Vivien\\Documents\\Snowbot-Scripts-3\\PC\\Scripts\\PLAndZaaps\\PL_1-6X.lua")
     end

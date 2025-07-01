@@ -1941,14 +1941,14 @@ function move()
 	if getRemainingSubscription(true) <= 0 then
         Abonnement()
     end
-	if getRemainingSubscription(true) < 0 then
-		for _, element in ipairs(pathTakeKamas) do
-			if map:onMap(element.map) then
-				return pathTakeKamas
-			end
-		end
-		map:moveToward(192415750)
-	end
+	-- if getRemainingSubscription(true) < 0 then
+	-- 	for _, element in ipairs(pathTakeKamas) do
+	-- 		if map:onMap(element.map) then
+	-- 			return pathTakeKamas
+	-- 		end
+	-- 	end
+	-- 	map:moveToward(192415750)
+	-- end
 	antiModo()
 
     for i = 1, NB_BUCHERON do
@@ -2019,6 +2019,9 @@ function move()
 end
 
 function bank()
+	if getRemainingSubscription(true) <= 0 then
+        Abonnement()
+    end
 	mapDelay()
     ZoneBis = false
 

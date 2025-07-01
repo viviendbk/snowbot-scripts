@@ -7,7 +7,9 @@ local totalKamas = 0
 local DebutDeScript = true
 local cptExportation = 0
 local type = "Craft"
-local proxyNumber = "4"
+local proxyRequests = "2"
+local proxyCraft = "4"
+local proxyCraftFm = "3"
 local proxyBank = "5"
 
 
@@ -90,7 +92,7 @@ local function RegisterHLAccounts()
   
 
 local function loadAccounts()
-        AccountToLoad = { bank = {}, Craft = {}}
+        AccountToLoad = { bank = {}, Craft = {}, CraftFM = {}, Requests = {}}
     
         for i, acc in ipairs(snowbotController:getAliasNotLoadedAccounts()) do
             if acc:find("bank") then
@@ -99,10 +101,22 @@ local function loadAccounts()
                         table.insert(AccountToLoad.bank, Username)
                     end
                 end
-            elseif acc:find("Craft") and not acc:find("Next") then
+            elseif acc:find("Craft ") and not acc:find("Next") then
                 for j, Username in ipairs(snowbotController:getUsernameNotLoadedAccounts()) do
                     if i == j then
                         table.insert(AccountToLoad.Craft, Username)
+                    end
+                end
+            elseif acc:find("CraftFM") and not acc:find("Next") then
+                for j, Username in ipairs(snowbotController:getUsernameNotLoadedAccounts()) do
+                    if i == j then
+                        table.insert(AccountToLoad.CraftFM, Username)
+                    end
+                end
+            elseif acc:find("Requests") then
+                for j, Username in ipairs(snowbotController:getUsernameNotLoadedAccounts()) do
+                    if i == j then
+                        table.insert(AccountToLoad.Requests, Username)
                     end
                 end
             end
@@ -118,10 +132,19 @@ local function loadAccounts()
         snowbotController:loadAnAccount("//", false) -- délimitateur Combat
         
         for _, acc in ipairs(AccountToLoad.Craft) do
-            snowbotController:assignProxyToAnAccount(acc, PROXIES[proxyNumber].ips,  PROXIES[proxyNumber].port,  PROXIES[proxyNumber].username,  PROXIES[proxyNumber].password, (TYPE_PROXY ~= "socks5"), true)
+            snowbotController:assignProxyToAnAccount(acc, PROXIES[proxyCraft].ips,  PROXIES[proxyCraft].port,  PROXIES[proxyCraft].username,  PROXIES[proxyCraft].password, (TYPE_PROXY ~= "socks5"), true)
             snowbotController:loadAnAccount(acc, false)
         end
 
+        for _, acc in ipairs(AccountToLoad.CraftFM) do
+            snowbotController:assignProxyToAnAccount(acc, PROXIES[proxyCraftFm].ips,  PROXIES[proxyCraftFm].port,  PROXIES[proxyCraftFm].username,  PROXIES[proxyCraftFm].password, (TYPE_PROXY ~= "socks5"), true)
+            snowbotController:loadAnAccount(acc, false)
+        end
+
+        for _, acc in ipairs(AccountToLoad.Requests) do
+            snowbotController:assignProxyToAnAccount(acc, PROXIES[proxyRequests].ips,  PROXIES[proxyRequests].port,  PROXIES[proxyRequests].username,  PROXIES[proxyRequests].password, (TYPE_PROXY ~= "socks5"), true)
+            snowbotController:loadAnAccount(acc, false)
+        end
 
 end
 

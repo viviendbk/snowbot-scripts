@@ -237,6 +237,14 @@ function move()
         global:loadAndStart("C:\\Users\\Vivien\\Documents\\Snowbot-Scripts-3\\PC\\Scripts\\PLAndZaaps\\zaapArbreHakam.lua")
     end
 
+    if getCurrentAreaName():find("Pandala") then
+        if not global:remember("ETAPE_PANDALA") then
+            global:addInMemory("ETAPE_PANDALA", 8)
+        else
+            global:editInMemory("ETAPE_PANDALA", 8)
+        end
+    end
+
     if not getCurrentAreaName():find("Astrub") and not getCurrentAreaName():find("Pandala") then
         if map:onMap("0,0") then
             return map:changeMap("zaap(191105026)")

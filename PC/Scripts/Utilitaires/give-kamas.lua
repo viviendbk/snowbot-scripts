@@ -70,7 +70,7 @@ function move()
 		Abonnement()
 	end
 
-	goAstrubBank(fini)
+	return goAstrubBank(fini)
 
 end
 

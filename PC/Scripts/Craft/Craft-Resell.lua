@@ -993,7 +993,8 @@ function move()
                 for _, item in ipairs(element.table) do
                     for _, ressource in ipairs(item.ListIdCraft) do
                         local QuantityMax = (inventory:podsMax() * 0.85 - inventory:pods()) / inventory:itemWeight(ressource.Id)
-                        local Quantity = math.min(QuantityMax, exchange:storageItemQuantity(ressource.Id), ressource.Quantity * (item.NbToCraft - inventory:itemCount(item.Id)), inventory:podsP() < 85 and 500 or 0)
+                        local Quantity = math.min(QuantityMax, exchange:storageItemQuantity(ressource.Id), ressource.Quantity * (item.NbToCraft - inventory:itemCount(item.Id)), inventory:podsP() > 85 and 500 or 10000)
+                        
                         if Quantity > 0 then
                             exchange:getItem(ressource.Id, Quantity)
                         end

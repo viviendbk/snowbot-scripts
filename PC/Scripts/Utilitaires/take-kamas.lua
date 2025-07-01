@@ -75,7 +75,7 @@ local function takeKamas(giver, boolAbo)
         global:printError("Bot banque ne répond pas après " .. maxWaitingTime .. " secondes, reprise du trajet")
         rerollVar()
         global:editInMemory("retryTimestamp", os.time())
-        giver:addInMemory("failed", true)
+        global:addInMemory("failed", true)
         giver:disconnect()
         return
     end
@@ -208,9 +208,9 @@ function move()
             elseif global:thisAccountController():getAlias():find("LvlUp") then
                 submitKamas = 400000
             else
-                submitKamas = 600000 - character:kamas()
+                submitKamas = 700000 - character:kamas()
             end
-
+            global:printSuccess("On demande " .. submitKamas .. " kamas (on ne s'abonne pas ici)")
             if submitKamas > 0 then
                 submitKamasOrder(submitKamas)
             end
@@ -258,6 +258,7 @@ function move()
                 debug("ok")
 
         local submitKamas = 2000000 - character:kamas()
+        global:printSuccess("On demande " .. submitKamas .. " kamas (on s'abonne ici)")
         submitKamasOrder(submitKamas)
 
 

@@ -1068,6 +1068,9 @@ function phenix()
 	return PHENIX
 end
 
+function bank()
+    return move()
+end
 
 function stopped()
     global:delay(2000)

@@ -179,7 +179,8 @@ local GoAtelierChasseur = {
 
 function move()
     mapDelay()
-    if job:level(41) > 130 then
+    if job:level(41) > 130 or (job:level(41) == 60 and getRemainingSubscription(true) <= 0) 
+    or (not global:thisAccountController():getAlias():find("Combat1") and not global:thisAccountController():getAlias():find("Combat2")) then
         global:loadAndStart("C:\\Users\\Vivien\\Documents\\Snowbot-Scripts-3\\PC\\Scripts\\Combat\\Combat+Archi.lua")
     end
     if not global:remember("VidageBanqueFait") then

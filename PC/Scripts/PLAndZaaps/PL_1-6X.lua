@@ -417,6 +417,7 @@ local Egouts_Astrub2 = {
 }
 
 local FarmGlobalIncarnam = {
+	{map = "-3,-3", path = "right"},
 	{map = "-2,-3", path = "top", fight = true},
 	{map = "-2,-4", path = "top", fight = true},
 	{map = "-2,-5", path = "left", fight = true},
@@ -863,6 +864,11 @@ end
 
 
 function move()
+	if getCurrentAreaName() == "Île de Pandala" then
+		global:printError("on est dans la zone de Pandala, on stop le script")
+		global:loadAndStart("C:\\Users\\Vivien\\Documents\\Snowbot-Scripts-3\\PC\\Scripts\\PLAndZaaps\\quete_pandala.lua")
+	end
+
 	if global:thisAccountController():getAlias():find("Requests") and character:level() >= 35 then
 		global:editInMemory("lvlFinish", 35)
 	end

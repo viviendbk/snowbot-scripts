@@ -998,7 +998,7 @@ local TableArea = {
     }, MaxMonster = 5, MinMonster = 1, ListeVenteId = {15074, 15075, 15076, 15069, 15070, 15071, 15072, 17146}, Farmer = false, PourcentageHdv = 0, Stop = false},
     {Zone = {
         {LacCania, "-8,-41", false}
-    }, MaxMonster = 8, MinMonster = 3, ListeVenteId = {1770, 1772, 1773, 1774, 1775, 1776, 1777, 1778, 17132}, Farmer = false, PourcentageHdv = 0, Stop = false},
+    }, MaxMonster = 8, MinMonster = 3, ListeVenteId = {1770, 1772, 1773, 1774, 1775, 1776, 1777, 1778, 17132, 492}, Farmer = false, PourcentageHdv = 0, Stop = false},
     {Zone = {
         {MassifCania, "-15,-19", false}
     }, MaxMonster = 8, MinMonster = 3, ListeVenteId = {2483, 2482, 6476, 480, 2481, 2479, 2555, 17132}, Farmer = false, PourcentageHdv = 0, Stop = false},
@@ -1007,7 +1007,7 @@ local TableArea = {
     }, MaxMonster = 8, MinMonster = 3, ListeVenteId = {1891, 648, 2509, 2506, 650, 17132}, Farmer = false, PourcentageHdv = 0, Stop = false},
     {Zone = {
         {IleMinotoror1, "-42,-17", false}, {IleMinotoror2, "-36,-10", false}
-    }, MaxMonster = 6, MinMonster = 3, ListeVenteId = {8315, 14948, 8312, 14949, 8309, 14952, 17144}, Farmer = false, PourcentageHdv = 0, Stop = false},
+    }, MaxMonster = 6, MinMonster = 3, ListeVenteId = {8315, 14948, 8312, 14949, 8309, 14952, 17144, 2999}, Farmer = false, PourcentageHdv = 0, Stop = false},
     {Zone = {
         {Saharach, "19,-61", false}
     }, MaxMonster = 8, MinMonster = 1, ListeVenteId = {18368, 17136}, Farmer = false, PourcentageHdv = 0, Stop = false},
@@ -1246,6 +1246,7 @@ if global:thisAccountController():getAlias():find("Combat2") then
         {Name = "Fleur de Blop Griotte", id = 1776, maxHdv100 = 1, maxHdv10 = 3, maxHdv1 = 2, canSell = true},
         {Name = "Bout de Blop Indigo", id = 1777, maxHdv100 = 2, maxHdv10 = 3, maxHdv1 = 2, canSell = true},
         {Name = "Fleur de Blop Indigo", id = 1778, maxHdv100 = 1, maxHdv10 = 3, maxHdv1 = 2, canSell = true},
+        {Name = "Blop mort", id = 2558, maxHdv100 = 1, maxHdv10 = 5, maxHdv1 = 6, canSell = true},
         --{Name = "Viande Ladre", id = 17132, maxHdv100 = 4, maxHdv10 = 2, maxHdv1 = 2, canSell = true},
     
         {Name = "Oreille de Bouledogre", id = 14509, maxHdv100 = 1, maxHdv10 = 3, maxHdv1 = 2, canSell = true},
@@ -1256,7 +1257,13 @@ if global:thisAccountController():getAlias():find("Combat2") then
         {Name = "Corne de Rhinoféroce", id = 14515, maxHdv100 = 3, maxHdv10 = 4, maxHdv1 = 2, canSell = true},
         {Name = "Oreille de Rhinoféroce", id = 14516, maxHdv100 = 1, maxHdv10 = 4, maxHdv1 = 2, canSell = true},
         --{Name = "Viande Exustative", id = 17140, maxHdv100 = 4, maxHdv10 = 2, maxHdv1 = 2, canSell = true},
-    
+
+        {Name = "Eklame Inférieur", id = 31518, maxHdv100 = 3, maxHdv10 = 5, maxHdv1 = 2, canSell = true},
+        {Name = "Eklame Ordinaire", id = 31519, maxHdv100 = 3, maxHdv10 = 5, maxHdv1 = 2, canSell = true},
+        {Name = "Eklame Supérieur", id = 31520, maxHdv100 = 3, maxHdv10 = 5, maxHdv1 = 2, canSell = true},
+
+        {Name = "Peau de Minos", id = 2999, maxHdv100 = 3, maxHdv10 = 4, maxHdv1 = 2, canSell = true},
+
     }
     TableValeurVente = {
 
@@ -1402,6 +1409,7 @@ if global:thisAccountController():getAlias():find("Combat2") then
         {Name = "Fleur de Blop Griotte", id = 1776, maxHdv100 = 1, maxHdv10 = 3, maxHdv1 = 2, canSell = true},
         {Name = "Bout de Blop Indigo", id = 1777, maxHdv100 = 2, maxHdv10 = 3, maxHdv1 = 2, canSell = true},
         {Name = "Fleur de Blop Indigo", id = 1778, maxHdv100 = 1, maxHdv10 = 3, maxHdv1 = 2, canSell = true},
+        {Name = "Blop mort", id = 2558, maxHdv100 = 1, maxHdv10 = 5, maxHdv1 = 6, canSell = true},
         --{Name = "Viande Ladre", id = 17132, maxHdv100 = 4, maxHdv10 = 2, maxHdv1 = 2, canSell = true},
     
         {Name = "Oreille de Bouledogre", id = 14509, maxHdv100 = 1, maxHdv10 = 3, maxHdv1 = 2, canSell = true},
@@ -1413,6 +1421,11 @@ if global:thisAccountController():getAlias():find("Combat2") then
         {Name = "Oreille de Rhinoféroce", id = 14516, maxHdv100 = 1, maxHdv10 = 4, maxHdv1 = 2, canSell = true},
         --{Name = "Viande Exustative", id = 17140, maxHdv100 = 4, maxHdv10 = 2, maxHdv1 = 2, canSell = true},
     
+        {Name = "Eklame Inférieur", id = 31518, maxHdv100 = 3, maxHdv10 = 5, maxHdv1 = 2, canSell = true},
+        {Name = "Eklame Ordinaire", id = 31519, maxHdv100 = 3, maxHdv10 = 5, maxHdv1 = 2, canSell = true},
+        {Name = "Eklame Supérieur", id = 31520, maxHdv100 = 3, maxHdv10 = 5, maxHdv1 = 2, canSell = true},
+
+        {Name = "Peau de Minos", id = 2999, maxHdv100 = 3, maxHdv10 = 4, maxHdv1 = 2, canSell = true},
     }
 else
     TableVente = {
@@ -1559,6 +1572,7 @@ else
         {Name = "Fleur de Blop Griotte", id = 1776, maxHdv100 = 1, maxHdv10 = 3, maxHdv1 = 2, canSell = true},
         {Name = "Bout de Blop Indigo", id = 1777, maxHdv100 = 2, maxHdv10 = 5, maxHdv1 = 2, canSell = true},
         {Name = "Fleur de Blop Indigo", id = 1778, maxHdv100 = 1, maxHdv10 = 3, maxHdv1 = 2, canSell = true},
+        {Name = "Blop mort", id = 2558, maxHdv100 = 1, maxHdv10 = 5, maxHdv1 = 6, canSell = true},
         --{Name = "Viande Ladre", id = 17132, maxHdv100 = 4, maxHdv10 = 2, maxHdv1 = 2, canSell = true},
     
         {Name = "Oreille de Bouledogre", id = 14509, maxHdv100 = 1, maxHdv10 = 3, maxHdv1 = 5, canSell = true},
@@ -1570,6 +1584,11 @@ else
         {Name = "Oreille de Rhinoféroce", id = 14516, maxHdv100 = 1, maxHdv10 = 7, maxHdv1 = 7, canSell = true},
         --{Name = "Viande Exustative", id = 17140, maxHdv100 = 4, maxHdv10 = 2, maxHdv1 = 2, canSell = true},
     
+        {Name = "Eklame Inférieur", id = 31518, maxHdv100 = 3, maxHdv10 = 5, maxHdv1 = 2, canSell = true},
+        {Name = "Eklame Ordinaire", id = 31519, maxHdv100 = 3, maxHdv10 = 5, maxHdv1 = 2, canSell = true},
+        {Name = "Eklame Supérieur", id = 31520, maxHdv100 = 3, maxHdv10 = 5, maxHdv1 = 2, canSell = true},
+
+        {Name = "Peau de Minos", id = 2999, maxHdv100 = 3, maxHdv10 = 4, maxHdv1 = 2, canSell = true},
     }
     TableValeurVente = {
         {Name = "champa marron", id = 16166, maxHdv100 = 2, maxHdv10 = 8, maxHdv1 = 3, canSell = true},
@@ -1724,6 +1743,12 @@ else
         {Name = "Corne de Rhinoféroce", id = 14515, maxHdv100 = 3, maxHdv10 = 7, maxHdv1 = 5, canSell = true},
         {Name = "Oreille de Rhinoféroce", id = 14516, maxHdv100 = 1, maxHdv10 = 7, maxHdv1 = 7, canSell = true},
         --{Name = "Viande Exustative", id = 17140, maxHdv100 = 4, maxHdv10 = 2, maxHdv1 = 2, canSell = true},
+
+        {Name = "Eklame Inférieur", id = 31518, maxHdv100 = 3, maxHdv10 = 5, maxHdv1 = 2, canSell = true},
+        {Name = "Eklame Ordinaire", id = 31519, maxHdv100 = 3, maxHdv10 = 5, maxHdv1 = 2, canSell = true},
+        {Name = "Eklame Supérieur", id = 31520, maxHdv100 = 3, maxHdv10 = 5, maxHdv1 = 2, canSell = true},
+
+        {Name = "Peau de Minos", id = 2999, maxHdv100 = 3, maxHdv10 = 4, maxHdv1 = 2, canSell = true},
     }
 end
 

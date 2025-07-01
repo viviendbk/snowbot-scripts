@@ -591,6 +591,7 @@ end
 
 
 function move()
+
     --[[
         faire un tool qui permet de récupérer le prix hdv d'un item fm vita
         -> on parcours chaque item en vente de celui qu'on veut vendre et on mets dans une table tous les items qui possèdent un over
@@ -920,6 +921,8 @@ function move()
 
             jsonPrice = not jsonPrice and {{Date = getDate(), Time = getCurrentTime(), Prices = {}}} or jsonPrice
 
+            debug(#jsonPrice[1].Prices)
+            global:printMessage(isXDaysLater(jsonPrice[1].Date, 2))
             if isXDaysLater(jsonPrice[1].Date, 2) or #jsonPrice[1].Prices == 0 then
                 global:printSuccess("Le prix des ressources ne sont pas à jour, on les récupère")
                 getPricesResourceInHDV()
@@ -1020,7 +1023,7 @@ function move()
             jsonPrice = not jsonPrice and {{Date = getDate(), Time = getCurrentTime(), Prices = {}}} or jsonPrice
 
             if isXDaysLater(jsonPrice[1].Date, 2) or #jsonPrice[1].Prices == 0 then
-                global:printSuccess("Le prix des ressources ne sont pas à jour, on les récupère")
+                global:printSuccess("Le prix des items ne sont pas à jour, on les récupère")
                 getPricesItemsInHDV()
                 jsonPrice = openFile(global:getCurrentScriptDirectory() .. "\\".. character:server() .. "\\PriceItems.json")
                 jsonPrice = not jsonPrice and {{Date = getDate(), Time = getCurrentTime(), Prices = {}}} or jsonPrice
@@ -1337,7 +1340,7 @@ function move()
                     end
                     for _, ressource in ipairs(item.ListIdCraft) do
                         local QuantityMax = (inventory:podsMax() * 0.85 - inventory:pods()) / inventory:itemWeight(ressource.Id)
-                        local Quantity = math.min(QuantityMax, exchange:storageItemQuantity(ressource.Id), ressource.Quantity * (item.NbToCraft - inventory:itemCount(item.Id)), inventory:podsP() < 85 and 500 or 0)
+                        local Quantity = math.min(QuantityMax, exchange:storageItemQuantity(ressource.Id), ressource.Quantity * (item.NbToCraft - inventory:itemCount(item.Id)), inventory:podsP() > 85 and 500 or 100000)
                         if Quantity > 0 then
                             exchange:getItem(ressource.Id, Quantity)
                         end

@@ -504,6 +504,9 @@ function GetQualityItemWithoutException(ItemStats, Id)
                 elseif statJP.name == "Vitalite" then
                     PoidsItem = PoidsItem + stat.value * PoidsByStat[statJP.name].PoidsUnite * 2
                     PoidsMaxItem = PoidsMaxItem + statJP.dice.max * PoidsByStat[statJP.name].PoidsUnite * 2
+                elseif statJP.name:find("Dommages") and stat.value == statJP.dice.max then -- si les dommages sont maxés, on rajoute 10 a la qualité de l'item
+                    PoidsItem = PoidsItem + stat.value * PoidsByStat[statJP.name].PoidsUnite + 5
+                    PoidsMaxItem = PoidsMaxItem + statJP.dice.max * PoidsByStat[statJP.name].PoidsUnite
                 elseif (PoidsByStat[statJP.name].PoidsUnite < 30) then
                     PoidsItem = PoidsItem + stat.value * PoidsByStat[statJP.name].PoidsUnite
                     PoidsMaxItem = PoidsMaxItem + statJP.dice.max * PoidsByStat[statJP.name].PoidsUnite

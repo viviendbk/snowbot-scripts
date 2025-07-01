@@ -1083,12 +1083,12 @@ function move()
 
     end
 
+
     --va chercher les kamas en banque
     if not map:onMap(217059328) and not bankChecked2 then
         return treatMaps(goToBankBonta)
     elseif not bankChecked2 then
         npc:npcBank(-1)
-        global:printSuccess(exchange:storageItemQuantity(9162))
         if exchange:storageKamas() > 0 then
             exchange:putAllItems()
             randomDelay()
@@ -1144,7 +1144,12 @@ function move()
                     end
 
                     for _, ressource in ipairs(item.ListIdCraft) do
-                        local Quantity = math.min(exchange:storageItemQuantity(ressource.Id), ressource.Quantity * (item.NbToCraft - inventory:itemCount(item.Id)), inventory:podsP() < 90 and 500 or 0)
+                        local Quantity = math.min(
+                            exchange:storageItemQuantity(ressource.Id), 
+                            ressource.Quantity * (item.NbToCraft - inventory:itemCount(item.Id)), 
+                            inventory:podsP() > 90 and 500 or 
+                            math.floor((inventory:podsMax() * 0.95 - inventory:pods()) / inventory:itemWeight(ressource.Id))
+                        )
                         if Quantity > 0 then
                             exchange:getItem(ressource.Id, Quantity)
                         end
@@ -1224,7 +1229,6 @@ function move()
     if not map:onMap(212601350) and HaveToBuyRessources() then
         return treatMaps(goToHdvRessources)
     elseif HaveToBuyRessources() then
-        HdvBuy()
 
         for _, element in ipairs(tableCraft) do
             for _, item in ipairs(element.table) do
@@ -1251,7 +1255,7 @@ function move()
                         local QuantityToBuy = math.ceil(ressource.Quantity * (item.NbToCraft - inventory:itemCount(item.Id)) - inventory:itemCount(ressource.Id))
                         if QuantityToBuy > 0 then
                             global:printSuccess("Achat de " .. QuantityToBuy .. " [" .. inventory:itemNameId(ressource.Id) .. "]")
-                            if not Achat(ressource.Id, QuantityToBuy) then
+                            if not achat(ressource.Id, QuantityToBuy) then
                                 item.NbToCraft = 0
                                 for i, item2 in ipairs(ItemsToCraft) do
                                     if item.Id == item2.Id then
@@ -1261,13 +1265,16 @@ function move()
                                 EditJsonMemory(ItemsToCraft)
                                 break
                             end
+                            randomDelay()
                         end
                     end
                     global:printMessage("--------------------------------------")
                 end
             end
         end
-
+        -- laisser sinon ça bug
+        HdvBuy()
+        global:leaveDialog()
         
         for _, item in ipairs(TableItemToChoice) do
             if item.NbToCraft > 1 then
@@ -1286,6 +1293,7 @@ function move()
 
     if not GoFinishBreak then
         -- go craft
+        debug("gofinishbreak")
         for _, element in ipairs(tableCraft) do
             for _, item in ipairs(element.table) do
                 if inventory:itemCount(item.Id) < item.NbToCraft then

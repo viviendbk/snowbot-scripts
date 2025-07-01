@@ -25,10 +25,10 @@ PROXIES = {
         password =  PASSWORD_PROXY .. "#" .. PASSWORD_PROXY
     },  
     ["3"] = {
-        ips = IP_PROXY .. "#SOCKS5_" .. IP_PROXY .. "#",
-        port = "5001#5004",
-        username = USERNAME_PROXY .. "#" .. USERNAME_PROXY,
-        password =  PASSWORD_PROXY .. "#" .. PASSWORD_PROXY
+        ips = IP_PROXY,
+        port = "5004",
+        username = USERNAME_PROXY,
+        password =  PASSWORD_PROXY
     },
     ["4"] = {
         ips = IP_PROXY,

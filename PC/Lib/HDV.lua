@@ -26,7 +26,7 @@ function HdvBuy()
     message.npcActionId = 6
     message.npcMapId = map:currentMapId()
     developer:sendMessage(message)
-    developer:suspendScriptUntil("ExchangeStartedBidSellerMessage", 2000, false, nil, 50)
+    developer:suspendScriptUntil("ExchangeStartedBidBuyerMessage", 2000, false, nil, 50)
 end
 
 ---Fonction qui permet de recuperer les nombres de lots d'un item en HDV.
@@ -742,6 +742,46 @@ function GetPricesItem(Id)
     end
 end
 
+function _getUIDInSell(message)
+    developer:unRegisterMessage("ExchangeTypesItemsExchangerDescriptionForUserEvent")
+    UIDInSell = message.item_descriptions[0].object_gid_object_type_object_uid_three
+end
+
+function GetUIDInSell(objectGID)
+    -- besoin d'être en mode achat
+    developer:registerMessage("ExchangeTypesItemsExchangerDescriptionForUserEvent", _getUIDInSell)
+
+    local message0 = developer:createMessage("ExchangeBidHouseTypeRequest")
+    message0.follow = true
+    message0.type_id = inventory:itemTypeId(objectGID)
+
+    local message1 = developer:createMessage("ExchangeBidHouseSearchRequest")
+    message1.follow = false
+    message1.object_gid = objectGID
+
+    local message2 = developer:createMessage("ExchangeBidHouseSearchRequest")
+    message2.follow = true
+    message2.object_gid = objectGID
+
+    local message3 = developer:createMessage("ExchangeBidHousePriceRequest")
+    message3.object_gid = objectGID
+
+    developer:sendMessage(message0)
+    developer:suspendScriptUntil("ExchangeTypesExchangerDescriptionForUserEvent", 5000, false, nil, 20)
+
+    developer:sendMessage(message1)
+    developer:sendMessage(message2)
+    developer:sendMessage(message3)
+    developer:suspendScriptUntil("ExchangeTypesItemsExchangerDescriptionForUserEvent", 5000, false, nil, 20)
+
+    if UIDInSell ~= nil and UIDInSell ~= -1 then
+        return UIDInSell
+    else
+        global:printError("Impossible de récupérer l'UID de l'item " .. inventory:itemNameId(objectGID) .. " (id : " .. objectGID .. ")")
+        return -1
+    end
+end
+
 PricesUpdate = {
     Id = -1,
     Price1 = -1,
@@ -758,17 +798,6 @@ function restPriceUpdate()
     }   
 end
 
-function _updatePrices(message)
-    developer:unRegisterMessage("ExchangeBidHouseBuyResultMessage")
-    local prices = message.prices
-
-    PricesUpdate = {
-        Id = message.objectGID,
-        Price1 = prices[0],
-        Price10 = prices[1],
-        Price100 = prices[2],
-    }
-end
 
 function buy(objectId, quantity, price)
     sale:buyItem(objectId, quantity, price * 2)
@@ -946,7 +975,6 @@ function Achat(IdItem, qtt)
     global:printSuccess("Prix par 10 : " .. Prices.Price10)
     global:printSuccess("Prix par 1 : " .. Prices.Price1)
 
-    global:leaveDialog()
 
     if (Prices.Price100 == 0) and (Prices.Price10 == 0) and (Prices.Price1 == 0) then
         global:printError("L'item n'est plus disponible en hdv")
@@ -958,7 +986,8 @@ function Achat(IdItem, qtt)
     elseif Prices.Price10 == 0 and Prices.Price100 == 0 and Prices.AveragePrice * 1.5 < Prices.Price1 then
         global:printError("la ressource a un prix unitaire trop élevé")
         return false
-    elseif ((Prices.Price10 == 0) and (Prices.Price1 == 0)) or ((qtt > 10) and Prices.Price10 * qtt / 10 > Prices.Price100 and Prices.Price100 > 0) or (Prices.Price10 == 0 and qtt > 9 and qtt < 100 ) then
+    elseif ((Prices.Price10 == 0) and (Prices.Price1 == 0)) or ((qtt > 10) and Prices.Price10 * qtt / 10 > Prices.Price100 and Prices.Price100 > 0) 
+    or (Prices.Price10 == 0 and qtt > 9 and qtt < 100 ) then
         qtt = 100
     elseif Prices.Price1 == 0 and qtt < 10 then
         qtt = 10
@@ -1035,6 +1064,163 @@ function Achat(IdItem, qtt)
     return true
 end
 
+function achat(objectGID, qtt)
+    if inventory:itemCount(objectGID) > 20000 then -- protection car un miment ça a acheté 460k d'une ressoruce
+        return false
+    end
+    local theoricalNbInInventoryAfterBuy = inventory:itemCount(objectGID) + qtt
+    HdvSell()
+
+    PricesForBuy = GetPricesItem(objectGID)
+    if not PricesForBuy then
+        global:printError("Impossible de récupérer les prix, j’abandonne")
+        global:leaveDialog()
+        return false
+    end
+
+    HdvBuy()
+
+    local objectUID = GetUIDInSell(objectGID)
+
+    -- boucle d’achat avec recalcul dynamique des prix
+    while qtt > 0 do
+        -- 1) récupérer à chaque fois les nouveaux prix
+
+        global:printMessage("Prix | [100] : " .. PricesForBuy.Price100 .. ", [10] : " .. PricesForBuy.Price10 .. ", [1] : " .. PricesForBuy.Price1)
+
+        -- 3) déterminer le lot à acheter
+        local buySize, buyPrice
+
+        if (PricesForBuy.Price100 == 0) and (PricesForBuy.Price10 == 0) and (PricesForBuy.Price1 == 0) then
+            global:printError("L'item n'est plus disponible en hdv")
+            global:leaveDialog()
+            return false
+
+        elseif PricesForBuy.Price10 == 0 and PricesForBuy.Price100 == 0 and qtt < 30  -- si y'a plus que les lots de 1 et qu'il est pas trop élevé
+        and (PricesForBuy.AveragePrice * 3 >= PricesForBuy.Price1 or PricesForBuy.Price1 < 5000) then
+            buySize, buyPrice = 1, PricesForBuy.Price1 * 2
+
+        elseif PricesForBuy.Price10 == 0 and PricesForBuy.Price100 == 0 and PricesForBuy.AveragePrice * 2 >= PricesForBuy.Price1 then
+            buySize, buyPrice = 1, PricesForBuy.Price1 * 2
+
+        elseif (PricesForBuy.Price10 == 0 and PricesForBuy.Price100 == 0 and PricesForBuy.AveragePrice * 2 < PricesForBuy.Price1) 
+        or (PricesForBuy.Price10 == 0 and PricesForBuy.Price1 == 0 and PricesForBuy.AveragePrice * 2 < PricesForBuy.Price100 / 100) 
+        or (PricesForBuy.Price100 == 0 and PricesForBuy.Price1 == 0 and PricesForBuy.AveragePrice * 2 < PricesForBuy.Price10 / 10)  
+        
+                  -- nouveau : lot 10 et lot 100 dispo et tous deux trop chers
+          or (PricesForBuy.Price10  > 0
+              and PricesForBuy.Price100 > 0 and PricesForBuy.Price1 == 0
+              and (PricesForBuy.Price10  / 10  > PricesForBuy.AveragePrice * 2)
+              and (PricesForBuy.Price100 / 100 > PricesForBuy.AveragePrice * 2))
+
+          -- nouveau : lot 1 et lot 10 dispo et tous deux trop chers
+          or (PricesForBuy.Price1   > 0
+              and PricesForBuy.Price10  > 0 and PricesForBuy.Price100 == 0
+              and (PricesForBuy.Price1        > PricesForBuy.AveragePrice * 2)
+              and (PricesForBuy.Price10  / 10  > PricesForBuy.AveragePrice * 2))
+
+          -- nouveau : lot 1 et lot 100 dispo et tous deux trop chers
+          or (PricesForBuy.Price1   > 0
+              and PricesForBuy.Price100 > 0 and PricesForBuy.Price10 == 0
+              and (PricesForBuy.Price1        > PricesForBuy.AveragePrice * 2)
+              and (PricesForBuy.Price100 / 100 > PricesForBuy.AveragePrice * 2))
+        
+        then
+            global:printError("la ressource a un prix unitaire trop élevé")
+            global:leaveDialog()
+            return false
+
+        elseif (((PricesForBuy.Price10 == 0) and (PricesForBuy.Price1 == 0)) or ((qtt > 10) and PricesForBuy.Price10 * qtt / 10 > PricesForBuy.Price100) 
+        or (PricesForBuy.Price10 == 0 and qtt > 9 and qtt < 100 )) and PricesForBuy.Price100 > 0 then
+            buySize, buyPrice = 100, PricesForBuy.Price100 * 2
+
+        elseif PricesForBuy.Price1 == 0 and qtt < 10 and PricesForBuy.Price10 > 0 then
+            buySize, buyPrice = 10, PricesForBuy.Price10 * 2
+
+        elseif qtt > 10 and qtt < 100 and (qtt % 10) * PricesForBuy.Price1 > PricesForBuy.Price10 and PricesForBuy.Price10 > 0 then
+            buySize, buyPrice = 10, PricesForBuy.Price10 * 2
+
+        elseif qtt < 10 and PricesForBuy.Price1 * qtt * 1.2 > PricesForBuy.Price10 and PricesForBuy.Price10 > 0 then
+            buySize, buyPrice = 10, PricesForBuy.Price10 * 2
+
+        elseif qtt < 15 and PricesForBuy.Price1 * 12 < PricesForBuy.Price10 and PricesForBuy.Price10 > 0 and PricesForBuy.Price1 > 0 then
+            buySize, buyPrice = 1, PricesForBuy.Price1 * 2
+
+        elseif (PricesForBuy.Price100 ~= 0) and (PricesForBuy.Price10 ~= 0) 
+        and qtt < 100 and qtt > 10 
+                and PricesForBuy.Price100 * 1.3 < PricesForBuy.Price10 * 10 
+                and (inventory:itemWeight(objectGID) * 100) < (inventory:podsMax() - inventory:pods())  then
+
+            buySize, buyPrice = 100, PricesForBuy.Price100 * 2
+
+        elseif  (PricesForBuy.Price100 ~= 0) and (PricesForBuy.Price10 ~= 0)  and
+        qtt < 10 and PricesForBuy.Price10 * 1.3 < PricesForBuy.Price1 * 10 then
+            buySize, buyPrice = 10, PricesForBuy.Price10 * 2
+
+        elseif qtt < 100 and PricesForBuy.Price1 * 1.2 < PricesForBuy.Price10 / 10 
+        or (PricesForBuy.Price1 * 2 < (PricesForBuy.Price100 / 100 + PricesForBuy.Price10 / 10) / 2) and PricesForBuy.Price1 > 0 then
+            buySize, buyPrice = 1, PricesForBuy.Price1 * 2
+
+        elseif qtt > 40 and PricesForBuy.Price100 / 100 * 1.2 < PricesForBuy.Price10 / 10 
+        or PricesForBuy.Price100 / 100 * 1.5 < PricesForBuy.Price10 / 10 and PricesForBuy.Price100 > 0  then
+            buySize, buyPrice = 100, PricesForBuy.Price100 * 2
+            
+        elseif qtt < 10 and PricesForBuy.Price10 / 10 * 1.2 > PricesForBuy.Price100 and PricesForBuy.Price10 > 0 then
+            buySize, buyPrice = 10, PricesForBuy.Price10 * 2
+
+        else
+            if qtt >= 100 and PricesForBuy.Price100 > 0 then
+                buySize, buyPrice = 100, PricesForBuy.Price100 * 2
+            elseif qtt >= 10 and PricesForBuy.Price10 > 0 then
+                buySize, buyPrice = 10, PricesForBuy.Price10 * 2
+            elseif qtt >= 1 and PricesForBuy.Price1 > 0 then
+                buySize, buyPrice = 1, PricesForBuy.Price1 * 2
+            end
+        end
+
+
+        -- 4) vérification kamas
+        if character:kamas() < buyPrice then
+            global:printSuccess("Plus assez de kamas pour lot de " .. buySize .. ", je retente dans 2h")
+            customReconnect(120)
+        end
+
+        -- 5) exécution de l’achat
+        developer:registerMessage("ExchangeBidHouseInListUpdatedEvent", _updatePrices)
+ 
+        local message = developer:createMessage("ExchangeBidHouseBuyRequest")
+        message.object_uid = objectUID
+        message.price = buyPrice / 2
+        message.quantity = buySize
+        developer:sendMessage(message)
+        global:printMessage("Achat de " .. buySize .. " de " .. inventory:itemNameId(objectGID) .. " pour " .. buyPrice / 2 .. " kamas")
+
+        developer:suspendScriptUntil("ExchangeBidHouseInListUpdatedEvent", 5000, false, nil, 20)
+        global:delay(math.random(100, 600))
+        -- faire l'achat
+        qtt = qtt - buySize
+    end
+
+    global:leaveDialog()
+    
+    if inventory:itemCount(objectGID) < theoricalNbInInventoryAfterBuy then
+        global:printError("Achat de " .. inventory:itemNameId(objectGID) .. " échoué, il en manque " .. theoricalNbInInventoryAfterBuy - inventory:itemCount(objectGID))
+        return achat(objectGID, theoricalNbInInventoryAfterBuy - inventory:itemCount(objectGID))
+    end
+
+    return true
+end
+
+function _updatePrices(message)
+    if message.object_uid == UIDInSell then
+        developer:unRegisterMessage("ExchangeBidHouseInListUpdatedEvent")
+        local prices = message.prices
+        PricesForBuy.Price1 = prices[0]
+        PricesForBuy.Price10 = prices[1]
+        PricesForBuy.Price100 = prices[2]
+    end
+end
+
 function _AnalyseItemsOnSale(message)
     developer:unRegisterMessage("ExchangeStartedBidSellerMessage")
     local ItemsOnSale = {}
@@ -1045,7 +1231,7 @@ function _AnalyseItemsOnSale(message)
 
     for _, data in ipairs(toScan) do
         if data.quantity == 1 and IsItem(inventory:itemTypeId(data.objectGID)) then
-            global:printSuccess(_ .. "ème item : " .. inventory:itemNameId(data.objectGID) .. ", id : " .. data.)
+            local averagePrice = jsonPrice[1].Prices[tostring(data.objectGID)] and jsonPrice[1].Prices[tostring(data.objectGID)].AveragePrice or GetPricesItem(data.objectGID).AveragePrice
             local element = {
                 Id = data.objectGID,
                 UID = data.objectUID,
@@ -1053,10 +1239,9 @@ function _AnalyseItemsOnSale(message)
                 Price = data.objectPrice,
                 Quality = 0,
                 CurrentBestPrice = 0,
-                AveragePrice = jsonPrice[1].Prices[tostring(data.objectGID)].AveragePrice
+                AveragePrice = averagePrice
             }
             table.insert(ItemsOnSale, element)
-                        global:printSuccess(_ .. "ème item : " .. inventory:itemNameId(data.objectGID))
         else
             local element = {
                 Id = data.objectGID,

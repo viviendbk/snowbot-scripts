@@ -210,6 +210,9 @@ function connectReceiver(maxWaitingTime)
                 acc:startScript()
                 return acc
             else
+                debug(acc:getAlias() .. " est déjà connecté")
+                debug(acc.character():id())
+                acc:startScript()
                 return acc
             end
         end
@@ -263,6 +266,7 @@ function connectGiver(maxWaitingTime)
             else
                 debug(acc:getAlias() .. " est déjà connecté")
                 debug(acc.character():id())
+                acc:startScript()
                 return acc
             end
         end
@@ -335,14 +339,14 @@ function waitBotIsOnAstrubBank(botBank, maxWaitingTime)
     while not botBank.map():onMap(BANK_MAPS.bankAstrubInt) and safetyCount < maxWaitingTime do
         local accounts = snowbotController:getLoadedAccounts()
         for _, account in ipairs(accounts) do
-            if account.character:id() == botBank.character():id() then
+            if account.character():id() == botBank.character():id() then
                 botBank = account
             end
         end
         safetyCount = safetyCount + 5
         global:delay(5000)
     end
-    
+
     return safetyCount < maxWaitingTime
 end
 
@@ -542,26 +546,14 @@ end
 function submitKamasOrder(amount)
     
     local filePath = "C:\\Users\\Vivien\\Documents\\Snowbot-Scripts-3\\PC\\Temp\\" .. character:server() .. "\\bank-orders.json"
-                                debug("d")
-    local jsonMemory = openFile(filePath)
-                              debug("d")
 
-    -- Remove existing entry with the same id
-    if #jsonMemory > 0 then
-        for i = #jsonMemory, 1, -1 do
-            if jsonMemory[i].id == character:id() then
-                table.remove(jsonMemory, i)
-            end
-        end
-    end
-
-    -- Insert the new order
-    table.insert(jsonMemory, {
-        id = character:id(),
-        alias = myAlias,
-        kamasAmount = amount
-    })
-
+    jsonMemory = {
+        {
+            id = character:id(),
+            alias = myAlias,
+            kamasAmount = amount
+        }
+    }
     writeFile(filePath, jsonMemory)
 end
 
