@@ -1647,6 +1647,8 @@ function move()
 
         local random = math.random(1, 3)
         if random == 1 then
+            global:leaveDialog()
+            HdvSell()
             sale:updateAllItems()
         end
 

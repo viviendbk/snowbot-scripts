@@ -925,7 +925,7 @@ function treatMaps(maps, errorFn)
             {map = "-40,-16", path = "left"},
             {map = "-41,-16", path = "left"},
             {map = "-42,-16", path = "left"},
-            {map = "-41,-17", path = "left"},
+            {map = "152337", path = "left"},
             {map = "-41,-18", path = "left"},
             {map = "-42,-18", path = "left"},
             {map = "-42,-17", path = "top"},

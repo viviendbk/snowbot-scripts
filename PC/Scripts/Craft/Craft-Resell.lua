@@ -540,6 +540,8 @@ function move()
 
             local random = math.random(1, 5)
             if random == 1 then
+                global:leaveDialog()
+                HdvSell()
                 global:printSuccess("Update des items")
                 sale:updateAllItems()
             end

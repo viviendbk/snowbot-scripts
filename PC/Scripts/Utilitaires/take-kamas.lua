@@ -14,7 +14,7 @@ local function conditionTakeKamasAndNoAbo()
     or global:thisAccountController():getAlias():find("Bucheron")
     or global:thisAccountController():getAlias():find("LvlUp") then
         if (getRemainingSubscription(true) > 0 and character:kamas() < 800000)
-        and job:level(2) < 5 and job:level(24) < 5 then
+        and job:level(2) < 5 and job:level(24) < 5 and character:level() < 75 then
             return true
         end
         return false
@@ -44,7 +44,7 @@ local function conditionTakeKamasAndAbo()
     or global:thisAccountController():getAlias():find("Bucheron")
     or global:thisAccountController():getAlias():find("LvlUp"))
     and (getRemainingSubscription(true) < 1 and character:kamas() < 2000000
-        and (job:level(2) >= 5 or job:level(24) >= 5)))
+        and (job:level(2) >= 5 or job:level(24) >= 5 or character:level() >= 75)))
 
     or (global:thisAccountController():getAlias():find("Combat")
     and (not hasAlmostAllHisPanneau() or getRemainingSubscription(true) <= 0))
@@ -203,8 +203,6 @@ function move()
             elseif global:thisAccountController():getAlias():find("Combat") or global:thisAccountController():getAlias():find("Craft") then
                 global:printSuccess("on demande 10000000")
                 submitKamas = 10000000
-            elseif IsInTable(SERVERS_MONO, character:server()) then
-                submitKamas = 800000
             elseif global:thisAccountController():getAlias():find("LvlUp") then
                 submitKamas = 400000
             else
@@ -229,7 +227,11 @@ function move()
                 global:delay(10000)
             end
 
-            giver = connectGiver(120)
+            if global:thisAccountController():getAlias():find("LvlUp") then
+                giver = connectGiverStuff(120)
+            else
+                giver = connectGiver(120)
+            end
 
             if not giver then
                 global:printError("[ERROR] Impossible de connecter le bot banque, nouvelle tentative dans " .. timeToRetry .. " heures.")

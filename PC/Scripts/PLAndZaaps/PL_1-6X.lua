@@ -884,7 +884,7 @@ function move()
 	end
 
 	if global:remember("lvlFinish") > character:level() and character:kamas() > 300000 and not global:remember("failed") then
-		if map:currentSubArea() == "Égouts d'Astrub" then
+		if map:currentSubArea() == "Égouts d'Astrub" or map:currentSubArea() == "Souterrains d'Astrub"  then
 			return getOutSouterrain
 		end
 		forwardKamasBotBankIfNeeded(300000, 50000, 120, 4)
@@ -920,14 +920,15 @@ function move()
 	end
 
 	global:printSuccess(global:remember("lvlFinish"))
-	
+		debug(map:currentSubArea())
+
 	if character:level() >= global:remember("lvlFinish") then
 		if not LastSell then
 			if map:onMap("192415750") then
 				map:moveToCell(409)
 			end
 
-			if map:currentSubArea() == "Égouts d'Astrub" then
+			if map:currentSubArea() == "Égouts d'Astrub" or map:currentSubArea() == "Souterrains d'Astrub" then
 				return getOutSouterrain
 			end
 
@@ -946,6 +947,7 @@ function move()
 		end
 	end
 
+	debug("ok")
 
 	-- craft couteau de chasse
 	if (inventory:itemCount(1934) == 0) and (inventory:itemCount(519) < 3) and character:level() < 50 then
@@ -1075,7 +1077,7 @@ function bank()
 		map:moveToCell(409)
 	end
 
-	if map:currentSubArea() == "Égouts d'Astrub" then
+	if map:currentSubArea() == "Égouts d'Astrub" or map:currentSubArea() == "Souterrains d'Astrub"  then
 		return getOutSouterrain
 	end
 

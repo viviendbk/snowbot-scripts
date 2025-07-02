@@ -784,51 +784,59 @@ function move()
 
             if #TableItemToFM == 0 then
                 -- si on a plusieurs fois le même item, on analyse le prix des runes pour déterminer le meilleur focus pour cet item, on va les briser et on retourne ici
-            HdvSell()
-            global:printSuccess("vente des runes")
-            local content = inventory:inventoryContent()
+                HdvSell()
+                global:printSuccess("vente des runes")
+                local content = inventory:inventoryContent()
 
-            for _, item in ipairs(content) do
-                if inventory:itemTypeId(item.objectGID) == 78 then
-                    local Prices = GetPricesItem(item.objectGID)
-                    local itemSold = false
-    
-                    local cpt = get_quantity(item.objectGID).quantity["100"]
-                    local Priceitem1 = Prices.Price100
-                    Priceitem1 = (Priceitem1 == nil or Priceitem1 == 0 or Priceitem1 == 1) and Prices.AveragePrice * 100 * 1.5 or Priceitem1
-                    while (inventory:itemCount(item.objectGID) >= 100) and (sale:availableSpace() > 0) and (((Priceitem1 > 4000) and (cpt < math.floor(10 * (character:level() / 200)))) or ((Priceitem1 > 10000) and cpt < math.floor(15 * (character:level() / 200))) or (cpt < math.floor(5 * (character:level() / 200)) and Priceitem1 > 2000)) do 
-                        sale:sellItem(item.objectGID, 100, Priceitem1 - 1) 
-                        global:printSuccess("1 lot de " .. 100 .. " x " .. inventory:itemNameId(item.objectGID) .. " à " .. Priceitem1 - 1 .. "kamas")
-                        cpt = cpt + 1
-                        itemSold = true
-                    end
-            
-                    cpt = get_quantity(item.objectGID).quantity["10"]
-                    local Priceitem2 = Prices.Price10
-                    Priceitem2 = (Priceitem2 == nil or Priceitem2 == 0 or Priceitem2 == 1) and Prices.AveragePrice * 10 * 1.5 or Priceitem2
-                    while (inventory:itemCount(item.objectGID) >= 10) and (sale:availableSpace() > 0) and (((Priceitem2 > 4000) and (cpt < math.floor(10 * (character:level() / 200)))) or  ((Priceitem2 > 10000) and cpt < math.floor(15 * (character:level() / 200))) or (cpt < math.floor(5 * (character:level() / 200)) and Priceitem2 > 2000)) do 
-                        sale:sellItem(item.objectGID, 10, Priceitem2 - 1) 
-                        global:printSuccess("1 lot de " .. 10 .. " x " .. inventory:itemNameId(item.objectGID) .. " à " .. Priceitem2 - 1 .. "kamas")
-                        cpt = cpt + 1
-                        itemSold = true
-                    end
-            
-                    cpt = get_quantity(item.objectGID).quantity["1"]
-                    local Priceitem3 = Prices.Price1
-                    Priceitem3 = (Priceitem3 == nil or Priceitem3 == 0 or Priceitem3 == 1) and Prices.AveragePrice * 1 * 1.5 or Priceitem3
-                    while (inventory:itemCount(item.objectGID) >= 1) and (sale:availableSpace() > 0) and (((Priceitem3 > 4000) and (cpt < math.floor(10 * (character:level() / 200)))) or  ((Priceitem3 > 10000) and cpt < math.floor(15 * (character:level() / 200))) or (cpt < math.floor(5 * (character:level() / 200)) and Priceitem3 > 2000)) do 
-                        sale:sellItem(item.objectGID, 1, Priceitem3 - 1) 
-                        global:printSuccess("1 lot de " .. 1 .. " x " .. inventory:itemNameId(item.objectGID) .. " à " .. Priceitem3 - 1 .. "kamas")
-                        cpt = cpt + 1
-                        itemSold = true
-                    end
-    
-                    if itemSold then
-                        randomDelay()
-                    end
+                for _, item in ipairs(content) do
+                    if inventory:itemTypeId(item.objectGID) == 78 then
+                        local Prices = GetPricesItem(item.objectGID)
+                        local itemSold = false
+        
+                        local cpt = get_quantity(item.objectGID).quantity["100"]
+                        local Priceitem1 = Prices.Price100
+                        Priceitem1 = (Priceitem1 == nil or Priceitem1 == 0 or Priceitem1 == 1) and Prices.AveragePrice * 100 * 1.5 or Priceitem1
+                        while (inventory:itemCount(item.objectGID) >= 100) and (sale:availableSpace() > 0) and (((Priceitem1 > 4000) and (cpt < math.floor(10 * (character:level() / 200)))) or ((Priceitem1 > 10000) and cpt < math.floor(15 * (character:level() / 200))) or (cpt < math.floor(5 * (character:level() / 200)) and Priceitem1 > 2000)) do 
+                            sale:sellItem(item.objectGID, 100, Priceitem1 - 1) 
+                            global:printSuccess("1 lot de " .. 100 .. " x " .. inventory:itemNameId(item.objectGID) .. " à " .. Priceitem1 - 1 .. "kamas")
+                            cpt = cpt + 1
+                            itemSold = true
+                        end
+                
+                        cpt = get_quantity(item.objectGID).quantity["10"]
+                        local Priceitem2 = Prices.Price10
+                        Priceitem2 = (Priceitem2 == nil or Priceitem2 == 0 or Priceitem2 == 1) and Prices.AveragePrice * 10 * 1.5 or Priceitem2
+                        while (inventory:itemCount(item.objectGID) >= 10) and (sale:availableSpace() > 0) and (((Priceitem2 > 4000) and (cpt < math.floor(10 * (character:level() / 200)))) or  ((Priceitem2 > 10000) and cpt < math.floor(15 * (character:level() / 200))) or (cpt < math.floor(5 * (character:level() / 200)) and Priceitem2 > 2000)) do 
+                            sale:sellItem(item.objectGID, 10, Priceitem2 - 1) 
+                            global:printSuccess("1 lot de " .. 10 .. " x " .. inventory:itemNameId(item.objectGID) .. " à " .. Priceitem2 - 1 .. "kamas")
+                            cpt = cpt + 1
+                            itemSold = true
+                        end
+                
+                        cpt = get_quantity(item.objectGID).quantity["1"]
+                        local Priceitem3 = Prices.Price1
+                        Priceitem3 = (Priceitem3 == nil or Priceitem3 == 0 or Priceitem3 == 1) and Prices.AveragePrice * 1 * 1.5 or Priceitem3
+                        while (inventory:itemCount(item.objectGID) >= 1) and (sale:availableSpace() > 0) and (((Priceitem3 > 4000) and (cpt < math.floor(10 * (character:level() / 200)))) or  ((Priceitem3 > 10000) and cpt < math.floor(15 * (character:level() / 200))) or (cpt < math.floor(5 * (character:level() / 200)) and Priceitem3 > 2000)) do 
+                            sale:sellItem(item.objectGID, 1, Priceitem3 - 1) 
+                            global:printSuccess("1 lot de " .. 1 .. " x " .. inventory:itemNameId(item.objectGID) .. " à " .. Priceitem3 - 1 .. "kamas")
+                            cpt = cpt + 1
+                            itemSold = true
+                        end
+        
+                        if itemSold then
+                            randomDelay()
+                        end
 
+                    end
                 end
-            end
+
+                local random = math.random(1, 5)
+                if random == 1 then
+                    global:leaveDialog()
+                    HdvSell()
+                    global:printSuccess("Update des items")
+                    sale:updateAllItems()
+                end
             end
 
             steep = 0 global:leaveDialog()
