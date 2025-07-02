@@ -1,4 +1,4 @@
-itemList = {}
+ItemList = {}
 
 function HdvSell()
     developer:registerMessage("ExchangeStartedBidSellerMessage", _Stack_items_informations)
@@ -176,7 +176,7 @@ function FinalSelling(Id, UID, Price, MaxPrice, CraftCost, RuneCost)
         message.quantity = 1
         developer:sendMessage(message)
     
-        global:printSuccess("1 lot de [" .. inventory:itemNameId(Id) .. "] à " .. Price .. " kamas")
+        global:printSuccess("1 lot de [" .. inventory:itemNameId(Id) .. "] à " .. finalPrice .. " kamas")
     
         if Price < MaxPrice / 3 and MaxPrice ~= 10000000 and MaxPrice > 100000 and global:thisAccountController():getAlias():find("FM") then
             global:printError("Prb prix ( prix max = " .. MaxPrice .. ")")
@@ -577,6 +577,7 @@ end
 function SellItem(Id, CraftCost, RuneCost, MaxPrice)
     MaxPrice = MaxPrice and TraitementPrix(MaxPrice) or 10000000
     local iContent = inventory:inventoryContent()
+
     for _, item in ipairs(iContent) do
         if item.objectGID == Id then
             ItemFound = true
@@ -743,13 +744,16 @@ function GetPricesItem(Id)
 end
 
 function _getUIDInSell(message)
-    developer:unRegisterMessage("ExchangeTypesItemsExchangerDescriptionForUserEvent")
-    UIDInSell = message.item_descriptions[0].object_gid_object_type_object_uid_three
+    developer:unRegisterMessage("ExchangeTypesItemsExchangerDescriptionForUserMessage")
+    UIDInSell = message.itemTypeDescriptions[1].objectUID
 end
+
+
+
 
 function GetUIDInSell(objectGID)
     -- besoin d'être en mode achat
-    developer:registerMessage("ExchangeTypesItemsExchangerDescriptionForUserEvent", _getUIDInSell)
+    developer:registerMessage("ExchangeTypesItemsExchangerDescriptionForUserMessage", _getUIDInSell)
 
     local message0 = developer:createMessage("ExchangeBidHouseTypeRequest")
     message0.follow = true
@@ -767,12 +771,12 @@ function GetUIDInSell(objectGID)
     message3.object_gid = objectGID
 
     developer:sendMessage(message0)
-    developer:suspendScriptUntil("ExchangeTypesExchangerDescriptionForUserEvent", 5000, false, nil, 20)
+    developer:suspendScriptUntil("ExchangeTypesExchangerDescriptionForUserMessage", 5000, false, nil, 20)
 
     developer:sendMessage(message1)
     developer:sendMessage(message2)
     developer:sendMessage(message3)
-    developer:suspendScriptUntil("ExchangeTypesItemsExchangerDescriptionForUserEvent", 5000, false, nil, 20)
+    developer:suspendScriptUntil("ExchangeTypesItemsExchangerDescriptionForUserMessage", 5000, false, nil, 20)
 
     if UIDInSell ~= nil and UIDInSell ~= -1 then
         return UIDInSell
@@ -799,270 +803,6 @@ function restPriceUpdate()
 end
 
 
-function buy(objectId, quantity, price)
-    sale:buyItem(objectId, quantity, price * 2)
-    -- on arrive sur l'interface ou y'a les infos de la ressource en question
-    -- local message = developer:createMessage("ExchangeBidHouseSearchRequest")
-    -- message.object_uid = objectId
-    -- message.follow = true
-    -- developer:sendMessage(message)
-    -- developer:suspendScriptUntil("ExchangeTypesItemsExchangerDescriptionForUserEvent", 5000, false, nil, 20)
-
-    -- -- on achète
-    -- developer:registerMessage("ExchangeBidHouseBuyResultMessage", _updatePrices)
-    -- message = developer:createMessage("ExchangeBidHouseBuyRequest")
-    -- message.uid = objectId
-    -- message.quantity = quantity
-    -- message.price = price
-    -- developer:sendMessage(message)
-    -- developer:suspendScriptUntil("ExchangeBidHouseBuyResultMessage", 5000, false, nil, 20)
-
-end
-
--- function Achat(IdItem, qtt)
---     if inventory:itemCount(IdItem) > 20000 then -- protection car un miment ça a acheté 460k d'une ressoruce
---         return false
---     end
---     --[[
---         Amelioratioons :
-
---     ]]
---     local message = developer:createMessage("NpcGenericActionRequestMessage")
---     message.npcId = -1
---     message.npcActionId = 5
---     message.npcMapId = map:currentMapId()
---     developer:sendMessage(message)
---     developer:suspendScriptUntil("ExchangeStartedBidSellerMessage", 1000, false, nil, 50)
-
---     local Quantite = qtt
---     local NbDeBdase = inventory:itemCount(IdItem)
-
---     local Prices = GetPricesItem(IdItem)
---     if not Prices then
---         global:delay(2000)
---         Prices = GetPricesItem(IdItem)
---     end
-
---     global:printSuccess("Prix par 100 : " .. Prices.Price100)
---     global:printSuccess("Prix par 10 : " .. Prices.Price10)
---     global:printSuccess("Prix par 1 : " .. Prices.Price1)
-
---     global:leaveDialog()
-
---     if (Prices.Price100 == 0) and (Prices.Price10 == 0) and (Prices.Price1 == 0) then
---         global:printError("L'item n'est plus disponible en hdv")
---         return false
---     elseif Prices.Price10 == 0 and Prices.Price100 == 0 and qtt < 30 then
---         qtt = 1
---     elseif Prices.Price10 == 0 and Prices.Price100 == 0 and Prices.AveragePrice * 1.5 > Prices.Price1 then
---         qtt = 1
---     elseif Prices.Price10 == 0 and Prices.Price100 == 0 and Prices.AveragePrice * 1.5 < Prices.Price1 then
---         global:printError("la ressource a un prix unitaire trop élevé")
---         return false
---     elseif ((Prices.Price10 == 0) and (Prices.Price1 == 0)) or ((qtt > 10) and Prices.Price10 * qtt / 10 > Prices.Price100 and Prices.Price100 > 0) or (Prices.Price10 == 0 and qtt > 9 and qtt < 100 ) then
---         qtt = 100
---     elseif Prices.Price1 == 0 and qtt < 10 then
---         qtt = 10
---     elseif qtt > 10 and qtt < 100 and qtt % 10 * Prices.Price1 > Prices.Price10 then
---         qtt = qtt + (10 - qtt % 10)
---     elseif qtt < 10 and Prices.Price1 * qtt > Prices.Price10 and Prices.Price10 > 0 then
---         qtt = 10
---     elseif (Prices.Price100 ~= 0) and (Prices.Price10 ~= 0) then
---         qtt = ((((qtt < 100) and (qtt > 10)) and (Prices.Price100 * 1.3 < Prices.Price10 * 10)) and (inventory:itemWeight(IdItem) * 100) < (inventory:podsMax() - inventory:pods())) and 100
---         or ((qtt < 10) and (Prices.Price10 * 1.3 < Prices.Price1 * 10)) and 10
---         or qtt
---     end
-
---     message = developer:createMessage("NpcGenericActionRequestMessage")
---     message.npcId = -1
---     message.npcActionId = 6
---     message.npcMapId = map:currentMapId()
---     developer:sendMessage(message)
---     developer:suspendScriptUntil("ExchangeStartedBidSellerMessage", 1000, true, nil, 20)
-
---     while qtt > 0 do           
---         if qtt >= 100 then
---             if character:kamas() < Prices.Price100 then
---                 global:printSuccess("Plus assez de kamas, on retente dans 2h")
---                 customReconnect(120)
---             end
---             if ((Prices.Price10 * 1.2 < Prices.Price100 / 10) and Prices.Price10 ~= 0) or Prices.Price100 == 0 then
-
---                 for i = 1, 10 do
---                     local finalPrice = PricesUpdate.Price10 > 0 and PricesUpdate ~= Prices.Price10 and PricesUpdate.Price10 or Prices.Price10
---                     buy(IdItem, 10, finalPrice)
---                     restPriceUpdate()
---                 end
-
---                 local nbRessourceManquante = NbDeBdase + Quantite - inventory:itemCount(IdItem) -- 50 de base 50 acheter
---                 return Achat(IdItem, nbRessourceManquante)
-
---             elseif Prices.Price100 == 0 and Prices.Price10 == 0 then
---                 for i = 1, 10 do
---                     local finalPrice = PricesUpdate.Price1 > 0 and PricesUpdate ~= Prices.Price1 and PricesUpdate.Price1 or Prices.Price1
---                     buy(IdItem, 1, finalPrice)
---                     restPriceUpdate()
---                 end
---                 local nbRessourceManquante = NbDeBdase + Quantite - inventory:itemCount(IdItem) -- 50 de base 50 acheter
---                 return Achat(IdItem, nbRessourceManquante)
---             else
---                 sale:buyItem(IdItem, 100, Prices.Price100 * 2)
---                 qtt = qtt - 100             
---             end
---         elseif qtt >= 10 and qtt < 100 then
---             if character:kamas() < Prices.Price10 then
---                 global:printSuccess("Plus assez de kamas, on retente dans 2h")
---                 customReconnect(120)
---             end
---             if ((Prices.Price1 * 1.2 < Prices.Price10 / 10) and Prices.Price1 ~= 0) or Prices.Price10 == 0 then
---                 for i = 1, 10 do
---                     local finalPrice = PricesUpdate.Price1 > 0 and PricesUpdate ~= Prices.Price1 and PricesUpdate.Price1 or Prices.Price1
---                     buy(IdItem, 1, finalPrice)
---                     restPriceUpdate()
---                 end
---                 local nbRessourceManquante = NbDeBdase + Quantite - inventory:itemCount(IdItem) -- 50 de base 50 acheter
---                 return Achat(IdItem, nbRessourceManquante)
---             else
---                 local finalPrice = PricesUpdate.Price10 > 0 and PricesUpdate ~= Prices.Price10 and PricesUpdate.Price10 or Prices.Price10
---                 buy(IdItem, 10, finalPrice)
---                 restPriceUpdate()
---                 qtt = qtt - 10
---             end
---         elseif qtt >= 1 and qtt < 10 then
---             if character:kamas() < Prices.Price1 then
---                 global:printSuccess("Plus assez de kamas, on retente dans 2h")
---                 customReconnect(120)
---             end
---             sale:buyItem(IdItem, 1, Prices.Price1 * 2)
---             qtt = qtt - 1 
---         end
---     end
-
---     global:leaveDialog()
-
---     local nbRessourceManquante = NbDeBdase + Quantite - inventory:itemCount(IdItem)
---     if nbRessourceManquante > 0 then
---         return Achat(IdItem, nbRessourceManquante)
---     end
---     return true
--- end
-
-function Achat(IdItem, qtt)
-    if inventory:itemCount(IdItem) > 20000 then -- protection car un miment ça a acheté 460k d'une ressoruce
-        return false
-    end
-    --[[
-        Amelioratioons :
-
-    ]]
-    local message = developer:createMessage("NpcGenericActionRequestMessage")
-    message.npcId = -1
-    message.npcActionId = 5
-    message.npcMapId = map:currentMapId()
-    developer:sendMessage(message)
-    developer:suspendScriptUntil("ExchangeStartedBidSellerMessage", 1000, false, nil, 50)
-
-    local Quantite = qtt
-    local NbDeBdase = inventory:itemCount(IdItem)
-
-    local Prices = GetPricesItem(IdItem)
-    if not Prices then
-        global:delay(2000)
-        Prices = GetPricesItem(IdItem)
-    end
-
-    global:printSuccess("Prix par 100 : " .. Prices.Price100)
-    global:printSuccess("Prix par 10 : " .. Prices.Price10)
-    global:printSuccess("Prix par 1 : " .. Prices.Price1)
-
-
-    if (Prices.Price100 == 0) and (Prices.Price10 == 0) and (Prices.Price1 == 0) then
-        global:printError("L'item n'est plus disponible en hdv")
-        return false
-    elseif Prices.Price10 == 0 and Prices.Price100 == 0 and qtt < 30 then
-        qtt = 1
-    elseif Prices.Price10 == 0 and Prices.Price100 == 0 and Prices.AveragePrice * 1.5 > Prices.Price1 then
-        qtt = 1
-    elseif Prices.Price10 == 0 and Prices.Price100 == 0 and Prices.AveragePrice * 1.5 < Prices.Price1 then
-        global:printError("la ressource a un prix unitaire trop élevé")
-        return false
-    elseif ((Prices.Price10 == 0) and (Prices.Price1 == 0)) or ((qtt > 10) and Prices.Price10 * qtt / 10 > Prices.Price100 and Prices.Price100 > 0) 
-    or (Prices.Price10 == 0 and qtt > 9 and qtt < 100 ) then
-        qtt = 100
-    elseif Prices.Price1 == 0 and qtt < 10 then
-        qtt = 10
-    elseif qtt > 10 and qtt < 100 and qtt % 10 * Prices.Price1 > Prices.Price10 then
-        qtt = qtt + (10 - qtt % 10)
-    elseif qtt < 10 and Prices.Price1 * qtt > Prices.Price10 and Prices.Price10 > 0 then
-        qtt = 10
-    elseif (Prices.Price100 ~= 0) and (Prices.Price10 ~= 0) then
-        qtt = ((((qtt < 100) and (qtt > 10)) and (Prices.Price100 * 1.3 < Prices.Price10 * 10)) and (inventory:itemWeight(IdItem) * 100) < (inventory:podsMax() - inventory:pods())) and 100
-        or ((qtt < 10) and (Prices.Price10 * 1.3 < Prices.Price1 * 10)) and 10
-        or qtt
-    end
-
-    message = developer:createMessage("NpcGenericActionRequestMessage")
-    message.npcId = -1
-    message.npcActionId = 6
-    message.npcMapId = map:currentMapId()
-    developer:sendMessage(message)
-    developer:suspendScriptUntil("ExchangeStartedBidSellerMessage", 1000, true, nil, 20)
-
-    while qtt > 0 do           
-        if qtt >= 100 then
-            if character:kamas() < Prices.Price100 then
-                global:printSuccess("Plus assez de kamas, on retente dans 2h")
-                global:reconnect(2)
-            end
-            if ((Prices.Price10 * 1.2 < Prices.Price100 / 10) and Prices.Price10 ~= 0) or Prices.Price100 == 0 then
-                for i = 1, 10 do
-                    sale:buyItem(IdItem, 10, Prices.Price10 * 2)
-                end
-                local nbRessourceManquante = NbDeBdase + Quantite - inventory:itemCount(IdItem) -- 50 de base 50 acheter
-                return Achat(IdItem, nbRessourceManquante)
-            elseif Prices.Price100 == 0 and Prices.Price10 == 0 then
-                for i = 1, 10 do
-                    sale:buyItem(IdItem, 1, Prices.Price1 * 2)
-                end
-                local nbRessourceManquante = NbDeBdase + Quantite - inventory:itemCount(IdItem) -- 50 de base 50 acheter
-                return Achat(IdItem, nbRessourceManquante)
-            else
-                sale:buyItem(IdItem, 100, Prices.Price100 * 2)
-                qtt = qtt - 100             
-            end
-        elseif qtt >= 10 and qtt < 100 then
-            if character:kamas() < Prices.Price10 then
-                global:printSuccess("Plus assez de kamas, on retente dans 2h")
-                global:reconnect(2)
-            end
-            if ((Prices.Price1 * 1.2 < Prices.Price10 / 10) and Prices.Price1 ~= 0) or Prices.Price10 == 0 then
-                for i = 1, 10 do
-                    sale:buyItem(IdItem, 1, Prices.Price1 * 2)
-                end
-                local nbRessourceManquante = NbDeBdase + Quantite - inventory:itemCount(IdItem) -- 50 de base 50 acheter
-                return Achat(IdItem, nbRessourceManquante)
-            else
-                sale:buyItem(IdItem, 10, Prices.Price10 * 2)
-                qtt = qtt - 10
-            end
-        elseif qtt >= 1 and qtt < 10 then
-            if character:kamas() < Prices.Price1 then
-                global:printSuccess("Plus assez de kamas, on retente dans 2h")
-                global:reconnect(2)
-            end
-            sale:buyItem(IdItem, 1, Prices.Price1 * 2)
-            qtt = qtt - 1 
-        end
-    end
-
-    global:leaveDialog()
-
-    local nbRessourceManquante = NbDeBdase + Quantite - inventory:itemCount(IdItem)
-    if nbRessourceManquante > 0 then
-        return Achat(IdItem, nbRessourceManquante)
-    end
-    return true
-end
 
 function achat(objectGID, qtt)
     if inventory:itemCount(objectGID) > 20000 then -- protection car un miment ça a acheté 460k d'une ressoruce
@@ -1100,9 +840,6 @@ function achat(objectGID, qtt)
         and (PricesForBuy.AveragePrice * 3 >= PricesForBuy.Price1 or PricesForBuy.Price1 < 5000) then
             buySize, buyPrice = 1, PricesForBuy.Price1 * 2
 
-        elseif PricesForBuy.Price10 == 0 and PricesForBuy.Price100 == 0 and PricesForBuy.AveragePrice * 2 >= PricesForBuy.Price1 then
-            buySize, buyPrice = 1, PricesForBuy.Price1 * 2
-
         elseif (PricesForBuy.Price10 == 0 and PricesForBuy.Price100 == 0 and PricesForBuy.AveragePrice * 2 < PricesForBuy.Price1) 
         or (PricesForBuy.Price10 == 0 and PricesForBuy.Price1 == 0 and PricesForBuy.AveragePrice * 2 < PricesForBuy.Price100 / 100) 
         or (PricesForBuy.Price100 == 0 and PricesForBuy.Price1 == 0 and PricesForBuy.AveragePrice * 2 < PricesForBuy.Price10 / 10)  
@@ -1130,6 +867,13 @@ function achat(objectGID, qtt)
             global:leaveDialog()
             return false
 
+        elseif PricesForBuy.Price10 == 0 and PricesForBuy.Price100 == 0 and PricesForBuy.AveragePrice * 2 >= PricesForBuy.Price1 then
+            buySize, buyPrice = 1, PricesForBuy.Price1 * 2
+
+        elseif PricesForBuy.Price1 == 0 and PricesForBuy.Price100 == 0 and PricesForBuy.Price10 > 0 
+        and PricesForBuy.AveragePrice * 2 >= PricesForBuy.Price10 / 10 then
+            buySize, buyPrice = 10, PricesForBuy.Price10 * 2
+
         elseif (((PricesForBuy.Price10 == 0) and (PricesForBuy.Price1 == 0)) or ((qtt > 10) and PricesForBuy.Price10 * qtt / 10 > PricesForBuy.Price100) 
         or (PricesForBuy.Price10 == 0 and qtt > 9 and qtt < 100 )) and PricesForBuy.Price100 > 0 then
             buySize, buyPrice = 100, PricesForBuy.Price100 * 2
@@ -1146,27 +890,21 @@ function achat(objectGID, qtt)
         elseif qtt < 15 and PricesForBuy.Price1 * 12 < PricesForBuy.Price10 and PricesForBuy.Price10 > 0 and PricesForBuy.Price1 > 0 then
             buySize, buyPrice = 1, PricesForBuy.Price1 * 2
 
-        elseif (PricesForBuy.Price100 ~= 0) and (PricesForBuy.Price10 ~= 0) 
+        elseif (PricesForBuy.Price100 > 0) and (PricesForBuy.Price10 > 0) 
         and qtt < 100 and qtt > 10 
-                and PricesForBuy.Price100 * 1.3 < PricesForBuy.Price10 * 10 
+                and PricesForBuy.Price100 / (PricesForBuy.Price10 / 10) * qtt < 1.5
                 and (inventory:itemWeight(objectGID) * 100) < (inventory:podsMax() - inventory:pods())  then
 
             buySize, buyPrice = 100, PricesForBuy.Price100 * 2
 
-        elseif  (PricesForBuy.Price100 ~= 0) and (PricesForBuy.Price10 ~= 0)  and
-        qtt < 10 and PricesForBuy.Price10 * 1.3 < PricesForBuy.Price1 * 10 then
-            buySize, buyPrice = 10, PricesForBuy.Price10 * 2
 
         elseif qtt < 100 and PricesForBuy.Price1 * 1.2 < PricesForBuy.Price10 / 10 
         or (PricesForBuy.Price1 * 2 < (PricesForBuy.Price100 / 100 + PricesForBuy.Price10 / 10) / 2) and PricesForBuy.Price1 > 0 then
             buySize, buyPrice = 1, PricesForBuy.Price1 * 2
 
-        elseif qtt > 40 and PricesForBuy.Price100 / 100 * 1.2 < PricesForBuy.Price10 / 10 
-        or PricesForBuy.Price100 / 100 * 1.5 < PricesForBuy.Price10 / 10 and PricesForBuy.Price100 > 0  then
+        elseif (qtt > 40 and PricesForBuy.Price100 / 100 * 1.2 < PricesForBuy.Price10 / 10 
+        or PricesForBuy.Price100 / 100 * 1.5 < PricesForBuy.Price10 / 10) and PricesForBuy.Price100 > 0  then
             buySize, buyPrice = 100, PricesForBuy.Price100 * 2
-            
-        elseif qtt < 10 and PricesForBuy.Price10 / 10 * 1.2 > PricesForBuy.Price100 and PricesForBuy.Price10 > 0 then
-            buySize, buyPrice = 10, PricesForBuy.Price10 * 2
 
         else
             if qtt >= 100 and PricesForBuy.Price100 > 0 then
@@ -1691,54 +1429,77 @@ end
 
 
 
-function _getItemsInHDV(message)
+
+function _fetchItemsInHDV(message)
     developer:unRegisterMessage("ExchangeTypesItemsExchangerDescriptionForUserMessage")
+    debug(tostring(message))
     local items = message.itemTypeDescriptions
+    
+    ItemList = {}
 
     for _, item in ipairs(items) do
         if item.objectGID > 0 then
-            table.insert(itemList, {
+            table.insert(ItemList, {
                 objectGID = item.objectGID,
                 objectUID = item.objectUID,
-                objectPrice = item.prices,
-                effects = item.effects
+                price = item.prices[1],
+                effects = item.effects,
+                quality = GetQualityItemWithoutException(item.effects, item.objectGID)
             })
         end
     end
-
-    debug(#itemList)
-
-    global:printSuccess("Nombre d'items trouvés dans l'HDV : " .. #itemList)
 end
 
-function fetchItemInHDV(objectId)
-    developer:registerMessage("ExchangeTypesItemsExchangerDescriptionForUserMessage", _getItemsInHDV)
-    local message = developer:createMessage("ExchangeBidHouseSearchRequest")
-    if message then
-        message.follow = true
-        message.object_gid = objectId
-    end
+function fetchItemsInHDV(objectGID)
+    developer:registerMessage("ExchangeTypesItemsExchangerDescriptionForUserMessage", _fetchItemsInHDV)
+
+    local message = developer:createMessage("ExchangeBidHouseTypeRequest")
+    message.follow = true
+    message.type_id = inventory:itemTypeId(objectGID)
+
+    local message1 = developer:createMessage("ExchangeBidHouseSearchRequest")
+    message1.follow = false
+    message1.object_gid = objectGID
+
+    local message2 = developer:createMessage("ExchangeBidHouseSearchRequest")
+    message2.follow = true
+    message2.object_gid = objectGID
+
     developer:sendMessage(message)
+    developer:suspendScriptUntil("ExchangeTypesExchangerDescriptionForUserEvent", 5000, false, nil, 20)
+
+    developer:sendMessage(message1)
+    developer:sendMessage(message2)
+    
     developer:suspendScriptUntil("ExchangeTypesItemsExchangerDescriptionForUserMessage", 5000, false, nil, 20)
+
+    return ItemList
 end
 
-function buyWorthItem(objectId, limit)
+function buyWorthItem(objectGID)
     HdvBuy()
-    sale:buyItem(objectId, 1, limit or 10000000)
+
+    local items = fetchItemsInHDV(objectGID)
+
+    table.sort(items, function(a, b)
+        -- 1) premières les qualités > 0.8
+        local a_high = a.quality > 0.8
+        local b_high = b.quality > 0.8
+        if a_high ~= b_high then
+            return a_high 
+        end
+
+        return (a.price / a.quality) < (b.price / b.quality)
+    end)
+
+    global:printSuccess("Achat de " .. inventory:itemNameId(objectGID) .. " pour " .. items[1].price .. " kamas avec un jet de " .. items[1].quality)
+
+    local message = developer:createMessage("ExchangeBidHouseBuyRequest")
+    message.object_uid = items[1].objectUID
+    message.price = items[1].price
+    message.quantity = 1
+    developer:sendMessage(message)
+    developer:suspendScriptUntil("ExchangeBidHouseBuyResultMessage", 5000, false, nil, 20)
+
     global:leaveDialog()
-
-
-
-
-    -- fetchItemInHDV(objectId)
-    -- debug(#itemList)
-
-    -- for _, item in ipairs(itemList) do
-    --     debug("1")
-    --     item.quality = GetQualityItemWithoutException(item.effects, item.objectGID) -- - 0.05
-    --     debug(item.objectGID .. " - " .. item.objectPrice[1] .. " - " .. item.quality)
-    -- end
-
-
-    -- itemList = {}
 end

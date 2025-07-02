@@ -189,11 +189,11 @@ end
 function buy_ressources()
 
     while inventory:itemCount(885) < 5 do
-        Achat(885, 5)
+        achat(885, 5)
     end
 
     while inventory:itemCount(421) < 50 do
-        Achat(421, 50)
+        achat(421, 50)
     end
 
     global:leaveDialog()

@@ -346,11 +346,11 @@ function _AnalyseResultsFM(message)
     message = message.object
     local changements = {}
 
-    if message.magic_pool_status == 3 then
+    if message.magic_pool_status == 2 then
         -- si on a - reliquat, on actualise le pui
         InfoCurrentItemFM.InfoFm.Pui = InfoCurrentItemFM.InfoFm.Pui - GetPoidsRune(InfoCurrentItemFM.CurrentRune)
         InfoCurrentItemFM.InfoFm.Pui = InfoCurrentItemFM.InfoFm.Pui > 0 and InfoCurrentItemFM.InfoFm.Pui or 0
-    elseif message.magic_pool_status == 2 then
+    elseif message.magic_pool_status == 1 then
         -- si on a + reliquat, on retire le poids de la rune qu'on a mis au pui et on rajoutera ensuite le poids des stats retirés
         InfoCurrentItemFM.InfoFm.Pui = InfoCurrentItemFM.InfoFm.Pui - GetPoidsRune(InfoCurrentItemFM.CurrentRune)
     end
@@ -366,7 +366,7 @@ function _AnalyseResultsFM(message)
                 found = true
             end
             if GetNameCarac(effect.actionId) == k and (v.Current - effect.value) ~= 0 then
-                if message.magic_pool_status == 2 and (v.Current - effect.value) > 0 then
+                if message.magic_pool_status == 1 and (v.Current - effect.value) > 0 then
                     -- si on a + reliquat, on actualise le pui
                     InfoCurrentItemFM.InfoFm.Pui = InfoCurrentItemFM.InfoFm.Pui + (v.Current - effect.value) * PoidsByStat[k].PoidsUnite
                     if (v.Current - effect.value) * PoidsByStat[k].PoidsUnite > 19 then
@@ -379,7 +379,7 @@ function _AnalyseResultsFM(message)
             end
         end
         if not found then
-            if message.magic_pool_status == 2 then
+            if message.magic_pool_status == 1 then
                 -- si on a + reliquat, on actualise le pui
                 InfoCurrentItemFM.InfoFm.Pui = InfoCurrentItemFM.InfoFm.Pui + v.Current * PoidsByStat[k].PoidsUnite
                 if v.Current * PoidsByStat[k].PoidsUnite > 19 then
@@ -411,7 +411,7 @@ function _AnalyseResultsFM(message)
         if v > 0 then
             string = string .. "+" .. v .. " " .. k .. ", "
         else
-            if message.magic_pool_status == 1 and InfoCurrentItemFM.InfoFm.Pui < 0 then
+            if message.magic_pool_status == 0 and InfoCurrentItemFM.InfoFm.Pui < 0 then
                 InfoCurrentItemFM.InfoFm.Pui = 0
             end
             string = string .. v .. " " .. k .. ", "
@@ -419,25 +419,25 @@ function _AnalyseResultsFM(message)
     end
 
     if not string:find("-") then
-        if message.magic_pool_status == 3 then
+        if message.magic_pool_status == 2 then
             string = string .. " -reliquat, "
-        elseif message.magic_pool_status == 2 then
+        elseif message.magic_pool_status == 1 then
             string = string .. " +reliquat, "
         end
         string = string .. " [Qualité] = " .. InfoCurrentItemFM.InfoFm.Quality .. ", [Pui] = " .. InfoCurrentItemFM.InfoFm.Pui .. ", [NbRunesUsed] = " .. NbRunesUsed
         global:printSuccess(string)
     elseif string:find("-") and string:find("+") then
-        if message.magic_pool_status == 3 then
+        if message.magic_pool_status == 2 then
             string = string .. " -reliquat, "
-        elseif message.magic_pool_status == 2 then
+        elseif message.magic_pool_status == 1 then
             string = string .. " +reliquat, "
         end
         string = string .. " [Qualité] = " .. InfoCurrentItemFM.InfoFm.Quality .. ", [Pui] = " .. InfoCurrentItemFM.InfoFm.Pui .. ", [NbRunesUsed] = " .. NbRunesUsed
         global:printMessage(string)
     else
-        if message.magic_pool_status == 3 then
+        if message.magic_pool_status == 2 then
             string = string .. " -reliquat, "
-        elseif message.magic_pool_status == 2 then
+        elseif message.magic_pool_status == 1 then
             string = string .. " +reliquat, "
         end
         string = string .. " [Qualité] = " .. InfoCurrentItemFM.InfoFm.Quality .. ", [Pui] = " .. InfoCurrentItemFM.InfoFm.Pui .. ", [NbRunesUsed] = " .. NbRunesUsed
@@ -793,7 +793,7 @@ function move()
                     local QuantityToBuy = ressource.Quantity * (item.NbToCraft - inventory:itemCount(item.Id)) - inventory:itemCount(ressource.Id)
                     if QuantityToBuy > 0 then
                         global:printSuccess("Achat de " .. QuantityToBuy .. " [" .. inventory:itemNameId(ressource.Id) .. "]")
-                        if not Achat(ressource.Id, QuantityToBuy) then
+                        if not achat(ressource.Id, QuantityToBuy) then
                             item.NbToCraft = 0
                             for i, item2 in ipairs(TableItemToFM) do
                                 if item.Id == item2.Id then
@@ -816,7 +816,7 @@ function move()
                     local QuantityToBuy = ressource.Quantity * (item.NbToCraft - inventory:itemCount(item.Id)) - inventory:itemCount(ressource.Id)
                     if QuantityToBuy > 0 then
                         global:printSuccess("Achat de " .. QuantityToBuy .. " [" .. inventory:itemNameId(ressource.Id) .. "]")
-                        if not Achat(ressource.Id, QuantityToBuy) then
+                        if not achat(ressource.Id, QuantityToBuy) then
                             item.NbToCraft = 0
                             for i, item2 in ipairs(TableItemToFM) do
                                 if item.Id == item2.Id then
@@ -839,7 +839,7 @@ function move()
                     local QuantityToBuy = ressource.Quantity * (item.NbToCraft - inventory:itemCount(item.Id)) - inventory:itemCount(ressource.Id)
                     if QuantityToBuy > 0 then
                         global:printSuccess("Achat de " .. QuantityToBuy .. " [" .. inventory:itemNameId(ressource.Id) .. "]")
-                        if not Achat(ressource.Id, QuantityToBuy) then
+                        if not achat(ressource.Id, QuantityToBuy) then
                             item.NbToCraft = 0
                             for i, item2 in ipairs(TableItemToFM) do
                                 if item.Id == item2.Id then
@@ -862,7 +862,7 @@ function move()
                     local QuantityToBuy = ressource.Quantity * (item.NbToCraft - inventory:itemCount(item.Id)) - inventory:itemCount(ressource.Id)
                     if QuantityToBuy > 0 then
                         global:printSuccess("Achat de " .. QuantityToBuy .. " [" .. inventory:itemNameId(ressource.Id) .. "]")
-                        if not Achat(ressource.Id, QuantityToBuy) then
+                        if not achat(ressource.Id, QuantityToBuy) then
                             item.NbToCraft = 0
                             for i, item2 in ipairs(TableItemToFM) do
                                 if item.Id == item2.Id then
@@ -885,7 +885,7 @@ function move()
                     local QuantityToBuy = ressource.Quantity * (item.NbToCraft - inventory:itemCount(item.Id)) - inventory:itemCount(ressource.Id)
                     if QuantityToBuy > 0 then
                         global:printSuccess("Achat de " .. QuantityToBuy .. " [" .. inventory:itemNameId(ressource.Id) .. "]")
-                        if not Achat(ressource.Id, QuantityToBuy) then
+                        if not achat(ressource.Id, QuantityToBuy) then
                             item.NbToCraft = 0
                             for i, item2 in ipairs(TableItemToFM) do
                                 if item.Id == item2.Id then
@@ -1065,7 +1065,7 @@ function move()
                     local quantity = math.floor(math.min(100 - inventory:itemCount(rune), (150000 / GetPriceRune(rune)) - inventory:itemCount(rune)))
                     if quantity > 10 or quantity * GetPriceRune(rune) > 20000 then
                         global:printSuccess("Achat de " .. quantity .. " [" .. inventory:itemNameId(rune) .. "]")
-                        Achat(rune, quantity)
+                        achat(rune, quantity)
                     end
                 end
                 item.hdvRunesChecked = true

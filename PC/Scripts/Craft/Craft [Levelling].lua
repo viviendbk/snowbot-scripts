@@ -817,7 +817,7 @@ function move()
                     local QuantityToBuy = ressource.Quantity * (item.NbToCraft - inventory:itemCount(item.Id)) - inventory:itemCount(ressource.Id)
                     if QuantityToBuy > 0 then
                         global:printSuccess("Achat de " .. QuantityToBuy .. " [" .. inventory:itemNameId(ressource.Id) .. "]")
-                        if not Achat(ressource.Id, QuantityToBuy) then
+                        if not achat(ressource.Id, QuantityToBuy) then
                             item.NbToCraft = 0
                             for i, item2 in ipairs(TableItemToFM) do
                                 if item.Id == item2.Id then
@@ -840,7 +840,7 @@ function move()
                     local QuantityToBuy = ressource.Quantity * (item.NbToCraft - inventory:itemCount(item.Id)) - inventory:itemCount(ressource.Id)
                     if QuantityToBuy > 0 then
                         global:printSuccess("Achat de " .. QuantityToBuy .. " [" .. inventory:itemNameId(ressource.Id) .. "]")
-                        if not Achat(ressource.Id, QuantityToBuy) then
+                        if not achat(ressource.Id, QuantityToBuy) then
                             item.NbToCraft = 0
                             for i, item2 in ipairs(TableItemToFM) do
                                 if item.Id == item2.Id then
@@ -863,7 +863,7 @@ function move()
                     local QuantityToBuy = ressource.Quantity * (item.NbToCraft - inventory:itemCount(item.Id)) - inventory:itemCount(ressource.Id)
                     if QuantityToBuy > 0 then
                         global:printSuccess("Achat de " .. QuantityToBuy .. " [" .. inventory:itemNameId(ressource.Id) .. "]")
-                        if not Achat(ressource.Id, QuantityToBuy) then
+                        if not achat(ressource.Id, QuantityToBuy) then
                             item.NbToCraft = 0
                             for i, item2 in ipairs(TableItemToFM) do
                                 if item.Id == item2.Id then
@@ -886,7 +886,7 @@ function move()
                     local QuantityToBuy = ressource.Quantity * (item.NbToCraft - inventory:itemCount(item.Id)) - inventory:itemCount(ressource.Id)
                     if QuantityToBuy > 0 then
                         global:printSuccess("Achat de " .. QuantityToBuy .. " [" .. inventory:itemNameId(ressource.Id) .. "]")
-                        if not Achat(ressource.Id, QuantityToBuy) then
+                        if not achat(ressource.Id, QuantityToBuy) then
                             item.NbToCraft = 0
                             for i, item2 in ipairs(TableItemToFM) do
                                 if item.Id == item2.Id then
@@ -909,7 +909,7 @@ function move()
                     local QuantityToBuy = ressource.Quantity * (item.NbToCraft - inventory:itemCount(item.Id)) - inventory:itemCount(ressource.Id)
                     if QuantityToBuy > 0 then
                         global:printSuccess("Achat de " .. QuantityToBuy .. " [" .. inventory:itemNameId(ressource.Id) .. "]")
-                        if not Achat(ressource.Id, QuantityToBuy) then
+                        if not achat(ressource.Id, QuantityToBuy) then
                             item.NbToCraft = 0
                             for i, item2 in ipairs(TableItemToFM) do
                                 if item.Id == item2.Id then

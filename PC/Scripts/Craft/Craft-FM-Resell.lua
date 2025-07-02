@@ -177,9 +177,7 @@ local function getPricesResourceInHDV()
 
         HdvSell()
 
-        debug(#TableItem)
         for _, item in ipairs(TableItem) do
-        
             if _ == math.floor(#TableItem / 4) then
                 global:printMessage("25% effectué...")
             elseif _ == math.floor(#TableItem / 2) then
@@ -465,11 +463,11 @@ function _AnalyseResultsFM(message)
     message = message.object
     local changements = {}
 
-    if message.magic_pool_status == 3 then
+    if message.magic_pool_status == 2 then
         -- si on a - reliquat, on actualise le pui
         InfoCurrentItemFM.InfoFm.Pui = InfoCurrentItemFM.InfoFm.Pui - GetPoidsRune(InfoCurrentItemFM.CurrentRune)
         InfoCurrentItemFM.InfoFm.Pui = InfoCurrentItemFM.InfoFm.Pui > 0 and InfoCurrentItemFM.InfoFm.Pui or 0
-    elseif message.magic_pool_status == 2 then
+    elseif message.magic_pool_status == 1 then
         -- si on a + reliquat, on retire le poids de la rune qu'on a mis au pui et on rajoutera ensuite le poids des stats retirés
         InfoCurrentItemFM.InfoFm.Pui = InfoCurrentItemFM.InfoFm.Pui - GetPoidsRune(InfoCurrentItemFM.CurrentRune)
     end
@@ -485,7 +483,7 @@ function _AnalyseResultsFM(message)
                 found = true
             end
             if GetNameCarac(effect.actionId) == k and (v.Current - effect.value) ~= 0 then
-                if message.magic_pool_status == 2 and (v.Current - effect.value) > 0 then
+                if message.magic_pool_status == 1 and (v.Current - effect.value) > 0 then
                     -- si on a + reliquat, on actualise le pui
                     InfoCurrentItemFM.InfoFm.Pui = InfoCurrentItemFM.InfoFm.Pui + (v.Current - effect.value) * PoidsByStat[k].PoidsUnite
                     if (v.Current - effect.value) * PoidsByStat[k].PoidsUnite > 19 then
@@ -498,7 +496,7 @@ function _AnalyseResultsFM(message)
             end
         end
         if not found then
-            if message.magic_pool_status == 2 then
+            if message.magic_pool_status == 1 then
                 -- si on a + reliquat, on actualise le pui
                 InfoCurrentItemFM.InfoFm.Pui = InfoCurrentItemFM.InfoFm.Pui + v.Current * PoidsByStat[k].PoidsUnite
                 if v.Current * PoidsByStat[k].PoidsUnite > 19 then
@@ -530,7 +528,7 @@ function _AnalyseResultsFM(message)
         if v > 0 then
             string = string .. "+" .. v .. " " .. k .. ", "
         else
-            if message.magic_pool_status == 1 and InfoCurrentItemFM.InfoFm.Pui < 0 then
+            if message.magic_pool_status == 0 and InfoCurrentItemFM.InfoFm.Pui < 0 then
                 InfoCurrentItemFM.InfoFm.Pui = 0
             end
             string = string .. v .. " " .. k .. ", "
@@ -538,25 +536,25 @@ function _AnalyseResultsFM(message)
     end
 
     if not string:find("-") then
-        if message.magic_pool_status == 3 then
+        if message.magic_pool_status == 2 then
             string = string .. " -reliquat, "
-        elseif message.magic_pool_status == 2 then
+        elseif message.magic_pool_status == 1 then
             string = string .. " +reliquat, "
         end
         string = string .. " [Qualité] = " .. InfoCurrentItemFM.InfoFm.Quality .. ", [Pui] = " .. InfoCurrentItemFM.InfoFm.Pui .. ", [NbRunesUsed] = " .. NbRunesUsed
         global:printSuccess(string)
     elseif string:find("-") and string:find("+") then
-        if message.magic_pool_status == 3 then
+        if message.magic_pool_status == 2 then
             string = string .. " -reliquat, "
-        elseif message.magic_pool_status == 2 then
+        elseif message.magic_pool_status == 1 then
             string = string .. " +reliquat, "
         end
         string = string .. " [Qualité] = " .. InfoCurrentItemFM.InfoFm.Quality .. ", [Pui] = " .. InfoCurrentItemFM.InfoFm.Pui .. ", [NbRunesUsed] = " .. NbRunesUsed
         global:printMessage(string)
     else
-        if message.magic_pool_status == 3 then
+        if message.magic_pool_status == 2 then
             string = string .. " -reliquat, "
-        elseif message.magic_pool_status == 2 then
+        elseif message.magic_pool_status == 1 then
             string = string .. " +reliquat, "
         end
         string = string .. " [Qualité] = " .. InfoCurrentItemFM.InfoFm.Quality .. ", [Pui] = " .. InfoCurrentItemFM.InfoFm.Pui .. ", [NbRunesUsed] = " .. NbRunesUsed
@@ -591,7 +589,6 @@ end
 
 
 function move()
-
     --[[
         faire un tool qui permet de récupérer le prix hdv d'un item fm vita
         -> on parcours chaque item en vente de celui qu'on veut vendre et on mets dans une table tous les items qui possèdent un over
@@ -634,7 +631,7 @@ function move()
             file:close()
 
             global:printSuccess("Remplissage de la TableItem...")
-            for i = 1, 20000 do
+            for i = 1, 30000 do
                 if IsItem(inventory:itemTypeId(i)) and inventory:getLevel(i) <= job:level(GetJobIdByType(inventory:getTypeName(i))) and inventory:getLevel(i) <= job:level(GetJobMageIdByType(inventory:getTypeName(i)))
                  and inventory:getLevel(i) > math.min(job:level(GetJobIdByType(inventory:getTypeName(i))) - 10, job:level(GetJobMageIdByType(inventory:getTypeName(i))) > 120 and 105 or (job:level(GetJobMageIdByType(inventory:getTypeName(i))) - 15)) 
                  and ((inventory:itemCount(i) > 0 and inventory:itemPosition(i) == 63) or inventory:itemCount(i) == 0) then
@@ -798,7 +795,7 @@ function move()
     
                     local cpt = get_quantity(item.objectGID).quantity["100"]
                     local Priceitem1 = Prices.Price100
-                    Priceitem1 = (Priceitem1 == nil or Priceitem1 == 0 or Priceitem1 == 1) and sale:getAveragePriceItem(item.objectGID, 3) * 1.5 or Priceitem1
+                    Priceitem1 = (Priceitem1 == nil or Priceitem1 == 0 or Priceitem1 == 1) and Prices.AveragePrice * 100 * 1.5 or Priceitem1
                     while (inventory:itemCount(item.objectGID) >= 100) and (sale:availableSpace() > 0) and (((Priceitem1 > 4000) and (cpt < math.floor(10 * (character:level() / 200)))) or ((Priceitem1 > 10000) and cpt < math.floor(15 * (character:level() / 200))) or (cpt < math.floor(5 * (character:level() / 200)) and Priceitem1 > 2000)) do 
                         sale:sellItem(item.objectGID, 100, Priceitem1 - 1) 
                         global:printSuccess("1 lot de " .. 100 .. " x " .. inventory:itemNameId(item.objectGID) .. " à " .. Priceitem1 - 1 .. "kamas")
@@ -808,7 +805,7 @@ function move()
             
                     cpt = get_quantity(item.objectGID).quantity["10"]
                     local Priceitem2 = Prices.Price10
-                    Priceitem2 = (Priceitem2 == nil or Priceitem2 == 0 or Priceitem2 == 1) and sale:getAveragePriceItem(item.objectGID, 2) * 1.5 or Priceitem2
+                    Priceitem2 = (Priceitem2 == nil or Priceitem2 == 0 or Priceitem2 == 1) and Prices.AveragePrice * 10 * 1.5 or Priceitem2
                     while (inventory:itemCount(item.objectGID) >= 10) and (sale:availableSpace() > 0) and (((Priceitem2 > 4000) and (cpt < math.floor(10 * (character:level() / 200)))) or  ((Priceitem2 > 10000) and cpt < math.floor(15 * (character:level() / 200))) or (cpt < math.floor(5 * (character:level() / 200)) and Priceitem2 > 2000)) do 
                         sale:sellItem(item.objectGID, 10, Priceitem2 - 1) 
                         global:printSuccess("1 lot de " .. 10 .. " x " .. inventory:itemNameId(item.objectGID) .. " à " .. Priceitem2 - 1 .. "kamas")
@@ -818,7 +815,7 @@ function move()
             
                     cpt = get_quantity(item.objectGID).quantity["1"]
                     local Priceitem3 = Prices.Price1
-                    Priceitem3 = (Priceitem3 == nil or Priceitem3 == 0 or Priceitem3 == 1) and sale:getAveragePriceItem(item.objectGID, 1) * 1.5 or Priceitem3
+                    Priceitem3 = (Priceitem3 == nil or Priceitem3 == 0 or Priceitem3 == 1) and Prices.AveragePrice * 1 * 1.5 or Priceitem3
                     while (inventory:itemCount(item.objectGID) >= 1) and (sale:availableSpace() > 0) and (((Priceitem3 > 4000) and (cpt < math.floor(10 * (character:level() / 200)))) or  ((Priceitem3 > 10000) and cpt < math.floor(15 * (character:level() / 200))) or (cpt < math.floor(5 * (character:level() / 200)) and Priceitem3 > 2000)) do 
                         sale:sellItem(item.objectGID, 1, Priceitem3 - 1) 
                         global:printSuccess("1 lot de " .. 1 .. " x " .. inventory:itemNameId(item.objectGID) .. " à " .. Priceitem3 - 1 .. "kamas")
@@ -921,10 +918,9 @@ function move()
 
             jsonPrice = not jsonPrice and {{Date = getDate(), Time = getCurrentTime(), Prices = {}}} or jsonPrice
 
-            debug(#jsonPrice[1].Prices)
-            global:printMessage(isXDaysLater(jsonPrice[1].Date, 2))
-            if isXDaysLater(jsonPrice[1].Date, 2) or #jsonPrice[1].Prices == 0 then
-                global:printSuccess("Le prix des ressources ne sont pas à jour, on les récupère")
+            debug(tableSize(jsonPrice[1].Prices))
+            if isXDaysLater(jsonPrice[1].Date, 2) or tableSize(jsonPrice[1].Prices) == 0 then
+                global:printSuccess("Les prix des ressources ne sont pas à jour (" .. jsonPrice[1].Date .. "), on les récupère")
                 getPricesResourceInHDV()
                 jsonPrice = openFile(global:getCurrentScriptDirectory() .. "\\".. character:server() .. "\\PriceRessources.json")
                 jsonPrice = not jsonPrice and {{Date = getDate(), Time = getCurrentTime(), Prices = {}}} or jsonPrice
@@ -1022,8 +1018,8 @@ function move()
 
             jsonPrice = not jsonPrice and {{Date = getDate(), Time = getCurrentTime(), Prices = {}}} or jsonPrice
 
-            if isXDaysLater(jsonPrice[1].Date, 2) or #jsonPrice[1].Prices == 0 then
-                global:printSuccess("Le prix des items ne sont pas à jour, on les récupère")
+            if isXDaysLater(jsonPrice[1].Date, 2) or tableSize(jsonPrice[1].Prices) == 0 then
+                global:printSuccess("Le prix des items ne sont pas à jour (" .. jsonPrice[1].Date .. "), on les récupère")
                 getPricesItemsInHDV()
                 jsonPrice = openFile(global:getCurrentScriptDirectory() .. "\\".. character:server() .. "\\PriceItems.json")
                 jsonPrice = not jsonPrice and {{Date = getDate(), Time = getCurrentTime(), Prices = {}}} or jsonPrice
@@ -1042,6 +1038,7 @@ function move()
                 end
 
                 if not jsonPrice[1].Prices[tostring(item.Id)] or not jsonPrice[1].Prices[tostring(item.Id)].Price1 then
+                    global:printError("Le prix de l'item " .. item.Id .. " n'est pas dans le fichier JSON, on le récupère")
                     jsonPrice[1].Prices[tostring(item.Id)] = GetPricesItem(item.Id)
                 end
 
@@ -1066,9 +1063,11 @@ function move()
 
                         if item.objectGID == item2.Id then
                             local cpt = get_quantity(item.objectGID).quantity["1"]
+                            global:printSuccess(item.objectGID)
                             while inventory:itemCount(item.objectGID) > 0 and inventory:itemPosition(item.objectGID) == 63 and IsItem(inventory:itemTypeId(item.objectGID)) 
                             and sale:availableSpace() > 0 and cpt < 2 and ItemSatisfyConditionsById(item.objectGID) and (inventory:getLevel(item.objectGID) > 79) do
                                 global:printSuccess("1")
+                                global:printSuccess(item.objectGID)
                                 SellItem(item.objectGID, item2.TotalCost, item2.RunesCost)
                                 global:printSuccess("2")
                                 cpt = cpt + 1
@@ -1078,6 +1077,7 @@ function move()
                     end
                     -- si il était pas dans la tableitem
                     local cpt = get_quantity(item.objectGID).quantity["1"]
+                    global:printSuccess(item.objectGID)
                     while inventory:itemCount(item.objectGID) > 0 and inventory:itemPosition(item.objectGID) == 63 and IsItem(inventory:itemTypeId(item.objectGID)) 
                     and sale:availableSpace() > 0 and cpt < 2 and ItemSatisfyConditionsById(item.objectGID) and (inventory:getLevel(item.objectGID) > 79) do
                         global:printSuccess("1")
@@ -1372,10 +1372,11 @@ function move()
                         local QuantityToBuy = ressource.Quantity * (item.NbToCraft - inventory:itemCount(item.Id)) - inventory:itemCount(ressource.Id)
                         if QuantityToBuy > 0 then
                             global:printSuccess("Achat de " .. QuantityToBuy .. " [" .. inventory:itemNameId(ressource.Id) .. "]")
-                            if not Achat(ressource.Id, QuantityToBuy) then
+                            if not achat(ressource.Id, QuantityToBuy) then
                                 item.NbToCraft = 0
                                 break
                             end
+                            randomDelay()
                         end
                     end
                     global:printMessage("--------------------------------------")
@@ -1486,6 +1487,7 @@ function move()
 
             --va chercher les runes manquantes en banque
             if not map:onMap(217059328) and not item.bankChecked and not ItemSatisfyConditions(item).Bool then
+                global:printMessage("On va en banque pour chercher les runes manquantes")
                 return treatMaps(goToBankBonta)
             elseif not item.bankChecked and not ItemSatisfyConditions(item).Bool then
                 npc:npcBank(-1)
@@ -1500,7 +1502,8 @@ function move()
                 bankContent = exchange:storageItems()
 
                 for _, rune in ipairs(item.InfoFm.RunesNeeded) do
-                    local quantity = math.min(200 - inventory:itemCount(rune), exchange:storageItemQuantity(rune), math.ceil(200000 / GetPriceRune(rune)))
+                    local quantity = math.min(200 - inventory:itemCount(rune), exchange:storageItemQuantity(rune), (inventory:podsMax() - inventory:pods()) * 0.95 / inventory:itemWeight(rune)) -- on prend 200 runes max, et on laisse 1000 pods de libre pour les ressources
+                    debug("on cherche la rune " .. rune .. " en banque, on en a " .. inventory:itemCount(rune) .. ", il y en a " .. exchange:storageItemQuantity(rune) .. " en hdv, on en veut " .. quantity)
                     if quantity > 0 then
                         exchange:getItem(rune, quantity)
                     end
@@ -1513,6 +1516,7 @@ function move()
 
             -- va hdv runes pour acheter les runes manquantes
             if not map:onMap(212601859) and not item.hdvRunesChecked and (not ItemSatisfyConditions(item).Bool or item.FMTrans) then
+                global:printMessage("On va acheter les runes manquantes en hdv")
                 return treatMaps(goToHdvRunes)
             elseif not item.hdvRunesChecked and (not ItemSatisfyConditions(item).Bool or item.FMTrans) then
                 global:printSuccess(inventory:itemNameId(item.Id))
@@ -1520,7 +1524,7 @@ function move()
                     local quantity = math.floor(math.min(100 - inventory:itemCount(rune), math.ceil((150000 / GetPriceRune(rune)) - inventory:itemCount(rune))))
                     if quantity > 10 or quantity * GetPriceRune(rune) > 20000 then
                         global:printSuccess("Achat de " .. quantity .. " [" .. inventory:itemNameId(rune) .. "]")
-                        Achat(rune, quantity)
+                        achat(rune, quantity)
                     end
                 end
                 item.hdvRunesChecked = true

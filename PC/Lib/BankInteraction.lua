@@ -212,6 +212,8 @@ function connectReceiver(maxWaitingTime)
             else
                 debug(acc:getAlias() .. " est déjà connecté")
                 debug(acc.character():id())
+                acc:loadConfig("C:\\Users\\Vivien\\Documents\\Snowbot-Scripts-3\\PC\\Configs\\configBank.xml")
+                acc:loadScript("C:\\Users\\Vivien\\Documents\\Snowbot-Scripts-3\\PC\\Scripts\\Utilitaires\\bot_banque.lua")		
                 acc:startScript()
                 return acc
             end
@@ -266,6 +268,12 @@ function connectGiver(maxWaitingTime)
             else
                 debug(acc:getAlias() .. " est déjà connecté")
                 debug(acc.character():id())
+                acc:loadConfig("C:\\Users\\Vivien\\Documents\\Snowbot-Scripts-3\\PC\\Configs\\configBank.xml")
+                if global:thisAccountController():getAlias():find("LvlUp") then
+                    giver:loadScript("C:\\Users\\Vivien\\Documents\\Snowbot-Scripts-3\\PC\\Scripts\\Utilitaires\\give-kamas-and-stuff.lua")
+                else
+                    acc:loadScript("C:\\Users\\Vivien\\Documents\\Snowbot-Scripts-3\\PC\\Scripts\\Utilitaires\\give-kamas.lua")				
+                end
                 acc:startScript()
                 return acc
             end

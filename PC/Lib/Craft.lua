@@ -804,7 +804,7 @@ function GetNameCarac(Id)
     if ID_TO_STAT_NAME[Id] then
         return ID_TO_STAT_NAME[Id]
     end
-    global:printError("la stat d'id " .. Id .. " n'existe pas dans la table")
+    -- global:printError("la stat d'id " .. Id .. " n'existe pas dans la table")
     return ""
 end
 
@@ -988,12 +988,11 @@ function GetDices(Id)
 
     for k, v in ipairs(itemData.possibleEffects) do
         local data = v.FieldUseless
-        local effectName = ID_TO_STAT_NAME[tostring(data.effectId)]
-
-        if effectName and not effectName:find("Degats") and not effectName:find("-") and not effectName:find("Legendaire") then
+        local effectName = GetNameCarac(data.effectId)
+        if effectName and not effectName:find("-") and effectName ~= "" then
             table.insert(dices, {
                 id = data.effectId,
-                name = ID_TO_STAT_NAME[tostring(data.effectId)],
+                name = effectName,
                 dice = {
                     min = data.diceNum,
                     max = data.diceSide > 0 and data.diceSide or data.diceNum,
@@ -1001,7 +1000,6 @@ function GetDices(Id)
             })
         end
     end
-
 
     return dices
 end

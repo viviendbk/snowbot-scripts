@@ -30,6 +30,13 @@ local function ProcessCraft(table, cellId)
                 randomDelay()
     
                 global:printSuccess("ok1")
+                -- local message = developer:createMessage("ExchangeSetCraftRecipeRequest")
+                -- message.object_uid = element.Id
+                -- message.epyq = 0
+                -- developer:sendMessage(message)
+                -- developer:suspendScriptUntil("ExchangeObjectsAddedEvent", 5000, false, nil, 50)
+
+
                 for _, item in ipairs(element.ListIdCraft) do
                     craft:putItem(item.Id, item.Quantity)
                     global:delay(math.random(200, 500))
@@ -378,7 +385,7 @@ function move()
             global:printSuccess("Remplissage de la TableItem...")
 
             local jsonFile = openFile("C:\\Users\\Vivien\\Documents\\Snowbot-Scripts-3\\PC\\Scripts\\Craft\\" .. character:server() .. "\\Craft-Resell.json")
-            for i = 1, 20000 do
+            for i = 1, 30000 do
                 if IsItem(inventory:itemTypeId(i)) and inventory:getLevel(i) <= job:level(GetJobIdByType(inventory:getTypeName(i))) and inventory:getLevel(i) > 49
                 and inventory:getLevel(i) < (character:server() == "Ombre" and 150 or 200) and ((inventory:itemCount(i) > 0 and inventory:itemPosition(i) == 63) or inventory:itemCount(i) == 0) and CanCraftItem(i, jsonFile) then
                     table.insert(TableItem, {
@@ -496,7 +503,7 @@ function move()
     
                     local cpt = get_quantity(item.objectGID).quantity["100"]
                     local Priceitem1 = Prices.Price100
-                    Priceitem1 = (Priceitem1 == nil or Priceitem1 == 0 or Priceitem1 == 1) and sale:getAveragePriceItem(item.objectGID, 3) * 1.5 or Priceitem1
+                    Priceitem1 = (Priceitem1 == nil or Priceitem1 == 0 or Priceitem1 == 1) and Prices.AveragePrice * 100 * 1.5 or Priceitem1
                     while (inventory:itemCount(item.objectGID) >= 100) and (sale:availableSpace() > 0) and (((Priceitem1 > 4000) and (cpt < math.floor(10 * (character:level() / 200)))) or ((Priceitem1 > 10000) and cpt < math.floor(15 * (character:level() / 200))) or (cpt < math.floor(5 * (character:level() / 200)) and Priceitem1 > 2000)) do 
                         sale:sellItem(item.objectGID, 100, Priceitem1 - 1) 
                         global:printSuccess("1 lot de " .. 100 .. " x " .. inventory:itemNameId(item.objectGID) .. " à " .. Priceitem1 - 1 .. "kamas")
@@ -506,7 +513,7 @@ function move()
             
                     cpt = get_quantity(item.objectGID).quantity["10"]
                     local Priceitem2 = Prices.Price10
-                    Priceitem2 = (Priceitem2 == nil or Priceitem2 == 0 or Priceitem2 == 1) and sale:getAveragePriceItem(item.objectGID, 2) * 1.5 or Priceitem2
+                    Priceitem2 = (Priceitem2 == nil or Priceitem2 == 0 or Priceitem2 == 1) and Prices.AveragePrice * 10 * 1.5 or Priceitem2
                     while (inventory:itemCount(item.objectGID) >= 10) and (sale:availableSpace() > 0) and (((Priceitem2 > 4000) and (cpt < math.floor(10 * (character:level() / 200)))) or  ((Priceitem2 > 10000) and cpt < math.floor(15 * (character:level() / 200))) or (cpt < math.floor(5 * (character:level() / 200)) and Priceitem2 > 2000)) do 
                         sale:sellItem(item.objectGID, 10, Priceitem2 - 1) 
                         global:printSuccess("1 lot de " .. 10 .. " x " .. inventory:itemNameId(item.objectGID) .. " à " .. Priceitem2 - 1 .. "kamas")
@@ -516,7 +523,7 @@ function move()
             
                     cpt = get_quantity(item.objectGID).quantity["1"]
                     local Priceitem3 = Prices.Price1
-                    Priceitem3 = (Priceitem3 == nil or Priceitem3 == 0 or Priceitem3 == 1) and sale:getAveragePriceItem(item.objectGID, 1) * 1.5 or Priceitem3
+                    Priceitem3 = (Priceitem3 == nil or Priceitem3 == 0 or Priceitem3 == 1) and Prices.AveragePrice * 1.5 or Priceitem3
                     while (inventory:itemCount(item.objectGID) >= 1) and (sale:availableSpace() > 0) and (((Priceitem3 > 4000) and (cpt < math.floor(10 * (character:level() / 200)))) or  ((Priceitem3 > 10000) and cpt < math.floor(15 * (character:level() / 200))) or (cpt < math.floor(5 * (character:level() / 200)) and Priceitem3 > 2000)) do 
                         sale:sellItem(item.objectGID, 1, Priceitem3 - 1) 
                         global:printSuccess("1 lot de " .. 1 .. " x " .. inventory:itemNameId(item.objectGID) .. " à " .. Priceitem3 - 1 .. "kamas")
@@ -533,6 +540,7 @@ function move()
 
             local random = math.random(1, 5)
             if random == 1 then
+                global:printSuccess("Update des items")
                 sale:updateAllItems()
             end
 
@@ -703,8 +711,7 @@ function move()
             end
             jsonPrice = not jsonPrice and {{Date = getDate(), Time = getCurrentTime(), Prices = {}}} or jsonPrice
 
-            global:printSuccess(jsonPrice[1].Date)
-            if isXDaysLater(jsonPrice[1].Date, 2) then
+            if isXDaysLater(jsonPrice[1].Date, 2) or tableSize(jsonPrice[1].Prices) == 0 then
                 global:printSuccess("Le prix des ressources ne sont pas à jour, on les récupère")
                 getPricesResourceInHDV()
             end
@@ -804,7 +811,7 @@ function move()
 
             jsonPrice = not jsonPrice and {{Date = getDate(), Time = getCurrentTime(), Prices = {}}} or jsonPrice
 
-            if isXDaysLater(jsonPrice[1].Date, 2) then
+            if isXDaysLater(jsonPrice[1].Date, 2) or tableSize(jsonPrice[1].Prices) == 0 then
                 global:printSuccess("Les prix des items ne sont pas à jour, on les récup")
                 getPricesItemsInHDV()
             end
@@ -1025,10 +1032,11 @@ function move()
                         local QuantityToBuy = ressource.Quantity * (item.NbToCraft - inventory:itemCount(item.Id)) - inventory:itemCount(ressource.Id)
                         if QuantityToBuy > 0 then
                             global:printSuccess("Achat de " .. QuantityToBuy .. " [" .. inventory:itemNameId(ressource.Id) .. "]")
-                            if not Achat(ressource.Id, QuantityToBuy) then
+                            if not achat(ressource.Id, QuantityToBuy) then
                                 item.NbToCraft = 0
                                 break
                             end
+                            randomDelay()
                         end
                     end
                     global:printMessage("--------------------------------------")

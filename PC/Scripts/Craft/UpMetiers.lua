@@ -20,7 +20,7 @@ local function ProcessCraft(table, cellId, jobId)
                 
                 if BuyQuantity > 0 then
                     global:printSuccess("On achète " .. BuyQuantity .. " x " .. inventory:itemNameId(element2.Id))
-                    Achat(element2.Id, BuyQuantity)
+                    achat(element2.Id, BuyQuantity)
                     global:delay(500)
                 end
             end
@@ -143,7 +143,7 @@ local function ProcessCraft(table, cellId, jobId)
                 
                 if BuyQuantity > 0 then
                     global:printSuccess("On achète " .. BuyQuantity .. " item d'id " .. element2.Id)
-                    Achat(element2.Id, BuyQuantity)
+                    achat(element2.Id, BuyQuantity)
                     global:delay(500)
                 end
             end

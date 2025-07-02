@@ -34,6 +34,7 @@ function openFile(path, del)
   if fileResult then
       local content = fileResult:read("*a")
       fileResult:close()
+      debug("ok")
 
       if del then os.remove(path) end
 

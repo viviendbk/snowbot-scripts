@@ -652,7 +652,7 @@ function connectAccountsWithFailleProxy()
     for _, server in ipairs(ALL_SERVERS) do
         for _, acc in ipairs(loadedAccounts) do
             if acc:getAlias():find(server) and (acc:getAlias():find("Mineur") or acc:getAlias():find("Bucheron") 
-            or acc:getAlias("Combat") or acc:getAlias():find("LvlUp")) and not acc:getAlias():find("BAN")
+            or acc:getAlias("Combat") or acc:getAlias():find("LvlUp") or acc:getAlias():find("Craft") or acc:getAlias():find("Requests")) and not acc:getAlias():find("BAN")
             and not acc:isAccountConnected() and canReconnect(acc:getAlias()) then
                 table.insert(accountsToConnectByServer[server], acc)
             end
@@ -1422,4 +1422,13 @@ function EditJsonItems(content)
 
     file:write(new_content)
     file:close()
+end
+
+
+function tableSize(t)
+  local count = 0
+  for _ in pairs(t) do
+    count = count + 1
+  end
+  return count
 end

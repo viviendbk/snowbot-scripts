@@ -128,7 +128,6 @@ local function GetCraftCost(ListIdCraft)
 end
 
 function move()
-    achat2(287, 15)
     if character:level() < 35 then
         global:loadAndStart("C:\\Users\\Vivien\\Documents\\Snowbot-Scripts-3\\PC\\Scripts\\PLAndZaaps\\PL_1-6X.lua")
     end
@@ -274,13 +273,13 @@ function move()
         if character:server() == "Salar" then
             customReconnect(100, 200)
         end
-        global:disconnect()
+        customReconnect(0)
     elseif global:thisAccountController():getAlias():find("RequestsMono") then
         global:thisAccountController():forceServer(switchServerMono[character:server()])
         if character:server() == "Mikhal" then
             customReconnect(400, 600)
         end
-        global:disconnect()
+        customReconnect(0)
     else
         global:printError("Alias de l'account controller non reconnu, impossible de changer de serveur.")
     end
