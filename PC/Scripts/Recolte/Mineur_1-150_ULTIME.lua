@@ -636,7 +636,7 @@ local function ProcessSell()
 	for _, element in ipairs(Aliage) do
         local itemSold = false
 
-		local priceItem = GetPricesItem(element.Id)
+		local priceItem = GetPricesItemInHdvSell(element.Id)
         priceItem.Price10 = (priceItem.Price10 == nil or priceItem.Price10 == 0 or priceItem.Price10 == 1) and priceItem.AveragePrice * 15 or priceItem.Price10
 		priceItem.Price1 = (priceItem.Price1 == nil or priceItem.Price1 == 0 or priceItem.Price1 == 1) and priceItem.AveragePrice * 1.5 or priceItem.Price1
 
@@ -670,7 +670,7 @@ local function ProcessSell()
 	for i, element in ipairs(TABLE_VENTE_PL) do
 		if inventory:itemCount(element.Id) == 0 then global:printSuccess("on a plus rien à vendre") break end
 
-        local priceItem = GetPricesItem(element.Id)
+        local priceItem = GetPricesItemInHdvSell(element.Id)
 		priceItem.Price100 = (priceItem.Price100 == nil or priceItem.Price100 == 0 or priceItem.Price100 == 1) and priceItem.AveragePrice * 150 or priceItem.Price100
 		priceItem.Price10 = (priceItem.Price10 == nil or priceItem.Price10 == 0 or priceItem.Price10 == 1) and priceItem.AveragePrice * 15 or priceItem.Price10
 
@@ -723,7 +723,8 @@ local function ProcessSell()
 	if actualiser then
 		global:printSuccess("on actualise")
 		actualiser = false
-		sale:updateAllItems()
+        global:leaveDialog()
+		openHdvAndUpdateItems()
 	else
 		actualiser = true
 	end
@@ -799,7 +800,7 @@ function move()
             break
         end
     end
-    take50kIfNeed(10000, 120, 1)
+    take50kIfNeeded(10000, 120, 1)
 
     while character:kamas() == 0 and map:onMap("4,-18") do
         npc:npcBank(-1)

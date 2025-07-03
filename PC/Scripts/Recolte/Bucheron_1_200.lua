@@ -1715,7 +1715,7 @@ local function ProcessSell() -- done
 	debug("ok")
 
 	for _, element in ipairs(Planches) do
-		local priceItem = GetPricesItem(element.Id)
+		local priceItem = GetPricesItemInHdvSell(element.Id)
         priceItem.Price10 = (priceItem.Price10 == nil or priceItem.Price10 == 0 or priceItem.Price10 == 1) and priceItem.AveragePrice * 15 or priceItem.Price10
 		priceItem.Price1 = (priceItem.Price1 == nil or priceItem.Price1 == 0 or priceItem.Price1 == 1) and priceItem.AveragePrice * 1.5 or priceItem.Price1
 
@@ -1745,7 +1745,7 @@ local function ProcessSell() -- done
     for _, element in ipairs(Bois) do
 		local itemSold = false
 
-        local priceItem = GetPricesItem(element.Id)
+        local priceItem = GetPricesItemInHdvSell(element.Id)
 		priceItem.Price100 = (priceItem.Price100 == nil or priceItem.Price100 == 0 or priceItem.Price100 == 1) and priceItem.AveragePrice * 150 or priceItem.Price100
 		priceItem.Price10 = (priceItem.Price10 == nil or priceItem.Price10 == 0 or priceItem.Price10 == 1) and priceItem.AveragePrice * 15 or priceItem.Price10
 
@@ -1774,7 +1774,7 @@ local function ProcessSell() -- done
      for _, element in ipairs(Seves) do
 		local itemSold = false
 
-        local priceItem = GetPricesItem(element.Id)
+        local priceItem = GetPricesItemInHdvSell(element.Id)
 		priceItem.Price1 = (priceItem.Price1 == nil or priceItem.Price1 == 0 or priceItem.Price0 == 1) and priceItem.AveragePrice * 1.5 or priceItem.Price1
         cpt = get_quantity(element.Id).quantity["1"]
 
@@ -1800,7 +1800,7 @@ local function ProcessSell() -- done
 	for i, element in ipairs(TABLE_VENTE_PL) do
 		if inventory:itemCount(element.Id) == 0 then global:printSuccess("on a plus rien à vendre") break end
 
-        local priceItem = GetPricesItem(element.Id)
+        local priceItem = GetPricesItemInHdvSell(element.Id)
 		priceItem.Price100 = (priceItem.Price100 == nil or priceItem.Price100 == 0 or priceItem.Price100 == 1) and priceItem.AveragePrice * 150 or priceItem.Price100
 		priceItem.Price10 = (priceItem.Price10 == nil or priceItem.Price10 == 0 or priceItem.Price10 == 1) and priceItem.AveragePrice * 15 or priceItem.Price10
 
@@ -1850,7 +1850,8 @@ local function ProcessSell() -- done
 	if cptActualiser == 3 then
 		cptActualiser = 0
 		global:printSuccess("on actualise")
-		sale:updateAllItems()
+		global:leaveDialog()
+		openHdvAndUpdateItems()
 	else
 		cptActualiser = cptActualiser + 1
 	end
@@ -1931,7 +1932,7 @@ end
 function move()
 	handleDisconnection()
 	mapDelay()
-    take50kIfNeed(10000, 120, 1)
+    take50kIfNeeded(10000, 120, 1)
 
 	--[[job:level(2) < 50 and global:getCountGather() > 0 and (global:getCountGather() + global:remember("increm")) % (global:remember("increm") == 0 and 50 or 400) == 0 then
 		global:editInMemory("increm", global:remember("increm") + 1)

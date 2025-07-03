@@ -1979,7 +1979,7 @@ local function ProcessSell()
                 global:printSuccess("on a plus rien à vendre") 
                 break 
             end
-            local Priceitem = GetPricesItem(element.id)
+            local Priceitem = GetPricesItemInHdvSell(element.id)
             local itemSold = false
 
 		    cpt = get_quantity(element.id).quantity["100"]
@@ -2093,7 +2093,7 @@ local function ProcessSell()
         local compteur = 0
         local totalPrice = 0
         for j, element2 in ipairs(element.ListeVenteId) do
-            local priceHdv = GetPricesItem(element2).TrueAveragePrice
+            local priceHdv = GetPricesItemInHdvSell(element2).TrueAveragePrice
             totalPrice = totalPrice + ((priceHdv ~= 0 and priceHdv ~= nil) and priceHdv or sale:getAveragePriceItem(element2, 1))
 
             for _, element3 in ipairs(TableVente) do -- trouve l'id dans la tableVente

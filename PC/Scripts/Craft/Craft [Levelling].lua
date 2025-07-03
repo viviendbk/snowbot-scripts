@@ -629,7 +629,7 @@ function move()
                 else
                     for _, Ressource in ipairs(item.ListIdCraft) do
                         if not PrixHdvAllRessources[Ressource.Id] then
-                            PrixHdvAllRessources[Ressource.Id] = GetPricesItem(Ressource.Id)
+                            PrixHdvAllRessources[Ressource.Id] = GetPricesItemInHdvSell(Ressource.Id)
                         end
 
 

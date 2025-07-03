@@ -75,7 +75,7 @@ function forwardKamasBotBankIfNeeded(givingTriggerValue, minKamas, maxWaitingTim
                 global:delay(10000)
             end
 
-            receiver = connectReceiver(maxWaitingTime)
+            receiver = connectGiver(maxWaitingTime, "C:\\Users\\Vivien\\Documents\\Snowbot-Scripts-3\\PC\\Scripts\\Utilitaires\\bot_banque.lua")
 
             if cannotConnect or not botFound then
                 rerollVar()
@@ -115,7 +115,7 @@ function forwardKamasBotBankIfNeeded(givingTriggerValue, minKamas, maxWaitingTim
 
 end
 
-function take50kIfNeed(kamasTriggerValuer, maxWaitingTime, minRetryHours)
+function take50kIfNeeded(kamasTriggerValuer, maxWaitingTime, minRetryHours)
     if global:remember("failedTakeKamas") then
         global:deleteMemory("failedTakeKamas")
         global:printError("On a pas pu faire l'echange avec le bot bank et on a plus de kamas, on retente dans " .. minRetryHours .. " heures")
@@ -134,7 +134,7 @@ function take50kIfNeed(kamasTriggerValuer, maxWaitingTime, minRetryHours)
                 global:delay(10000)
             end
 
-            receiver = connectGiver50k(maxWaitingTime)
+            receiver = connectGiver(maxWaitingTime, "C:\\Users\\Vivien\\Documents\\Snowbot-Scripts-3\\PC\\Scripts\\Utilitaires\\give-50kk.lua")
 
             if cannotConnect or not botFound then
                 rerollVar()
@@ -173,56 +173,8 @@ function take50kIfNeed(kamasTriggerValuer, maxWaitingTime, minRetryHours)
 end
 
 
-
-function connectReceiver(maxWaitingTime)
-    global:printSuccess("Connexion du bot banque")
-
-    for _, acc in ipairs(snowbotController:getLoadedAccounts()) do
-		if acc:getAlias():find("bank_" .. character:server():lower()) then
-            botFound = true
-            if not acc:isAccountFullyConnected() then
-                setBotBankConnected(character:server(), true)
-                acc:connect()
-
-                local safetyCount = 0
-                while not acc:isAccountFullyConnected() do
-                    safetyCount = safetyCount + 1
-
-
-                    if safetyCount == 1 then
-                        global:printMessage("Attente de la connexion du bot banque (" .. maxWaitingTime .. " secondes max)")
-                    end
-
-                    global:delay(1000)
-
-                    if safetyCount >= maxWaitingTime then
-                        global:printError("Bot banque non-connecté après " .. maxWaitingTime .. " secondes, reprise du trajet")
-                        setBotBankConnected(character:server(), false)
-                        cannotConnect = true
-	
-                        return acc
-                    end
-                end
-                global:printSuccess("ok")
-
-				acc:loadConfig("C:\\Users\\Vivien\\Documents\\Snowbot-Scripts-3\\PC\\Configs\\configBank.xml")
-                acc:loadScript("C:\\Users\\Vivien\\Documents\\Snowbot-Scripts-3\\PC\\Scripts\\Utilitaires\\bot_banque.lua")				
-                acc:startScript()
-                return acc
-            else
-                debug(acc:getAlias() .. " est déjà connecté")
-                debug(acc.character():id())
-                acc:loadConfig("C:\\Users\\Vivien\\Documents\\Snowbot-Scripts-3\\PC\\Configs\\configBank.xml")
-                acc:loadScript("C:\\Users\\Vivien\\Documents\\Snowbot-Scripts-3\\PC\\Scripts\\Utilitaires\\bot_banque.lua")		
-                acc:startScript()
-                return acc
-            end
-        end
-    end
-    botFound = false
-end
-
-function connectGiverStuff(maxWaitingTime)
+function connectGiver(maxWaitingTime, pathScriptBotBank)
+    pathScriptBotBank = pathScriptBotBank or "C:\\Users\\Vivien\\Documents\\Snowbot-Scripts-3\\PC\\Scripts\\Utilitaires\\give-kamas.lua"
     global:printSuccess("Connexion du bot banque")
 
     for _, acc in ipairs(snowbotController:getLoadedAccounts()) do
@@ -255,7 +207,8 @@ function connectGiverStuff(maxWaitingTime)
                 end
 
 				acc:loadConfig("C:\\Users\\Vivien\\Documents\\Snowbot-Scripts-3\\PC\\Configs\\configBank.xml")
-                giver:loadScript("C:\\Users\\Vivien\\Documents\\Snowbot-Scripts-3\\PC\\Scripts\\Utilitaires\\give-kamas&stuff.lua")
+
+                acc:loadScript(pathScriptBotBank)				
 
                 acc:exchangeListen(false)
                 acc.global():setPrivate(false)
@@ -265,61 +218,7 @@ function connectGiverStuff(maxWaitingTime)
                 debug(acc:getAlias() .. " est déjà connecté")
                 debug(acc.character():id())
                 acc:loadConfig("C:\\Users\\Vivien\\Documents\\Snowbot-Scripts-3\\PC\\Configs\\configBank.xml")
-                giver:loadScript("C:\\Users\\Vivien\\Documents\\Snowbot-Scripts-3\\PC\\Scripts\\Utilitaires\\give-kamas&stuff.lua")
-
-                acc:startScript()
-                return acc
-            end
-        end
-    end
-    botFound = false
-end
-
-function connectGiver(maxWaitingTime)
-    global:printSuccess("Connexion du bot banque")
-
-    for _, acc in ipairs(snowbotController:getLoadedAccounts()) do
-		if acc:getAlias():find("bank_" .. character:server():lower()) then
-            botFound = true
-            if not acc:isAccountFullyConnected() then
-
-                setBotBankConnected(character:server(), true)
-                acc:connect()
-
-
-                local safetyCount = 0
-                while not acc:isAccountFullyConnected() do
-                    safetyCount = safetyCount + 1
-
-
-                    if safetyCount == 1 then
-                        global:printMessage("Attente de la connexion du bot banque (" .. maxWaitingTime .. " secondes max)")
-                    end
-
-                    global:delay(1000)
-
-                    if safetyCount >= maxWaitingTime then
-                        global:printError("Bot banque non-connecté après " .. maxWaitingTime .. " secondes, reprise du trajet")
-                        setBotBankConnected(character:server(), false)
-                        cannotConnect = true
-	
-                        return acc
-                    end
-                end
-
-				acc:loadConfig("C:\\Users\\Vivien\\Documents\\Snowbot-Scripts-3\\PC\\Configs\\configBank.xml")
-
-                acc:loadScript("C:\\Users\\Vivien\\Documents\\Snowbot-Scripts-3\\PC\\Scripts\\Utilitaires\\give-kamas.lua")				
-
-                acc:exchangeListen(false)
-                acc.global():setPrivate(false)
-                acc:startScript()
-                return acc
-            else
-                debug(acc:getAlias() .. " est déjà connecté")
-                debug(acc.character():id())
-                acc:loadConfig("C:\\Users\\Vivien\\Documents\\Snowbot-Scripts-3\\PC\\Configs\\configBank.xml")
-                acc:loadScript("C:\\Users\\Vivien\\Documents\\Snowbot-Scripts-3\\PC\\Scripts\\Utilitaires\\give-kamas.lua")				
+                acc:loadScript(pathScriptBotBank)				
                 acc:startScript()
                 return acc
             end
@@ -361,7 +260,7 @@ function connectGiver50k(maxWaitingTime)
                 end
 
                 acc:loadConfig("C:\\Users\\Vivien\\Documents\\Snowbot-Scripts-3\\PC\\Configs\\configBank.xml")
-                acc:loadScript("C:\\Users\\Vivien\\Documents\\Snowbot-Scripts-3\\PC\\Scripts\\Utilitaires\\give-50k.lua")
+                acc:loadScript("C:\\Users\\Vivien\\Documents\\Snowbot-Scripts-3\\PC\\Scripts\\Utilitaires\\give-50kk.lua")
 
                 acc:exchangeListen(false)
                 acc.global():setPrivate(false)

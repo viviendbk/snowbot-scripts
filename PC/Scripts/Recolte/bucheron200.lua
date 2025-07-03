@@ -74,7 +74,7 @@ local function RegenEnergie()
 	global:delay(1500)
 	if inventory:itemCount(678) >= 100 then
 		itemname = inventory:itemNameId(678)
-		Priceitem = GetPricesItem(678).Price100
+		Priceitem = GetPricesItemInHdvSell(678).Price100
 
 		if Priceitem > 400 then -- 
 			while (inventory:itemCount(678) >= 100) and (sale:availableSpace() > 0) do 
@@ -86,7 +86,7 @@ local function RegenEnergie()
 		if inventory:itemCount(680) >= 10 then
 
 		itemname = inventory:itemNameId(680)
-		Priceitem = GetPricesItem(678).Price10
+		Priceitem = GetPricesItemInHdvSell(678).Price10
 
 		if Priceitem > 400 then -- 
 			while (inventory:itemCount(680) >= 10) and (sale:availableSpace() > 0) do 
@@ -899,7 +899,7 @@ local function ProcessBank() -- done
 	end
 
     if exchange:storageItemQuantity(substrat_de_sylve) < 10 and character:kamas() > 300000 and exchange:storageItemQuantity(Planches[1].Id) >= 4 and not Planches[1].CanSell  then
-		CraftQuantity = math.min(math.floor(exchange:storageItemQuantity(Planches[1].Id) / 2), 20)
+		CraftQuantity = math.min(math.floor(exchange:storageItemQuantity(Planches[1].Id)), 20)
         global:printSuccess("Possibilité de craft " .. CraftQuantity .. " [Substrat de Sylve]")
 		exchange:getItem(Planches[1].Id, math.min(exchange:storageItemQuantity(Planches[1].Id, 20)))
 		exchange:getItem(16419, math.min(exchange:storageItemQuantity(16419), 40))
@@ -986,9 +986,9 @@ local function ProcessCraft() -- done
     end
     if craftSubstratDeSylve then
         craftSubstratDeSylve = false
-        craft:putItem(16420, 1)
-        craft:putItem(16419, 1)
-        craft:putItem(16499, 2)
+        craft:putItem(16420, 1) -- potion de glandage
+        craft:putItem(16419, 1) -- potion des ancêtres
+        craft:putItem(16499, 1)
         craft:changeQuantityToCraft(CraftQuantity)
 		global:delay(1000)
         craft:ready()
@@ -1014,40 +1014,38 @@ local function ProcessSell() -- done
     while craftSubstratDeSylve and not STOP and (inventory:itemCount(16420) < CraftQuantity or inventory:itemCount(16419) < CraftQuantity) do
         HdvSell()
 
-        local Priceitem1Glandage = GetPricesItem(16420).Price1
-        local Priceitem10Glandage = GetPricesItem(16420).Price10
-        local Priceitem1Ancetre = GetPricesItem(16419).Price1
-        local Priceitem10Ancetre = GetPricesItem(16419).Price10
+        local priceSubstratDeSylve = GetPricesItemInHdvSell(substrat_de_sylve).Price1
+        local priceGlandage = GetPricesItemInHdvSell(16420)
+        local priceAncetre = GetPricesItemInHdvSell(16419)
 
         global:leaveDialog()
         HdvBuy()
-
-        if ((Priceitem1Glandage == 0 and Priceitem10Glandage == 0 or (Priceitem10Glandage > 200000 and Priceitem1Glandage > 20000)) and inventory:itemCount(16420) < CraftQuantity) or 
-        ((Priceitem1Ancetre == 0 and Priceitem10Ancetre == 0 or (Priceitem10Ancetre > 200000 and Priceitem1Ancetre > 20000)) and inventory:itemCount(16419) < CraftQuantity)  then
+        
+        if ((priceGlandage.Price1 == 0 and priceGlandage.Price10 == 0) or (priceAncetre.Price1 == 0 and priceAncetre.Price10 == 0) 
+        or (priceSubstratDeSylve - priceAncetre.AveragePrice - priceGlandage.AveragePrice) < 10000) 
+        and (inventory:itemCount(16420) < CraftQuantity) and (inventory:itemCount(16419) < CraftQuantity) then
             craftSubstratDeSylve = false
             STOP = true
-        elseif inventory:itemCount(16420) < CraftQuantity and Priceitem10Glandage ~= 0 then
-            sale:buyItem(16420, 10, 200000)
-        elseif inventory:itemCount(16420) < CraftQuantity and Priceitem1Glandage ~= 0 then
-            sale:buyItem(16420, 1, 20000)
-        elseif inventory:itemCount(16419) < CraftQuantity and Priceitem10Ancetre ~= 0 then
-            sale:buyItem(16419, 10, 200000)
-        elseif inventory:itemCount(16419) < CraftQuantity and Priceitem1Ancetre ~= 0 then
-            sale:buyItem(16419, 1, 20000)
+            break
+        elseif inventory:itemCount(16420) < CraftQuantity then
+            achat(16420, 10)
+        elseif inventory:itemCount(16419) < CraftQuantity then
+            achat(16419, 10)
         end
+
         global:leaveDialog()
 
     end 
 
 	HdvSell()
-    local MuflePrices = GetPricesItem(10669)
+    local MuflePrices = GetPricesItemInHdvSell(10669)
     MuflePrice1 = MuflePrices.Price1
     MuflePrice10 = MuflePrices.Price10
     MuflePrice100 = MuflePrices.Price100
 
 
 	for _, element in ipairs(Planches) do
-		local priceItem = GetPricesItem(element.Id)
+		local priceItem = GetPricesItemInHdvSell(element.Id)
         priceItem.Price10 = (priceItem.Price10 == nil or priceItem.Price10 == 0 or priceItem.Price10 == 1) and priceItem.AveragePrice * 15 or priceItem.Price10
 		priceItem.Price1 = (priceItem.Price1 == nil or priceItem.Price1 == 0 or priceItem.Price1 == 1) and priceItem.AveragePrice * 1.5 or priceItem.Price1
 
@@ -1075,7 +1073,7 @@ local function ProcessSell() -- done
     for _, element in ipairs(Bois) do
 		local itemSold = false
 
-        local priceItem = GetPricesItem(element.Id)
+        local priceItem = GetPricesItemInHdvSell(element.Id)
 		priceItem.Price100 = (priceItem.Price100 == nil or priceItem.Price100 == 0 or priceItem.Price100 == 1) and priceItem.AveragePrice * 150 or priceItem.Price100
 		priceItem.Price10 = (priceItem.Price10 == nil or priceItem.Price10 == 0 or priceItem.Price10 == 1) and priceItem.AveragePrice * 15 or priceItem.Price10
 
@@ -1103,7 +1101,7 @@ local function ProcessSell() -- done
      for _, element in ipairs(Seves) do
 		local itemSold = false
 
-        local priceItem = GetPricesItem(element.Id)
+        local priceItem = GetPricesItemInHdvSell(element.Id)
         priceItem.Price1 = (priceItem.Price1 == nil or priceItem.Price1 == 0 or priceItem.Price1 == 1) and priceItem.AveragePrice * 1.5 or priceItem.Price1
         cpt = get_quantity(element.Id).quantity["1"]
 
@@ -1119,7 +1117,7 @@ local function ProcessSell() -- done
 		end
      end
 
-    local priceItem = GetPricesItem(substrat_de_sylve)
+    local priceItem = GetPricesItemInHdvSell(substrat_de_sylve)
     priceItem.Price100 = (priceItem.Price100 == nil or priceItem.Price100 == 0 or priceItem.Price100 == 1) and priceItem.AveragePrice * 150 or priceItem.Price100
     priceItem.Price10 = (priceItem.Price10 == nil or priceItem.Price10 == 0 or priceItem.Price10 == 1) and priceItem.AveragePrice * 15 or priceItem.Price10
 
@@ -1141,9 +1139,9 @@ local function ProcessSell() -- done
 
     while inventory:itemCount(10669) < 20 and character:kamas() > 50000 and ((MuflePrice100 > 0 and MuflePrice100 < 20000) or (MuflePrice10 > 0 and MuflePrice10 < 2000) or (MuflePrice1 > 0 and MuflePrice1 < 200)) do
         
-        npc:npc(333, 5)
+        HdvSell()
 
-        local MuflePrices = GetPricesItem(10669)
+        local MuflePrices = GetPricesItemInHdvSell(10669)
         MuflePrice100 = MuflePrices.Price100
         MuflePrice10 = MuflePrices.Price10
         MuflePrice1 = MuflePrices.Price1
@@ -1152,7 +1150,7 @@ local function ProcessSell() -- done
         global:leaveDialog()
 
         global:printSuccess("achat changement d'apparence")
-        npc:npc(333,6)
+        HdvSell()
 
         sale:buyItem(10669, 100, 20000)
 
@@ -1200,7 +1198,8 @@ local function ProcessSell() -- done
 	if cptActualiser >= 3 and character:kamas() > 30000 then
 		cptActualiser = 0
 		global:printSuccess("on actualise")
-		sale:updateAllItems()
+        global:leaveDialog()
+		openHdvAndUpdateItems()
 	else
 		cptActualiser = cptActualiser + 1
 	end
@@ -1272,7 +1271,7 @@ end
 function move()
     handleDisconnection()
     mapDelay()
-    take50kIfNeed(10000, 120, 1)
+    take50kIfNeeded(10000, 120, 1)
 
     while character:kamas() == 0 and map:onMap("4,-18") do
         npc:npcBank(-1)

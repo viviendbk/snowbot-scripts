@@ -1,6 +1,20 @@
 ItemList = {}
+UIDInHdvBuy = 0
 
 function HdvSell()
+    global:printMessage("Ouverture de l'HDV pour vendre")
+    local message = developer:createMessage("InteractiveUseRequest")
+    message.element_id = HDV_INTERACTIONS_ID[tostring(map:currentMapId())].elementID
+    message.specific_instance_id = 0
+    message.skill_instance_uid = HDV_INTERACTIONS_ID[tostring(map:currentMapId())].skillInstanceUID
+    developer:sendMessage(message)
+    if not developer:suspendScriptUntil("ExchangeBidBuyerStartedEvent", 5000, false, nil, 50) then
+        global:printError("L'HDV n'a pas pu être ouvert, on déco reco")
+        customReconnect(0)
+        return
+    end
+    randomDelay()
+
     developer:registerMessage("ExchangeStartedBidSellerMessage", _Stack_items_informations)
     local message = developer:createMessage("NpcGenericActionRequestMessage")
     message.npcId = -1
@@ -10,7 +24,37 @@ function HdvSell()
     developer:suspendScriptUntil("ExchangeStartedBidSellerMessage", 2000, false, nil, 50)
 end
 
+function fromHdvSellToHdvBuy()
+    local message = developer:createMessage("NpcGenericActionRequestMessage")
+    message.npcId = -1
+    message.npcActionId = 6
+    message.npcMapId = map:currentMapId()
+    developer:sendMessage(message)
+    developer:suspendScriptUntil("ExchangeStartedBidSellerMessage", 2000, false, nil, 50)
+end
+
+function fromHdvBuyToHdvSell()
+    local message = developer:createMessage("NpcGenericActionRequestMessage")
+    message.npcId = -1
+    message.npcActionId = 5
+    message.npcMapId = map:currentMapId()
+    developer:sendMessage(message)
+    developer:suspendScriptUntil("ExchangeStartedBidSellerMessage", 2000, false, nil, 50)
+end
+
 function HdvSell2()
+    local message = developer:createMessage("InteractiveUseRequest")
+    message.element_id = HDV_INTERACTIONS_ID[tostring(map:currentMapId())].elementID
+    message.specific_instance_id = 0
+    message.skill_instance_uid = HDV_INTERACTIONS_ID[tostring(map:currentMapId())].skillInstanceUID
+    developer:sendMessage(message)
+    if not developer:suspendScriptUntil("ExchangeBidBuyerStartedEvent", 5000, false, nil, 50) then
+        global:printError("L'HDV n'a pas pu être ouvert, on déco reco")
+        customReconnect(0)
+        return
+    end
+    randomDelay()
+
     developer:registerMessage("ExchangeStartedBidSellerMessage", _StackInfosHdvInJson)
     local message = developer:createMessage("NpcGenericActionRequestMessage")
     message.npcId = -1
@@ -20,13 +64,20 @@ function HdvSell2()
     developer:suspendScriptUntil("ExchangeStartedBidSellerMessage", 2000, false, nil, 50)
 end
 
+
+
 function HdvBuy()
-    message = developer:createMessage("NpcGenericActionRequestMessage")
-    message.npcId = -1
-    message.npcActionId = 6
-    message.npcMapId = map:currentMapId()
+    global:printMessage("Ouverture de l'HDV pour acheter")
+    local message = developer:createMessage("InteractiveUseRequest")
+    message.element_id = HDV_INTERACTIONS_ID[tostring(map:currentMapId())].elementID
+    message.specific_instance_id = 0
+    message.skill_instance_uid = HDV_INTERACTIONS_ID[tostring(map:currentMapId())].skillInstanceUID
     developer:sendMessage(message)
-    developer:suspendScriptUntil("ExchangeStartedBidBuyerMessage", 2000, false, nil, 50)
+    if not developer:suspendScriptUntil("ExchangeBidBuyerStartedEvent", 5000, false, nil, 50) then
+        global:printError("L'HDV n'a pas pu être ouvert, on déco reco")
+        customReconnect(0)
+        return
+    end
 end
 
 ---Fonction qui permet de recuperer les nombres de lots d'un item en HDV.
@@ -154,7 +205,7 @@ function FinalSelling(Id, UID, Price, MaxPrice, CraftCost, RuneCost)
     local finalPrice = 0
 
     if Price < 2 then
-        HdvSell()
+        fromHdvBuyToHdvSell()
         finalPrice = sale:getAveragePriceItem(Id, 1)
 
         local message = developer:createMessage("ExchangeObjectMovePricedMessage")
@@ -164,11 +215,10 @@ function FinalSelling(Id, UID, Price, MaxPrice, CraftCost, RuneCost)
         developer:sendMessage(message)
     
         global:printSuccess("1 lot de [" .. inventory:itemNameId(Id) .. "] à " .. finalPrice .. " kamas")
-        global:leaveDialog()
     end
     if character:kamas() > Price * 0.03 then
-        HdvSell()
-        finalPrice = math.max(GetPricesItem(Id).Price1 - 1, Price)
+        fromHdvBuyToHdvSell()
+        finalPrice = math.max(GetPricesItemInHdvSell(Id).Price1 - 1, Price)
 
         local message = developer:createMessage("ExchangeObjectMovePricedMessage")
         message.price = finalPrice
@@ -181,8 +231,6 @@ function FinalSelling(Id, UID, Price, MaxPrice, CraftCost, RuneCost)
         if Price < MaxPrice / 3 and MaxPrice ~= 10000000 and MaxPrice > 100000 and global:thisAccountController():getAlias():find("FM") then
             global:printError("Prb prix ( prix max = " .. MaxPrice .. ")")
         end
-    
-        global:leaveDialog()
     else
         global:printError("Pas assez de kamas pour vendre, on réessaie dans 2 heures")
         customReconnect(120)
@@ -339,7 +387,7 @@ function _GetBestPriceFM(message)
         elseif BestPrice == 0 then
         global:printSuccess("Il n'y a plus d'items en vente")
         HdvSell()
-        BestPrice = GetPricesItem(IdToSell).AveragePrice
+        BestPrice = GetPricesItemInHdvSell(IdToSell).AveragePrice
         HdvBuy()
     end
 
@@ -398,7 +446,7 @@ function _GetBestPriceFM2(message)
     elseif BestPrice == 0 then
         global:printSuccess("Il n'y a plus d'items en vente")
         HdvSell()
-        BestPrice = GetPricesItem(IdToSell).AveragePrice
+        BestPrice = GetPricesItemInHdvSell(IdToSell).AveragePrice
         HdvBuy()
     end
 
@@ -456,7 +504,7 @@ function _GetBestPriceOver(message)
     elseif BestPrice == 0 then
         global:printSuccess("Il n'y a plus d'items en vente")
         HdvSell()
-        BestPrice = GetPricesItem(IdToSell).AveragePrice
+        BestPrice = GetPricesItemInHdvSell(IdToSell).AveragePrice
         HdvBuy()
     end
 
@@ -558,6 +606,12 @@ function _BuyItemIfLessExpenciveThanCraft(message)
     end)
 
     global:printMessage("On cherche un prix inférieur à " .. Craft_Cost)
+
+    if not AllItemsInHdv or #AllItemsInHdv == 0 then
+        global:printError("Aucun item trouvé en hdv")
+        global:leaveDialog()
+    end
+
     global:printSuccess("le moins cher coute " .. AllItemsInHdv[1].Price .. " et a un coef de " .. AllItemsInHdv[1].PourcentageJetPerf)
 
     for _, element in ipairs(AllItemsInHdv) do
@@ -600,7 +654,7 @@ function SellItem(Id, CraftCost, RuneCost, MaxPrice)
     --     PourcentageJetPerf_ItemToSell = PourcentageJetPerf_ItemToSell + 0.05
     -- end
     global:printSuccess("% JP : " .. PourcentageJetPerf_ItemToSell)
-    HdvBuy()
+    fromHdvSellToHdvBuy()
 
     PoidsOver = GetPoidsOver(ItemStats)
 
@@ -619,11 +673,10 @@ function SellItem(Id, CraftCost, RuneCost, MaxPrice)
     developer:sendMessage(message)
     developer:suspendScriptUntil("ExchangeTypesItemsExchangerDescriptionForUserMessage", 5000, false, nil, 20)
 
-    global:leaveDialog()
-
     FinalSelling(IdToSell, UIDToSell, BestPrice < MaxPrice and BestPrice or MaxPrice, MaxPrice, CraftCost, RuneCost)
     BestPrice = 0
     PourcentageJetPerf_ItemToSell = 0
+    fromHdvBuyToHdvSell()
 end
 
 
@@ -675,7 +728,7 @@ function test(value)
     return math.floor(a * 2)
 end
 
-function _GetMessagePrices(message)
+function _getPricesHdvSell(message)
     developer:unRegisterMessage("ExchangeBidPriceEvent")
     local messageDeBase = message
     message = message.bid_price_for_seller.minimal_prices
@@ -707,57 +760,10 @@ function _GetMessagePrices(message)
     }
 end
 
-function GetPricesItem(Id)
+function GetPricesItemInHdvSell(objectGID)
 
     Prices = {}
-    developer:registerMessage("ExchangeBidPriceEvent", _GetMessagePrices)
-
-    local message1 = developer:createMessage("ExchangeBidHouseSearchRequest")
-    message1.follow = false
-    message1.object_gid = Id
-
-    local message2 = developer:createMessage("ExchangeBidHouseSearchRequest")
-    message2.follow = true
-    message2.object_gid = Id
-
-    local message3 = developer:createMessage("ExchangeBidHousePriceRequest")
-    message3.object_gid = Id
-
-    developer:sendMessage(message1)
-    developer:sendMessage(message2)
-    developer:sendMessage(message3)
-
-    developer:suspendScriptUntil("ExchangeBidPriceMessage", 5000, false, nil, 20)
-
-    if Prices ~= {} and Prices ~= nil then
-        return Prices
-    else
-        global:printSuccess("Impossible de récupérer le prix de " .. inventory:itemNameId(Id) .. " (id : " .. Id .. ")")
-        return {
-            Price1 = 0,
-            Price10 = 0,
-            Price100 = 0,
-            TrueAveragePrice = 0,
-            AveragePrice = 0
-        }
-    end
-end
-
-function _getUIDInSell(message)
-    developer:unRegisterMessage("ExchangeTypesItemsExchangerDescriptionForUserMessage")
-    UIDInSell = message.itemTypeDescriptions[1].objectUID
-end
-
-
-
-
-function GetUIDInSell(objectGID)
-    -- besoin d'être en mode achat
-    developer:registerMessage("ExchangeTypesItemsExchangerDescriptionForUserMessage", _getUIDInSell)
-
-    local message0 = developer:createMessage("ExchangeBidHouseTypeRequest")
-    message0.follow = true
-    message0.type_id = inventory:itemTypeId(objectGID)
+    developer:registerMessage("ExchangeBidPriceEvent", _getPricesHdvSell)
 
     local message1 = developer:createMessage("ExchangeBidHouseSearchRequest")
     message1.follow = false
@@ -770,36 +776,77 @@ function GetUIDInSell(objectGID)
     local message3 = developer:createMessage("ExchangeBidHousePriceRequest")
     message3.object_gid = objectGID
 
-    developer:sendMessage(message0)
-    developer:suspendScriptUntil("ExchangeTypesExchangerDescriptionForUserMessage", 5000, false, nil, 20)
-
     developer:sendMessage(message1)
     developer:sendMessage(message2)
     developer:sendMessage(message3)
-    developer:suspendScriptUntil("ExchangeTypesItemsExchangerDescriptionForUserMessage", 5000, false, nil, 20)
 
-    if UIDInSell ~= nil and UIDInSell ~= -1 then
-        return UIDInSell
+    developer:suspendScriptUntil("ExchangeBidPriceMessage", 5000, false, nil, 20)
+
+    if Prices ~= {} and Prices ~= nil then
+        return Prices
     else
-        global:printError("Impossible de récupérer l'UID de l'item " .. inventory:itemNameId(objectGID) .. " (id : " .. objectGID .. ")")
-        return -1
+        global:printSuccess("Impossible de récupérer le prix de " .. inventory:itemNameId(objectGID) .. " (id : " .. objectGID .. ")")
+        return {
+            Price1 = 0,
+            Price10 = 0,
+            Price100 = 0,
+            TrueAveragePrice = 0,
+            AveragePrice = 0
+        }
     end
 end
 
-PricesUpdate = {
-    Id = -1,
-    Price1 = -1,
-    Price10 = -1,
-    Price100 = -1
-}
+function _getPricesHdvBuy(message)
+    developer:unRegisterMessage("ExchangeTypesItemsExchangerDescriptionForUserMessage")
+    local messageDeBase = message
+    if not message.itemTypeDescriptions or #message.itemTypeDescriptions == 0 then -- arrive quand il n'y a plus de cet item en hdv
+        Prices = nil
+        return
+    end
+    message = message.itemTypeDescriptions[1].prices
 
-function restPriceUpdate()
-    PricesUpdate = {
-        Id = -1,
-        Price1 = -1,
-        Price10 = -1,
-        Price100 = -1
-    }   
+    Prices = {
+        Id = messageDeBase.objectGID,
+        UID = messageDeBase.itemTypeDescriptions[1].objectUID,
+        Price1 = message[1],
+        Price10 = message[2],
+        Price100 = message[3],
+        Prices1000 = message[4],
+    }
+end
+
+function GetPricesItemInHdvBuy(objectGID)
+    Prices = {}
+    developer:registerMessage("ExchangeTypesItemsExchangerDescriptionForUserMessage", _getPricesHdvBuy)
+
+    local message = developer:createMessage("ExchangeBidHouseTypeRequest")
+    message.follow = true
+    message.type_id = inventory:itemTypeId(objectGID)
+
+    local message2 = developer:createMessage("ExchangeBidHouseSearchRequest")
+    message2.follow = true
+    message2.object_gid = objectGID
+
+    developer:sendMessage(message)
+    developer:suspendScriptUntil("ExchangeTypesExchangerDescriptionForUserEvent", 5000, false, nil, 20)
+
+    developer:sendMessage(message2)
+    
+    developer:suspendScriptUntil("ExchangeTypesItemsExchangerDescriptionForUserMessage", 5000, false, nil, 20)
+
+    if Prices and Prices.Price1 then
+        return Prices
+    else
+        global:printSuccess("Impossible de récupérer le prix de " .. inventory:itemNameId(objectGID) .. " (id : " .. objectGID .. ")")
+        return {
+            Id = objectGID,
+            UID = 0,
+            Price1 = 0,
+            Price10 = 0,
+            Price100 = 0,
+            Prices1000 = 0
+        }
+    end
 end
 
 
@@ -809,18 +856,14 @@ function achat(objectGID, qtt)
         return false
     end
     local theoricalNbInInventoryAfterBuy = inventory:itemCount(objectGID) + qtt
-    HdvSell()
 
-    PricesForBuy = GetPricesItem(objectGID)
+    PricesForBuy = GetPricesItemInHdvBuy(objectGID)
+    UIDInHdvBuy = PricesForBuy.UID
+
     if not PricesForBuy then
         global:printError("Impossible de récupérer les prix, j’abandonne")
-        global:leaveDialog()
         return false
     end
-
-    HdvBuy()
-
-    local objectUID = GetUIDInSell(objectGID)
 
     -- boucle d’achat avec recalcul dynamique des prix
     while qtt > 0 do
@@ -830,49 +873,70 @@ function achat(objectGID, qtt)
 
         -- 3) déterminer le lot à acheter
         local buySize, buyPrice
+        local inSell = false
 
         if (PricesForBuy.Price100 == 0) and (PricesForBuy.Price10 == 0) and (PricesForBuy.Price1 == 0) then
             global:printError("L'item n'est plus disponible en hdv")
-            global:leaveDialog()
             return false
 
-        elseif PricesForBuy.Price10 == 0 and PricesForBuy.Price100 == 0 and qtt < 30  -- si y'a plus que les lots de 1 et qu'il est pas trop élevé
-        and (PricesForBuy.AveragePrice * 3 >= PricesForBuy.Price1 or PricesForBuy.Price1 < 5000) then
-            buySize, buyPrice = 1, PricesForBuy.Price1 * 2
+        elseif (PricesForBuy.Price10 == 0 and PricesForBuy.Price100 == 0)
+        or (PricesForBuy.Price10 == 0 and PricesForBuy.Price1 == 0) 
+        or (PricesForBuy.Price100 == 0 and PricesForBuy.Price1 == 0) then
 
-        elseif (PricesForBuy.Price10 == 0 and PricesForBuy.Price100 == 0 and PricesForBuy.AveragePrice * 2 < PricesForBuy.Price1) 
-        or (PricesForBuy.Price10 == 0 and PricesForBuy.Price1 == 0 and PricesForBuy.AveragePrice * 2 < PricesForBuy.Price100 / 100) 
-        or (PricesForBuy.Price100 == 0 and PricesForBuy.Price1 == 0 and PricesForBuy.AveragePrice * 2 < PricesForBuy.Price10 / 10)  
-        
-                  -- nouveau : lot 10 et lot 100 dispo et tous deux trop chers
-          or (PricesForBuy.Price10  > 0
-              and PricesForBuy.Price100 > 0 and PricesForBuy.Price1 == 0
-              and (PricesForBuy.Price10  / 10  > PricesForBuy.AveragePrice * 2)
-              and (PricesForBuy.Price100 / 100 > PricesForBuy.AveragePrice * 2))
+            if not PricesForBuy.AveragePrice then
+                inSell = true
+                fromHdvBuyToHdvSell()
+                PricesForBuy.AveragePrice = GetPricesItemInHdvSell(objectGID).AveragePrice
+            end
 
-          -- nouveau : lot 1 et lot 10 dispo et tous deux trop chers
-          or (PricesForBuy.Price1   > 0
-              and PricesForBuy.Price10  > 0 and PricesForBuy.Price100 == 0
-              and (PricesForBuy.Price1        > PricesForBuy.AveragePrice * 2)
-              and (PricesForBuy.Price10  / 10  > PricesForBuy.AveragePrice * 2))
+            if (PricesForBuy.Price10 == 0 and PricesForBuy.Price100 == 0 and PricesForBuy.AveragePrice * 2 < PricesForBuy.Price1) 
+            or (PricesForBuy.Price10 == 0 and PricesForBuy.Price1 == 0 and PricesForBuy.AveragePrice * 2 < PricesForBuy.Price100 / 100) 
+            or (PricesForBuy.Price100 == 0 and PricesForBuy.Price1 == 0 and PricesForBuy.AveragePrice * 2 < PricesForBuy.Price10 / 10)  
+            
+                    -- nouveau : lot 10 et lot 100 dispo et tous deux trop chers
+            or (PricesForBuy.Price10  > 0
+                and PricesForBuy.Price100 > 0 and PricesForBuy.Price1 == 0
+                and (PricesForBuy.Price10  / 10  > PricesForBuy.AveragePrice * 2)
+                and (PricesForBuy.Price100 / 100 > PricesForBuy.AveragePrice * 2))
 
-          -- nouveau : lot 1 et lot 100 dispo et tous deux trop chers
-          or (PricesForBuy.Price1   > 0
-              and PricesForBuy.Price100 > 0 and PricesForBuy.Price10 == 0
-              and (PricesForBuy.Price1        > PricesForBuy.AveragePrice * 2)
-              and (PricesForBuy.Price100 / 100 > PricesForBuy.AveragePrice * 2))
-        
-        then
-            global:printError("la ressource a un prix unitaire trop élevé")
-            global:leaveDialog()
-            return false
+            -- nouveau : lot 1 et lot 10 dispo et tous deux trop chers
+            or (PricesForBuy.Price1   > 0
+                and PricesForBuy.Price10  > 0 and PricesForBuy.Price100 == 0
+                and (PricesForBuy.Price1        > PricesForBuy.AveragePrice * 2)
+                and (PricesForBuy.Price10  / 10  > PricesForBuy.AveragePrice * 2))
 
-        elseif PricesForBuy.Price10 == 0 and PricesForBuy.Price100 == 0 and PricesForBuy.AveragePrice * 2 >= PricesForBuy.Price1 then
-            buySize, buyPrice = 1, PricesForBuy.Price1 * 2
+            -- nouveau : lot 1 et lot 100 dispo et tous deux trop chers
+            or (PricesForBuy.Price1   > 0
+                and PricesForBuy.Price100 > 0 and PricesForBuy.Price10 == 0
+                and (PricesForBuy.Price1        > PricesForBuy.AveragePrice * 2)
+                and (PricesForBuy.Price100 / 100 > PricesForBuy.AveragePrice * 2))
+            
+            then
+                global:printError("la ressource a un prix unitaire trop élevé (AveragePrice : " .. PricesForBuy.AveragePrice)
+                if inSell then
+                    inSell = false
+                    fromHdvSellToHdvBuy()
+                end
+                return false
 
-        elseif PricesForBuy.Price1 == 0 and PricesForBuy.Price100 == 0 and PricesForBuy.Price10 > 0 
-        and PricesForBuy.AveragePrice * 2 >= PricesForBuy.Price10 / 10 then
-            buySize, buyPrice = 10, PricesForBuy.Price10 * 2
+            elseif PricesForBuy.Price10 == 0 and PricesForBuy.Price100 == 0 and qtt < 30  -- si y'a plus que les lots de 1 et qu'il est pas trop élevé
+            and (PricesForBuy.AveragePrice * 3 >= PricesForBuy.Price1 or PricesForBuy.Price1 < 5000) then
+                buySize, buyPrice = 1, PricesForBuy.Price1 * 2
+            elseif PricesForBuy.Price10 == 0 and PricesForBuy.Price100 == 0 and PricesForBuy.AveragePrice * 2 >= PricesForBuy.Price1 then
+                buySize, buyPrice = 1, PricesForBuy.Price1 * 2
+
+            elseif PricesForBuy.Price1 == 0 and PricesForBuy.Price100 == 0 and PricesForBuy.Price10 > 0 
+            and PricesForBuy.AveragePrice * 2 >= PricesForBuy.Price10 / 10 then
+                buySize, buyPrice = 10, PricesForBuy.Price10 * 2
+            
+            end
+
+            if inSell then
+                debug("on était en sell, on passe en buy")
+                inSell = false
+                fromHdvSellToHdvBuy()
+                GetPricesItemInHdvBuy(objectGID) -- nécessaire pour être devant l'item dans l'interface
+            end
 
         elseif (((PricesForBuy.Price10 == 0) and (PricesForBuy.Price1 == 0)) or ((qtt > 10) and PricesForBuy.Price10 * qtt / 10 > PricesForBuy.Price100) 
         or (PricesForBuy.Price10 == 0 and qtt > 9 and qtt < 100 )) and PricesForBuy.Price100 > 0 then
@@ -927,19 +991,22 @@ function achat(objectGID, qtt)
         developer:registerMessage("ExchangeBidHouseInListUpdatedEvent", _updatePrices)
  
         local message = developer:createMessage("ExchangeBidHouseBuyRequest")
-        message.object_uid = objectUID
+        message.object_uid = PricesForBuy.UID
         message.price = buyPrice / 2
         message.quantity = buySize
         developer:sendMessage(message)
+
         global:printMessage("Achat de " .. buySize .. " de " .. inventory:itemNameId(objectGID) .. " pour " .. buyPrice / 2 .. " kamas")
 
-        developer:suspendScriptUntil("ExchangeBidHouseInListUpdatedEvent", 5000, false, nil, 20)
+        if not developer:suspendScriptUntil("ExchangeBidHouseInListUpdatedEvent", 5000, false, nil, 20) then
+            global:printError("L'item n'est plus présent en hdv, je quitte")
+            return false
+        end
         global:delay(math.random(100, 600))
         -- faire l'achat
         qtt = qtt - buySize
     end
 
-    global:leaveDialog()
     
     if inventory:itemCount(objectGID) < theoricalNbInInventoryAfterBuy then
         global:printError("Achat de " .. inventory:itemNameId(objectGID) .. " échoué, il en manque " .. theoricalNbInInventoryAfterBuy - inventory:itemCount(objectGID))
@@ -950,7 +1017,7 @@ function achat(objectGID, qtt)
 end
 
 function _updatePrices(message)
-    if message.object_uid == UIDInSell then
+    if message.object_uid == UIDInHdvBuy then
         developer:unRegisterMessage("ExchangeBidHouseInListUpdatedEvent")
         local prices = message.prices
         PricesForBuy.Price1 = prices[0]
@@ -969,7 +1036,7 @@ function _AnalyseItemsOnSale(message)
 
     for _, data in ipairs(toScan) do
         if data.quantity == 1 and IsItem(inventory:itemTypeId(data.objectGID)) then
-            local averagePrice = jsonPrice[1].Prices[tostring(data.objectGID)] and jsonPrice[1].Prices[tostring(data.objectGID)].AveragePrice or GetPricesItem(data.objectGID).AveragePrice
+            local averagePrice = jsonPrice[1].Prices[tostring(data.objectGID)] and jsonPrice[1].Prices[tostring(data.objectGID)].AveragePrice or GetPricesItemInHdvSell(data.objectGID).AveragePrice
             local element = {
                 Id = data.objectGID,
                 UID = data.objectUID,
@@ -983,6 +1050,7 @@ function _AnalyseItemsOnSale(message)
         else
             local element = {
                 Id = data.objectGID,
+                UID = data.objectUID,
                 Price = data.objectPrice,
                 Lot = data.quantity,
                 CurrentBestPrice = 0
@@ -1032,7 +1100,7 @@ function _AnalyseItemsOnSale(message)
 
     global:leaveDialog()
 
-    global:printMessage("----------ACTUALISATION----------")
+    global:printMessage("----------ACTUALISATION DES ITEMS ----------")
     
     HdvSell()
 
@@ -1042,7 +1110,7 @@ function _AnalyseItemsOnSale(message)
         and (((item.CurrentBestPrice / item.Price) > 0.5) or (item.CurrentBestPrice > (item.AveragePrice * 0.25))) then -- permets d'éviter de mettre moins cher qu'un prix fail
             global:printMessage("Prix actuel : " .. item.Price)
             global:printMessage("Ancien meilleur prix : " .. item.CurrentBestPrice)
-            item.CurrentBestPrice = math.max(GetPricesItem(item.Id).Price1 - 1, item.CurrentBestPrice)
+            item.CurrentBestPrice = math.max(GetPricesItemInHdvSell(item.Id).Price1 - 1, item.CurrentBestPrice)
             global:printMessage("Nouveau meilleur prix : " .. item.CurrentBestPrice)
             if ((item.Price - item.CurrentBestPrice) > 3000) and (item.Price / item.CurrentBestPrice) > 1.05 then
                 global:printSuccess("[" .. inventory:itemNameId(item.Id) .. "] : ancien prix : " .. item.Price .. ", nouveau prix : " .. item.CurrentBestPrice - 1)
@@ -1054,43 +1122,91 @@ function _AnalyseItemsOnSale(message)
 
     global:printMessage("----------ACTUALISATION FINIE----------")
 
-    HdvBuy()
 
-    for _, ressource in ipairs(RessourcesOnSale) do
-        local Prices = GetPricesItem(ressource.Id)
-        ressource.CurrentBestPrice = Prices
-    end
-
-    global:leaveDialog()
+    global:printMessage("----------ACTUALISATION DES RESSOURCES ----------")
 
     HdvSell()
 
+    local dicoNewPrices = {}
+    local counter = 1
     for _, ressource in ipairs(RessourcesOnSale) do
-        local Lot = ressource.Lot
-        if Lot == 100 then
-            if ressource.CurrentBestPrice.Price100 < ressource.Price then
-                global:printSuccess("Actualisation du lot de 100 [" .. inventory:itemNameId(ressource.Id) .. "], nouveau prix : " .. ressource.CurrentBestPrice - 1)
-                sale:editPriceByGID(ressource.Id, ressource.CurrentBestPrice - 1, 100)
+        local idStr = tostring(ressource.Id)
+        local lot   = ressource.Lot
+
+        ressource.CurrentBestPrice = GetPricesItemInHdvSell(ressource.Id)
+        dicoNewPrices[idStr] = dicoNewPrices[idStr] or {}
+        -- Détermine la clé du prix en fonction du lot
+        local keyName
+        if lot == 100 then
+            keyName = "Price100"
+        elseif lot == 10 then
+            keyName = "Price10"
+        elseif lot == 1 then
+            keyName = "Price1"
+        end
+
+        -- Essaie de récupérer le nouveau prix déjà calculé
+        local newPrice = dicoNewPrices[idStr][keyName]
+
+        -- S'il n'est pas encore calculé, on va le calculer "à la volée"
+        if newPrice == nil then
+            -- Récupère le meilleur prix actuel pour cet item
+            local currentPrices = GetPricesItemInHdvSell(ressource.Id)
+
+            -- Sélectionne le champ correspondant
+            local bestPrice
+            if lot == 100 then
+                bestPrice = currentPrices.Price100
+            elseif lot == 10 then
+                bestPrice = currentPrices.Price10
+            elseif lot == 1 then
+                bestPrice = currentPrices.Price1
             end
-        elseif Lot == 10 then
-            if ressource.CurrentBestPrice.Price10 < ressource.Price then
-                global:printSuccess("Actualisation du lot de 10 [" .. inventory:itemNameId(ressource.Id) .. "], nouveau prix : " .. ressource.CurrentBestPrice - 1)
-                sale:editPriceByGID(ressource.Id, ressource.CurrentBestPrice - 1, 10)
-            end
-        elseif Lot == 1 then
-            if ressource.CurrentBestPrice.Price1 < ressource.Price then
-                global:printSuccess("Actualisation du lot de 1 [" .. inventory:itemNameId(ressource.Id) .. "], nouveau prix : " .. ressource.CurrentBestPrice - 1)
-                sale:editPriceByGID(ressource.Id, ressource.CurrentBestPrice - 1, 1)
+
+            -- Si on peut baisser le prix, on stocke newPrice
+            if bestPrice and bestPrice < ressource.Price then
+                newPrice = bestPrice - 1
+                dicoNewPrices[idStr][keyName] = newPrice
             end
         end
+
+        -- Si on a bien un newPrice à appliquer, on met à jour
+        if newPrice then
+            global:printSuccess(
+                "Actualisation " .. counter .. " [" .. lot ..
+                "] x [" .. inventory:itemNameId(ressource.Id) ..
+                "] : " .. ressource.Price ..
+                " -> " .. newPrice .. " kamas"
+            )
+            sale:editPrice(ressource.UID, newPrice, lot)
+            counter = counter + 1
+        end
     end
+
     global:printSuccess("Fin fonction actualisation")
 end
 
-function UpdateAllItemOpti()
+function openHdvAndUpdateItems()
+    global:printMessage("Ouverture de l'HDV pour vendre (actualiser)")
+    local message = developer:createMessage("InteractiveUseRequest")
+    message.element_id = HDV_INTERACTIONS_ID[tostring(map:currentMapId())].elementID
+    message.specific_instance_id = 0
+    message.skill_instance_uid = HDV_INTERACTIONS_ID[tostring(map:currentMapId())].skillInstanceUID
+    developer:sendMessage(message)
+    if not developer:suspendScriptUntil("ExchangeBidBuyerStartedEvent", 5000, false, nil, 50) then
+        global:printError("L'HDV n'a pas pu être ouvert, on déco reco")
+        customReconnect(0)
+        return
+    end
+    randomDelay()
+    
     developer:registerMessage("ExchangeStartedBidSellerMessage", _AnalyseItemsOnSale)
-    HdvSell()
-    developer:suspendScriptUntil("ExchangeStartedBidSellerMessage", 5000, false, nil, 20)
+    local message = developer:createMessage("NpcGenericActionRequestMessage")
+    message.npcId = -1
+    message.npcActionId = 5
+    message.npcMapId = map:currentMapId()
+    developer:sendMessage(message)
+    developer:suspendScriptUntil("ExchangeStartedBidSellerMessage", 2000, false, nil, 50)
 end
 
 function TraitementPrix(n)
@@ -1154,8 +1270,10 @@ function SellDD(Id, UID)
     developer:sendMessage(message)
     developer:suspendScriptUntil("ExchangeTypesItemsExchangerDescriptionForUserMessage", 2000, true)
 
+    global:leaveDialog()
+
     HdvSell()
-    BestPrice = (BestPrice == 0) and GetPricesItem(Id).AveragePrice * 2 or BestPrice
+    BestPrice = (BestPrice == 0) and GetPricesItemInHdvSell(Id).AveragePrice * 2 or BestPrice
 
     local message = developer:createMessage("ExchangeObjectMovePricedMessage")
     message.price = BestPrice
@@ -1403,7 +1521,7 @@ function _AnalyseDDOnSale(message)
     for _, item in ipairs(ddOnSale) do
         global:printSuccess(_)
         if ((item.Price - item.CurrentBestPrice) > 3000) then
-            item.CurrentBestPrice = math.max(GetPricesItem(item.Id).Price1 - 1, item.CurrentBestPrice)
+            item.CurrentBestPrice = math.max(GetPricesItemInHdvSell(item.Id).Price1 - 1, item.CurrentBestPrice)
             if ((item.Price - item.CurrentBestPrice) > 3000) then
                 global:printSuccess("AAAA")
                 global:printSuccess("[" .. inventory:itemNameId(item.Id) .. "] : ancien prix : " .. item.Price .. ", nouveau prix : " .. item.CurrentBestPrice - 1)
@@ -1432,10 +1550,14 @@ end
 
 function _fetchItemsInHDV(message)
     developer:unRegisterMessage("ExchangeTypesItemsExchangerDescriptionForUserMessage")
+    ItemList = {}
     debug(tostring(message))
     local items = message.itemTypeDescriptions
+    if not items or #items == 0 then
+        global:printError("Aucun item trouvé dans l'HDV pour l'ID " .. message.type_id)
+        return ItemList
+    end
     
-    ItemList = {}
 
     for _, item in ipairs(items) do
         if item.objectGID > 0 then
@@ -1457,10 +1579,6 @@ function fetchItemsInHDV(objectGID)
     message.follow = true
     message.type_id = inventory:itemTypeId(objectGID)
 
-    local message1 = developer:createMessage("ExchangeBidHouseSearchRequest")
-    message1.follow = false
-    message1.object_gid = objectGID
-
     local message2 = developer:createMessage("ExchangeBidHouseSearchRequest")
     message2.follow = true
     message2.object_gid = objectGID
@@ -1468,7 +1586,6 @@ function fetchItemsInHDV(objectGID)
     developer:sendMessage(message)
     developer:suspendScriptUntil("ExchangeTypesExchangerDescriptionForUserEvent", 5000, false, nil, 20)
 
-    developer:sendMessage(message1)
     developer:sendMessage(message2)
     
     developer:suspendScriptUntil("ExchangeTypesItemsExchangerDescriptionForUserMessage", 5000, false, nil, 20)

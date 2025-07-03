@@ -30,17 +30,17 @@ local function ProcessCraft(table, cellId)
                 randomDelay()
     
                 global:printSuccess("ok1")
-                -- local message = developer:createMessage("ExchangeSetCraftRecipeRequest")
-                -- message.object_uid = element.Id
-                -- message.epyq = 0
-                -- developer:sendMessage(message)
-                -- developer:suspendScriptUntil("ExchangeObjectsAddedEvent", 5000, false, nil, 50)
+                local message = developer:createMessage("ExchangeSetCraftRecipeRequest")
+                message.object_uid = element.Id
+                message.epyq = 0
+                developer:sendMessage(message)
+                developer:suspendScriptUntil("ExchangeObjectsAddedEvent", 5000, false, nil, 50)
 
 
-                for _, item in ipairs(element.ListIdCraft) do
-                    craft:putItem(item.Id, item.Quantity)
-                    global:delay(math.random(200, 500))
-                end
+                -- for _, item in ipairs(element.ListIdCraft) do
+                --     craft:putItem(item.Id, item.Quantity)
+                --     global:delay(math.random(200, 500))
+                -- end
                 global:printSuccess("ok2")
 
                 craft:changeQuantityToCraft(CraftQuantity)
@@ -285,77 +285,70 @@ local function EditJsonItems(content)
 end
 
 local function getPricesResourceInHDV()
-        global:printMessage("Récupération du prix des ressources...")
-        local PrixHdvAllRessources = {}
+    global:printMessage("Récupération du prix des ressources...")
+    local PrixHdvAllRessources = {}
 
-        HdvSell()
-
-        debug(#TableItem)
-        for _, item in ipairs(TableItem) do
+    debug(#TableItem)
+    for _, item in ipairs(TableItem) do
+    
+        if _ == math.floor(#TableItem / 4) then
+            global:printMessage("25% effectué...")
+        elseif _ == math.floor(#TableItem / 2) then
+            global:printMessage("50% effectué...")
+        elseif _ == math.floor(#TableItem * 0.75) then
+            global:printMessage("75% effectué...")
+        end
         
-            if _ == math.floor(#TableItem / 4) then
-                global:printMessage("25% effectué...")
-            elseif _ == math.floor(#TableItem / 2) then
-                global:printMessage("50% effectué...")
-            elseif _ == math.floor(#TableItem * 0.75) then
-                global:printMessage("75% effectué...")
-            end
-            
-            if item.ListIdCraft then
-                for _, Ressource in ipairs(item.ListIdCraft) do
-                    if not PrixHdvAllRessources[tostring(Ressource.Id)] then
-                        PrixHdvAllRessources[tostring(Ressource.Id)] = GetPricesItem(Ressource.Id)
-                    end
+        if item.ListIdCraft then
+            for _, Ressource in ipairs(item.ListIdCraft) do
+                if not PrixHdvAllRessources[tostring(Ressource.Id)] then
+                    PrixHdvAllRessources[tostring(Ressource.Id)] = GetPricesItemInHdvSell(Ressource.Id)
                 end
             end
         end
+    end
 
-        global:delay(2000)
+    global:delay(2000)
 
-        global:printSuccess("Récupération finie!")
-        global:printMessage("--------------------------------------")
-        global:printMessage("")
+    global:printSuccess("Récupération finie!")
+    global:printMessage("--------------------------------------")
+    global:printMessage("")
 
-        global:leaveDialog()
-
-        EditJsonRessources(PrixHdvAllRessources)
+    EditJsonRessources(PrixHdvAllRessources)
 end
 
-local function getPricesItemsInHDV()
-        HdvSell()
-        local priceItems = {}
-        for _, item in ipairs(TableItem) do
-            if _ == math.floor(#TableItem / 4) then
-                global:printMessage("25% effectué...")
-            elseif _ == math.floor(#TableItem / 2) then
-                global:printMessage("50% effectué...")
-                global:leaveDialog()
-                map:moveToCell(397)
-                HdvSell()
-            elseif _ == math.floor(#TableItem * 0.75) then
-                global:printMessage("75% effectué...")
-            end
-
-            if not priceItems[tostring(item.Id)] then
-                priceItems[tostring(item.Id)] = GetPricesItem(item.Id)
-            end
-
-            item.PriceHdv = priceItems[tostring(item.Id)]
+local function GetPricesItemInHdvSellsInHDV()
+    local priceItems = {}
+    for _, item in ipairs(TableItem) do
+        if _ == math.floor(#TableItem / 4) then
+            global:printMessage("25% effectué...")
+        elseif _ == math.floor(#TableItem / 2) then
+            global:printMessage("50% effectué...")
+            global:leaveDialog()
+            map:moveToCell(397)
+            HdvSell()
+        elseif _ == math.floor(#TableItem * 0.75) then
+            global:printMessage("75% effectué...")
         end
 
-        global:delay(2000)
+        if not priceItems[tostring(item.Id)] then
+            priceItems[tostring(item.Id)] = GetPricesItemInHdvSell(item.Id)
+        end
 
-        global:printSuccess("Analyse finie!")
-        global:printMessage("--------------------------------------")
-        global:printMessage("")
+        item.PriceHdv = priceItems[tostring(item.Id)]
+    end
 
-        global:leaveDialog()
+    global:delay(2000)
 
-        EditJsonItems(priceItems)
+    global:printSuccess("Analyse finie!")
+    global:printMessage("--------------------------------------")
+    global:printMessage("")
+
+
+    EditJsonItems(priceItems)
 end
 
 function move()
-
     mapDelay()
 
     if global:thisAccountController():getAlias():find("Craft2") then
@@ -478,7 +471,7 @@ function move()
                     local prixParPoids = 0
         
                     for _, element in ipairs(v.Runes) do
-                        element.Prices = GetPricesItem(element.Id)
+                        element.Prices = GetPricesItemInHdvSell(element.Id)
                         partHdv = partHdv + get_quantity(element.Id).total_lots
                         prixParPoids = prixParPoids + element.Prices.TrueAveragePrice / element.Poids
                     end
@@ -498,7 +491,7 @@ function move()
 
             for _, item in ipairs(content) do
                 if inventory:itemTypeId(item.objectGID) == 78 then
-                    local Prices = GetPricesItem(item.objectGID)
+                    local Prices = GetPricesItemInHdvSell(item.objectGID)
                     local itemSold = false
     
                     local cpt = get_quantity(item.objectGID).quantity["100"]
@@ -540,10 +533,9 @@ function move()
 
             local random = math.random(1, 5)
             if random == 1 then
+                global:printSuccess("Update des runes")
                 global:leaveDialog()
-                HdvSell()
-                global:printSuccess("Update des items")
-                sale:updateAllItems()
+                openHdvAndUpdateItems()
             end
 
             global:leaveDialog()
@@ -735,7 +727,7 @@ function move()
                 local LackRessource = false
 
                 if item.Type == "Idole" then
-                    item.PriceHdv = GetPricesItem(item.Id).Price1
+                    item.PriceHdv = GetPricesItemInHdvSell(item.Id).Price1
                 end
                 
                 if not item.ListIdCraft then
@@ -743,7 +735,7 @@ function move()
                 else
                     for _, Ressource in ipairs(item.ListIdCraft) do
                         if not jsonPrice[1].Prices[tostring(Ressource.Id)] then
-                            jsonPrice[1].Prices[tostring(Ressource.Id)] = GetPricesItem(Ressource.Id)
+                            jsonPrice[1].Prices[tostring(Ressource.Id)] = GetPricesItemInHdvSell(Ressource.Id)
                         end
         
                         if not jsonPrice[1].Prices[tostring(Ressource.Id)].TrueAveragePrice or jsonPrice[1].Prices[tostring(Ressource.Id)].TrueAveragePrice == 0 or IsItem(inventory:itemTypeId(Ressource.Id))
@@ -790,7 +782,8 @@ function move()
             -- update les prix des items
             if random == 1 then
                 global:printSuccess("On actualise tous les prix")
-                UpdateAllItemOpti()
+                global:leaveDialog()
+                openHdvAndUpdateItems()
             end
             --récpère les prix hdv de   tous les items présent dans notre liste (craftables) et les met dans la table
 
@@ -815,7 +808,7 @@ function move()
 
             if isXDaysLater(jsonPrice[1].Date, 2) or tableSize(jsonPrice[1].Prices) == 0 then
                 global:printSuccess("Les prix des items ne sont pas à jour, on les récup")
-                getPricesItemsInHDV()
+                GetPricesItemInHdvSellsInHDV()
             end
 
             for _, item in ipairs(TableItem) do
@@ -838,7 +831,7 @@ function move()
                 end
 
                 if not jsonPrice[1].Prices[tostring(item.Id)] then
-                    jsonPrice[1].Prices[tostring(item.Id)] = GetPricesItem(item.Id)
+                    jsonPrice[1].Prices[tostring(item.Id)] = GetPricesItemInHdvSell(item.Id)
                 end
 
                 item.PriceHdv = jsonPrice[1].Prices[tostring(item.Id)].Price1
@@ -959,7 +952,7 @@ function move()
                     local item = element.table[i]
                     local realPrice = 0
                     for _, ressource in ipairs(item.ListIdCraft) do
-                        realPrice = realPrice + GetPricesItem(ressource.Id).TrueAveragePrice + ressource.Quantity
+                        realPrice = realPrice + GetPricesItemInHdvSell(ressource.Id).TrueAveragePrice + ressource.Quantity
                     end
                     if not ((item.PriceHdv / realPrice) > 1.3 and (item.PriceHdv - realPrice) > 10000) then
                         global:printError("L'item " .. inventory:itemNameId(item.Id) .. " n'est plus rentable à faire")
@@ -1024,7 +1017,6 @@ function move()
         return treatMaps(goToHdvRessources)
     elseif HaveToBuyRessources() then
         HdvBuy()
-
         for _, element in ipairs(tableCraft) do
             for _, item in ipairs(element.table) do
                 if inventory:itemCount(item.Id) < item.NbToCraft and inventory:podsP() < 95 then
@@ -1045,6 +1037,7 @@ function move()
                 end
             end
         end
+        global:leaveDialog()
     end
     --- Determines which item we'll craft and resell
     global:printSuccess("2")

@@ -1255,7 +1255,7 @@ local function ProcessSell()
         local itemSold = false
         cpt = get_quantity(element.Id).quantity["100"]
 
-        local priceItem = GetPricesItem(element.Id)
+        local priceItem = GetPricesItemInHdvSell(element.Id)
         priceItem.Price100 = (priceItem.Price100 == nil or priceItem.Price100 == 0 or priceItem.Price100 == 1) and priceItem.AveragePrice * 150 or priceItem.Price100
         priceItem.Price10 = (priceItem.Price10 == nil or priceItem.Price10 == 0 or priceItem.Price10 == 1) and priceItem.AveragePrice * 15 or priceItem.Price10
         priceItem.Price1 = (priceItem.Price1 == nil or priceItem.Price1 == 0 or priceItem.Price1 == 1) and priceItem.AveragePrice * 1.5 or priceItem.Price1
@@ -1289,7 +1289,7 @@ local function ProcessSell()
     end
 
     for _, element in ipairs(Minerai) do
-		priceItem = GetPricesItem(element.Id)
+		priceItem = GetPricesItemInHdvSell(element.Id)
         priceItem.Price100 = (priceItem.Price100 == nil or priceItem.Price100 == 0 or priceItem.Price100 == 1) and priceItem.AveragePrice * 150 or priceItem.Price100
         priceItem.Price10 = (priceItem.Price10 == nil or priceItem.Price10 == 0 or priceItem.Price10 == 1) and priceItem.AveragePrice * 15 or priceItem.Price10
 
@@ -1308,11 +1308,11 @@ local function ProcessSell()
         end
     end
 
-    prixEtain = GetPricesItem(444).Price100
-    prixArgent = GetPricesItem(350).Price100
-    prixBronze = GetPricesItem(442).Price100
-    prixCendrePierre = GetPricesItem(27621).Price100
-    prixPyrute = GetPricesItem(7035).Price1
+    prixEtain = GetPricesItemInHdvSell(444).Price100
+    prixArgent = GetPricesItemInHdvSell(350).Price100
+    prixBronze = GetPricesItemInHdvSell(442).Price100
+    prixCendrePierre = GetPricesItemInHdvSell(27621).Price100
+    prixPyrute = GetPricesItemInHdvSell(7035).Price1
 
     global:leaveDialog()
 
@@ -1358,7 +1358,8 @@ local function ProcessSell()
 		cptActualiser = 0
         hdvActualise = true
 		global:printSuccess("Actualisation des prix")
-		sale:updateAllItems()
+        global:leaveDialog()
+		openHdvAndUpdateItems()
 	else
 		cptActualiser = cptActualiser + 1
 	end
@@ -1433,7 +1434,7 @@ function move()
     handleDisconnection()
     mapDelay()
 
-    take50kIfNeed(10000, 120, 1)
+    take50kIfNeeded(10000, 120, 1)
     while character:kamas() == 0 and map:onMap("4,-18") do
         npc:npcBank(-1)
         global:delay(500)

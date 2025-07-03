@@ -195,10 +195,10 @@ function buyAndfeedDD()
     debug("ok")
     HdvSell()
 
-    global:printSuccess("Check du meilleur prix")
+    global:printSuccess("Check du meilleur prix de la nourriture de dd")
 
     for i, element in ipairs(TableAchat) do
-        local Price = GetPricesItem(element.Id).Price100
+        local Price = GetPricesItemInHdvSell(element.Id).Price100
         if Price ~= nil and Price ~= 0 and Price < minPrice then
             minPrice = Price
             index = i

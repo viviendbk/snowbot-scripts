@@ -107,7 +107,7 @@ local function GetCraftCost(ListIdCraft)
     else
         for _, Ressource in ipairs(ListIdCraft) do
             if not PrixHdvAllRessources[Ressource.Id] then
-                PrixHdvAllRessources[Ressource.Id] = GetPricesItem(Ressource.Id)
+                PrixHdvAllRessources[Ressource.Id] = GetPricesItemInHdvSell(Ressource.Id)
             end
             if not PrixHdvAllRessources[Ressource.Id].TrueAveragePrice or PrixHdvAllRessources[Ressource.Id].TrueAveragePrice == 0 or IsItem(inventory:itemTypeId(Ressource.Id))
             or (Ressource.Quantity > 29 and PrixHdvAllRessources[Ressource.Id].Price100 == 0 and PrixHdvAllRessources[Ressource.Id].Price10 == 0)  then
@@ -132,6 +132,7 @@ function move()
         global:loadAndStart("C:\\Users\\Vivien\\Documents\\Snowbot-Scripts-3\\PC\\Scripts\\PLAndZaaps\\PL_1-6X.lua")
     end
     mapDelay()
+    take50kIfNeeded(5000, 120, 1)
     if global:thisAccountController():getAlias():find("RequestsMulti") then
         global:editAlias("RequestsMulti", true)
     elseif global:thisAccountController():getAlias():find("RequestsMono") then
@@ -157,8 +158,7 @@ function move()
 
     if not ScriptStarted then
         if getRemainingSubscription(true) <= 0 then
-            global:printSuccess(getRemainingSubscription(true))
-            global:loadAndStart("C:\\Users\\Vivien\\Documents\\Snowbot-Scripts-3\\PC\\Scripts\\Utilitaires\\take-kamas-for-abo.lua")
+            Abonnement()
         end
         if character:kamas() < 10000 then
             global:loadAndStart("C:\\Users\\Vivien\\Documents\\Snowbot-Scripts-3\\PC\\Scripts\\Utilitaires\\take-50kk.lua")
@@ -208,7 +208,7 @@ function move()
                 if item.ListIdCraft then
                     for _, Ressource in ipairs(item.ListIdCraft) do
                         if not PrixHdvAllRessources[tostring(Ressource.Id)] then
-                            PrixHdvAllRessources[tostring(Ressource.Id)] = GetPricesItem(Ressource.Id)
+                            PrixHdvAllRessources[tostring(Ressource.Id)] = GetPricesItemInHdvSell(Ressource.Id)
                         end
                     end
                 end
@@ -250,7 +250,7 @@ function move()
             end
 
             if not priceItems[tostring(item.Id)] then
-                priceItems[tostring(item.Id)] = GetPricesItem(item.Id)
+                priceItems[tostring(item.Id)] = GetPricesItemInHdvSell(item.Id)
             end
 
             item.PriceHdv = priceItems[tostring(item.Id)]

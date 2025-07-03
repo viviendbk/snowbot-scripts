@@ -96,7 +96,7 @@ end
 local function UseRune(runeId)
     global:printMessage("On pose la rune [" .. inventory:itemNameId(runeId) .. "] dans l'interface")
 
-    developer:registerMessage("ExchangeCraftResultMagicWithObjectDescMessage", _AnalyseResultsFM)
+    developer:registerMessage("ExchangeCraftResultEvent", _AnalyseResultsFM)
     -- mettre la rune sur l'interface
     local message = developer:createMessage("ExchangeObjectMoveRequest")
     message.object_uid = inventory:getUID(runeId)
@@ -343,6 +343,7 @@ end
 
 function _AnalyseResultsFM(message)
     developer:unRegisterMessage("ExchangeCraftResultEvent")
+
     message = message.object
     local changements = {}
 
@@ -506,7 +507,6 @@ local function HaveToBuyRessources()
 end
 
 function move()
-    mapDelay()
     global:editAlias("CraftFM " .. character:server() .. " : [" .. truncKamas() .. "m]", true)
     --- Determines which item we'll craft and resell
 
@@ -571,7 +571,7 @@ function move()
                 local prixParPoids = 0
     
                 for _, element in ipairs(v.Runes) do
-                    element.Prices = GetPricesItem(element.Id)
+                    element.Prices = GetPricesItemInHdvSell(element.Id)
                     partHdv = partHdv + get_quantity(element.Id).total_lots
                     prixParPoids = prixParPoids + element.Prices.TrueAveragePrice / element.Poids
                 end
@@ -617,7 +617,7 @@ function move()
                 else
                     for _, Ressource in ipairs(item.ListIdCraft) do
                         if not PrixHdvAllRessources[Ressource.Id] then
-                            PrixHdvAllRessources[Ressource.Id] = GetPricesItem(Ressource.Id)
+                            PrixHdvAllRessources[Ressource.Id] = GetPricesItemInHdvSell(Ressource.Id)
                         end
                         if not PrixHdvAllRessources[Ressource.Id].TrueAveragePrice or PrixHdvAllRessources[Ressource.Id].TrueAveragePrice == 0 or IsItem(inventory:itemTypeId(Ressource.Id))
                         or (Ressource.Quantity > 29 and PrixHdvAllRessources[Ressource.Id].Price100 == 0 and PrixHdvAllRessources[Ressource.Id].Price10 == 0) then
@@ -785,6 +785,7 @@ function move()
         return treatMaps(goToHdvRessources)
     elseif HaveToBuyRessources() then
         HdvBuy()
+
         for _, item in ipairs(CraftCordonier) do
             if inventory:itemCount(item.Id) < item.NbToCraft and inventory:podsP() < 95 then
                 global:printSuccess("On achète les ressources pour craft [" .. inventory:itemNameId(item.Id) .. "]")
@@ -900,6 +901,7 @@ function move()
                 global:printMessage("--------------------------------------")
             end
         end
+
         steep = 0 global:leaveDialog()
     end
     --- Determines which item we'll craft and resell
@@ -1061,6 +1063,7 @@ function move()
             if not map:onMap(212601859) and not item.hdvRunesChecked and (job:level(GetJobMageIdByType(inventory:getTypeName(item.Id))) < inventory:getLevel(item.Id) + 8) then
                 return treatMaps(goToHdvRunes)
             elseif not item.hdvRunesChecked and (job:level(GetJobMageIdByType(inventory:getTypeName(item.Id))) < inventory:getLevel(item.Id) + 8) then
+                HdvBuy()
                 for _, rune in ipairs(item.InfoFm.RunesNeeded) do
                     local quantity = math.floor(math.min(100 - inventory:itemCount(rune), (150000 / GetPriceRune(rune)) - inventory:itemCount(rune)))
                     if quantity > 10 or quantity * GetPriceRune(rune) > 20000 then
@@ -1068,6 +1071,7 @@ function move()
                         achat(rune, quantity)
                     end
                 end
+                global:leaveDialog()
                 item.hdvRunesChecked = true
             end
 

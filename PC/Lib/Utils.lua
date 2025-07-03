@@ -651,8 +651,10 @@ function connectAccountsWithFailleProxy()
 
     for _, server in ipairs(ALL_SERVERS) do
         for _, acc in ipairs(loadedAccounts) do
-            if acc:getAlias():find(server) and (acc:getAlias():find("Mineur") or acc:getAlias():find("Bucheron") 
-            or acc:getAlias("Combat") or acc:getAlias():find("LvlUp") or acc:getAlias():find("Craft") or acc:getAlias():find("Requests")) and not acc:getAlias():find("BAN")
+            if ((acc:getAlias():find(server)) and (acc:getAlias():find("Mineur") or acc:getAlias():find("Bucheron") 
+            or acc:getAlias("Combat") or acc:getAlias():find("LvlUp") or acc:getAlias():find("Craft")) 
+            and not acc:getAlias():find("BAN"))
+            or (acc:getAlias():find("Requests") and not acc:getAlias():find("BAN"))
             and not acc:isAccountConnected() and canReconnect(acc:getAlias()) then
                 table.insert(accountsToConnectByServer[server], acc)
             end
@@ -893,6 +895,7 @@ function treatMaps(maps, errorFn)
             map:door(tonumber(element.Door))
         end
     end
+    debug(map:currentSubArea())
 
     if map:currentSubArea() == "Canyon sauvage" then
         return
@@ -912,7 +915,7 @@ function treatMaps(maps, errorFn)
             {map = "-17,9", path = "top"},
             {map = "-17,8", path = "top"},
         }
-    elseif getCurrentAreaName() == "Île du Minotoror" then 
+    elseif getCurrentAreaName() == "Île du Minotoror" or map:currentSubArea():find("labyrinthe du Minotoror") then 
         return
         {
             {map = "34476296", custom = function() npc:npc(783, 3) npc:reply(-2) npc:reply(-1) end},
@@ -1236,6 +1239,10 @@ function ExporterComptes(path)
     for _, Username in ipairs(AccountToLoad.Mineur) do
         content = content .. "\n" .. Username .. ":" .. snowbotController:getPassword(Username) .. ":" .. snowbotController:getAlias(Username)
     end   
+
+    for _, Username in ipairs(AccountToLoad.Craft) do
+        content = content .. "\n" .. Username .. ":" .. snowbotController:getPassword(Username) .. ":" .. snowbotController:getAlias(Username)
+    end  
 
     for _, Username in ipairs(AccountToLoad.Reste) do
         content = content .. "\n" .. Username .. ":" .. snowbotController:getPassword(Username) .. ":" .. snowbotController:getAlias(Username)

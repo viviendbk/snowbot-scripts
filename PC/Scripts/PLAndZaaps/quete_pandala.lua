@@ -13,7 +13,7 @@ RESSOURCES = {
 }
 
 local function increment()
-    ETAPE_PANDALA = tonumber(global:remember("ETAPE_PANDALA")) + 1
+    ETAPE_PANDALA = math.floor(tonumber(global:remember("ETAPE_PANDALA")) + 1)
     global:editInMemory("ETAPE_PANDALA", ETAPE_PANDALA)
     AVANCEMENT = math.floor((tonumber(global:remember("ETAPE_PANDALA"))/36)*100)
     global:printSuccess("[INFO] - Avancement du script a ".. AVANCEMENT .."%")
@@ -188,6 +188,8 @@ end
 
 function buy_ressources()
 
+    HdvBuy()
+
     while inventory:itemCount(885) < 5 do
         achat(885, 5)
     end
@@ -270,6 +272,10 @@ function move()
         else
             global:editInMemory("ETAPE_PANDALA", 5) 
         end
+    elseif objectifsDone and #objectifsDone == 4 then
+        global:editInMemory("ETAPE_PANDALA", 2.5)
+    elseif objectifsDone and #objectifsDone == 5 then
+        global:editInMemory("ETAPE_PANDALA", 3)
     end
 
     global:printSuccess(tonumber(global:remember("ETAPE_PANDALA")))
@@ -391,6 +397,44 @@ function move()
                 }
             end
         end
+        global:editInMemory("ETAPE_PANDALA", 2.5)
+                return{
+            { map = "8,-21", path = "right" },
+            { map = "8,-20", path = "right" },
+            { map = "8,-18", path = "right" },
+            { map = "8,-17", path = "right(83)" },
+            { map = "8,-16", path = "right" },
+            { map = "8,-15", path = "right" },
+            { map = "9,-15", path = "right" },
+            { map = "9,-16", path = "right" },
+            { map = "9,-17", path = "right" },
+            { map = "9,-18", path = "right(489)" },
+            { map = "10,-18", path = "right" },
+            { map = "10,-17", path = "right" },
+            { map = "10,-16", path = "right" },
+            { map = "10,-15", path = "right" },
+            { map = "11,-15", path = "right" },
+            { map = "11,-16", path = "right" },
+            { map = "11,-17", path = "right" },
+            { map = "11,-18", path = "right" },
+            { map = "11,-19", path = "right" },
+            { map = "9,-21", path = "right" },
+            { map = "9,-20", path = "right" },
+            { map = "10,-21", path = "right" },
+            { map = "10,-20", path = "right" },
+            { map = "11,-21", path = "right" },
+            { map = "11,-20", path = "right" },
+            { map = "12,-15", path = "top" },
+            { map = "12,-16", path = "top" },
+            { map = "12,-17", path = "top" },
+            { map = "12,-18", path = "top" },
+            { map = "12,-19", path = "top" },
+            { map = "12,-20", path = "top" },
+            { map = "12,-19", path = "top" },
+            { map = "12,-21", custom = pandala_2 },
+            }  
+
+    elseif tonumber(global:remember("ETAPE_PANDALA")) == 2.5 then
         return{
             { map = "8,-21", path = "right" },
             { map = "8,-20", path = "right" },

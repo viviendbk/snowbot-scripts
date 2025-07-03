@@ -83,7 +83,7 @@ function SellTable(Table)
             global:printSuccess("on a plus rien à vendre") 
             break 
         end
-        local Priceitem = GetPricesItem(element.Id)
+        local Priceitem = GetPricesItemInHdvSell(element.Id)
 
         local cpt = get_quantity(element.Id).quantity["100"]
         Priceitem3 = ((Priceitem.Price100 == nil) or (Priceitem.Price100 == 0) or (Priceitem.Price100 == 1)) and sale:getAveragePriceItem(element.Id, 3) * 1.5 or Priceitem.Price100

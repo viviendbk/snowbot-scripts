@@ -126,6 +126,19 @@ MAPS_SANS_HAVRESAC = {
     {Id = 104859145, Path = "457"},
 }
 
+HDV_INTERACTIONS_ID = {
+    ["212600837"] = {skillInstanceUID = 522691, elementID = 6574, Lieu = "equip bonta"},
+    ["212601350"] = {skillInstanceUID = 522694, elementID = 8902, Lieu = "ressources bonta"},
+    ["212600839"] = {skillInstanceUID = 522692, elementID = 6582, Lieu = "consommables bonta"},
+    ["212601345"] = {skillInstanceUID = 522695, elementID = 8919, Lieu = "creatures bonta"},
+    ["212601859"] = {skillInstanceUID = 522693, elementID = 1033, Lieu = "runes bonta"},
+    ["217064452"] = {skillInstanceUID = 523752, elementID = 30546, Lieu = "cosmétiques bonta"},
+    ["220200961"] = {skillInstanceUID = 522696, elementID = 19318, Lieu = "âmes bonta"},
+    ["191104004"] = {skillInstanceUID = 515220, elementID = 23527, Lieu = "ressources astrub"},
+    ["191106052"] = {skillInstanceUID = 515221, elementID = 10101, Lieu = "equip astrub"},
+    ["191102976"] = {skillInstanceUID = 515219, elementID = 16584, Lieu = "consommables astrub"},
+}
+
 PourcentageJetPerf_ItemToSell = 0
 IdToSell = 0
 BestPrice = 0
@@ -309,12 +322,14 @@ PHENIX = {
         end},
                 {map = "35,-42", path = "bottom"},
         {map = "35,-41", path = "bottom"},
+        {map = "34476296", custom = function() npc:npc(783, 3) npc:reply(-2) npc:reply(-1) end},
         {map = "35,-40", custom = function() map:door(306) map:changeMap("havenbag") end},
         {map = "146800640", custom = function() map:door(200) map:door(333) end},
         {map = "34472966", path = "432"},
         {map = "-40,-16", path = "left"},
         {map = "-41,-16", path = "left"},
         {map = "-42,-16", path = "left"},
+        {map = "-43,-16", path = "top"},
         {map = "-43,-17", path = "top"},
         {map = "-43,-18", path = "top"},
         {map = "-43,-19", custom = function() map:door(271) map:changeMap("havenbag") end},
