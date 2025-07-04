@@ -38,7 +38,6 @@ local function giveKamasAndValidate()
 	end
 
 	exchange:ready()
-	logBotStats()
 end
 
 function _handleExchange(message)

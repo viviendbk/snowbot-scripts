@@ -873,7 +873,8 @@ function move()
 		global:editInMemory("lvlFinish", 35)
 	end
 	debug(map:currentMapId())
-	if job:level(24) > 5 or job:level(2) > 5 or character:level() > 165 then
+
+	if job:level(24) > 5 or job:level(2) > 5 or character:level() > 165 or (character:level() > 60 and not getCurrentAreaName():find("Astrub")) then
 		global:loadAndStart("C:\\Users\\Vivien\\Documents\\Snowbot-Scripts-3\\PC\\Scripts\\Utilitaires\\take-kamas.lua")
     end
 
@@ -1068,7 +1069,6 @@ function move()
 		return treatMapsAstrub(Piou)
 	end
 end
-
 
 
 function bank()

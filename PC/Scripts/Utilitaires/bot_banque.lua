@@ -72,7 +72,6 @@ local function giveResourcesKamasAndValidate()
 	exchange:ready()
 	global:printSuccess("Je valide l'échange")
 	global:editAlias("bank_" .. character:server():lower() .. " : [" .. truncKamas() .. "m]", true)
-    logBotStats()
 	global:editInMemory("reloadNumber", 0)
 end
 

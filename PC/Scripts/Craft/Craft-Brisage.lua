@@ -1227,11 +1227,11 @@ function move()
     if not map:onMap(212601350) and HaveToBuyRessources() then
         return treatMaps(goToHdvRessources)
     elseif HaveToBuyRessources() then
-        HdvBuy()
 
         for _, element in ipairs(tableCraft) do
             for _, item in ipairs(element.table) do
                 if item.NbToCraft > 0 then
+                    HdvSell()
                     global:printMessage("Check du prix de [" .. inventory:itemNameId(item.Id) .. "] | ancien prix : " .. item.TotalCost)
                     item.TotalCost = GetCraftCost(item.ListIdCraft)
                     local percentageMini = GetPercentageMinimum(item.Id, item.TotalCost)
@@ -1246,8 +1246,10 @@ function move()
                         end
                         EditJsonMemory(ItemsToCraft)
                     end
+                    global:leaveDialog()
                 end
                 if inventory:itemCount(item.Id) < item.NbToCraft and inventory:podsP() < 95 then
+                    HdvBuy()
                     global:printSuccess("On achète les ressources pour craft [" .. inventory:itemNameId(item.Id) .. "]")
                     global:printMessage("--------------------------------------")
                     for _, ressource in ipairs(item.ListIdCraft) do
@@ -1268,12 +1270,11 @@ function move()
                         end
                     end
                     global:printMessage("--------------------------------------")
+                    global:leaveDialog()
                 end
             end
         end
-
-        global:leaveDialog()
-        
+  
         for _, item in ipairs(TableItemToChoice) do
             if item.NbToCraft > 1 then
                 for _, element in ipairs(tableCraft) do

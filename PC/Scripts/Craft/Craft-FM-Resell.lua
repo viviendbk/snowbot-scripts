@@ -882,9 +882,8 @@ function move()
                             message.ready = true
                             message.step = 1
                             developer:sendMessage(message)
-                            randomDelay()
                             developer:suspendScriptUntil("DecraftResultEvent", 5000, false, nil, 20)
-                            global:leaveDialog()
+                            randomDelay()
 
                             steep = 0 global:leaveDialog()
                         end
@@ -893,9 +892,7 @@ function move()
                 end
             end
         
-            steep = 0 global:leaveDialog()
             goBreak = false
-
         end
 
 
@@ -1059,7 +1056,6 @@ function move()
                 global:printMessage("Vente des items présents dans l'inventaire...")
 
                 HdvSell()
-                steep = 0 global:leaveDialog()
                 local content = inventory:inventoryContent()
                 for _, item in ipairs(content) do
                     for _, item2 in ipairs(TableItem) do
@@ -1090,6 +1086,7 @@ function move()
                         global:printSuccess("3")
                     end
                 end
+                global:leaveDialog()
             end
 
             global:printSuccess("Vente finie!")
@@ -1193,6 +1190,7 @@ function move()
                     cpt = cpt + 1
                     if cpt % 5 == 0 then
                         steep = 0 global:leaveDialog()
+                        randomDelay()
                         HdvBuy()
                     end
 
@@ -2095,6 +2093,7 @@ function move()
                             file:write(new_content)
                             file:close()
                         end
+                        HdvSell()
                         if item2.RuneTrans then
                             global:printMessage("On vend au maximum à " .. math.floor(item2.PriceWithoutTrans + (item2.RuneTrans.Prices.AveragePrice * 3)))
                             SellItem(item.objectGID, item2.TotalCost, item2.RunesCost, math.floor(item2.PriceWithoutTrans + (item2.RuneTrans.Prices.AveragePrice * 3)))
@@ -2103,6 +2102,7 @@ function move()
                             SellItem(item.objectGID, item2.TotalCost, item2.RunesCost, math.floor((item2.TotalCost  * 2 +  item2.RunesCost * 3)))
                             randomDelay()
                         end
+                        global:leaveDialog()
                         table.remove(TableItemToFM, i)
                         EditJsonMemory(TableItemToFM)
                     end
@@ -2117,6 +2117,7 @@ function move()
         end
         ItemSold = true
         HdvSell2()
+        randomDelay()
         steep = 0 global:leaveDialog()
     end
 

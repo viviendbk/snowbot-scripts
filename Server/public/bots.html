@@ -1,0 +1,363 @@
+<!DOCTYPE html>
+<html lang="fr">
+<head>
+  <meta charset="UTF-8" />
+  <title>🔥 Suivi des Kamas et Roses</title>
+  <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+  <script src="https://cdn.jsdelivr.net/npm/chart.js"></script>
+  <style>
+    :root {
+      --accent: #ff6b00;
+      --bg: #ecf0f3;
+      --text: #1a1a1a;
+      --card-bg: rgba(255, 255, 255, 0.2);
+      --border: rgba(255, 255, 255, 0.3);
+      --glass-blur: blur(12px);
+    }
+
+    body.dark {
+      --bg: #121212;
+      --text: #f0f0f0;
+      --card-bg: rgba(30, 30, 30, 0.3);
+      --border: rgba(255, 255, 255, 0.1);
+    }
+
+    body {
+      font-family: 'Segoe UI', sans-serif;
+      background: var(--bg);
+      color: var(--text);
+      margin: 0;
+      padding: 2rem;
+      transition: background 0.4s ease, color 0.4s ease;
+    }
+
+    h1 {
+      text-align: center;
+      font-size: 2.5rem;
+      color: var(--accent);
+      margin-bottom: 2rem;
+    }
+
+    #themeToggle, #backBtn {
+      position: fixed;
+      top: 1rem;
+      padding: 0.6rem 1rem;
+      font-size: 1.1rem;
+      background: transparent;
+      border: none;
+      cursor: pointer;
+      color: var(--text);
+      z-index: 10;
+    }
+
+    #themeToggle { right: 1rem; }
+    #backBtn { left: 1rem; text-decoration: none; }
+
+    select {
+      display: block;
+      margin: 0.5rem auto;
+      padding: 0.8rem 1.2rem;
+      font-size: 1rem;
+      border-radius: 12px;
+      border: 1px solid var(--border);
+      background: var(--card-bg);
+      backdrop-filter: var(--glass-blur);
+      color: var(--text);
+    }
+
+    .dashboard {
+      display: flex;
+      flex-wrap: wrap;
+      justify-content: center;
+      gap: 1.5rem;
+      margin-bottom: 2rem;
+    }
+
+    .card {
+      background: var(--card-bg);
+      backdrop-filter: var(--glass-blur);
+      border-radius: 16px;
+      padding: 1.5rem;
+      min-width: 220px;
+      text-align: center;
+      border: 1px solid var(--border);
+      box-shadow: 0 8px 30px rgba(0,0,0,0.05);
+    }
+
+    .card h2 {
+      margin: 0;
+      font-size: 1.8rem;
+      color: var(--accent);
+    }
+
+    .card span {
+      display: block;
+      margin-top: 0.5rem;
+      font-size: 0.9rem;
+      opacity: 0.7;
+    }
+
+    .section-title {
+      font-size: 1.3rem;
+      font-weight: bold;
+      padding-left: 12px;
+      border-left: 4px solid var(--accent);
+      margin: 2rem 0 1rem;
+    }
+
+    table {
+      width: 100%;
+      max-width: 1200px;
+      margin: auto;
+      border-collapse: collapse;
+      background: var(--card-bg);
+      backdrop-filter: var(--glass-blur);
+      border-radius: 16px;
+      overflow: hidden;
+      box-shadow: 0 8px 30px rgba(0,0,0,0.05);
+    }
+
+    th, td {
+      padding: 1rem;
+      text-align: left;
+      border-bottom: 1px solid var(--border);
+    }
+
+    th {
+      background-color: var(--accent);
+      color: white;
+      text-transform: uppercase;
+      font-size: 0.9rem;
+    }
+
+    tr:hover {
+      background-color: rgba(255,255,255,0.05);
+    }
+
+    .badge {
+      display: inline-block;
+      padding: 0.3rem 0.6rem;
+      border-radius: 12px;
+      color: white;
+      font-size: 0.75rem;
+      font-weight: bold;
+    }
+
+    .online { background-color: #28a745; }
+    .offline { background-color: #dc3545; }
+
+    #botsChart {
+      display: block;
+      margin: 3rem auto;
+      width: 100%;
+      max-width: 1300px;
+      height: 500px !important;
+    }
+  </style>
+</head>
+<body>
+  <a href="/" id="backBtn">← Retour</a>
+  <button id="themeToggle">🌙</button>
+
+  <h1>🔥 Suivi des Kamas et Roses</h1>
+
+  <select id="dateFilter"></select>
+  <select id="serverFilter"></select>
+
+  <div class="dashboard" id="globalStats"></div>
+
+  <div class="section-title">📊 Répartition par serveur</div>
+  <div class="dashboard" id="serverStats"></div>
+
+  <div class="section-title">📈 Nombre de bots par date</div>
+  <canvas id="botsChart"></canvas>
+
+  <div class="section-title">🧑‍💻 Connexions en temps réel</div>
+  <table>
+    <thead>
+      <tr>
+        <th>Status</th>
+        <th>Identifiant</th>
+        <th>Mot de passe</th>
+        <th>Pseudo</th>
+        <th>Serveur</th>
+        <th>Classe</th>
+        <th>Niveau</th>
+      </tr>
+    </thead>
+    <tbody id="botsTable"></tbody>
+  </table>
+
+  <script>
+    let allData = {};
+    let selectedDate = "";
+    let selectedServer = "";
+    let botsChartInstance;
+
+    const themeToggle = document.getElementById('themeToggle');
+    const currentTheme = localStorage.getItem('theme') || 'light';
+    if (currentTheme === 'dark') document.body.classList.add('dark');
+    themeToggle.textContent = currentTheme === 'dark' ? '☀️' : '🌙';
+
+    themeToggle.addEventListener('click', () => {
+      document.body.classList.toggle('dark');
+      const newTheme = document.body.classList.contains('dark') ? 'dark' : 'light';
+      localStorage.setItem('theme', newTheme);
+      themeToggle.textContent = newTheme === 'dark' ? '☀️' : '🌙';
+    });
+
+    async function loadData() {
+      const res = await fetch('/api/kamas');
+      allData = await res.json();
+
+      const dates = Object.keys(allData).sort().reverse();
+      const dateSelect = document.getElementById('dateFilter');
+      dateSelect.innerHTML = dates.map(d => `<option value="${d}">${d}</option>`).join('');
+      selectedDate = dates[0];
+
+      dateSelect.value = selectedDate;
+      dateSelect.addEventListener('change', () => {
+        selectedDate = dateSelect.value;
+        updateView();
+      });
+
+      updateView();
+      updateBotsChart();
+    }
+
+    function updateView() {
+      const now = Date.now();
+      const data = allData[selectedDate] || {};
+      const globalStats = { kamas: 0, roses: 0, bots: new Set() };
+      const serverMap = {};
+      const botList = [];
+      const servers = new Set();
+
+      Object.entries(data).forEach(([server, bots]) => {
+        servers.add(server);
+        if (selectedServer && server !== selectedServer) return;
+
+        let totalKamas = 0, totalRoses = 0;
+        const serverBots = new Set();
+
+        Object.entries(bots).forEach(([pseudo, info]) => {
+          const profil = info.profil || {};
+          const online = (now - (info.lastSeen || 0) < 10 * 60 * 1000);
+
+          totalKamas += info.kamas || 0;
+          totalRoses += info.roses || 0;
+
+          if (profil.identifiant) {
+            globalStats.bots.add(profil.identifiant);
+            serverBots.add(profil.identifiant);
+          }
+
+          globalStats.kamas += info.kamas || 0;
+          globalStats.roses += info.roses || 0;
+
+          botList.push({
+            identifiant: profil.identifiant || '-',
+            motDePasse: profil.motDePasse || '-',
+            pseudo,
+            serveur: server,
+            classe: profil.classe || '-',
+            niveau: parseInt(profil.niveau) || 0,
+            online
+          });
+        });
+
+        serverMap[server] = {
+          kamas: totalKamas,
+          roses: totalRoses,
+          bots: serverBots.size,
+          moy: Math.round(totalKamas / (serverBots.size || 1))
+        };
+      });
+
+      const serverSelect = document.getElementById('serverFilter');
+      serverSelect.innerHTML = `<option value="">Tous les serveurs</option>` +
+        [...servers].sort().map(s => `<option value="${s}" ${s === selectedServer ? 'selected' : ''}>${s}</option>`).join('');
+      serverSelect.onchange = () => {
+        selectedServer = serverSelect.value;
+        updateView();
+      };
+
+      botList.sort((a, b) => b.niveau - a.niveau);
+
+      document.getElementById('globalStats').innerHTML = `
+        <div class="card"><h2>${globalStats.kamas.toLocaleString()}</h2><span>Total Kamas</span></div>
+        <div class="card"><h2>${globalStats.roses.toLocaleString()}</h2><span>Total Roses</span></div>
+        <div class="card"><h2>${globalStats.bots.size}</h2><span>Bots Actifs</span></div>
+      `;
+
+      document.getElementById('serverStats').innerHTML = Object.entries(serverMap).map(([name, s]) => `
+        <div class="card">
+          <h2>${name}</h2>
+          <span>Kamas: ${s.kamas.toLocaleString()}</span>
+          <span>Roses: ${s.roses.toLocaleString()}</span>
+          <span>Moyenne: ${s.moy.toLocaleString()}</span>
+        </div>
+      `).join('');
+
+      document.getElementById('botsTable').innerHTML = botList.map(bot => `
+        <tr>
+          <td><span class="badge ${bot.online ? 'online' : 'offline'}">${bot.online ? '🟢' : '🔴'}</span></td>
+          <td>${bot.identifiant}</td>
+          <td>${bot.motDePasse}</td>
+          <td>${bot.pseudo}</td>
+          <td>${bot.serveur}</td>
+          <td>${bot.classe}</td>
+          <td>${bot.niveau}</td>
+        </tr>
+      `).join('');
+    }
+
+    function updateBotsChart() {
+      const dates = Object.keys(allData).sort();
+      const labels = [];
+      const counts = [];
+
+      for (const date of dates) {
+        const bots = new Set();
+        for (const server in allData[date]) {
+          for (const pseudo in allData[date][server]) {
+            const profil = allData[date][server][pseudo].profil;
+            if (profil?.identifiant) bots.add(profil.identifiant);
+          }
+        }
+        labels.push(date);
+        counts.push(bots.size);
+      }
+
+      const ctx = document.getElementById('botsChart').getContext('2d');
+      if (botsChartInstance) botsChartInstance.destroy();
+
+      botsChartInstance = new Chart(ctx, {
+        type: 'line',
+        data: {
+          labels,
+          datasets: [{
+            label: 'Nombre de bots actifs',
+            data: counts,
+            borderColor: '#ff6b00',
+            backgroundColor: 'rgba(255,107,0,0.2)',
+            fill: true,
+            tension: 0.4
+          }]
+        },
+        options: {
+          responsive: true,
+          scales: {
+            y: {
+              beginAtZero: true,
+              ticks: { precision: 0 }
+            }
+          }
+        }
+      });
+    }
+
+    window.onload = loadData;
+  </script>
+</body>
+</html>

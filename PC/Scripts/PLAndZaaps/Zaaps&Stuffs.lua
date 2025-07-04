@@ -59,14 +59,17 @@ local function BuyStuff114()
 		{name = "ombre", id = 14966},
 	}
 
-
-	local items = {}
+    HdvBuy()
 
 	for _, element in ipairs(tableEquipWithoutBigFonction) do
-		if inventory:itemCount(element.Id) == 0 then
-            buyWorthItem(element.Id)
+		if inventory:itemCount(element.id) == 0 then
+            buyWorthItem(element.id)
 		end
 	end
+
+    global:leaveDialog()
+
+    HdvBuy()
 
     if inventory:itemCount(14966) == 0 then
         sale:buyItem(14966, 1, 1000000)
@@ -80,20 +83,6 @@ local function BuyStuff114()
 
     global:leaveDialog()
 
-    HdvBuy()
-
-    if inventory:itemCount(14966) == 0 then
-        sale:buyItem(14966, 1, 1000000)
-    end
-	if inventory:itemCount(17078) == 0 then
-        sale:buyItem(17078, 1, 200000)
-    end
-    if inventory:itemCount(19629) == 0 then
-        sale:buyItem(19629, 1, 200000)
-    end    
-
-	global:leaveDialog()
-
 	local tableStuff114 = {
 		{Type = "coiffe", Id = 8463, Emplacement = 6},
 		{Type = "amulette", Id = 8465, Emplacement = 0},
@@ -106,25 +95,16 @@ local function BuyStuff114()
 		{Type = "bouclier", Id = 18690, Emplacement = 15},
 		{Type = "dofus kaliptus", Id = 8072, Emplacement = 11}
 	}
-	local items = {}
+
+    HdvBuy()
 
 	for _, element in ipairs(tableStuff114) do
 		if inventory:itemCount(element.Id) == 0 then
-			table.insert(items, element.Id)
             buyWorthItem(element.Id)
 		end
 	end
 
 	global:leaveDialog()
-
-    HdvBuy()
-
-    for _, item in ipairs(items) do
-        if inventory:itemCount(item) == 0 then
-            sale:buyItem(item, 1, 200000)
-        end
-    end
-    global:leaveDialog()
 
 	map:changeMap("right")
 end

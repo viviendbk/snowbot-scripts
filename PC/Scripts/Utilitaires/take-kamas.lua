@@ -228,7 +228,7 @@ function move()
             end
 
             if global:thisAccountController():getAlias():find("LvlUp") then
-                giver = connectGiverStuff(120)
+                giver = connectGiver(120, "C:\\Users\\Vivien\\Documents\\Snowbot-Scripts-3\\PC\\Scripts\\Utilitaires\\give-kamas&stuff.lua")
             else
                 giver = connectGiver(120)
             end

@@ -1,5 +1,6 @@
 ItemList = {}
 UIDInHdvBuy = 0
+AchatCounter = 0
 
 function HdvSell()
     global:printMessage("Ouverture de l'HDV pour vendre")
@@ -9,7 +10,7 @@ function HdvSell()
     message.skill_instance_uid = HDV_INTERACTIONS_ID[tostring(map:currentMapId())].skillInstanceUID
     developer:sendMessage(message)
     if not developer:suspendScriptUntil("ExchangeBidBuyerStartedEvent", 5000, false, nil, 50) then
-        global:printError("L'HDV n'a pas pu être ouvert, on déco reco")
+        global:printError("L'HDV n'a pas pu être ouvert, on déco reco (HdvSell)")
         customReconnect(0)
         return
     end
@@ -49,7 +50,7 @@ function HdvSell2()
     message.skill_instance_uid = HDV_INTERACTIONS_ID[tostring(map:currentMapId())].skillInstanceUID
     developer:sendMessage(message)
     if not developer:suspendScriptUntil("ExchangeBidBuyerStartedEvent", 5000, false, nil, 50) then
-        global:printError("L'HDV n'a pas pu être ouvert, on déco reco")
+        global:printError("L'HDV n'a pas pu être ouvert, on déco reco (HdvSell2)")
         customReconnect(0)
         return
     end
@@ -74,7 +75,7 @@ function HdvBuy()
     message.skill_instance_uid = HDV_INTERACTIONS_ID[tostring(map:currentMapId())].skillInstanceUID
     developer:sendMessage(message)
     if not developer:suspendScriptUntil("ExchangeBidBuyerStartedEvent", 5000, false, nil, 50) then
-        global:printError("L'HDV n'a pas pu être ouvert, on déco reco")
+        global:printError("L'HDV n'a pas pu être ouvert, on déco reco (HdvBuy)")
         customReconnect(0)
         return
     end
@@ -852,6 +853,12 @@ end
 
 
 function achat(objectGID, qtt)
+    AchatCounter = AchatCounter + 1
+    if AchatCounter % 4 == 0 then
+        global:leaveDialog()
+        randomDelay()
+        HdvBuy()
+    end
     if inventory:itemCount(objectGID) > 20000 then -- protection car un miment ça a acheté 460k d'une ressoruce
         return false
     end
@@ -915,6 +922,7 @@ function achat(objectGID, qtt)
                 global:printError("la ressource a un prix unitaire trop élevé (AveragePrice : " .. PricesForBuy.AveragePrice)
                 if inSell then
                     inSell = false
+                    randomDelay()
                     fromHdvSellToHdvBuy()
                 end
                 return false
@@ -934,6 +942,7 @@ function achat(objectGID, qtt)
             if inSell then
                 debug("on était en sell, on passe en buy")
                 inSell = false
+                randomDelay()
                 fromHdvSellToHdvBuy()
                 GetPricesItemInHdvBuy(objectGID) -- nécessaire pour être devant l'item dans l'interface
             end
@@ -1194,7 +1203,7 @@ function openHdvAndUpdateItems()
     message.skill_instance_uid = HDV_INTERACTIONS_ID[tostring(map:currentMapId())].skillInstanceUID
     developer:sendMessage(message)
     if not developer:suspendScriptUntil("ExchangeBidBuyerStartedEvent", 5000, false, nil, 50) then
-        global:printError("L'HDV n'a pas pu être ouvert, on déco reco")
+        global:printError("L'HDV n'a pas pu être ouvert, on déco reco (openHdvAndUpdateItems)")
         customReconnect(0)
         return
     end
@@ -1551,7 +1560,6 @@ end
 function _fetchItemsInHDV(message)
     developer:unRegisterMessage("ExchangeTypesItemsExchangerDescriptionForUserMessage")
     ItemList = {}
-    debug(tostring(message))
     local items = message.itemTypeDescriptions
     if not items or #items == 0 then
         global:printError("Aucun item trouvé dans l'HDV pour l'ID " .. message.type_id)
@@ -1589,12 +1597,17 @@ function fetchItemsInHDV(objectGID)
     developer:sendMessage(message2)
     
     developer:suspendScriptUntil("ExchangeTypesItemsExchangerDescriptionForUserMessage", 5000, false, nil, 20)
-
     return ItemList
 end
 
 function buyWorthItem(objectGID)
-    HdvBuy()
+
+    AchatCounter = AchatCounter + 1
+    if AchatCounter % 4 == 0 then
+        global:leaveDialog()
+        randomDelay()
+        HdvBuy()
+    end
 
     local items = fetchItemsInHDV(objectGID)
 
@@ -1617,6 +1630,5 @@ function buyWorthItem(objectGID)
     message.quantity = 1
     developer:sendMessage(message)
     developer:suspendScriptUntil("ExchangeBidHouseBuyResultMessage", 5000, false, nil, 20)
-
-    global:leaveDialog()
+    randomDelay()
 end
